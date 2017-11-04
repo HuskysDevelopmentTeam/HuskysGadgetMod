@@ -1,5 +1,6 @@
 package net.husky.device.object;
 
+import net.husky.device.Reference;
 import net.husky.device.api.app.Component;
 import net.husky.device.core.Laptop;
 import net.husky.device.object.tiles.Tile;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class Game extends Component
 {
-	public static final ResourceLocation ICONS = new ResourceLocation("cdm:textures/gui/mine_racer.png");
+	public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/mine_racer.png");
 
 	private static final Map<Integer, Tile> registeredTiles = new HashMap<Integer, Tile>();
 	

@@ -344,7 +344,7 @@ public class FileBrowser extends Component
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
         layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + height, Window.applicationColor);
+            Gui.drawRect(x, y, x + width, y + height, Window.COLOUR_WINDOW_DARK);
         });
         layoutLoading.setVisible(false);
 

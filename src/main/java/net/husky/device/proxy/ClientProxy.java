@@ -43,16 +43,16 @@ public class ClientProxy extends CommonProxy
 
         if(HuskyDeviceMod.DEVELOPER_MODE)
         {
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/developer_wallpaper.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/developer_wallpaper.png"));
         }
         else
         {
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_1.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_2.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_3.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_4.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_5.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.RESOURCE_PREFIX, "textures/gui/laptop_wallpaper_6.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
         }
     }
 

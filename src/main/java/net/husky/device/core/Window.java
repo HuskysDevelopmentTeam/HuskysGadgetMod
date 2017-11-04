@@ -22,6 +22,8 @@ public class Window<T extends Wrappable>
 {
 	public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
+    public static final int COLOUR_WINDOW_DARK = new Color(0F, 0F, 0F, 0.25F).getRGB();
+
 	T content;
 	int width, height;
 	int offsetX, offsetY;
@@ -30,8 +32,6 @@ public class Window<T extends Wrappable>
 	Window<Dialog> dialogWindow = null;
 	Window<? extends  Wrappable> parent = null;
 
-	private ColourRGBA defultapplicationColor = new ColourRGBA(new ColourScheme().backgroundColour);
-    public static int applicationColor;
 	
 	protected GuiButton btnClose, btnMinimize, btnFullscreen;
 	
@@ -40,7 +40,6 @@ public class Window<T extends Wrappable>
 		this.content = wrappable;
 		this.laptop = laptop;
 		wrappable.setWindow(this);
-		applicationColor = defultapplicationColor.rgb();
 	}
 
 	void setWidth(int width)
@@ -65,7 +64,7 @@ public class Window<T extends Wrappable>
 	{
 		btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 1);
 		btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 24, y + offsetY + 1);
-		btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 48, y + offsetY + 1);
+		btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 24, y + offsetY + 1);
 		content.init();
 	}
 	
@@ -90,8 +89,7 @@ public class Window<T extends Wrappable>
 			content.clearPendingLayout();
 		}
 
-        ColourRGBA backgroundColor = defultapplicationColor;
-        backgroundColor.glColour();
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
 		GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(WINDOW_GUI);
 
@@ -125,7 +123,7 @@ public class Window<T extends Wrappable>
 
 		if(dialogWindow != null)
 		{
-			Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, defultapplicationColor.rgb());
+			Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, COLOUR_WINDOW_DARK);
 			dialogWindow.render(gui, mc, x, y, mouseX, mouseY, active, partialTicks);
 		}
 	}
@@ -183,22 +181,6 @@ public class Window<T extends Wrappable>
 		
 		updateComponents(screenStartX, screenStartY);
 	}
-
-	public int getApplicationBarColor() {
-		return applicationColor;
-	}
-
-	public int getDefaultApplicationColour() {
-		return Color.DARK_GRAY.getRGB();
-	}
-
-    public int getDefaultApplicationBarColour() {
-        return Color.WHITE.getRGB();
-    }
-
-    public int getDefaultApplicationHoverColour() {
-        return Color.CYAN.getRGB();
-    }
 
 	void handleMouseClick(Laptop gui, int x, int y, int mouseX, int mouseY, int mouseButton)
 	{

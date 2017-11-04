@@ -64,6 +64,11 @@ public class Laptop extends GuiScreen implements System {
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
 
+    public String OSName;
+    public String OSVersion;
+    public String username;
+    public String password;
+
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
         this.systemData = laptop.getSystemData();
@@ -512,6 +517,42 @@ public class Laptop extends GuiScreen implements System {
 
     public Settings getSettings() {
         return settings;
+    }
+
+    public String getOSName() {
+        return OSName;
+    }
+
+    public String setOSName(String OSName) {
+        this.OSName = OSName;
+        return OSName;
+    }
+
+    public String getOSVersion() {
+        return OSVersion;
+    }
+
+    public String setOSVersion(String OSVersion) {
+        this.OSVersion = OSVersion;
+        return OSVersion;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String setUsername(String username) {
+        this.username = username;
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String setPassword(String password) {
+        this.password = password;
+        return password;
     }
 
     @Override

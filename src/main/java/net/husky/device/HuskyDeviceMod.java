@@ -19,10 +19,7 @@ import net.husky.device.programs.auction.task.TaskGetAuctions;
 import net.husky.device.programs.email.ApplicationEmail;
 import net.husky.device.programs.email.task.*;
 import net.husky.device.programs.social_medias.*;
-import net.husky.device.programs.system.ApplicationAppStore;
-import net.husky.device.programs.system.ApplicationBank;
-import net.husky.device.programs.system.ApplicationFileBrowser;
-import net.husky.device.programs.system.ApplicationSettings;
+import net.husky.device.programs.system.*;
 import net.husky.device.programs.system.task.*;
 import net.husky.device.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
@@ -112,8 +109,8 @@ public class HuskyDeviceMod
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "app_store"), ApplicationAppStore.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
-
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
+		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "information"), ApplicationInformation.class);
 
 		// Core
 		TaskManager.registerTask(TaskUpdateApplicationData.class);

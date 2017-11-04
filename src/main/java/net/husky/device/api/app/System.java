@@ -30,4 +30,5 @@ public interface System
      * @return the system settings
      */
     Settings getSettings();
+
 }
