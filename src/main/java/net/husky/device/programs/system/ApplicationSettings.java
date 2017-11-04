@@ -130,7 +130,7 @@ public class ApplicationSettings extends SystemApplication
 		});
 		layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-		Button developerMode = new Button(5, 28, "Developer Mode");
+		Button developerMode = new Button(5, 48, "Developer Mode");
 		developerMode.setToolTip("Developer Mode", "Do you only want have the developer apps?");
 		developerMode.setClickListener((c, mouseButton) ->
 		{
@@ -141,7 +141,7 @@ public class ApplicationSettings extends SystemApplication
 		});
         layoutMain.addComponent(developerMode);
 
-		Button huskyMode = new Button(5, 28, "Husky Mode");
+		Button huskyMode = new Button(5, 66, "Husky Mode");
 		huskyMode.setToolTip("Husky Mode", "Do you want have all of husky's apps?");
 		huskyMode.setClickListener((c, mouseButton) ->
 		{
