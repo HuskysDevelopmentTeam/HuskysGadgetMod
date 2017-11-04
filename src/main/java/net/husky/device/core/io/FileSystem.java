@@ -1,6 +1,6 @@
 package net.husky.device.core.io;
 
-import net.husky.device.MrCrayfishDeviceMod;
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.io.Drive;
 import net.husky.device.api.io.Folder;
@@ -221,9 +221,9 @@ public class FileSystem
 
 	public static void getApplicationFolder(Application app, Callback<Folder> callback)
 	{
-		if(MrCrayfishDeviceMod.proxy.hasAllowedApplications())
+		if(HuskyDeviceMod.proxy.hasAllowedApplications())
 		{
-			if(!MrCrayfishDeviceMod.proxy.getAllowedApplications().contains(app.getInfo()))
+			if(!HuskyDeviceMod.proxy.getAllowedApplications().contains(app.getInfo()))
 			{
 				callback.execute(null, false);
 				return;

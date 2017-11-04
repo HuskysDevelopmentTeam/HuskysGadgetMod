@@ -1,6 +1,6 @@
 package net.husky.device.programs.system;
 
-import net.husky.device.MrCrayfishDeviceMod;
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.api.app.Icons;
 import net.husky.device.api.app.Layout;
 import net.husky.device.api.app.component.CheckBox;
@@ -136,7 +136,7 @@ public class ApplicationSettings extends SystemApplication
 		{
 			if(mouseButton == 0)
 			{
-				MrCrayfishDeviceMod.DEVELOPER_MODE = true;
+				HuskyDeviceMod.DEVELOPER_MODE = true;
 			}
 		});
         layoutMain.addComponent(developerMode);
@@ -147,7 +147,7 @@ public class ApplicationSettings extends SystemApplication
 		{
 			if(mouseButton == 0)
 			{
-				MrCrayfishDeviceMod.HUSKY_MODE = true;
+				HuskyDeviceMod.HUSKY_MODE = true;
 			}
 		});
         layoutMain.addComponent(huskyMode);

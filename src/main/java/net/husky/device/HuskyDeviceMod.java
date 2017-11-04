@@ -39,10 +39,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
-public class MrCrayfishDeviceMod 
+public class HuskyDeviceMod
 {
 	@Instance(Reference.MOD_ID)
-	public static MrCrayfishDeviceMod instance;
+	public static HuskyDeviceMod instance;
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
 	public static CommonProxy proxy;

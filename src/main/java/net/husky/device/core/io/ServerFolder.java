@@ -211,7 +211,7 @@ public class ServerFolder extends ServerFile
         {
             indent += "  ";
         }
-        MrCrayfishDeviceMod.getLogger().info(indent + "⌊ " + name);
+        HuskyDeviceMod.getLogger().info(indent + "⌊ " + name);
         for(ServerFile file : files)
         {
             if(file.isFolder())
@@ -220,7 +220,7 @@ public class ServerFolder extends ServerFile
             }
             else
             {
-                MrCrayfishDeviceMod.getLogger().info(indent + "  ⌊ " + file.name);
+                HuskyDeviceMod.getLogger().info(indent + "  ⌊ " + file.name);
             }
         }
     }*/

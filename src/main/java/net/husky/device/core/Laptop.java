@@ -1,6 +1,6 @@
 package net.husky.device.core;
 
-import net.husky.device.MrCrayfishDeviceMod;
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Dialog;
@@ -27,7 +27,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,7 +164,7 @@ public class Laptop extends GuiScreen implements System {
         this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
         RenderUtil.drawRectWithTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 256, 144);
 
-        /*if (MrCrayfishDeviceMod.DEVELOPER_MODE = false) {
+        /*if (HuskyDeviceMod.DEVELOPER_MODE = false) {
             drawString(fontRenderer, "Alpha v" + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
         } else {
             drawString(fontRenderer, "Developer Version - " + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
@@ -337,8 +336,8 @@ public class Laptop extends GuiScreen implements System {
     }
 
     public void open(Application app) {
-        if (MrCrayfishDeviceMod.proxy.hasAllowedApplications()) {
-            if (!MrCrayfishDeviceMod.proxy.getAllowedApplications().contains(app.getInfo())) {
+        if (HuskyDeviceMod.proxy.hasAllowedApplications()) {
+            if (!HuskyDeviceMod.proxy.getAllowedApplications().contains(app.getInfo())) {
                 return;
             }
         }

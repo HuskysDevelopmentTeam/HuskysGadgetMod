@@ -1,6 +1,6 @@
 package net.husky.device.block;
 
-import net.husky.device.MrCrayfishDeviceMod;
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.core.Laptop;
 import net.husky.device.init.DeviceItems;
 import net.husky.device.tileentity.TileEntityLaptop;
@@ -39,7 +39,7 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider
     {
         super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.BASE));
-        this.setCreativeTab(MrCrayfishDeviceMod.tabDevice);
+        this.setCreativeTab(HuskyDeviceMod.tabDevice);
     }
 
 	@Override
@@ -174,7 +174,7 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider
 
 				if(laptop.open && worldIn.isRemote)
 				{
-					playerIn.openGui(MrCrayfishDeviceMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+					playerIn.openGui(HuskyDeviceMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 				}
 			}
 		}

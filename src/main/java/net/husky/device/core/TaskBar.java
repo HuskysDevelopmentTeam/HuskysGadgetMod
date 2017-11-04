@@ -1,6 +1,6 @@
 package net.husky.device.core;
 
-import net.husky.device.MrCrayfishDeviceMod;
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Component;
@@ -25,7 +25,7 @@ public class TaskBar
 {
 	public static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
 
-	private static final int APPS_DISPLAYED = MrCrayfishDeviceMod.DEVELOPER_MODE ? 18 : 10;
+	private static final int APPS_DISPLAYED = HuskyDeviceMod.DEVELOPER_MODE ? 18 : 10;
 	public static final int BAR_HEIGHT = 18;
 	
 	private Button btnLeft;
@@ -48,11 +48,11 @@ public class TaskBar
 			{
 				return true;
 			}
-			if(MrCrayfishDeviceMod.proxy.hasAllowedApplications())
+			if(HuskyDeviceMod.proxy.hasAllowedApplications())
 			{
-				if(MrCrayfishDeviceMod.proxy.getAllowedApplications().contains(app.getInfo()))
+				if(HuskyDeviceMod.proxy.getAllowedApplications().contains(app.getInfo()))
 				{
-					if(MrCrayfishDeviceMod.DEVELOPER_MODE)
+					if(HuskyDeviceMod.DEVELOPER_MODE)
 					{
 						return Settings.isShowAllApps();
 					}
@@ -60,7 +60,7 @@ public class TaskBar
 				}
 				return false;
 			}
-			else if(MrCrayfishDeviceMod.DEVELOPER_MODE)
+			else if(HuskyDeviceMod.DEVELOPER_MODE)
 			{
 				return Settings.isShowAllApps();
 			}
