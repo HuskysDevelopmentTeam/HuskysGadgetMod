@@ -5,6 +5,7 @@ import net.husky.device.api.app.Icons;
 import net.husky.device.api.app.Layout;
 import net.husky.device.api.app.component.CheckBox;
 import net.husky.device.api.app.component.ComboBox;
+import net.husky.device.api.app.component.Label;
 import net.husky.device.api.app.component.Palette;
 import net.husky.device.api.app.renderer.ItemRenderer;
 import net.husky.device.core.Laptop;
@@ -28,11 +29,15 @@ public class ApplicationSettings extends SystemApplication
 	private Layout layoutColourScheme;
 	private Button buttonColourSchemeApply;
 
+	private Layout information;
+    private Label OSVersion;
+    private Label OSName;
+
 	private boolean valueChanged;
 
 	public ApplicationSettings()
 	{
-		this.setDefaultWidth(140);
+		this.setDefaultWidth(280);
 		this.setDefaultHeight(160);
 	}
 
@@ -141,7 +146,7 @@ public class ApplicationSettings extends SystemApplication
 		});
         layoutMain.addComponent(developerMode);
 
-		Button huskyMode = new Button(5, 68, "Husky Mode");
+		Button huskyMode = new Button(5, 66, "Husky Mode");
 		huskyMode.setToolTip("Husky Mode", "Do you want have all of husky's apps?");
 		huskyMode.setClickListener((c, mouseButton) ->
 		{
@@ -152,7 +157,7 @@ public class ApplicationSettings extends SystemApplication
 		});
         layoutMain.addComponent(huskyMode);
 
-		setCurrentLayout(layoutMain);
+//		setCurrentLayout(layoutMain);
 	}
 
 	@Override

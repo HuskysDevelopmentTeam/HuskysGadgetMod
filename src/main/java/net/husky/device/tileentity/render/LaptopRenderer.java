@@ -51,7 +51,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
 				GlStateManager.popMatrix();
 			}
 
-			else if(te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.iPhone))
+			/*else if(te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.iPhone))
 			{
 				GlStateManager.pushMatrix();
 				{
@@ -97,7 +97,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
 					GlStateManager.translate(0.1, 0, 0);
 				}
 				GlStateManager.popMatrix();
-			}
+			}*/
 
 			GlStateManager.pushMatrix();
 			{

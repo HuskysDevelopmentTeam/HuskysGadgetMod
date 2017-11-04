@@ -29,7 +29,7 @@ public class DeviceItems
     public static void init()
     {
         flash_drive = new Item().setUnlocalizedName("flash_drive").setRegistryName("flash_drive").setCreativeTab(HuskyDeviceMod.tabDevice);
-        apple_watch = new Item().setUnlocalizedName("apple_watch").setRegistryName("apple_watch").setCreativeTab(HuskyDeviceMod.tabDevice);
+        /*apple_watch = new Item().setUnlocalizedName("apple_watch").setRegistryName("apple_watch").setCreativeTab(HuskyDeviceMod.tabDevice);
         iPad = new Item().setUnlocalizedName("iPad").setRegistryName("iPad").setCreativeTab(HuskyDeviceMod.tabDevice);
         iPhone = new Item().setUnlocalizedName("iPhone").setRegistryName("iPhone").setCreativeTab(HuskyDeviceMod.tabDevice);
         cpu = new Item().setUnlocalizedName("cpu").setRegistryName("cpu").setCreativeTab(HuskyDeviceMod.tabDevice);
@@ -40,13 +40,13 @@ public class DeviceItems
         wifiCard = new Item().setUnlocalizedName("wifi_card").setRegistryName("wifi_card").setCreativeTab(HuskyDeviceMod.tabDevice);
 
         serverKey = new Item().setUnlocalizedName("server_key").setRegistryName("server_key").setCreativeTab(HuskyDeviceMod.tabDevice);
-        networksCode = new Item().setUnlocalizedName("networks_code").setRegistryName("networks_code").setCreativeTab(HuskyDeviceMod.tabDevice);
+        networksCode = new Item().setUnlocalizedName("networks_code").setRegistryName("networks_code").setCreativeTab(HuskyDeviceMod.tabDevice);*/
     }
 
     public static void register()
     {
         registerItem(flash_drive);
-        registerItem(apple_watch);
+        /*registerItem(apple_watch);
         registerItem(iPad);
         registerItem(iPhone);
         registerItem(cpu);
@@ -54,7 +54,7 @@ public class DeviceItems
         registerItem(ramSticks);
         registerItem(videoCard);
         registerItem(soundCard);
-        registerItem(wifiCard);
+        registerItem(wifiCard);*/
     }
 
     public static void registerItem(Item item) {
@@ -64,15 +64,15 @@ public class DeviceItems
     public static void registerRenders()
     {
         registerRender(flash_drive);
-        registerRender(apple_watch);
-        registerRender(iPad);
-        registerRender(iPhone);
-        registerRender(cpu);
-        registerRender(motherBoard);
-        registerRender(ramSticks);
-        registerRender(videoCard);
-        registerRender(soundCard);
-        registerRender(wifiCard);
+//        registerRender(apple_watch);
+//        registerRender(iPad);
+//        registerRender(iPhone);
+//        registerRender(cpu);
+//        registerRender(motherBoard);
+//        registerRender(ramSticks);
+//        registerRender(videoCard);
+//        registerRender(soundCard);
+//        registerRender(wifiCard);
     }
 
     private static void registerRender(Item item)

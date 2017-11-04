@@ -8,7 +8,6 @@ import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.gui.GuiButtonClose;
 import net.husky.device.gui.GuiButtonFullscreen;
 import net.husky.device.gui.GuiButtonMinimise;
-import net.husky.device.programs.system.object.ColourScheme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
