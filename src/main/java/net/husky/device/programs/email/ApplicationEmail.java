@@ -354,6 +354,29 @@ public class ApplicationEmail extends Application
 				TaskManager.sendTask(taskUpdateInbox);
 			}
 		});
+		
+		
+    	class Reloading extends TimerTask {
+    	    public void run() {
+
+				TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
+				taskUpdateInbox.setCallback((nbt, success) ->
+				{
+                    listEmails.removeAll();
+                    for (Email email : EmailManager.INSTANCE.getInbox())
+                    {
+                        listEmails.addItem(email);
+                    }
+                });
+				TaskManager.sendTask(taskUpdateInbox);
+			
+    	    }
+    	}
+		
+    	Timer timer = new Timer();
+    	timer.schedule(new Reloading(), 0, 5000);
+		
+		
 		btnRefresh.setToolTip("Refresh Inbox", "Checks for any new emails");
 		layoutInbox.addComponent(btnRefresh);
 

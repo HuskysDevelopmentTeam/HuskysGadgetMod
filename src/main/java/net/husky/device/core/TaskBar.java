@@ -73,7 +73,7 @@ public class TaskBar
 	{
 		btnLeft = new Button(0, 0, Icons.CHEVRON_LEFT);
 		btnLeft.setPadding(1);
-		btnLeft.xPosition = posX + 3;
+		btnLeft.xPosition = posX + 7;
 		btnLeft.yPosition = posY + 3;
 		btnLeft.setClickListener(new ClickListener()
 		{
