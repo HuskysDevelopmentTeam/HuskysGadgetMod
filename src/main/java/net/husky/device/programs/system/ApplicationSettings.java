@@ -124,7 +124,7 @@ public class ApplicationSettings extends SystemApplication
         });
         layoutMain.addComponent(information);
 
-        Button wallpapers = new Button(5, 66, "Wallpapers", Icons.PICTURE);
+        Button wallpapers = new Button(20, 66, "Wallpapers", Icons.PICTURE);
         personalise.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -132,9 +132,9 @@ public class ApplicationSettings extends SystemApplication
                 setCurrentLayout(layoutWallpapers);
             }
         });
-        layoutPersonalise.addComponent(wallpapers);
+        layoutMain.addComponent(wallpapers);
 
-        Button buttonColourScheme = new Button(5, 86, "Colour Schemes", Icons.HELP);
+        Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.HELP);
         information.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -142,7 +142,7 @@ public class ApplicationSettings extends SystemApplication
                 setCurrentLayout(layoutColourScheme);
             }
         });
-        layoutPersonalise.addComponent(buttonColourScheme);
+        layoutMain.addComponent(buttonColourScheme);
 
         btnWallpaperNext = new Button(40, 36, Icons.CHEVRON_RIGHT);
 		btnWallpaperNext.setClickListener(new ClickListener() {
@@ -220,6 +220,12 @@ public class ApplicationSettings extends SystemApplication
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
+
+        OSName = new Label("OS Name: " + Reference.OSName, 10, 10);
+        layoutInformation.addComponent(OSName);
+
+        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 25);
+        layoutInformation.addComponent(OSVersion);
 
 		setCurrentLayout(layoutMain);
 	}

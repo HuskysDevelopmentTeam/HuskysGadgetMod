@@ -1,6 +1,7 @@
 package net.husky.device.programs;
 
 import net.husky.device.api.app.Application;
+import net.husky.device.api.app.Icons;
 import net.husky.device.api.app.component.*;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -18,9 +19,11 @@ public class ApplicationChrome extends Application {
     public void init()
     {
         textField = new TextField(5, 5, 260);
-        textField.setText("Text Field");
-        textField.setPlaceholder("This is a placeholder");
+        textField.setPlaceholder("URL");
         super.addComponent(textField);
+
+        Button user = new Button(10, 10, Icons.USER);
+        super.addComponent(user);
     }
 
     @Override

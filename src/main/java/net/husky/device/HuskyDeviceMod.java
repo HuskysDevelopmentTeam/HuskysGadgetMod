@@ -35,7 +35,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.ModVersion, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyDeviceMod
 {
 	@Instance(Reference.MOD_ID)

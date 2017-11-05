@@ -69,22 +69,10 @@ public class ApplicationPixelPainter extends Application
 	private ButtonToggle btnEyeDropper;
 	private Button btnCancel;
 	private Button btnSave;
-	private Slider redSlider;
-	private Slider greenSlider;
-	private Slider blueSlider;
 	private Component colourDisplay;
-	private ColourGrid colourGrid;
 	private CheckBox displayGrid;
 
-    private Layout layoutColourScheme;
-    private Button buttonColourSchemeApply;
-
     private ComboBox.Custom<Integer> colourPicker;
-
-	public ApplicationPixelPainter()
-	{
-		//super("pixel_painter", "Pixel Painter");
-	}
 
 	@Override
 	public void init()
@@ -410,53 +398,6 @@ public class ApplicationPixelPainter extends Application
 			}
 		});
 		layoutDraw.addComponent(btnSave);
-
-		/*redSlider = new Slider(158, 30, 50);
-		redSlider.setSlideListener(new SlideListener()
-		{
-			@Override
-			public void onSlide(float percentage)
-			{
-				canvas.setRed(percentage);
-			}
-		});
-		layoutDraw.addComponent(redSlider);
-
-		greenSlider = new Slider(158, 46, 50);
-		greenSlider.setSlideListener(new SlideListener()
-		{
-			@Override
-			public void onSlide(float percentage)
-			{
-				canvas.setGreen(percentage);
-			}
-		});
-		layoutDraw.addComponent(greenSlider);
-
-		blueSlider = new Slider(158, 62, 50);
-		blueSlider.setSlideListener(new SlideListener()
-		{
-			@Override
-			public void onSlide(float percentage)
-			{
-				canvas.setBlue(percentage);
-			}
-		});
-		layoutDraw.addComponent(blueSlider);
-
-		colourDisplay = new Component(158, 5)
-		{
-			@Override
-			public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
-			{
-				drawRect(xPosition, yPosition, xPosition + 50, yPosition + 20, Color.DARK_GRAY.getRGB());
-				drawRect(xPosition + 1, yPosition + 1, xPosition + 49, yPosition + 19, canvas.getCurrentColour());
-			}
-		};
-		layoutDraw.addComponent(colourDisplay);
-
-		colourGrid = new ColourGrid(157, 82, 50, canvas, redSlider, greenSlider, blueSlider);
-		layoutDraw.addComponent(colourGrid);*/
 
         colourPicker = new ComboBox.Custom<>(159, 26, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());

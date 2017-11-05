@@ -1,5 +1,7 @@
 package net.husky.device.core;
 
+import codechicken.lib.colour.ColourRGBA;
+import codechicken.lib.render.RenderUtils;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Dialog;
@@ -61,8 +63,8 @@ public class Window<T extends Wrappable>
 	void init(int x, int y)
 	{
 		btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 1);
-		btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 24, y + offsetY + 1);
-		btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 24, y + offsetY + 1);
+		btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 12, y + offsetY + 1);
+		btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 12, y + offsetY + 1);
 		content.init();
 	}
 	
@@ -98,14 +100,17 @@ public class Window<T extends Wrappable>
 		gui.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
 
 		/* Edges */
+        ColourRGBA color = new ColourRGBA(100, 255, 255, 255);
+        color.glColour();
 		RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
 		RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
 		RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + height - 1, 1, 14, width - 2, 1, 13, 1);
 		RenderUtil.drawRectWithTexture(x + offsetX, y + offsetY + 13, 0, 13, 1, height - 14, 1, 1);
 
 		/* Center */
 		RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
-
+//
 		mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
 
 		btnClose.drawButton(mc, mouseX, mouseY, partialTicks);

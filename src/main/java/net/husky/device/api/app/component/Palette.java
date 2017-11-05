@@ -15,9 +15,6 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
-/**
- * Author: MrCrayfish
- */
 public class Palette extends Component
 {
     private ComboBox.Custom<Integer> colourPicker;

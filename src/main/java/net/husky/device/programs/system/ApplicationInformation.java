@@ -21,10 +21,10 @@ public class ApplicationInformation extends SystemApplication {
 
     @Override
     public void init() {
-        OSName = new Label("OS Name: HuskyOS", 10, 10);
+        OSName = new Label("OS Name: " + Reference.OSName, 10, 10);
         super.addComponent(OSName);
 
-        OSVersion = new Label("OS Version: " + Reference.VERSION, 10, 25);
+        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 25);
         super.addComponent(OSVersion);
     }
 

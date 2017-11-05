@@ -27,7 +27,6 @@ public class ApplicationBoatRacers extends Application
 
 	public ApplicationBoatRacers() 
 	{
-		//super("boat_racer", "Boat Racers");
 		this.setDefaultWidth(320);
 		this.setDefaultHeight(160);
 	}
