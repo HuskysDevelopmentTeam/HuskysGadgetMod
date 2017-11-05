@@ -2,6 +2,7 @@ package net.husky.device.programs;
 
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Dialog;
+import net.husky.device.api.app.Icons;
 import net.husky.device.api.app.Layout;
 import net.husky.device.api.app.component.*;
 import net.husky.device.api.io.File;
@@ -134,18 +135,18 @@ public class ApplicationNoteStash extends Application
 		
 		/* Add Note */
 		
-		layoutAddNote = new Layout(180, 80);
+		layoutAddNote = new Layout(195, 130);
 
 		title = new TextField(5, 5, 114);
-		layoutAddNote.addComponent(title);
+	//	layoutAddNote.addComponent(title);
 		
-		textArea = new TextArea(5, 25, 114, 50);
+		textArea = new TextArea(5, 5, 185, 100);
 		textArea.setFocused(true);
 		textArea.setPadding(2);
 		layoutAddNote.addComponent(textArea);
 		
-		btnSave = new Button(124, 5, "Save");
-		btnSave.setSize(50, 20);
+		btnSave = new Button(175, 110, Icons.SAVE);
+		//btnSave.setSize(100, 20);
 		btnSave.setClickListener((c, mouseButton) ->
 		{
             NBTTagCompound data = new NBTTagCompound();
@@ -158,7 +159,7 @@ public class ApplicationNoteStash extends Application
 			{
                 title.clear();
                 textArea.clear();
-                setCurrentLayout(layoutMain);
+                setCurrentLayout(layoutAddNote);
                 return true;
             });
             openDialog(dialog);
@@ -173,7 +174,7 @@ public class ApplicationNoteStash extends Application
             textArea.clear();
             setCurrentLayout(layoutMain);
         });
-		layoutAddNote.addComponent(btnCancel);
+		//layoutAddNote.addComponent(btnCancel);
 		
 		
 		/* View Note */
@@ -191,7 +192,7 @@ public class ApplicationNoteStash extends Application
 		btnBack.setClickListener((c, mouseButton) -> setCurrentLayout(layoutMain));
 		layoutViewNote.addComponent(btnBack);
 		
-		setCurrentLayout(layoutMain);
+		setCurrentLayout(layoutAddNote);
 	}
 
 	@Override
@@ -215,8 +216,8 @@ public class ApplicationNoteStash extends Application
 
 		NBTTagCompound data = file.getData();
 		noteTitle.setText(data.getString("title"));
-		noteContent.setText(data.getString("content"));
-		setCurrentLayout(layoutViewNote);
+		textArea.setText(data.getString("content"));
+		setCurrentLayout(layoutAddNote);
 		return true;
 	}
 

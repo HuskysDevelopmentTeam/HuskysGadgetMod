@@ -48,6 +48,8 @@ public class Laptop extends GuiScreen implements System {
     private static final int DEVICE_HEIGHT = 246;
 //    private static final int DEVICE_WIDTH = 384;
 //    private static final int DEVICE_HEIGHT = 216;
+//    private static final int DEVICE_WIDTH = 404;
+//    private static final int DEVICE_HEIGHT = 226;
     static final int SCREEN_WIDTH = DEVICE_WIDTH - BORDER * 2;
     static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
 
