@@ -1,6 +1,5 @@
 package net.husky.device.core;
 
-import codechicken.lib.colour.ColourRGBA;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Dialog;
