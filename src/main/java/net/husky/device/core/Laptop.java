@@ -42,7 +42,6 @@ public class Laptop extends GuiScreen implements System {
 
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     private static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
-    private static int currentWallpaper;
 
     private static final int BORDER = 10;
     private static final int DEVICE_WIDTH = 464;
@@ -66,6 +65,7 @@ public class Laptop extends GuiScreen implements System {
     private NBTTagCompound appData;
     private NBTTagCompound systemData;
 
+    private int currentWallpaper;
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
 
@@ -80,9 +80,9 @@ public class Laptop extends GuiScreen implements System {
         this.windows = new Window[5];
         this.settings = Settings.fromTag(systemData.getCompoundTag("Settings"));
         this.bar = new TaskBar(APPLICATIONS);
-        Laptop.currentWallpaper = systemData.getInteger("CurrentWallpaper");
+        this.currentWallpaper = systemData.getInteger("CurrentWallpaper");
         if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
-            Laptop.currentWallpaper = 0;
+            this.currentWallpaper = 0;
         }
         Laptop.system = this;
         pos = laptop.getPos();
@@ -459,10 +459,6 @@ public class Laptop extends GuiScreen implements System {
         return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX, posY + window.offsetY, posX + window.offsetX + window.width, posY + window.offsetY + window.height);
     }
 
-    public static int getCurrentWallpaper() {
-        return currentWallpaper;
-    }
-
     public boolean isMouseWithinApp(int mouseX, int mouseY, Window window) {
         int posX = (width - SCREEN_WIDTH) / 2;
         int posY = (height - SCREEN_HEIGHT) / 2;
@@ -478,32 +474,43 @@ public class Laptop extends GuiScreen implements System {
         return false;
     }
 
-    public static void nextWallpaper() {
-        if (currentWallpaper + 1 < WALLPAPERS.size()) {
+    public void nextWallpaper()
+    {
+        if(currentWallpaper + 1 < WALLPAPERS.size())
+        {
             currentWallpaper++;
         }
     }
 
-    public static void prevWallpaper() {
-        if (currentWallpaper - 1 >= 0) {
+    public void prevWallpaper()
+    {
+        if(currentWallpaper - 1 >= 0)
+        {
             currentWallpaper--;
         }
     }
 
-    public static void addWallpaper(ResourceLocation wallpaper) {
-        if (wallpaper != null) {
-            WALLPAPERS.add(wallpaper);
-        }
+    public int getCurrentWallpaper()
+    {
+        return currentWallpaper;
     }
 
-    @Nullable
-    public Application getApplication(String appId) {
-        return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
+    public static void addWallpaper(ResourceLocation wallpaper)
+    {
+        if(wallpaper != null)
+        {
+            WALLPAPERS.add(wallpaper);
+        }
     }
 
     public List<ResourceLocation> getWallapapers()
     {
         return ImmutableList.copyOf(WALLPAPERS);
+    }
+
+    @Nullable
+    public Application getApplication(String appId) {
+        return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
     }
 
     public static System getSystem() {

@@ -81,56 +81,36 @@ public class ApplicationSettings extends SystemApplication
 
         layoutMain = new Menu("Home");
         layoutMain.addComponent(buttonPrevious);
-        layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
-        });
 
         layoutColourScheme = new Menu("Colour Scheme");
         layoutColourScheme.addComponent(buttonPrevious);
-        layoutColourScheme.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
-        });
 
         layoutPersonalise = new Menu("Personalise");
         layoutPersonalise.addComponent(buttonPrevious);
-        layoutPersonalise.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
-        });
 
         layoutWallpapers = new Menu("Wallpapers");
         layoutWallpapers.addComponent(buttonPrevious);
-        layoutPersonalise.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        layoutWallpapers.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 122, y + wallpaperY - 1 + 70, getLaptop().getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 172, y + wallpaperY - 1 + 90, getLaptop().getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
             mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
-            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 120, 68, 256, 144);
+            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 170, 88, 256, 144);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
         layoutInformation = new Menu("Information");
         layoutInformation.addComponent(buttonPrevious);
-        layoutInformation.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
-        });
 
         Button personalise = new Button(5, 66, "Personalise", Icons.EYE_DROPPER);
         personalise.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
             {
-                setCurrentLayout(layoutPersonalise);
+                showMenu(layoutPersonalise);
             }
         });
         layoutMain.addComponent(personalise);
@@ -140,48 +120,42 @@ public class ApplicationSettings extends SystemApplication
         {
             if(mouseButton == 0)
             {
-                setCurrentLayout(layoutInformation);
+                showMenu(layoutInformation);
             }
         });
         layoutMain.addComponent(information);
 
         Button wallpapers = new Button(20, 66, "Wallpapers", Icons.PICTURE);
-        personalise.setClickListener((c, mouseButton) ->
+        wallpapers.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
             {
-                setCurrentLayout(layoutWallpapers);
+                showMenu(layoutWallpapers);
             }
         });
         layoutPersonalise.addComponent(wallpapers);
 
         Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.TRASH);
-        information.setClickListener((c, mouseButton) ->
+        buttonColourScheme.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
             {
-                setCurrentLayout(layoutColourScheme);
+                showMenu(layoutColourScheme);
             }
         });
         layoutPersonalise.addComponent(buttonColourScheme);
 
-        btnWallpaperNext = new Button(40, 36, Icons.CHEVRON_RIGHT);
-		btnWallpaperNext.setClickListener(new ClickListener() {
-			@Override
-			public void onClick(Component c, int mouseButton) {
-				Laptop.nextWallpaper();
-			}
-		});
-		layoutWallpapers.addComponent(btnWallpaperNext);
+        buttonWallpaperLeft = new Button(185, 27, Icons.ARROW_LEFT);
+        buttonWallpaperLeft.setSize(25, 20);
+        layoutWallpapers.addComponent(buttonWallpaperLeft);
 
-		btnWallpaperPrev = new Button(5, 36, Icons.CHEVRON_LEFT);
-		btnWallpaperPrev.setClickListener(new ClickListener() {
-			@Override
-			public void onClick(Component c, int mouseButton) {
-				Laptop.prevWallpaper();
-			}
-        });
-        layoutWallpapers.addComponent(btnWallpaperPrev);
+        buttonWallpaperRight = new Button(215, 27, Icons.ARROW_RIGHT);
+        buttonWallpaperRight.setSize(25, 20);
+        layoutWallpapers.addComponent(buttonWallpaperRight);
+
+        buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
+        buttonWallpaperUrl.setSize(55, 20);
+        layoutWallpapers.addComponent(buttonWallpaperUrl);
 
         ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(145, 26);
         layoutColourScheme.addComponent(comboBoxTextColour);
@@ -218,10 +192,10 @@ public class ApplicationSettings extends SystemApplication
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        OSName = new Label("OS Name: " + Reference.OSName, 10, 10);
+        OSName = new Label("OS Name: " + Reference.OSName, 10, 50);
         layoutInformation.addComponent(OSName);
 
-        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 25);
+        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
         layoutInformation.addComponent(OSVersion);
 
 		setCurrentLayout(layoutMain);
