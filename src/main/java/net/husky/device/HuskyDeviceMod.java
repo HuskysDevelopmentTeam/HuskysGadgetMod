@@ -111,6 +111,7 @@ public class HuskyDeviceMod
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "information"), ApplicationInformation.class);
+		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
 
 		// Core
 		TaskManager.registerTask(TaskUpdateApplicationData.class);
