@@ -1,0 +1,14 @@
+[
+{
+  "modid": "futopia",
+  "name": "Futopia",
+  "description": "This mod is a tech mod located in the future with amazing blocks like a particle block that generates whatever particles you want",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["TheGamingHuskyMC"],
+  "logoFile": "assets/futopia/textures/logo.png",
+  "dependencies": [
+    "huskylib"
+  ]
+}
+]

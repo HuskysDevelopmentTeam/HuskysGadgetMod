@@ -1,6 +1,5 @@
 package net.husky.device.programs.system;
 
-import net.husky.device.HuskyDeviceMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Component;
 import net.husky.device.api.app.Icons;
@@ -13,20 +12,26 @@ import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.app.renderer.ItemRenderer;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.Settings;
 import net.husky.device.programs.system.object.ColourScheme;
 import net.husky.device.api.app.component.Button;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
+import java.util.List;
+import java.util.Stack;
 
 public class ApplicationSettings extends SystemApplication
 {
 
+    private Button buttonPrevious;
+
     private Layout layoutMain;
+    private Layout layoutGeneral;
+    private CheckBox checkBoxShowApps;
 
 	private Button btnWallpaperNext;
 	private Button btnWallpaperPrev;
@@ -37,9 +42,15 @@ public class ApplicationSettings extends SystemApplication
 
 	private Button buttonColourSchemeApply;
 
+    private Button buttonWallpaperLeft;
+    private Button buttonWallpaperRight;
+    private Button buttonWallpaperUrl;
+
 	private Layout layoutInformation;
     private Label OSVersion;
     private Label OSName;
+
+    private Stack<Layout> predecessor = new Stack<>();
 
 	public ApplicationSettings()
 	{
@@ -50,59 +61,69 @@ public class ApplicationSettings extends SystemApplication
 	@Override
 	public void init()
 	{
-        layoutMain = new Layout(280, 160);
-        layoutMain.addComponent(new Label("Home", 5, 6));
+
+        buttonPrevious = new Button(2, 2, Icons.CHEVRON_LEFT);
+        buttonPrevious.setVisible(false);
+        buttonPrevious.setClickListener((c, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                if(predecessor.size() > 0)
+                {
+                    setCurrentLayout(predecessor.pop());
+                }
+                if(predecessor.isEmpty())
+                {
+                    buttonPrevious.setVisible(false);
+                }
+            }
+        });
+
+        layoutMain = new Menu("Home");
+        layoutMain.addComponent(buttonPrevious);
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
         });
 
-        layoutColourScheme = new Layout(280, 160);
-        layoutColourScheme.addComponent(new Label("Colour Scheme", 25, 6));
+        layoutColourScheme = new Menu("Colour Scheme");
+        layoutColourScheme.addComponent(buttonPrevious);
         layoutColourScheme.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
         });
 
-        layoutPersonalise = new Layout(280, 160);
-        layoutPersonalise.addComponent(new Label("Personalise", 25, 6));
+        layoutPersonalise = new Menu("Personalise");
+        layoutPersonalise.addComponent(buttonPrevious);
         layoutPersonalise.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
         });
 
-        layoutWallpapers = new Layout(280, 160);
-        layoutWallpapers.addComponent(new Label("Wallpapers", 25, 6));
-        layoutWallpapers.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        layoutWallpapers = new Menu("Wallpapers");
+        layoutWallpapers.addComponent(buttonPrevious);
+        layoutPersonalise.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
+            int wallpaperX = 7;
+            int wallpaperY = 28;
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 122, y + wallpaperY - 1 + 70, getLaptop().getSettings().getColourScheme().getHeaderColour());
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
+            List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
+            mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
+            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 120, 68, 256, 144);
+            mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
-        layoutInformation = new Layout(280, 160);
-        layoutInformation.addComponent(new Label("Information", 25, 6));
+        layoutInformation = new Menu("Information");
+        layoutInformation.addComponent(buttonPrevious);
         layoutInformation.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Gui.drawRect(x, y + 20, x + width , y + 21, Color.DARK_GRAY.getRGB());
         });
-
-        Button back = new Button(2, 2, Icons.CHEVRON_LEFT);
-        back.setToolTip("Back", "Go back to the last menu");
-        back.setClickListener((c, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                setCurrentLayout(layoutMain);
-            }
-        });
-        layoutColourScheme.addComponent(back);
-        layoutInformation.addComponent(back);
-        layoutPersonalise.addComponent(back);
-        layoutWallpapers.addComponent(back);
 
         Button personalise = new Button(5, 66, "Personalise", Icons.EYE_DROPPER);
         personalise.setClickListener((c, mouseButton) ->
@@ -132,9 +153,9 @@ public class ApplicationSettings extends SystemApplication
                 setCurrentLayout(layoutWallpapers);
             }
         });
-        layoutMain.addComponent(wallpapers);
+        layoutPersonalise.addComponent(wallpapers);
 
-        Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.HELP);
+        Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.TRASH);
         information.setClickListener((c, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -142,7 +163,7 @@ public class ApplicationSettings extends SystemApplication
                 setCurrentLayout(layoutColourScheme);
             }
         });
-        layoutMain.addComponent(buttonColourScheme);
+        layoutPersonalise.addComponent(buttonColourScheme);
 
         btnWallpaperNext = new Button(40, 36, Icons.CHEVRON_RIGHT);
 		btnWallpaperNext.setClickListener(new ClickListener() {
@@ -162,27 +183,99 @@ public class ApplicationSettings extends SystemApplication
         });
         layoutWallpapers.addComponent(btnWallpaperPrev);
 
-        layoutColourScheme = new Layout(280, 160);
-        layoutColourScheme.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(145, 26);
+        layoutColourScheme.addComponent(comboBoxTextColour);
+
+        ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(145, 44);
+        layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
+
+        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(145, 62);
+        layoutColourScheme.addComponent(comboBoxHeaderColour);
+
+        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(145, 80);
+        layoutColourScheme.addComponent(comboBoxBackgroundColour);
+
+        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(145, 98);
+        layoutColourScheme.addComponent(comboBoxBackgroundSecondaryColour);
+
+        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(145, 116);
+        layoutColourScheme.addComponent(comboBoxItemBackgroundColour);
+
+        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(145, 134);
+        layoutColourScheme.addComponent(comboBoxItemHighlightColour);
+
+        buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
+        buttonColourSchemeApply.setEnabled(false);
+        buttonColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
+        buttonColourSchemeApply.setClickListener((c, mouseButton) ->
         {
-            Gui.drawRect(x, y, x + width - 40, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width - 40, y + 21, Color.DARK_GRAY.getRGB());
-
-            Gui.drawRect(x, y + 21, x + width - 40, y + 40, Laptop.getSystem().getSettings().getColourScheme().getItemBackgroundColour());
-            Gui.drawRect(x, y + 40, x + width - 40, y + 41, Color.DARK_GRAY.getRGB());
-
-            Gui.drawRect(x, y + 41, x + width - 40, y + 60, Laptop.getSystem().getSettings().getColourScheme().getItemHighlightColour());
-            Gui.drawRect(x, y + 60, x + width - 40, y + 61, Color.DARK_GRAY.getRGB());
-
-            Gui.drawRect(x, y + 61, x + width - 40, y + 80, Laptop.getSystem().getSettings().getColourScheme().getTextColour());
-            Gui.drawRect(x, y + 80, x + width - 40, y + 81, Color.DARK_GRAY.getRGB());
-
-            Gui.drawRect(x, y + 81, x + width - 40, y + 100, Laptop.getSystem().getSettings().getColourScheme().getTextSecondaryColour());
-            Gui.drawRect(x, y + 100, x + width - 40, y + 101, Color.DARK_GRAY.getRGB());
-
+            if(mouseButton == 0)
+            {
+                ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
+                colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
+                buttonColourSchemeApply.setEnabled(false);
+            }
         });
+        layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(5, 26, 50, 100, 100);
+        OSName = new Label("OS Name: " + Reference.OSName, 10, 10);
+        layoutInformation.addComponent(OSName);
+
+        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 25);
+        layoutInformation.addComponent(OSVersion);
+
+		setCurrentLayout(layoutMain);
+	}
+
+    @Override
+    public void load(NBTTagCompound tagCompound)
+    {
+
+    }
+
+    @Override
+    public void save(NBTTagCompound tagCompound)
+    {
+
+    }
+
+    private void showMenu(Layout layout)
+    {
+        predecessor.push(getCurrentLayout());
+        buttonPrevious.setVisible(true);
+        setCurrentLayout(layout);
+    }
+
+    @Override
+    public void onClose()
+    {
+        super.onClose();
+        predecessor.clear();
+    }
+
+    private static class Menu extends Layout
+    {
+        private String title;
+
+        public Menu(String title)
+        {
+            super(280, 160);
+            this.title = title;
+        }
+
+        @Override
+        public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+        {
+            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
+            Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
+            mc.fontRenderer.drawString(title, x + 22, y + 6, Color.WHITE.getRGB(), true);
+            super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
+        }
+    }
+
+    public ComboBox.Custom<Integer> createColourPicker(int left, int top)
+    {
+        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(left, top, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
         colourPicker.setItemRenderer(new ItemRenderer<Integer>()
         {
@@ -200,55 +293,10 @@ public class ApplicationSettings extends SystemApplication
             buttonColourSchemeApply.setEnabled(true);
         });
 
-        Layout layout = colourPicker.getLayout();
-
         Palette palette = new Palette(5, 5, colourPicker);
+        Layout layout = colourPicker.getLayout();
         layout.addComponent(palette);
 
-        layoutColourScheme.addComponent(colourPicker);
-
-        buttonColourSchemeApply = new Button(5, 99, Icons.CHECK);
-        buttonColourSchemeApply.setEnabled(false);
-        buttonColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
-        buttonColourSchemeApply.setClickListener((c, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-                colourScheme.setBackgroundColour(colourPicker.getValue());
-                buttonColourSchemeApply.setEnabled(false);
-            }
-        });
-        layoutColourScheme.addComponent(buttonColourSchemeApply);
-
-        OSName = new Label("OS Name: " + Reference.OSName, 10, 10);
-        layoutInformation.addComponent(OSName);
-
-        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 25);
-        layoutInformation.addComponent(OSVersion);
-
-		setCurrentLayout(layoutMain);
-	}
-
-    @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
-        super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
-        if(this.getCurrentLayout() == layoutWallpapers) {
-            laptop.drawString(mc.fontRenderer, "Wallpaper", x + 20, y + 40, Color.WHITE.getRGB());
-            laptop.drawCenteredString(mc.fontRenderer, Integer.toString(Laptop.getCurrentWallpaper() + 1), x + 28, y + 48, Color.WHITE.getRGB());
-        }
+        return colourPicker;
     }
-
-    @Override
-	public void load(NBTTagCompound tagCompound)
-	{
-
-	}
-
-	@Override
-	public void save(NBTTagCompound tagCompound)
-	{
-
-	}
-
 }

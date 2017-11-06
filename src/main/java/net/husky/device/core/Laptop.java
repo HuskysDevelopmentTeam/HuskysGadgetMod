@@ -1,5 +1,6 @@
 package net.husky.device.core;
 
+import com.google.common.collect.ImmutableList;
 import net.husky.device.HuskyDeviceMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
@@ -498,6 +499,11 @@ public class Laptop extends GuiScreen implements System {
     @Nullable
     public Application getApplication(String appId) {
         return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
+    }
+
+    public List<ResourceLocation> getWallapapers()
+    {
+        return ImmutableList.copyOf(WALLPAPERS);
     }
 
     public static System getSystem() {
