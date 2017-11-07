@@ -1,11 +1,11 @@
 [
 {
-  "modid": "futopia",
-  "name": "Futopia",
-  "description": "This mod is a tech mod located in the future with amazing blocks like a particle block that generates whatever particles you want",
+  "modid": "hgm",
+  "name": "Husky's Gadget Mod",
+  "description": "This is a mod that adds different gadgets like laptops, phones, servers and more",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "authorList": ["TheGamingHuskyMC"],
+  "authorList": ["TheGamingHuskyMC, itay2805, Nova, AlexCouch, Dbrown55, GradedWarrior, lucas2005"],
   "logoFile": "assets/futopia/textures/logo.png",
   "dependencies": [
     "huskylib"
