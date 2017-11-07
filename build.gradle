@@ -41,11 +41,17 @@ repositories {
         name = "JEI Maven"
         url = "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven"
+    }
 }
 
 dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:+"
     deobfCompile "mezz.jei:jei_1.12.2:4.7.+"
+    compile "codechicken:CodeChickenLib:1.12-${config.ccl_version}:deobf"
+//    compile "codechicken:CodeChickenCore:${config.mc_version}-${config.ccc_version}:dev"
 }
 
 processResources {
