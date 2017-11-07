@@ -54,6 +54,7 @@ public class ClientProxy extends CommonProxy
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
         }
     }
 

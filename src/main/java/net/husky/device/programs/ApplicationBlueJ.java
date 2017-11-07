@@ -7,6 +7,7 @@ import net.husky.device.api.app.Component;
 import net.husky.device.api.app.Dialog.Confirmation;
 import net.husky.device.api.app.Dialog.OpenFile;
 import net.husky.device.api.app.Dialog.SaveFile;
+import net.husky.device.api.app.Icons;
 import net.husky.device.api.app.component.Button;
 import net.husky.device.api.app.component.ItemList;
 import net.husky.device.api.io.File;
@@ -72,13 +73,13 @@ public class ApplicationBlueJ extends Application {
 		
 		resetLayout();
 		
-		newProject = new Button(getNextBtnPos(), 1, Icon.NEW_FOLDER);
+		newProject = new Button(getNextBtnPos(), 1, Icons.NEW_FOLDER);
 		newProject.setToolTip("New Project", "Create new project");
 		newProject.setClickListener(this::createProjectHandler);
-		openProject = new Button(getNextBtnPos(), 1, Icon.LOAD);
+		openProject = new Button(getNextBtnPos(), 1, Icons.LOAD);
 		openProject.setToolTip("Open Project", "Open an exsting project");
 		openProject.setClickListener(this::loadProjectHandler);
-		exportProject = new Button(getNextBtnPos(), 1, Icon.EXPORT);
+		exportProject = new Button(getNextBtnPos(), 1, Icons.EXPORT);
 		exportProject.setToolTip("Export Project", "Export the project as a runnable");
 		exportProject.setClickListener(this::archiveProjectHandler);
 		exportProject.setEnabled(false);
@@ -89,14 +90,14 @@ public class ApplicationBlueJ extends Application {
 		
 		addSeperator();
 		
-		newFile = new Button(getNextBtnPos(), 1, Icon.NEW_FILE);
+		newFile = new Button(getNextBtnPos(), 1, Icons.NEW_FILE);
 		newFile.setToolTip("New File", "Create new file");
 		newFile.setClickListener(this::newFileHandler);
-		deleteFile = new Button(getNextBtnPos(), 1, Icon.TRASH);
+		deleteFile = new Button(getNextBtnPos(), 1, Icons.TRASH);
 		deleteFile.setToolTip("Delete File", "Delete selected file");
 		deleteFile.setClickListener(this::deleteFileHandler);
 		deleteFile.setEnabled(false);
-		saveFile = new Button(getNextBtnPos(), 1, Icon.SAVE);
+		saveFile = new Button(getNextBtnPos(), 1, Icons.SAVE);
 		saveFile.setClickListener(this::saveFileHandler);
 		saveFile.setToolTip("Save File", "Save current file");
 		saveFile.setEnabled(false);
@@ -107,10 +108,10 @@ public class ApplicationBlueJ extends Application {
 
 		addSeperator();
 		
-		copyAll = new Button(getNextBtnPos(), 1, Icon.COPY);
+		copyAll = new Button(getNextBtnPos(), 1, Icons.COPY);
 		copyAll.setToolTip("Copy All", "Copy all the contents of the current file to the clipboard");
 		copyAll.setEnabled(false);
-		paste = new Button(getNextBtnPos(), 1, Icon.CLIPBOARD);
+		paste = new Button(getNextBtnPos(), 1, Icons.CLIPBOARD);
 		paste.setToolTip("Paste", "Paste the contents of the clipboard to the current file");
 		paste.setEnabled(false);
 		
@@ -119,9 +120,9 @@ public class ApplicationBlueJ extends Application {
 		
 		addSeperator();
 		
-		run = new Button(getNextBtnPos(), 1, Icon.PLAY);
+		run = new Button(getNextBtnPos(), 1, Icons.PLAY);
 		run.setToolTip("Run", "Run code");
-		stop = new Button(getNextBtnPos(), 1, Icon.STOP);
+		stop = new Button(getNextBtnPos(), 1, Icons.STOP);
 		stop.setToolTip("Stop", "Stop running code");
 		
 		addComponent(run);
@@ -129,7 +130,7 @@ public class ApplicationBlueJ extends Application {
 		
 		addSeperator();
 
-		settings = new Button(getNextBtnPos(), 1, Icon.WRENCH);
+		settings = new Button(getNextBtnPos(), 1, Icons.WRENCH);
 		settings.setToolTip("Settings", "Open and edit settings");
 		
 		addComponent(settings);
