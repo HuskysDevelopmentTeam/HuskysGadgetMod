@@ -35,6 +35,8 @@ public class TaskBar
 
 	private List<Application> applications;
 
+	private static boolean change = false;
+
 	public TaskBar(List<Application> applications)
 	{
 		setupApplications(applications);
@@ -88,8 +90,6 @@ public class TaskBar
 		});
 		btnRight = new Button(0, 0, Icons.CHEVRON_RIGHT);
 		btnRight.setPadding(1);
-		btnRight.xPosition = posX + 15 + 14 * APPS_DISPLAYED + 14;
-		btnRight.yPosition = posY + 3;
 		btnRight.setClickListener(new ClickListener()
 		{
 			@Override
@@ -105,7 +105,11 @@ public class TaskBar
 	
 	public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
+		btnLeft.xPosition = x + 5;
+		btnLeft.yPosition = y + 3;
+		btnRight.xPosition = x + (Laptop.SCREEN_WIDTH - 50);
+		btnRight.yPosition = y + 3;
+		GL11.glColor4f(0.5F, 1.0F, 0.5F, 0.75F);
 		GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(APP_BAR_GUI);
 		gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
@@ -158,7 +162,6 @@ public class TaskBar
 			if(appIndex <= offset + APPS_DISPLAYED && appIndex < applications.size())
 			{
 				laptop.open(applications.get(appIndex));
-				return;
 			}
 		}
 	}
