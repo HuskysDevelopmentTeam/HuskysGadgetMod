@@ -27,9 +27,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.0.2529"
+    version = "1.12.2-14.23.0.2531"
     runDir = "run"
-    mappings = "snapshot_20171104"
+    mappings = "snapshot_20171107"
 }
 
 repositories {
@@ -51,7 +51,6 @@ dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:+"
     deobfCompile "mezz.jei:jei_1.12.2:4.7.+"
     compile "codechicken:CodeChickenLib:1.12-${config.ccl_version}:deobf"
-//    compile "codechicken:CodeChickenCore:${config.mc_version}-${config.ccc_version}:dev"
 }
 
 processResources {
