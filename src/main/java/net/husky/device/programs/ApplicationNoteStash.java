@@ -1,10 +1,8 @@
 package net.husky.device.programs;
 
-import net.husky.device.api.app.Application;
-import net.husky.device.api.app.Dialog;
-import net.husky.device.api.app.Icons;
-import net.husky.device.api.app.Layout;
+import net.husky.device.api.app.*;
 import net.husky.device.api.app.component.*;
+import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.io.File;
 import net.husky.device.core.io.FileSystem;
 import net.minecraft.nbt.NBTTagCompound;
@@ -135,24 +133,71 @@ public class ApplicationNoteStash extends Application
 		/*title = new TextField(5, 5, 114);
 		layoutCreateNote.addComponent(title);*/
 		
-		textArea = new TextArea(5, 5, 185, 100);
+		textArea = new TextArea(5, 5, 135, 100);
 		textArea.setFocused(true);
 		textArea.setPadding(2);
+		textArea.setAlignment(Component.ALIGN_RIGHT);
         layoutCreateNote.addComponent(textArea);
-		
+
+        Button allignLeft = new Button(158, 5, Icons.ALIGN_LEFT);
+        allignLeft.setToolTip("Align Text Left", "");
+        allignLeft.setClickListener(new ClickListener() {
+            @Override
+            public void onClick(Component c, int mouseButton) {
+                if(mouseButton == 0) {
+                    textArea.setAlignment(Component.ALIGN_LEFT);
+                }
+            }
+        });
+        layoutCreateNote.addComponent(allignLeft);
+
+        Button allignRight = new Button(158, 22, Icons.ALIGN_RIGHT);
+        allignRight.setToolTip("Align Text Right", "");
+        allignRight.setClickListener(new ClickListener() {
+            @Override
+            public void onClick(Component c, int mouseButton) {
+                if(mouseButton == 0) {
+                    textArea.setAlignment(Component.ALIGN_RIGHT);
+                }
+            }
+        });
+        layoutCreateNote.addComponent(allignRight);
+
+        Button allignCenter = new Button(158, 39, Icons.ALIGN_CENTER);
+        allignCenter.setToolTip("Align Text Center", "");
+        allignCenter.setClickListener(new ClickListener() {
+            @Override
+            public void onClick(Component c, int mouseButton) {
+                if(mouseButton == 0) {
+                    textArea.setAlignment(Component.ALIGN_CENTER);
+                }
+            }
+        });
+        layoutCreateNote.addComponent(allignCenter);
+
+        Button allignJustify = new Button(158, 56, Icons.ALIGN_JUSTIFY);
+        allignJustify.setToolTip("Align Text Justify", "");
+        allignJustify.setClickListener(new ClickListener() {
+            @Override
+            public void onClick(Component c, int mouseButton) {
+                if(mouseButton == 0) {
+                    textArea.setAlignment(Component.ALIGN_JUSTIFY);
+                }
+            }
+        });
+        layoutCreateNote.addComponent(allignJustify);
+
 		btnSave = new Button(175, 110, Icons.SAVE);
 		btnSave.setToolTip("Save", "Saves this file");
 		btnSave.setClickListener((c, mouseButton) ->
 		{
             NBTTagCompound data = new NBTTagCompound();
-            data.setString("title", title.getText());
             data.setString("content", textArea.getText());
 
             Dialog.SaveFile dialog = new Dialog.SaveFile(ApplicationNoteStash.this, data);
             dialog.setFolder(getApplicationFolderPath());
             dialog.setResponseHandler((success, file) ->
 			{
-                title.clear();
                 textArea.clear();
                 setCurrentLayout(layoutHistory);
                 return true;
@@ -160,7 +205,7 @@ public class ApplicationNoteStash extends Application
             openDialog(dialog);
         });
         layoutCreateNote.addComponent(btnSave);
-		
+
 		btnHistory = new Button(158, 110, Icons.CLOCK);
 		btnHistory.setToolTip("History", "Look on other older edited notes");
 		btnHistory.setClickListener((c, mouseButton) ->

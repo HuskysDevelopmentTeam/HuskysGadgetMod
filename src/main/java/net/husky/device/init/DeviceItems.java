@@ -1,6 +1,6 @@
 package net.husky.device.init;
 
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -28,19 +28,19 @@ public class DeviceItems
 
     public static void init()
     {
-        flash_drive = new Item().setUnlocalizedName("flash_drive").setRegistryName("flash_drive").setCreativeTab(HuskyDeviceMod.tabDevice);
-        /*apple_watch = new Item().setUnlocalizedName("apple_watch").setRegistryName("apple_watch").setCreativeTab(HuskyDeviceMod.tabDevice);
-        iPad = new Item().setUnlocalizedName("iPad").setRegistryName("iPad").setCreativeTab(HuskyDeviceMod.tabDevice);
-        iPhone = new Item().setUnlocalizedName("iPhone").setRegistryName("iPhone").setCreativeTab(HuskyDeviceMod.tabDevice);
-        cpu = new Item().setUnlocalizedName("cpu").setRegistryName("cpu").setCreativeTab(HuskyDeviceMod.tabDevice);
-        motherBoard = new Item().setUnlocalizedName("mother_board").setRegistryName("mother_board").setCreativeTab(HuskyDeviceMod.tabDevice);
-        ramSticks = new Item().setUnlocalizedName("ram").setRegistryName("ram_sticks").setCreativeTab(HuskyDeviceMod.tabDevice);
-        videoCard = new Item().setUnlocalizedName("video_card").setRegistryName("video_card").setCreativeTab(HuskyDeviceMod.tabDevice);
-        soundCard = new Item().setUnlocalizedName("sound_card").setRegistryName("sound_card").setCreativeTab(HuskyDeviceMod.tabDevice);
-        wifiCard = new Item().setUnlocalizedName("wifi_card").setRegistryName("wifi_card").setCreativeTab(HuskyDeviceMod.tabDevice);
+        flash_drive = new Item().setUnlocalizedName("flash_drive").setRegistryName("flash_drive").setCreativeTab(HuskyGadgetMod.tabDevice);
+        /*apple_watch = new Item().setUnlocalizedName("apple_watch").setRegistryName("apple_watch").setCreativeTab(HuskyGadgetMod.tabDevice);
+        iPad = new Item().setUnlocalizedName("iPad").setRegistryName("iPad").setCreativeTab(HuskyGadgetMod.tabDevice);
+        iPhone = new Item().setUnlocalizedName("iPhone").setRegistryName("iPhone").setCreativeTab(HuskyGadgetMod.tabDevice);
+        cpu = new Item().setUnlocalizedName("cpu").setRegistryName("cpu").setCreativeTab(HuskyGadgetMod.tabDevice);
+        motherBoard = new Item().setUnlocalizedName("mother_board").setRegistryName("mother_board").setCreativeTab(HuskyGadgetMod.tabDevice);
+        ramSticks = new Item().setUnlocalizedName("ram").setRegistryName("ram_sticks").setCreativeTab(HuskyGadgetMod.tabDevice);
+        videoCard = new Item().setUnlocalizedName("video_card").setRegistryName("video_card").setCreativeTab(HuskyGadgetMod.tabDevice);
+        soundCard = new Item().setUnlocalizedName("sound_card").setRegistryName("sound_card").setCreativeTab(HuskyGadgetMod.tabDevice);
+        wifiCard = new Item().setUnlocalizedName("wifi_card").setRegistryName("wifi_card").setCreativeTab(HuskyGadgetMod.tabDevice);
 
-        serverKey = new Item().setUnlocalizedName("server_key").setRegistryName("server_key").setCreativeTab(HuskyDeviceMod.tabDevice);
-        networksCode = new Item().setUnlocalizedName("networks_code").setRegistryName("networks_code").setCreativeTab(HuskyDeviceMod.tabDevice);*/
+        serverKey = new Item().setUnlocalizedName("server_key").setRegistryName("server_key").setCreativeTab(HuskyGadgetMod.tabDevice);
+        networksCode = new Item().setUnlocalizedName("networks_code").setRegistryName("networks_code").setCreativeTab(HuskyGadgetMod.tabDevice);*/
     }
 
     public static void register()

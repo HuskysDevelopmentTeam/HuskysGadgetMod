@@ -61,8 +61,7 @@ public class ApplicationSettings extends SystemApplication
 	@Override
 	public void init()
 	{
-
-        buttonPrevious = new Button(2, 2, Icons.CHEVRON_LEFT);
+        buttonPrevious = new Button(2, 2, Icons.ARROW_LEFT);
         buttonPrevious.setVisible(false);
         buttonPrevious.setClickListener((c, mouseButton) ->
         {
@@ -147,10 +146,24 @@ public class ApplicationSettings extends SystemApplication
 
         buttonWallpaperLeft = new Button(185, 27, Icons.ARROW_LEFT);
         buttonWallpaperLeft.setSize(25, 20);
+        buttonWallpaperLeft.setClickListener((c, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                this.getLaptop().prevWallpaper();
+            }
+        });
         layoutWallpapers.addComponent(buttonWallpaperLeft);
 
         buttonWallpaperRight = new Button(215, 27, Icons.ARROW_RIGHT);
         buttonWallpaperRight.setSize(25, 20);
+        buttonWallpaperRight.setClickListener((c, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                this.getLaptop().nextWallpaper();
+            }
+        });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
         buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);

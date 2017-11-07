@@ -1,6 +1,6 @@
 package net.husky.device.api.task;
 
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.husky.device.network.PacketHandler;
 import net.husky.device.network.task.MessageRequest;
 
@@ -34,7 +34,7 @@ public final class TaskManager
 			Constructor<? extends Task> constructor = clazz.getDeclaredConstructor();
 			constructor.setAccessible(true);
 			Task task = constructor.newInstance();
-			HuskyDeviceMod.getLogger().info("Registering task '" + task.getName() + "'");
+			HuskyGadgetMod.getLogger().info("Registering task '" + task.getName() + "'");
 			get().registeredRequests.put(task.getName(), task);
 		} 
 		catch (InstantiationException e) 

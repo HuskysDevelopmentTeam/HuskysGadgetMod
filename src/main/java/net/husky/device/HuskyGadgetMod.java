@@ -36,10 +36,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.ModVersion, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
-public class HuskyDeviceMod
+public class HuskyGadgetMod
 {
 	@Instance(Reference.MOD_ID)
-	public static HuskyDeviceMod instance;
+	public static HuskyGadgetMod instance;
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
 	public static CommonProxy proxy;
@@ -110,7 +110,6 @@ public class HuskyDeviceMod
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
-		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "information"), ApplicationInformation.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
 
 		// Core

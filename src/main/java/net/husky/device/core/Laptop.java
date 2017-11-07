@@ -1,7 +1,7 @@
 package net.husky.device.core;
 
 import com.google.common.collect.ImmutableList;
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Application;
 import net.husky.device.api.app.Dialog;
@@ -174,7 +174,7 @@ public class Laptop extends GuiScreen implements System {
         this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
         RenderUtil.drawRectWithTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 256, 144);
 
-        /*if (HuskyDeviceMod.DEVELOPER_MODE = false) {
+        /*if (HuskyGadgetMod.DEVELOPER_MODE = false) {
             drawString(fontRenderer, "Alpha v" + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
         } else {
             drawString(fontRenderer, "Developer Version - " + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
@@ -346,8 +346,8 @@ public class Laptop extends GuiScreen implements System {
     }
 
     public void open(Application app) {
-        if (HuskyDeviceMod.proxy.hasAllowedApplications()) {
-            if (!HuskyDeviceMod.proxy.getAllowedApplications().contains(app.getInfo())) {
+        if (HuskyGadgetMod.proxy.hasAllowedApplications()) {
+            if (!HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo())) {
                 return;
             }
         }

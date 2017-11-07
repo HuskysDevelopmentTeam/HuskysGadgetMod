@@ -211,7 +211,7 @@ public class ServerFolder extends ServerFile
         {
             indent += "  ";
         }
-        HuskyDeviceMod.getLogger().info(indent + "⌊ " + name);
+        HuskyGadgetMod.getLogger().info(indent + "⌊ " + name);
         for(ServerFile file : files)
         {
             if(file.isFolder())
@@ -220,7 +220,7 @@ public class ServerFolder extends ServerFile
             }
             else
             {
-                HuskyDeviceMod.getLogger().info(indent + "  ⌊ " + file.name);
+                HuskyGadgetMod.getLogger().info(indent + "  ⌊ " + file.name);
             }
         }
     }*/

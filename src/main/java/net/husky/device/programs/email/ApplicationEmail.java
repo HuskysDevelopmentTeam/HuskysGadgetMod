@@ -54,7 +54,7 @@ public class ApplicationEmail extends Application
 
 	/* Main Menu Layout */
 	private Layout layoutMainMenu;
-	private Image logo;
+	private Label logo;
 	private Label labelLogo;
 	private Button btnRegisterAccount;
 
@@ -141,7 +141,7 @@ public class ApplicationEmail extends Application
 		
 		layoutMainMenu = new Layout(100, 75);
 
-		logo = new Image(35, 5, 28, 28, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
+		logo = new Label(35, 5, Icons.MAIL);
 		layoutMainMenu.addComponent(logo);
 
 		labelLogo = new Label("Ender Mail", 50, 35);
@@ -514,7 +514,6 @@ public class ApplicationEmail extends Application
 		});
 
 		labelViewSubject = new Label("Subject", 5, 26);
-		labelViewSubject.setTextColour(new ColourRGBA(255, 170, 0, 255));
 		layoutViewEmail.addComponent(labelViewSubject);
 
 		labelFrom = new Label("From", 5, 38);

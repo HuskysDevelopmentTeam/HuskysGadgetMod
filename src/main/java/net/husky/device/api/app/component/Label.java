@@ -1,22 +1,34 @@
 package net.husky.device.api.app.component;
 
-import codechicken.lib.colour.ColourRGBA;
 import net.husky.device.api.app.Component;
+import net.husky.device.api.app.IIcon;
+import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 public class Label extends Component {
 
 	protected String text;
-	protected int width;
+	protected int width, height;
 	protected boolean shadow = true;
 	protected double scale = 1;
 	protected int alignment = ALIGN_LEFT;
 
-	protected ColourRGBA textColor;
+    protected int padding = 5;
+    protected boolean explicitSize = false;
 
-	protected ColourRGBA defaultTextColor = new ColourRGBA(255, 255, 255, 255);
+    protected ResourceLocation iconResource;
+    protected int iconU, iconV;
+    protected int iconWidth, iconHeight;
+    protected int iconSourceWidth;
+    protected int iconSourceHeight;
+
+    protected int textColour = Color.WHITE.getRGB();
 	
 	/**
 	 * Default label constructor
@@ -29,8 +41,22 @@ public class Label extends Component {
 	{
 		super(left, top);
 		this.text = text;
-		setTextColour(defaultTextColor);
+		setTextColour(textColour);
 	}
+
+	public Label(String text, int left, int top, IIcon icon)
+	{
+		super(left, top);
+		this.text = text;
+		setTextColour(textColour);
+        this.setIcon(icon);
+	}
+
+    public Label(int left, int top, IIcon icon)
+    {
+        super(left, top);
+        this.setIcon(icon);
+    }
 
 	@Override
 	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
@@ -45,9 +71,20 @@ public class Label extends Component {
 					GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale), 0, 0);
 				if(alignment == ALIGN_CENTER)
 					GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale) / (2 * scale), 0, 0);
-				mc.fontRenderer.drawString(text, 0, 0, getTextColor().argb(), shadow);
+				mc.fontRenderer.drawString(text, 0, 0, getTextColor(), shadow);
 			}
 			GlStateManager.popMatrix();
+
+            int contentWidth = (iconResource != null ? iconWidth: 0) + getTextWidth(text);
+            if(iconResource != null && text != null) contentWidth += 3;
+            int contentX = (int) Math.ceil((width - contentWidth) / 2.0);
+
+            if(iconResource != null)
+            {
+                int iconY = (height - iconHeight) / 2;
+                mc.getTextureManager().bindTexture(iconResource);
+                RenderUtil.drawRectWithTexture(x + contentX, y + iconY, iconU, iconV, iconWidth, iconHeight, iconWidth, iconHeight, iconSourceWidth, iconSourceHeight);
+            }
         }
 	}
 	
@@ -66,13 +103,13 @@ public class Label extends Component {
 	 * 
 	 * @param color the text colour
 	 */
-	public void setTextColour(ColourRGBA color)
+	public void setTextColour(int color)
 	{
-		this.textColor = color;
+		this.textColour = color;
 	}
 
-    public ColourRGBA getTextColor() {
-        return textColor;
+    public int getTextColor() {
+        return textColour;
     }
 
     /**
@@ -106,4 +143,61 @@ public class Label extends Component {
 	{
 		this.alignment = alignment;
 	}
+
+    public void setIcon(IIcon icon)
+    {
+        this.iconU = icon.getU();
+        this.iconV = icon.getV();
+        this.iconResource = icon.getIconAsset();
+        this.iconWidth = icon.getIconSize();
+        this.iconHeight = icon.getIconSize();
+        this.iconSourceWidth = icon.getGridWidth() * icon.getIconSize();
+        this.iconSourceHeight = icon.getGridHeight() * icon.getIconSize();
+        updateSize();
+    }
+
+    public void removeIcon()
+    {
+        this.iconResource = null;
+        updateSize();
+    }
+
+    private void updateSize()
+    {
+        if(explicitSize) return;
+        int height = padding * 2;
+        int width = padding * 2;
+
+        if(iconResource != null)
+        {
+            height += iconHeight;
+            width += iconWidth;
+        }
+
+        if(text != null)
+        {
+            width += getTextWidth(text);
+            height = 16;
+        }
+
+        if(iconResource != null && text != null)
+        {
+            width += 3;
+            height = iconHeight + padding * 2;
+        }
+
+        this.width = width;
+        this.height = height;
+    }
+
+    private static int getTextWidth(String text)
+    {
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+        boolean flag = fontRenderer.getUnicodeFlag();
+        fontRenderer.setUnicodeFlag(false);
+        int width = fontRenderer.getStringWidth(text);
+        fontRenderer.setUnicodeFlag(flag);
+        return width;
+    }
+
 }

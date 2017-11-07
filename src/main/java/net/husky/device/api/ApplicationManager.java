@@ -1,6 +1,6 @@
 package net.husky.device.api;
 
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.husky.device.api.app.Application;
 import net.husky.device.object.AppInfo;
 import net.minecraft.util.ResourceLocation;
@@ -27,7 +27,7 @@ public class ApplicationManager
 	@Nullable
 	public static Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz)
 	{
-		Application application = HuskyDeviceMod.proxy.registerApplication(identifier, clazz);
+		Application application = HuskyGadgetMod.proxy.registerApplication(identifier, clazz);
 		if(application != null)
 		{
 			APP_INFO.put(identifier, application.getInfo());

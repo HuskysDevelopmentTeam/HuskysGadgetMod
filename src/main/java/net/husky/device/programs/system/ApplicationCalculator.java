@@ -2,11 +2,10 @@ package net.husky.device.programs.system;
 
 import net.husky.device.Reference;
 import net.husky.device.api.app.Component;
-import net.husky.device.api.app.CurrencySets;
 import net.husky.device.api.app.Layout;
-import net.husky.device.api.app.component.*;
 import net.husky.device.api.app.component.Button;
 import net.husky.device.api.app.component.Label;
+import net.husky.device.api.app.component.*;
 import net.husky.device.api.app.component.TextField;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.task.Callback;
@@ -31,7 +30,7 @@ import net.minecraft.world.World;
 
 import java.awt.*;
 
-public class ApplicationBank extends SystemApplication
+public class ApplicationCalculator extends SystemApplication
 {
 	private static final ItemStack EMERALD = new ItemStack(Items.EMERALD);
 	private static final ResourceLocation BANK_ASSETS = new ResourceLocation(Reference.MOD_ID, "textures/gui/bank.png");
@@ -43,7 +42,7 @@ public class ApplicationBank extends SystemApplication
 	private Text textWelcome;
 	private Button btnDepositWithdraw;
 	private Button btnTransfer;
-	
+
 	private Layout layoutMain;
 	private Label labelBalance;
 	private Label labelAmount;
@@ -54,11 +53,11 @@ public class ApplicationBank extends SystemApplication
 	private Button buttonWithdraw;
 	private Label labelEmeraldAmount;
 	private Label labelInventory;
-	
+
 	private int emeraldAmount;
 	private int rotation;
-	
-	public ApplicationBank()
+
+	public ApplicationCalculator()
 	{
 		//super(Reference.MOD_ID + "Bank", "The Emerald Bank");
 	}

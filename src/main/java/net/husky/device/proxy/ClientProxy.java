@@ -1,6 +1,6 @@
 package net.husky.device.proxy;
 
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.husky.device.Reference;
 import net.husky.device.api.ApplicationManager;
 import net.husky.device.api.app.Application;
@@ -41,7 +41,7 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
 
-        if(HuskyDeviceMod.DEVELOPER_MODE)
+        if(HuskyGadgetMod.DEVELOPER_MODE)
         {
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/developer_wallpaper.png"));
         }
@@ -96,7 +96,7 @@ public class ClientProxy extends CommonProxy
                     BufferedImage icon = TextureUtil.readBufferedImage(input);
                     if(icon.getWidth() != ICON_SIZE || icon.getHeight() != ICON_SIZE)
                     {
-                        HuskyDeviceMod.getLogger().error("Incorrect icon size for " + identifier.toString() + " (Must be 14 by 14 pixels)");
+                        HuskyGadgetMod.getLogger().error("Incorrect icon size for " + identifier.toString() + " (Must be 14 by 14 pixels)");
                         continue;
                     }
                     int iconU = (index % 16) * ICON_SIZE;
@@ -107,12 +107,12 @@ public class ClientProxy extends CommonProxy
                 }
                 else
                 {
-                    HuskyDeviceMod.getLogger().error("Missing icon for " + identifier.toString());
+                    HuskyGadgetMod.getLogger().error("Missing icon for " + identifier.toString());
                 }
             }
             catch(Exception e)
             {
-                HuskyDeviceMod.getLogger().error("Unable to load icon for " + identifier.toString());
+                HuskyGadgetMod.getLogger().error("Unable to load icon for " + identifier.toString());
             }
         }
 

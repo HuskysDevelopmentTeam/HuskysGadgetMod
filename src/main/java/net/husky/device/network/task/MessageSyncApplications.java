@@ -1,6 +1,6 @@
 package net.husky.device.network.task;
 
-import net.husky.device.HuskyDeviceMod;
+import net.husky.device.HuskyGadgetMod;
 import net.husky.device.api.ApplicationManager;
 import net.husky.device.object.AppInfo;
 import net.husky.device.proxy.CommonProxy;
@@ -53,7 +53,7 @@ public class MessageSyncApplications implements IMessage, IMessageHandler<Messag
     @Override
     public MessageSyncApplications onMessage(MessageSyncApplications message, MessageContext ctx)
     {
-        ReflectionHelper.setPrivateValue(CommonProxy.class, HuskyDeviceMod.proxy, message.allowedApps, "allowedApps");
+        ReflectionHelper.setPrivateValue(CommonProxy.class, HuskyGadgetMod.proxy, message.allowedApps, "allowedApps");
         return null;
     }
 }

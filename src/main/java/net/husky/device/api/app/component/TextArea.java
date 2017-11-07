@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
@@ -24,7 +25,19 @@ public class TextArea extends Component
 	protected int updateCount = 0;
 	protected boolean isFocused = false;
 	protected boolean editable = true;
-	
+
+    protected boolean shadow = true;
+    protected double scale = 1;
+    protected int alignment = ALIGN_LEFT;
+
+    protected boolean explicitSize = false;
+
+    protected ResourceLocation iconResource;
+    protected int iconU, iconV;
+    protected int iconWidth, iconHeight;
+    protected int iconSourceWidth;
+    protected int iconSourceHeight;
+
 	/* Personalisation */
 	protected int placeholderColour = new Color(1.0F, 1.0F, 1.0F, 0.35F).getRGB();
 	protected int textColour = Color.WHITE.getRGB();
@@ -59,6 +72,17 @@ public class TextArea extends Component
 	{
 		if (this.visible)
         {
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translate(xPosition, yPosition, 0);
+                GlStateManager.scale(scale, scale, scale);
+                if(alignment == ALIGN_RIGHT)
+                    GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale), 0, 0);
+                if(alignment == ALIGN_CENTER)
+                    GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale) / (2 * scale), 0, 0);
+                mc.fontRenderer.drawString(text, 0, 0, getTextColor(), shadow);
+            }
+            GlStateManager.popMatrix();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 			Gui.drawRect(xPosition, yPosition, xPosition + width, yPosition + height, borderColour);
 			Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + height - 1, backgroundColour);
@@ -170,6 +194,20 @@ public class TextArea extends Component
 	{
 		this.placeholder = placeholder;
 	}
+
+    /**
+     * Sets the text colour for this component
+     *
+     * @param color the text colour
+     */
+    public void setTextColour(int color)
+    {
+        this.textColour = color;
+    }
+
+    public int getTextColor() {
+        return textColour;
+    }
 
 	/**
 	 * Sets this text area focused. Makes it available for typing.

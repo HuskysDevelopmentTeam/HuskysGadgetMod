@@ -1,16 +1,16 @@
-itemGroup.hdmTabDevice=Husky's Device Mod
+itemGroup.hgmTabDevice=Husky's Device Mod
 
 tile.laptop.name=Laptop
 
 item.flash_drive.name=Flash Drive
 
-app.hdm.settings.name=Settings
-app.hdm.bank.name=Bank
-app.hdm.example.name=UI Components
-app.hdm.file_browser.name=File Browser
-app.hdm.note_stash.name=NotePad
-app.hdm.pixel_painter.name=Pixel Painter
-app.hdm.ender_mail.name=EnderMail
-app.hdm.boat_racers.name=Boat Racers
-app.hdm.mine_bay.name=MineBay
-app.hdm.bluej.name=BlueJ
+app.hgm.settings.name=Settings
+app.hgm.bank.name=Bank
+app.hgm.example.name=UI Components
+app.hgm.file_browser.name=File Browser
+app.hgm.note_stash.name=NotePad
+app.hgm.pixel_painter.name=Pixel Painter
+app.hgm.ender_mail.name=EnderMail
+app.hgm.boat_racers.name=Boat Racers
+app.hgm.mine_bay.name=MineBay
+app.hgm.bluej.name=BlueJ

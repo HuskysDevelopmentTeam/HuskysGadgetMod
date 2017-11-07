@@ -4,6 +4,7 @@ import net.husky.device.Reference;
 import net.husky.device.core.Laptop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class Component extends Gui
@@ -46,6 +47,9 @@ public abstract class Component extends Gui
 	public static final int ALIGN_LEFT = 0;
 	public static final int ALIGN_RIGHT = 1;
 	public static final int ALIGN_CENTER = 2;
+    public static final int ALIGN_JUSTIFY = 3;
+
+    protected int alignment = ALIGN_LEFT;
 	
 	/**
 	 * The default constructor for a component.
@@ -185,4 +189,16 @@ public abstract class Component extends Gui
 	{
 		this.visible = visible;
 	}
+
+	/**
+	 * Sets the alignment of the text. Use {@link Component#ALIGN_LEFT} or
+	 * {@link Component#ALIGN_RIGHT} or {@link Component#ALIGN_CENTER}  or {@link Component#ALIGN_JUSTIFY} to set alignment.
+	 *
+	 * @param alignment the alignment type
+	 */
+	public void setAlignment(int alignment)
+	{
+		this.alignment = alignment;
+	}
+
 }
