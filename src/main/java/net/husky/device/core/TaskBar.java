@@ -10,6 +10,7 @@ import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.object.AppInfo;
 import net.husky.device.programs.system.SystemApplication;
+import net.husky.device.util.ColorHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -19,6 +20,8 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TaskBar
@@ -35,7 +38,9 @@ public class TaskBar
 
 	private List<Application> applications;
 
-	private static boolean change = false;
+	private float r = ColorHelper.getRedAsFloat();
+	private float g = ColorHelper.getGreenAsFloat();
+	private float b = ColorHelper.getBlueAsFloat();
 
 	public TaskBar(List<Application> applications)
 	{
@@ -106,7 +111,15 @@ public class TaskBar
 		btnLeft.yPosition = y + 3;
 		btnRight.xPosition = x + (Laptop.SCREEN_WIDTH - 50);
 		btnRight.yPosition = y + 3;
-		GL11.glColor4f(0.5F, 1.0F, 0.5F, 0.75F);
+		ScheduledThreadPoolExecutor thread = new ScheduledThreadPoolExecutor(1);
+		thread.scheduleAtFixedRate(()->{
+            if(ColorHelper.hasColorChanged()){
+                r = ColorHelper.getRedAsFloat();
+                g = ColorHelper.getGreenAsFloat();
+                b = ColorHelper.getBlueAsFloat();
+            }
+            GL11.glColor4f(this.r, this.g, this.b, 0.75F);
+        }, 10, 30, TimeUnit.SECONDS);
 		GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(APP_BAR_GUI);
 		gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
@@ -152,6 +165,9 @@ public class TaskBar
 	{
 		btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
 		btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
+
+		HuskyDeviceMod.getLogger().info(x + ", " + y);
+		HuskyDeviceMod.getLogger().info(mouseX + ", " + mouseY);
 
 		if(isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16))
 		{

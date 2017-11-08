@@ -230,7 +230,7 @@ public class Laptop extends GuiScreen implements System {
             }
         }
 
-        this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+        this.bar.handleClick(this, posX, posY + 5, mouseX, mouseY, mouseButton);
 
         for (int i = 0; i < windows.length; i++) {
             Window<Application> window = windows[i];

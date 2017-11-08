@@ -3,12 +3,12 @@ package net.husky.device.util;
 import java.awt.*;
 
 public class ColorHelper {
-    private static int newR = 0;
-    private static int oldR = 0;
-    private static int newG = 0;
-    private static int oldG = 0;
-    private static int newB = 0;
-    private static int oldB = 0;
+    private static int newR = 0x55;
+    private static int oldR = newR;
+    private static int newG = 0xff;
+    private static int oldG = newG;
+    private static int newB = 0x55;
+    private static int oldB = newB;
 
     public static void setColor(int c){
         setRed(getRedFromColor(c));
@@ -30,6 +30,10 @@ public class ColorHelper {
         return oldR != newR;
     }
 
+    public static float getRedAsFloat(){
+        return newR / 255.0F;
+    }
+
     private static void setGreen(int r){
         oldR = newR;
         newR = r;
@@ -44,6 +48,10 @@ public class ColorHelper {
         return oldG != newG;
     }
 
+    public static float getGreenAsFloat(){
+        return newG / 255.0F;
+    }
+
     private static void setBlue(int r){
         oldR = newR;
         newR = r;
@@ -56,6 +64,10 @@ public class ColorHelper {
 
     private static boolean hasBlueChanged(){
         return oldB != newB;
+    }
+
+    public static float getBlueAsFloat(){
+        return newB / 255.0F;
     }
 
     public static boolean hasColorChanged(){

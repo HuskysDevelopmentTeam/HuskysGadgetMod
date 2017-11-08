@@ -199,7 +199,7 @@ public class ApplicationSettings extends SystemApplication
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
                 colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
-//                ColorHelper.setColor(this.barColor);
+                ColorHelper.setColor(this.barColor);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
