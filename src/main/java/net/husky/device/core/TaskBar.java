@@ -77,17 +77,14 @@ public class TaskBar
 		btnLeft.setPadding(1);
 		btnLeft.xPosition = posX + 7;
 		btnLeft.yPosition = posY + 3;
-		btnLeft.setClickListener(new ClickListener()
-		{
-			@Override
-			public void onClick(Component c, int mouseButton)
+		btnLeft.setClickListener((c, mouseButton)->
 			{
 				if(offset > 0)
 				{
 					offset--;
 				}
 			}
-		});
+		);
 		btnRight = new Button(0, 0, Icons.CHEVRON_RIGHT);
 		btnRight.setPadding(1);
 		btnRight.setClickListener(new ClickListener()

@@ -14,6 +14,7 @@ import net.husky.device.programs.system.component.FileBrowser;
 import net.husky.device.programs.system.task.TaskUpdateApplicationData;
 import net.husky.device.programs.system.task.TaskUpdateSystemData;
 import net.husky.device.tileentity.TileEntityLaptop;
+import net.husky.device.util.ColorHelper;
 import net.husky.device.util.GuiHelper;
 import net.husky.device.api.app.System;
 import net.minecraft.client.Minecraft;
@@ -86,6 +87,12 @@ public class Laptop extends GuiScreen implements System {
         }
         Laptop.system = this;
         pos = laptop.getPos();
+        /*ColorHelper.listenForColorChange(((oldColor, newColor) -> {
+            if(oldColor != newColor){
+                return newColor;
+            }
+            return 0;
+        }));*/
     }
 
     @Nullable
@@ -194,7 +201,7 @@ public class Laptop extends GuiScreen implements System {
         }
 
         /* Application Bar */
-        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+        bar.render(this, mc, posX + 10, posY + 10, mouseX, mouseY, partialTicks);
 
         if (context != null) {
             context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);

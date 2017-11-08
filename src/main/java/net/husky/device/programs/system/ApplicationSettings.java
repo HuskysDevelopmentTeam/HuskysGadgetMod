@@ -1,5 +1,6 @@
 package net.husky.device.programs.system;
 
+import net.husky.device.HuskyDeviceMod;
 import net.husky.device.Reference;
 import net.husky.device.api.app.Component;
 import net.husky.device.api.app.Icons;
@@ -12,8 +13,10 @@ import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.app.renderer.ItemRenderer;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
+import net.husky.device.init.DeviceBlocks;
 import net.husky.device.programs.system.object.ColourScheme;
 import net.husky.device.api.app.component.Button;
+import net.husky.device.util.ColorHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -49,6 +52,8 @@ public class ApplicationSettings extends SystemApplication
 	private Layout layoutInformation;
     private Label OSVersion;
     private Label OSName;
+
+    private int barColor = 0;
 
     private Stack<Layout> predecessor = new Stack<>();
 
@@ -163,19 +168,25 @@ public class ApplicationSettings extends SystemApplication
         ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(145, 44);
         layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
 
-        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(145, 62);
+        ComboBox.Custom<Integer> comboBoxTaskbarColour = createColourPicker(145, 62);
+        comboBoxTaskbarColour.setChangeListener((oldVal, newVal)->
+            this.barColor = newVal
+        );
+        layoutColourScheme.addComponent(comboBoxTaskbarColour);
+
+        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(145, 80);
         layoutColourScheme.addComponent(comboBoxHeaderColour);
 
-        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(145, 80);
+        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(145, 98);
         layoutColourScheme.addComponent(comboBoxBackgroundColour);
 
-        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(145, 98);
+        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(145, 116);
         layoutColourScheme.addComponent(comboBoxBackgroundSecondaryColour);
 
-        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(145, 116);
+        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(145, 134);
         layoutColourScheme.addComponent(comboBoxItemBackgroundColour);
 
-        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(145, 134);
+        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(145, 152);
         layoutColourScheme.addComponent(comboBoxItemHighlightColour);
 
         buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
@@ -188,6 +199,7 @@ public class ApplicationSettings extends SystemApplication
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
                 colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
+//                ColorHelper.setColor(this.barColor);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
