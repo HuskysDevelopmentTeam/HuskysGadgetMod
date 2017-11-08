@@ -3,6 +3,7 @@ package net.husky.device;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.husky.device.init.DeviceBlocks;
 
 public class DeviceTab extends CreativeTabs 
 {
@@ -14,6 +15,6 @@ public class DeviceTab extends CreativeTabs
 	@Override
 	public ItemStack getTabIconItem() 
 	{
-		return new ItemStack(Items.REDSTONE);
+		return new ItemStack(DeviceBlocks.laptop);
 	}
 }

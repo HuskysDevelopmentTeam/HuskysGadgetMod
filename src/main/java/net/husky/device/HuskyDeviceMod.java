@@ -55,7 +55,7 @@ public class HuskyDeviceMod
 	public void preInit(FMLPreInitializationEvent event) {
 
 	    DEVELOPER_MODE = false;
-	    HUSKY_MODE = false;
+	    HUSKY_MODE = true;
 
 		logger = event.getModLog();
 
