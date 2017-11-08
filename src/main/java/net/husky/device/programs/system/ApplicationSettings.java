@@ -53,8 +53,6 @@ public class ApplicationSettings extends SystemApplication
     private Label OSVersion;
     private Label OSName;
 
-    private int barColor = 0;
-
     private Stack<Layout> predecessor = new Stack<>();
 
 	public ApplicationSettings()
@@ -169,9 +167,10 @@ public class ApplicationSettings extends SystemApplication
         layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
 
         ComboBox.Custom<Integer> comboBoxTaskbarColour = createColourPicker(145, 62);
-        comboBoxTaskbarColour.setChangeListener((oldVal, newVal)->
-            this.barColor = newVal
-        );
+        comboBoxTaskbarColour.setChangeListener((oldVal, newVal)->{
+                ColorHelper.setColor(newVal);
+                this.buttonColourSchemeApply.setEnabled(true);
+        });
         layoutColourScheme.addComponent(comboBoxTaskbarColour);
 
         ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(145, 80);
@@ -199,7 +198,6 @@ public class ApplicationSettings extends SystemApplication
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
                 colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
-                ColorHelper.setColor(this.barColor);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
@@ -274,6 +272,9 @@ public class ApplicationSettings extends SystemApplication
                 }
             }
         });
+        /*
+         * This is the default, you should use your own change listener
+         */
         colourPicker.setChangeListener((oldValue, newValue) ->
         {
             buttonColourSchemeApply.setEnabled(true);

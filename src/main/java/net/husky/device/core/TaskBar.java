@@ -20,6 +20,8 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -104,23 +106,22 @@ public class TaskBar
 			}
         });
 	}
-	
+
 	public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		btnLeft.xPosition = x + 5;
 		btnLeft.yPosition = y + 3;
 		btnRight.xPosition = x + (Laptop.SCREEN_WIDTH - 50);
 		btnRight.yPosition = y + 3;
-		ScheduledThreadPoolExecutor thread = new ScheduledThreadPoolExecutor(1);
-		thread.scheduleAtFixedRate(()->{
-            if(ColorHelper.hasColorChanged()){
-                r = ColorHelper.getRedAsFloat();
-                g = ColorHelper.getGreenAsFloat();
-                b = ColorHelper.getBlueAsFloat();
-            }
-            GL11.glColor4f(this.r, this.g, this.b, 0.75F);
-        }, 10, 30, TimeUnit.SECONDS);
-		GlStateManager.enableBlend();
+
+        if(ColorHelper.hasColorChanged()){
+            HuskyDeviceMod.getLogger().info("Changing the taskbar color...");
+            r = ColorHelper.getRedAsFloat();
+            g = ColorHelper.getGreenAsFloat();
+            b = ColorHelper.getBlueAsFloat();
+        }
+        GL11.glColor4f(this.r, this.g, this.b, 0.75F);
+        GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(APP_BAR_GUI);
 		gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
 		RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 34, 18, 1, 18);
@@ -166,8 +167,8 @@ public class TaskBar
 		btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
 		btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
 
-		HuskyDeviceMod.getLogger().info(x + ", " + y);
-		HuskyDeviceMod.getLogger().info(mouseX + ", " + mouseY);
+//		HuskyDeviceMod.getLogger().info(x + ", " + y);
+//		HuskyDeviceMod.getLogger().info(mouseX + ", " + mouseY);
 
 		if(isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16))
 		{
