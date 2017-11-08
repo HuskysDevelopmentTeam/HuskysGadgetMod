@@ -17,6 +17,8 @@ public class ColourScheme
     public int backgroundSecondaryColour;
     public int itemBackgroundColour;
     public int itemHighlightColour;
+    public int applicationBarColour;
+    public int taskBarColour;
 
     public ColourScheme()
     {
@@ -68,8 +70,7 @@ public class ColourScheme
         return backgroundSecondaryColour;
     }
 
-    public void setBackgroundSecondaryColour(int backgroundSecondaryColour)
-    {
+    public void setBackgroundSecondaryColour(int backgroundSecondaryColour) {
         this.backgroundSecondaryColour = backgroundSecondaryColour;
     }
 
@@ -93,6 +94,22 @@ public class ColourScheme
         this.itemHighlightColour = itemHighlightColour;
     }
 
+    public int getApplicationBarColour() {
+        return applicationBarColour;
+    }
+
+    public void setApplicationBarColour(int applicationBarColour) {
+        this.applicationBarColour = applicationBarColour;
+    }
+
+    public int getTaskBarColour() {
+        return taskBarColour;
+    }
+
+    public void setTaskBarColour(int taskBarColour) {
+        this.taskBarColour = taskBarColour;
+    }
+
     public void resetDefault()
     {
         textColour = Color.decode("0xFFFFFF").getRGB();
@@ -102,6 +119,8 @@ public class ColourScheme
         backgroundSecondaryColour = 0;
         itemBackgroundColour = Color.decode("0x9E9E9E").getRGB();
         itemHighlightColour = Color.decode("0x757575").getRGB();
+        applicationBarColour = Color.decode("0x535861").getRGB();
+        taskBarColour = Color.decode("0x535861").getRGB();
     }
 
     public NBTTagCompound toTag()
@@ -114,6 +133,8 @@ public class ColourScheme
         tag.setInteger("backgroundSecondaryColour", backgroundSecondaryColour);
         tag.setInteger("itemBackgroundColour", itemBackgroundColour);
         tag.setInteger("itemHighlightColour", itemHighlightColour);
+        tag.setInteger("applicationBarColour", applicationBarColour);
+        tag.setInteger("taskBarColour", taskBarColour);
         return tag;
     }
 
@@ -147,6 +168,14 @@ public class ColourScheme
         if(tag.hasKey("itemHighlightColour", Constants.NBT.TAG_INT))
         {
             scheme.itemHighlightColour = tag.getInteger("itemHighlightColour");
+        }
+        if(tag.hasKey("applicationBarColour", Constants.NBT.TAG_INT))
+        {
+            scheme.applicationBarColour = tag.getInteger("applicationBarColour");
+        }
+        if(tag.hasKey("taskBarColour", Constants.NBT.TAG_INT))
+        {
+            scheme.taskBarColour = tag.getInteger("taskBarColour");
         }
         return scheme;
     }

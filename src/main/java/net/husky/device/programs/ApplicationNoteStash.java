@@ -145,14 +145,12 @@ public class ApplicationNoteStash extends Application
 		btnSave.setClickListener((c, mouseButton) ->
 		{
             NBTTagCompound data = new NBTTagCompound();
-            data.setString("title", title.getText());
             data.setString("content", textArea.getText());
 
             Dialog.SaveFile dialog = new Dialog.SaveFile(ApplicationNoteStash.this, data);
             dialog.setFolder(getApplicationFolderPath());
             dialog.setResponseHandler((success, file) ->
 			{
-                title.clear();
                 textArea.clear();
                 setCurrentLayout(layoutHistory);
                 return true;

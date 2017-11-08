@@ -110,7 +110,6 @@ public class HuskyDeviceMod
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
-		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "information"), ApplicationInformation.class);
 		ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
 
 		// Core
@@ -154,11 +153,6 @@ public class HuskyDeviceMod
 			TaskManager.registerTask(TaskAddAuction.class);
 			TaskManager.registerTask(TaskGetAuctions.class);
 			TaskManager.registerTask(TaskBuyItem.class);
-		}
-		else
-		{
-			// Applications (Developers)
-			ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "example"), ApplicationExample.class);
 		}
 	}
 

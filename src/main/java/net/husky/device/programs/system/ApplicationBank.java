@@ -134,7 +134,7 @@ public class ApplicationBank extends SystemApplication
 			public void handleTick()
 			{
 				super.handleTick();
-				int amount = InventoryUtil.getItemAmount(Minecraft.getMinecraft().player, new CurrencySets().getEmerals()[0].getItem());
+				int amount = InventoryUtil.getItemAmount(Minecraft.getMinecraft().player, Items.EMERALD);
 				labelEmeraldAmount.setText("x " + Integer.toString(amount));
 			}
 		};
