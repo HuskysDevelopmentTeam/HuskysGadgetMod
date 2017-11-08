@@ -48,7 +48,7 @@
 				"east": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
 				"south": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
 				"west": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
-				"up": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
+				"up": {"uv": [1, 1, 1.5, 1.5], "texture": "#0"},
 				"down": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"}
 			},
 			"rotation": {
@@ -59,8 +59,8 @@
 		},
 		{
 			"name": "trackpad",
-			"from": [5, 1, 11.5],
-			"to": [9, 1.1, 14.5],
+			"from": [6, 1, 11.5],
+			"to": [10, 1.1, 14.5],
 			"faces": {
 				"north": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
 				"east": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
@@ -926,9 +926,9 @@
 		3,
 		54,
 		{
-			"name": "group",
+			"name": "Keys",
 			"origin": [8, 8, 8],
-			"isOpen": true,
+			"isOpen": false,
 			"display": {
 				"visibility": true,
 				"export": true,
@@ -980,8 +980,8 @@
 				45,
 				46,
 				47,
-				48,
 				49,
+				48,
 				50,
 				51,
 				52
