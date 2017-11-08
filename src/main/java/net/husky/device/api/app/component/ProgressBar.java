@@ -2,6 +2,7 @@ package net.husky.device.api.app.component;
 
 import net.husky.device.api.app.Component;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -33,7 +34,7 @@ public class ProgressBar extends Component
 	}
 
 	@Override
-	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 	{
 		if (this.visible)
         {

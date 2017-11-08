@@ -7,6 +7,7 @@ import net.husky.device.api.app.component.ButtonTab;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.io.File;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -125,7 +126,7 @@ public class ApplicationDiscord extends Application
 	}
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+    public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
         try {
             servers[activeTab].render(laptop, mc, x+10, y+10, mouseX, mouseY, active, partialTicks);
         } catch(Exception e) {

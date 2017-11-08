@@ -3,6 +3,7 @@ package net.husky.device.api.app.component;
 import net.husky.device.api.app.Component;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.husky.device.util.GuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -58,7 +59,7 @@ public class CheckBox extends Component implements RadioGroup.Item
 	}
 	
 	@Override
-	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
+	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 	{
 		if (this.visible)
         {

@@ -8,6 +8,7 @@ import net.husky.device.api.app.component.Label;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.husky.device.object.tiles.Tile;
 import net.husky.device.object.tiles.Tile.Category;
 import net.husky.device.util.GuiHelper;
@@ -76,7 +77,7 @@ public class TileGrid extends Component
 	}
 
 	@Override
-	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
+	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 	{
 		drawRect(xPosition, yPosition + 15, xPosition + 93, yPosition + 100, Color.DARK_GRAY.getRGB());
 		drawRect(xPosition + 1, yPosition + 16, xPosition + 92, yPosition + 99, Color.GRAY.getRGB());

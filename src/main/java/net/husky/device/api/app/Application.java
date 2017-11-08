@@ -2,6 +2,7 @@ package net.husky.device.api.app;
 
 import net.husky.device.api.io.File;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.husky.device.core.Window;
 import net.husky.device.core.Wrappable;
 import net.husky.device.core.io.FileSystem;
@@ -119,7 +120,7 @@ public abstract class Application extends Wrappable
      * @param partialTicks
      */
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
+    public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
     {
         currentLayout.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
         currentLayout.renderOverlay(laptop, mc, mouseX, mouseY, active);

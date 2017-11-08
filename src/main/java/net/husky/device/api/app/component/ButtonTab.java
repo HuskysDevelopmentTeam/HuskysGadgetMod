@@ -4,6 +4,7 @@ import net.husky.device.api.app.Component;
 import net.husky.device.api.app.IIcon;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -103,7 +104,7 @@ public class ButtonTab extends Button {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if(this.visible) {
             FontRenderer fontrenderer = mc.fontRenderer;
             mc.getTextureManager().bindTexture(Component.COMPONENTS_GUI);

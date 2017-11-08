@@ -2,6 +2,7 @@ package net.husky.device.programs.system;
 
 import net.husky.device.api.app.Application;
 import net.husky.device.core.Laptop;
+import net.husky.device.core.NeonOS;
 
 import javax.annotation.Nullable;
 
@@ -10,18 +11,15 @@ import javax.annotation.Nullable;
  */
 public abstract class SystemApplication extends Application
 {
-    private Laptop laptop;
+    private NeonOS OS;
 
     SystemApplication() {}
 
-    public void setLaptop(@Nullable Laptop laptop)
-    {
-        this.laptop = laptop;
+    public NeonOS getOS() {
+        return OS;
     }
 
-    @Nullable
-    public Laptop getLaptop()
-    {
-        return laptop;
+    public void setOS(NeonOS OS) {
+        this.OS = OS;
     }
 }

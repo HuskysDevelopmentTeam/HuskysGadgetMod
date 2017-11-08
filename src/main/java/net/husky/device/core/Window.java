@@ -9,6 +9,7 @@ import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.gui.GuiButtonClose;
 import net.husky.device.gui.GuiButtonFullscreen;
 import net.husky.device.gui.GuiButtonMinimise;
+import net.husky.device.programs.system.object.ColourScheme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -28,26 +29,26 @@ public class Window<T extends Wrappable>
 	int width, height;
 	int offsetX, offsetY;
 
-    Laptop laptop;
+    NeonOS NeonOS;
 	Window<Dialog> dialogWindow = null;
 	Window<? extends  Wrappable> parent = null;
 
 	
 	protected GuiButton btnClose, btnMinimize, btnFullscreen;
 	
-	public Window(T wrappable, Laptop laptop)
+	public Window(T wrappable, NeonOS NeonOS)
 	{
 		this.content = wrappable;
-		this.laptop = laptop;
+		this.NeonOS = NeonOS;
 		wrappable.setWindow(this);
 	}
 
 	void setWidth(int width)
 	{
 		this.width = width + 2;
-		if(this.width > Laptop.SCREEN_WIDTH)
+		if(this.width > NeonOS.BASE_SCREEN_WIDTH)
 		{
-			this.width = Laptop.SCREEN_WIDTH;
+			this.width = NeonOS.BASE_SCREEN_WIDTH;
 		}
 	}
 	
@@ -77,14 +78,14 @@ public class Window<T extends Wrappable>
 		content.onTick();
 	}
 
-	public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
+	public void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
 	{
 		if(content.isPendingLayoutUpdate())
 		{
 			this.setWidth(content.getWidth());
 			this.setHeight(content.getHeight());
-			this.offsetX = (Laptop.SCREEN_WIDTH - width) / 2;
-			this.offsetY = (Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height) / 2;
+			this.offsetX = (NeonOS.BASE_SCREEN_WIDTH - width) / 2;
+			this.offsetY = (NeonOS.BASE_SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height) / 2;
 			updateComponents(x, y);
 			content.clearPendingLayout();
 		}
@@ -94,14 +95,14 @@ public class Window<T extends Wrappable>
 		mc.getTextureManager().bindTexture(WINDOW_GUI);
 
 		/* Corners */
-		gui.drawTexturedModalRect(x + offsetX, y + offsetY, 0, 0, 1, 13);
-		gui.drawTexturedModalRect(x + offsetX + width - 13, y + offsetY, 2, 0, 13, 13);
-		gui.drawTexturedModalRect(x + offsetX + width - 1, y + offsetY + height - 1, 14, 14, 1, 1);
-		gui.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
+		OS.drawTexturedModalRect(x + offsetX, y + offsetY, 0, 0, 1, 13);
+		OS.drawTexturedModalRect(x + offsetX + width - 13, y + offsetY, 2, 0, 13, 13);
+		OS.drawTexturedModalRect(x + offsetX + width - 1, y + offsetY + height - 1, 14, 14, 1, 1);
+		OS.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
 
 		/* Edges */
-        ColourRGBA color = new ColourRGBA(100, 255, 255, 255);
-        color.glColour();
+        ColourScheme colourScheme = NeonOS.getSystem().getSettings().getColourScheme();
+        colourScheme.getApplicationBarColour();
 		RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
 		RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
@@ -120,14 +121,14 @@ public class Window<T extends Wrappable>
 		GlStateManager.disableBlend();
 
 		/* Render content */
-		content.render(gui, mc, x + offsetX + 1, y + offsetY + 13, mouseX, mouseY, active && dialogWindow == null, partialTicks);
+		content.render(OS, mc, x + offsetX + 1, y + offsetY + 13, mouseX, mouseY, active && dialogWindow == null, partialTicks);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		if(dialogWindow != null)
 		{
 			Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, COLOUR_WINDOW_DARK);
-			dialogWindow.render(gui, mc, x, y, mouseX, mouseY, active, partialTicks);
+			dialogWindow.render(OS, mc, x, y, mouseX, mouseY, active, partialTicks);
 		}
 	}
 
@@ -156,7 +157,7 @@ public class Window<T extends Wrappable>
 		int newX = offsetX + mouseDX;
 		int newY = offsetY + mouseDY;
 		
-		if(newX >= 0 && newX <= Laptop.SCREEN_WIDTH - width) 
+		if(newX >= 0 && newX <= NeonOS.BASE_SCREEN_WIDTH - width)
 		{
 			this.offsetX = newX;
 		} 
@@ -166,10 +167,10 @@ public class Window<T extends Wrappable>
 		}
 		else 
 		{
-			this.offsetX = Laptop.SCREEN_WIDTH - width;
+			this.offsetX = NeonOS.BASE_SCREEN_WIDTH - width;
 		}
 		
-		if(newY >= 0 && newY <= Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height) 
+		if(newY >= 0 && newY <= NeonOS.BASE_SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height)
 		{
 			this.offsetY = newY;
 		} 
@@ -179,13 +180,13 @@ public class Window<T extends Wrappable>
 		}
 		else 
 		{
-			this.offsetY = Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height;
+			this.offsetY = NeonOS.BASE_SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height;
 		}
 		
 		updateComponents(screenStartX, screenStartY);
 	}
 
-	void handleMouseClick(Laptop gui, int x, int y, int mouseX, int mouseY, int mouseButton)
+	void handleMouseClick(NeonOS gui, int x, int y, int mouseX, int mouseY, int mouseButton)
 	{
 		if(btnClose.isMouseOver())
 		{
@@ -266,7 +267,7 @@ public class Window<T extends Wrappable>
 		}
 		else
 		{
-			dialogWindow = new Window(dialog, laptop);
+			dialogWindow = new Window(dialog, NeonOS);
 			dialogWindow.init(0, 0);
 			dialogWindow.setParent(this);
 		}
@@ -290,7 +291,7 @@ public class Window<T extends Wrappable>
 	{
 		if(content instanceof Application)
 		{
-			laptop.close((Application) content);
+			NeonOS.close((Application) content);
 			return;
 		}
 		if(parent != null)
