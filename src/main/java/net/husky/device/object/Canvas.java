@@ -3,7 +3,6 @@ package net.husky.device.object;
 import net.husky.device.api.app.Component;
 import net.husky.device.api.app.Layout;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.object.Picture.Size;
 import net.husky.device.object.tools.ToolBucket;
 import net.husky.device.object.tools.ToolEraser;
@@ -58,7 +57,7 @@ public class Canvas extends Component
 	public void init(Layout layout) {}
 
 	@Override
-	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
 	{
 		drawRect(xPosition, yPosition, xPosition + picture.getWidth() * picture.getPixelWidth() + 2, yPosition + picture.getHeight() * picture.getPixelHeight() + 2, Color.DARK_GRAY.getRGB());
 		drawRect(xPosition + 1, yPosition + 1, xPosition + picture.getWidth() * picture.getPixelWidth() + 1, yPosition + picture.getHeight() * picture.getPixelHeight() + 1, Color.WHITE.getRGB());

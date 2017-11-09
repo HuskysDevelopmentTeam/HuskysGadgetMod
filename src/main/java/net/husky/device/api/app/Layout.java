@@ -2,7 +2,6 @@ package net.husky.device.api.app;
 
 import net.husky.device.api.app.listener.InitListener;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.util.GLHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -151,13 +150,13 @@ public class Layout extends Component
 	 * Renders the background of this layout if a {@link Background}
 	 * has be set. See {@link #setBackground(Background)}.
 	 * 
-	 * @param OS a Gui instance
+	 * @param laptop a Gui instance
 	 * @param mc a Minecraft instance
 	 * @param x the starting x rendering position (left most)
 	 * @param y the starting y rendering position (top most)
 	 */
 	@Override
-	public void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 	{
 		if(!this.visible)
 			return;
@@ -167,21 +166,21 @@ public class Layout extends Component
 
 		if(background != null)
 		{
-			background.render(OS, mc, x, y, width, height, mouseX, mouseY, windowActive);
+			background.render(laptop, mc, x, y, width, height, mouseX, mouseY, windowActive);
 		}
 
 		GlStateManager.color(1.0F, 1.0F, 1.0F);
 		for(Component c : components)
 		{
 			GlStateManager.disableDepth();
-			c.render(OS, mc, c.xPosition, c.yPosition, mouseX, mouseY, windowActive, partialTicks);
+			c.render(laptop, mc, c.xPosition, c.yPosition, mouseX, mouseY, windowActive, partialTicks);
 		}
 
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
 	
 	@Override
-	public void renderOverlay(NeonOS laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
+	public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
 	{
 		for(Component c : components)
 		{
@@ -348,9 +347,9 @@ public class Layout extends Component
 		}
 
 		@Override
-		public void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+		public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 		{
-			super.render(OS, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
+			super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
 			if(borderVisible)
 			{
 				drawHorizontalLine(x, x + width - 1, y, Color.BLACK.getRGB());

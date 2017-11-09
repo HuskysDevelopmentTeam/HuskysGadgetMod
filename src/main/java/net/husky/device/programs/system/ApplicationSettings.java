@@ -13,7 +13,6 @@ import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.app.renderer.ItemRenderer;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.init.DeviceBlocks;
 import net.husky.device.programs.system.object.ColourScheme;
 import net.husky.device.api.app.component.Button;
@@ -98,12 +97,12 @@ public class ApplicationSettings extends SystemApplication
         {
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 172, y + wallpaperY - 1 + 90, getOS().getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 172, y + wallpaperY - 1 + 90, getLaptop().getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
-            List<ResourceLocation> wallpapers = getOS().getWallapapers();
-            mc.getTextureManager().bindTexture(wallpapers.get(getOS().getCurrentWallpaper()));
+            List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
+            mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
             RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 170, 88, 256, 144);
-            mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getOS().getSettings().getColourScheme().getTextColour(), true);
+            mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
         layoutInformation = new Menu("Information");
@@ -151,41 +150,18 @@ public class ApplicationSettings extends SystemApplication
 
         buttonWallpaperLeft = new Button(185, 27, Icons.ARROW_LEFT);
         buttonWallpaperLeft.setSize(25, 20);
-        buttonWallpaperLeft.setClickListener((c, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                this.getOS().prevWallpaper();
-            }
-        });
         layoutWallpapers.addComponent(buttonWallpaperLeft);
 
         buttonWallpaperRight = new Button(215, 27, Icons.ARROW_RIGHT);
         buttonWallpaperRight.setSize(25, 20);
-        buttonWallpaperRight.setClickListener((c, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                this.getOS().nextWallpaper();
-            }
-        });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
         buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
         buttonWallpaperUrl.setSize(55, 20);
-        /*buttonWallpaperUrl.setClickListener((c, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                showMenu(layoutColourScheme);
-            }
-        });*/
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
         ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(145, 26);
         layoutColourScheme.addComponent(comboBoxTextColour);
-        Label textColour = new Label("Text Colour: ", 80, 29);
-        layoutColourScheme.addComponent(textColour);
 
         ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(145, 44);
         layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
@@ -220,18 +196,16 @@ public class ApplicationSettings extends SystemApplication
             if(mouseButton == 0)
             {
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-                colourScheme.setTextColour(comboBoxTextColour.getValue());
                 colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
-                colourScheme.setTaskBarColour(comboBoxTaskbarColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        OSName = new Label("OS Name: " + Reference.OS_NAME, 10, 50);
+        OSName = new Label("OS Name: " + Reference.OSName, 10, 50);
         layoutInformation.addComponent(OSName);
 
-        OSVersion = new Label("OS Version: " + Reference.OS_VERSION, 10, 65);
+        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
         layoutInformation.addComponent(OSVersion);
 
 		setCurrentLayout(layoutMain);
@@ -274,7 +248,7 @@ public class ApplicationSettings extends SystemApplication
         }
 
         @Override
-        public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+        public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
@@ -303,7 +277,6 @@ public class ApplicationSettings extends SystemApplication
          */
         colourPicker.setChangeListener((oldValue, newValue) ->
         {
-            ColorHelper.setColor(newValue);
             buttonColourSchemeApply.setEnabled(true);
         });
 

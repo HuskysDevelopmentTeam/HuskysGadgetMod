@@ -14,7 +14,6 @@ import net.husky.device.api.app.renderer.ItemRenderer;
 import net.husky.device.api.app.renderer.ListItemRenderer;
 import net.husky.device.api.io.File;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.core.io.FileSystem;
 import net.husky.device.object.Canvas;
 import net.husky.device.object.ColourGrid;
@@ -81,8 +80,8 @@ public class ApplicationPixelPainter extends Application
 		/* Main Menu */
 		layoutMainMenu = new Layout(100, 100);
 
-		/*logo = new Image(35, 5, 28, 28, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
-		layoutMainMenu.addComponent(logo);*/
+		logo = new Image(35, 5, 28, 28, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
+		layoutMainMenu.addComponent(logo);
 
 		labelLogo = new Label("Pixel Painter", 19, 35);
 		layoutMainMenu.addComponent(labelLogo);
@@ -428,7 +427,7 @@ public class ApplicationPixelPainter extends Application
         colourDisplay = new Component(158, 5)
         {
             @Override
-            public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+            public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
             {
                 drawRect(xPosition, yPosition, xPosition + 50, yPosition + 20, Color.DARK_GRAY.getRGB());
                 drawRect(xPosition + 1, yPosition + 1, xPosition + 49, yPosition + 19, canvas.getCurrentColour());

@@ -1,7 +1,6 @@
 package net.husky.device.api.utils;
 
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.object.AppInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -85,6 +84,7 @@ public class RenderUtil
 
 	public static void drawApplicationIcon(@Nullable AppInfo info, double x, double y)
 	{
+		Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.ICON_TEXTURES);
 		if(info != null)
 		{
 			drawRectWithTexture(x, y, info.getIconU(), info.getIconV(), 14, 14, 14, 14, 224, 224);

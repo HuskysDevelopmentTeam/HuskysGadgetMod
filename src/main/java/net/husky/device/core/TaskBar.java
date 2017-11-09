@@ -10,7 +10,6 @@ import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.object.AppInfo;
 import net.husky.device.programs.system.SystemApplication;
-import net.husky.device.programs.system.object.ColourScheme;
 import net.husky.device.util.ColorHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -108,40 +107,39 @@ public class TaskBar
         });
 	}
 
-	public void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		btnLeft.xPosition = x + 5;
 		btnLeft.yPosition = y + 3;
-		btnRight.xPosition = x + (NeonOS.BASE_SCREEN_WIDTH - 50);
+		btnRight.xPosition = x + (Laptop.SCREEN_WIDTH - 50);
 		btnRight.yPosition = y + 3;
 
-        /*if(ColorHelper.hasColorChanged()){
+        if(ColorHelper.hasColorChanged()){
             HuskyDeviceMod.getLogger().info("Changing the taskbar color...");
             r = ColorHelper.getRedAsFloat();
             g = ColorHelper.getGreenAsFloat();
             b = ColorHelper.getBlueAsFloat();
-        }*/
-		ColourScheme colourScheme = NeonOS.getSystem().getSettings().getColourScheme();
-		colourScheme.getTaskBarColour();
+        }
+        GL11.glColor4f(this.r, this.g, this.b, 0.75F);
         GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(APP_BAR_GUI);
-		OS.drawTexturedModalRect(x, y, 0, 0, 1, 18);
-		RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, NeonOS.BASE_SCREEN_WIDTH - 34, 18, 1, 18);
-		OS.drawTexturedModalRect(x + NeonOS.BASE_SCREEN_WIDTH - 33, y, 2, 0, 33, 18);
+		gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
+		RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 34, 18, 1, 18);
+		gui.drawTexturedModalRect(x + Laptop.SCREEN_WIDTH - 33, y, 2, 0, 33, 18);
 		GlStateManager.disableBlend();
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		btnLeft.render(OS, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-		btnRight.render(OS, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+		btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+		btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
 
 		for(int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++)
 		{
 			AppInfo info = applications.get(i + offset).getInfo();
 			RenderUtil.drawApplicationIcon(info, x + 18 + i * 16, y + 2);
-			if(OS.isApplicationRunning(info.getFormattedId()))
+			if(gui.isApplicationRunning(info.getFormattedId()))
 			{
 				mc.getTextureManager().bindTexture(APP_BAR_GUI);
-				OS.drawTexturedModalRect(x + 17 + i * 16, y + 1, 35, 0, 16, 16);
+				gui.drawTexturedModalRect(x + 17 + i * 16, y + 1, 35, 0, 16, 16);
 			}
 		}
 
@@ -155,8 +153,8 @@ public class TaskBar
 			int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
 			if(appIndex < offset + APPS_DISPLAYED && appIndex < applications.size())
 			{
-				OS.drawTexturedModalRect(x + (appIndex - offset) * 16 + 17, y + 1, 35, 0, 16, 16);
-				OS.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
+				gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 17, y + 1, 35, 0, 16, 16);
+				gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
 			}
 		}
 		
@@ -164,7 +162,7 @@ public class TaskBar
 		RenderHelper.disableStandardItemLighting();
 	}
 	
-	public void handleClick(NeonOS OS, int x, int y, int mouseX, int mouseY, int mouseButton)
+	public void handleClick(Laptop laptop, int x, int y, int mouseX, int mouseY, int mouseButton) 
 	{
 		btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
 		btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
@@ -177,7 +175,7 @@ public class TaskBar
 			int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
 			if(appIndex <= offset + APPS_DISPLAYED && appIndex < applications.size())
 			{
-				OS.open(applications.get(appIndex));
+				laptop.open(applications.get(appIndex));
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package net.husky.device.api.app.component;
 
 import net.husky.device.api.app.Component;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 
@@ -16,12 +15,12 @@ public class Tab extends Component {
     }
 
     @Override
-    public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
     }
 
     @Override
-    public void renderOverlay(NeonOS laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
+    public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
         super.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
     }
 

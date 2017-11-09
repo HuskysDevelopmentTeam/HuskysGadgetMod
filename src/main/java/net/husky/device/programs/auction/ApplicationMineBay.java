@@ -15,7 +15,6 @@ import net.husky.device.api.task.TaskManager;
 import net.husky.device.api.utils.BankUtil;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.programs.auction.object.AuctionItem;
 import net.husky.device.programs.auction.task.TaskAddAuction;
 import net.husky.device.programs.auction.task.TaskBuyItem;
@@ -492,7 +491,7 @@ public class ApplicationMineBay extends Application
 	}
 
 	@Override
-	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
 		Gui.drawRect(x, y, x + this.getWidth(), y + 25, Color.GRAY.getRGB());
 		Gui.drawRect(x, y + 24, x + this.getWidth(), y + 25, Color.DARK_GRAY.getRGB());
 		Gui.drawRect(x, y + 25, x + 95, y + this.getHeight(), Color.LIGHT_GRAY.getRGB());

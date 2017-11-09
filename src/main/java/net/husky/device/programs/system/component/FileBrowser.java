@@ -18,7 +18,6 @@ import net.husky.device.api.task.Task;
 import net.husky.device.api.task.TaskManager;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.core.Window;
 import net.husky.device.core.Wrappable;
 import net.husky.device.core.io.FileSystem;
@@ -279,7 +278,7 @@ public class FileBrowser extends Component
                     else if(mode == Mode.FULL && wrappable instanceof SystemApplication)
                     {
                         SystemApplication systemApp = (SystemApplication) wrappable;
-                        NeonOS laptop = systemApp.getOS();
+                        Laptop laptop = systemApp.getLaptop();
                         if(laptop != null)
                         {
                             //TODO change to check if application is installed

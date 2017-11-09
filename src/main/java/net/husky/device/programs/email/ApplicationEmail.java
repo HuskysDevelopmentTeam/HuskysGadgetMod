@@ -141,8 +141,8 @@ public class ApplicationEmail extends Application
 		
 		layoutMainMenu = new Layout(100, 75);
 
-		/*logo = new Image(35, 5, 28, 28, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
-		layoutMainMenu.addComponent(logo);*/
+		logo = new Image(35, 5, 28, 28, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
+		layoutMainMenu.addComponent(logo);
 
 		labelLogo = new Label("Ender Mail", 50, 35);
 		labelLogo.setAlignment(Component.ALIGN_CENTER);

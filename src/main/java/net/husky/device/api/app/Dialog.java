@@ -7,7 +7,6 @@ import net.husky.device.api.app.component.TextField;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.io.File;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.core.Wrappable;
 import net.husky.device.core.io.FileSystem;
 import net.husky.device.programs.system.component.FileBrowser;
@@ -75,7 +74,7 @@ public abstract class Dialog extends Wrappable
 	}
 
 	@Override
-	public void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
+	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
 	{
 		customLayout.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
 		customLayout.renderOverlay(laptop, mc, mouseX, mouseY, active);

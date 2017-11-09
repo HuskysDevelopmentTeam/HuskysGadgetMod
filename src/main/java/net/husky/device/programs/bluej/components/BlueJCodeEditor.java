@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-import net.husky.device.core.NeonOS;
 import org.lwjgl.input.Keyboard;
 
 import net.husky.device.api.app.Component;
@@ -84,7 +83,7 @@ public class BlueJCodeEditor extends Component {
 	}
 	
 	@Override
-	protected void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+	protected void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
 		if(!visible) return;
 		
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

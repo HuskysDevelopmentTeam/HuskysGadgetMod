@@ -3,7 +3,6 @@ package net.husky.device.api.app.component;
 import net.husky.device.api.app.Component;
 import net.husky.device.api.app.Layout;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.util.GLHelper;
 import net.husky.device.util.GuiHelper;
 import net.minecraft.client.Minecraft;
@@ -75,7 +74,7 @@ public class Palette extends Component
     }
 
     @Override
-    protected void render(NeonOS laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+    protected void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
     {
         Gui.drawRect(x, y, x + 52, y + 52, Color.DARK_GRAY.getRGB());
 

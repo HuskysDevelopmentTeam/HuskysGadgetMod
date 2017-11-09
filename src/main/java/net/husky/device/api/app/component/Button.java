@@ -6,7 +6,6 @@ import net.husky.device.api.app.IIcon;
 import net.husky.device.api.app.listener.ClickListener;
 import net.husky.device.api.utils.RenderUtil;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -189,7 +188,7 @@ I	 * @param top how many pixels from the top
 	}
 
 	@Override
-	public void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
 	{
 		if (this.visible)
         {
@@ -240,7 +239,7 @@ I	 * @param top how many pixels from the top
 	}
 	
 	@Override
-	public void renderOverlay(NeonOS laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
+	public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) 
 	{
         if(this.hovered && this.toolTip != null)
         {

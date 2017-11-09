@@ -5,7 +5,6 @@ import net.husky.device.Reference;
 import net.husky.device.api.ApplicationManager;
 import net.husky.device.api.app.Application;
 import net.husky.device.core.Laptop;
-import net.husky.device.core.NeonOS;
 import net.husky.device.init.DeviceBlocks;
 import net.husky.device.init.DeviceItems;
 import net.husky.device.object.AppInfo;
@@ -118,6 +117,7 @@ public class ClientProxy extends CommonProxy
         }
 
         g.dispose();
+        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.ICON_TEXTURES, new DynamicTexture(atlas));
     }
 
     private void updateIcon(AppInfo info, int iconU, int iconV)
@@ -138,7 +138,7 @@ public class ClientProxy extends CommonProxy
         try
         {
             Application application = clazz.newInstance();
-            java.util.List<Application> APPS = NeonOS.APPLICATIONS;
+            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
             APPS.add(application);
 
             AppInfo info = new AppInfo(identifier);

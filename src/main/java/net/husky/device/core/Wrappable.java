@@ -25,8 +25,8 @@ public abstract class Wrappable
 	 * The main render loop. Note if you override, make sure you call this super
 	 * method.
 	 * 
-	 * @param OS
-	 *            neonos instance
+	 * @param laptop
+	 *            laptop instance
 	 * @param mc
 	 *            a Minecraft instance
 	 * @param x
@@ -42,7 +42,7 @@ public abstract class Wrappable
 	 * @param partialTicks
 	 *            time passed since tick
 	 */
-	public abstract void render(NeonOS OS, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks);
+	public abstract void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks);
 
 	/**
 	 * Called when a key is typed from your keyboard. Note if you override, make
