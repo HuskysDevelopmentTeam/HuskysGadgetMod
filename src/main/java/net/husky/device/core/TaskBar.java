@@ -114,12 +114,12 @@ public class TaskBar
 		btnRight.xPosition = x + (Laptop.SCREEN_WIDTH - 50);
 		btnRight.yPosition = y + 3;
 
-        if(ColorHelper.hasColorChanged()){
+        /*if(ColorHelper.hasColorChanged()){
             HuskyDeviceMod.getLogger().info("Changing the taskbar color...");
             r = ColorHelper.getRedAsFloat();
             g = ColorHelper.getGreenAsFloat();
             b = ColorHelper.getBlueAsFloat();
-        }
+        }*/
         GL11.glColor4f(this.r, this.g, this.b, 0.75F);
         GlStateManager.enableBlend();
 		mc.getTextureManager().bindTexture(APP_BAR_GUI);

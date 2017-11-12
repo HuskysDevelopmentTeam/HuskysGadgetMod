@@ -125,7 +125,18 @@ public enum Icons implements IIcon
     LIGHT_GRAY_CHEVRON_RIGHT,
     LIGHT_GRAY_CHEVRON_DOWN,
     LIGHT_GRAY_CHEVRON_UP,
-    LIGHT_GRAY_CHEVRON_LEFT;
+    LIGHT_GRAY_CHEVRON_LEFT,
+    COIN,
+    CASH,
+    VERIFIED,
+    BOOK_CLOSED,
+    BOOK_OPEN,
+    VIDEO_ROLL,
+    VIDEO_CAMERA,
+    LIGHT_BULB_OFF,
+    LIGHT_BULB_ON,
+    LOCATION,
+    SEND;
 
     private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icons.png");
 

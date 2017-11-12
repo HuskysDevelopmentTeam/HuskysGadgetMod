@@ -202,10 +202,10 @@ public class ApplicationSettings extends SystemApplication
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        OSName = new Label("OS Name: " + Reference.OSName, 10, 50);
+        OSName = new Label("OS Name: " + Reference.OS_NAME, 10, 50);
         layoutInformation.addComponent(OSName);
 
-        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
+        OSVersion = new Label("OS Version: " + Reference.OS_VERSION, 10, 65);
         layoutInformation.addComponent(OSVersion);
 
 		setCurrentLayout(layoutMain);

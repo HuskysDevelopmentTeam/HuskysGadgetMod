@@ -13,7 +13,7 @@ public class ApplicationIcons extends Application
     public ApplicationIcons()
     {
         this.setDefaultWidth(278);
-        this.setDefaultHeight(150);
+        this.setDefaultHeight(173);
     }
 
     @Override
