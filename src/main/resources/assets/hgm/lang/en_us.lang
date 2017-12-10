@@ -1,8 +1,11 @@
 itemGroup.hgmTabDevice=Husky's Device Mod
 
 tile.laptop.name=Laptop
+tile.router.name=Router
+tile.printer.name=Printer
 
 item.flash_drive.name=Flash Drive
+item.printed_paper.name=Printed Paper
 
 app.hgm.settings.name=Settings
 app.hgm.bank.name=Bank

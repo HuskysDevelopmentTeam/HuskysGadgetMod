@@ -1,0 +1,161 @@
+package net.thegaminghuskymc.gadgetmod;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import net.thegaminghuskymc.gadgetmod.core.io.task.*;
+import net.thegaminghuskymc.gadgetmod.event.BankEvents;
+import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
+import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
+import net.thegaminghuskymc.gadgetmod.init.DeviceBlocks;
+import net.thegaminghuskymc.gadgetmod.init.DeviceCrafting;
+import net.thegaminghuskymc.gadgetmod.init.DeviceItems;
+import net.thegaminghuskymc.gadgetmod.init.DeviceTileEntites;
+import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
+import net.thegaminghuskymc.gadgetmod.programs.*;
+import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationMineBay;
+import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
+import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
+import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
+import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationFileBrowser;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
+import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
+import org.apache.logging.log4j.Logger;
+
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.ModVersion, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
+public class HuskyGadgetMod {
+    @Instance(Reference.MOD_ID)
+    public static HuskyGadgetMod instance;
+
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
+    public static CommonProxy proxy;
+
+    public static CreativeTabs tabDevice = new DeviceTab("hdmTabDevice");
+    public static boolean DEVELOPER_MODE;
+    public static boolean HUSKY_MODE;
+    private static Logger logger;
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+
+        DEVELOPER_MODE = false;
+        HUSKY_MODE = true;
+
+        logger = event.getModLog();
+
+        /* Block Registering */
+        DeviceBlocks.init();
+        DeviceBlocks.register();
+
+        DeviceItems.init();
+        DeviceItems.register();
+
+        /* Packet Registering */
+        PacketHandler.init();
+
+        proxy.preInit();
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        /* Crafting Registering */
+        DeviceCrafting.register();
+
+        /* Tile Entity Registering */
+        DeviceTileEntites.register();
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+
+        MinecraftForge.EVENT_BUS.register(new EmailEvents());
+        MinecraftForge.EVENT_BUS.register(new BankEvents());
+
+        registerApplications();
+
+        proxy.init();
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit();
+    }
+
+    private void registerApplications() {
+        // Applications (Both)
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "settings"), ApplicationSettings.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bank"), ApplicationBank.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "file_browser"), ApplicationFileBrowser.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "note_stash"), ApplicationNoteStash.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_painter"), ApplicationPixelPainter.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "ender_mail"), ApplicationEmail.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "app_store"), ApplicationAppStore.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+
+        // Core
+        TaskManager.registerTask(TaskUpdateApplicationData.class);
+        TaskManager.registerTask(TaskUpdateSystemData.class);
+
+        //Bank
+        TaskManager.registerTask(ApplicationBank.TaskDeposit.class);
+        TaskManager.registerTask(ApplicationBank.TaskWithdraw.class);
+        TaskManager.registerTask(TaskGetBalance.class);
+        TaskManager.registerTask(TaskPay.class);
+        TaskManager.registerTask(TaskAdd.class);
+        TaskManager.registerTask(TaskRemove.class);
+
+        //File Browser
+        TaskManager.registerTask(TaskSendAction.class);
+        TaskManager.registerTask(TaskSetupFileBrowser.class);
+        TaskManager.registerTask(TaskGetFiles.class);
+        TaskManager.registerTask(TaskGetStructure.class);
+        TaskManager.registerTask(TaskGetMainDrive.class);
+
+        //Ender Mail
+        TaskManager.registerTask(TaskUpdateInbox.class);
+        TaskManager.registerTask(TaskSendEmail.class);
+        TaskManager.registerTask(TaskCheckEmailAccount.class);
+        TaskManager.registerTask(TaskRegisterEmailAccount.class);
+        TaskManager.registerTask(TaskDeleteEmail.class);
+        TaskManager.registerTask(TaskViewEmail.class);
+
+        if (HUSKY_MODE) {
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "craycord"), ApplicationDiscord.class);
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "craybook"), ApplicationFacebook.class);
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cray_plus"), ApplicationGooglePlus.class);
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "twitter"), ApplicationTwitter.class);
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "craytube"), ApplicationYouTube.class);
+        }
+
+        if (!DEVELOPER_MODE) {
+            // Tasks (Normal)
+            TaskManager.registerTask(TaskAddAuction.class);
+            TaskManager.registerTask(TaskGetAuctions.class);
+            TaskManager.registerTask(TaskBuyItem.class);
+        } else {
+            // Applications (Developers)
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "example"), ApplicationExample.class);
+        }
+    }
+}
