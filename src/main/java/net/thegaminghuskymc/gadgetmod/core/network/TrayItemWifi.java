@@ -10,6 +10,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
@@ -36,16 +37,17 @@ public class TrayItemWifi extends TrayItem
     {
         this.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(Laptop.getSystem().hasContext())
+        	if(Laptop.getSystem().hasContext())
             {
                 Laptop.getSystem().closeContext();
             }
             else
             {
-                Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 100);
+                //Laptop.getSystem().openContext(createWifiMenu(this), 222, 24); // Fixed position
+            	Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 100);
             }
         });
-
+    	
         runPingTask();
     }
 

@@ -93,6 +93,8 @@ public class TaskBar
                 offset++;
             }
         });
+        
+        trayItems.forEach(TrayItem::init);
     }
 
     public void onTick()
