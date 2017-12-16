@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app.listener;
 
-import net.husky.device.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 
 /**
  * The release listener interface. Used for handling releasing

@@ -1,12 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.api.utils;
 
-import net.husky.device.api.task.Callback;
-import net.husky.device.api.task.TaskManager;
-import net.husky.device.programs.system.object.Account;
-import net.husky.device.programs.system.task.TaskAdd;
-import net.husky.device.programs.system.task.TaskGetBalance;
-import net.husky.device.programs.system.task.TaskPay;
-import net.husky.device.programs.system.task.TaskRemove;
+import net.thegaminghuskymc.gadgetmod.api.task.Callback;
+import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskAdd;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskGetBalance;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskPay;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskRemove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,7 +36,7 @@ public class BankUtil {
 
     /**
      * Sends a request to get the balance of this user's account. To actually get
-     * the balance, you need to implement a {@link net.husky.device.api.task.Callback}
+     * the balance, you need to implement a {@link net.thegaminghuskymc.gadgetmod.api.task.Callback}
      * and get the integer with the key "balance" from the NBT parameter.
      *
      * @param callback he callback object to processing the response

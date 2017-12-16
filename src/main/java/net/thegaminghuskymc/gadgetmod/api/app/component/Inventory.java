@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,6 +15,7 @@ import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import scala.actors.threadpool.Arrays;
 
 import java.awt.*;
+
 
 /**
  * A component that allows you "access" to the players inventory. Now why access
@@ -96,7 +98,7 @@ public class Inventory extends Component {
                 if (GuiHelper.isMouseInside(mouseX, mouseY, x, y, x + 18, y + 18)) {
                     this.selected = (i * 9) + j + 9;
                     if (clickListener != null) {
-                        clickListener.onClick(this, mouseButton);
+                        clickListener.onClick(mouseX, mouseY, mouseButton);
                     }
                     return;
                 }

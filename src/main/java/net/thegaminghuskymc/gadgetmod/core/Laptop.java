@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.core;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,6 +17,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
@@ -35,16 +37,12 @@ public class Laptop extends GuiScreen implements System {
 
     public static final int ID = 1;
     public static final ResourceLocation ICON_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_icons.png");
+    public static final FontRenderer fontRenderer = new LaptopFontRenderer(Minecraft.getMinecraft());
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     private static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
-
     private static final int BORDER = 10;
     private static final int DEVICE_WIDTH = 464;
-    //    private static final int DEVICE_WIDTH = 384;
-//    private static final int DEVICE_HEIGHT = 216;
-//    private static final int DEVICE_WIDTH = 404;
-//    private static final int DEVICE_HEIGHT = 226;
     static final int SCREEN_WIDTH = DEVICE_WIDTH - BORDER * 2;
     private static final int DEVICE_HEIGHT = 246;
     static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
@@ -52,10 +50,10 @@ public class Laptop extends GuiScreen implements System {
     private static System system;
     private static BlockPos pos;
     private static Drive mainDrive;
-    public String OSName;
-    public String OSVersion;
-    public String username;
-    public String password;
+    private String OSName;
+    private String OSVersion;
+    private String username;
+    private String password;
     private Settings settings;
     private TaskBar bar;
     private Window[] windows;
@@ -77,7 +75,9 @@ public class Laptop extends GuiScreen implements System {
             this.currentWallpaper = 0;
         }
         Laptop.system = this;
-        pos = laptop.getPos();
+        Laptop.pos = laptop.getPos();
+        this.username = "admin";
+        this.password = "password";
     }
 
     @Nullable
@@ -111,18 +111,16 @@ public class Laptop extends GuiScreen implements System {
         Keyboard.enableRepeatEvents(true);
         int posX = (width - DEVICE_WIDTH) / 2;
         int posY = (height - DEVICE_HEIGHT) / 2;
-        bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 28);
+        bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 236);
     }
 
     @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
 
-        /* Close all windows and sendTask application data */
-        for (Window<Application> window : windows) {
-            if (window != null) {
+        for (Window window : windows) {
+            if (window != null)
                 window.close();
-            }
         }
 
         /* Send system data */
@@ -139,15 +137,16 @@ public class Laptop extends GuiScreen implements System {
     @Override
     public void onResize(Minecraft mcIn, int width, int height) {
         super.onResize(mcIn, width, height);
-        for (Window<Application> window : windows) {
-            if (window != null) {
+        for (Window window : windows) {
+            if (window != null)
                 window.content.markForLayoutUpdate();
-            }
         }
     }
 
     @Override
     public void updateScreen() {
+        bar.onTick();
+
         for (Window window : windows) {
             if (window != null) {
                 window.onTick();
@@ -185,13 +184,7 @@ public class Laptop extends GuiScreen implements System {
 
         /* Wallpaper */
         this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
-        RenderUtil.drawRectWithTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 256, 144);
-
-        /*if (HuskyGadgetMod.DEVELOPER_MODE = false) {
-            drawString(fontRenderer, "Alpha v" + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
-        } else {
-            drawString(fontRenderer, "Developer Version - " + Reference.VERSION, posX + BORDER + 5, posY + BORDER + 5, Color.WHITE.getRGB());
-        }*/
+        RenderUtil.drawRectWithFullTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         boolean insideContext = false;
         if (context != null) {
@@ -207,7 +200,7 @@ public class Laptop extends GuiScreen implements System {
         }
 
         /* Application Bar */
-        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
 
         if (context != null) {
             context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
@@ -236,7 +229,7 @@ public class Laptop extends GuiScreen implements System {
             }
         }
 
-        this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+        this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - 226, mouseX, mouseY, mouseButton);
 
         for (int i = 0; i < windows.length; i++) {
             Window<Application> window = windows[i];
@@ -472,12 +465,6 @@ public class Laptop extends GuiScreen implements System {
         return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX, posY + window.offsetY, posX + window.offsetX + window.width, posY + window.offsetY + window.height);
     }
 
-    public boolean isMouseWithinApp(int mouseX, int mouseY, Window window) {
-        int posX = (width - SCREEN_WIDTH) / 2;
-        int posY = (height - SCREEN_HEIGHT) / 2;
-        return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX + 1, posY + window.offsetY + 13, posX + window.offsetX + window.width - 1, posY + window.offsetY + window.height - 1);
-    }
-
     public boolean isApplicationRunning(String appId) {
         for (Window window : windows) {
             if (window != null && ((Application) window.content).getInfo().getFormattedId().equals(appId)) {
@@ -516,48 +503,8 @@ public class Laptop extends GuiScreen implements System {
         return APPLICATIONS;
     }
 
-    public TaskBar getTaskBar() {
-        return bar;
-    }
-
     public Settings getSettings() {
         return settings;
-    }
-
-    public String getOSName() {
-        return OSName;
-    }
-
-    public String setOSName(String OSName) {
-        this.OSName = OSName;
-        return OSName;
-    }
-
-    public String getOSVersion() {
-        return OSVersion;
-    }
-
-    public String setOSVersion(String OSVersion) {
-        this.OSVersion = OSVersion;
-        return OSVersion;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String setUsername(String username) {
-        this.username = username;
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String setPassword(String password) {
-        this.password = password;
-        return password;
     }
 
     @Override
@@ -569,6 +516,7 @@ public class Laptop extends GuiScreen implements System {
     public void openContext(Layout layout, int x, int y) {
         layout.updateComponents(x, y);
         context = layout;
+        layout.init();
     }
 
     @Override

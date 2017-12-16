@@ -149,7 +149,7 @@ public class ApplicationBlueJ extends Application {
 
     ////////////////////////// Project Buttons Handlers //////////////////////////
 
-    private void createProjectHandler(Component c, int button) {
+    private void createProjectHandler(int mouseX, int mouseY, int mouseButton) {
         currentProject = new Project();
         Dialog.SaveFile input = new Dialog.SaveFile(this, new NBTTagCompound());
         input.setResponseHandler((success, file) -> {
@@ -164,7 +164,7 @@ public class ApplicationBlueJ extends Application {
         openDialog(input);
     }
 
-    private void loadProjectHandler(Component c, int button) {
+    private void loadProjectHandler(int mouseX, int mouseY, int mouseButton) {
         unloadProject(() -> {
             Dialog.OpenFile open = new Dialog.OpenFile(this);
             open.setResponseHandler((success, file) -> {
@@ -177,7 +177,7 @@ public class ApplicationBlueJ extends Application {
         });
     }
 
-    private void archiveProjectHandler(Component c, int button) {
+    private void archiveProjectHandler(int mouseX, int mouseY, int mouseButton) {
         NBTTagCompound tag = currentProject.archive();
         // TODO: Change from Runner to a newer once we have newer one
         Dialog.SaveFile file = new Dialog.SaveFile(this, new File("", "idemodthingy:dynamicapp", tag));
@@ -189,7 +189,7 @@ public class ApplicationBlueJ extends Application {
 
     ////////////////////////// File Buttons Handlers //////////////////////////
 
-    private void newFileHandler(Component c, int button) {
+    private void newFileHandler(int mouseX, int mouseY, int mouseButton) {
         AddFileDialog input = new AddFileDialog("File name");
         input.setResponseHandler((success, file) -> {
             if (success) {
@@ -201,7 +201,7 @@ public class ApplicationBlueJ extends Application {
         openDialog(input);
     }
 
-    private void deleteFileHandler(Component c, int button) {
+    private void deleteFileHandler(int mouseX, int mouseY, int mouseButton) {
         files.removeItem(files.getSelectedIndex());
         deleteFile.setEnabled(false);
         codeEditor.setEditable(false);
@@ -211,7 +211,7 @@ public class ApplicationBlueJ extends Application {
         openedFile = null;
     }
 
-    private void saveFileHandler(Component c, int button) {
+    private void saveFileHandler(int mouseX, int mouseY, int mouseButton) {
         saveOpenedFile();
     }
 
@@ -253,11 +253,11 @@ public class ApplicationBlueJ extends Application {
     public void unloadFile(Runnable runnable) {
         if (openedFile != null && codeEditor.getText().hashCode() != openedFileHash) {
             Dialog.Confirmation shouldSave = new Dialog.Confirmation("Do you want to save before exiting?");
-            shouldSave.setPositiveListener((c, button) -> {
+            shouldSave.setPositiveListener((mouseX, mouseY, mouseButton) -> {
                 saveOpenedFile();
                 runnable.run();
             });
-            shouldSave.setNegativeListener((c, button) -> {
+            shouldSave.setNegativeListener((mouseX, mouseY, mouseButton) -> {
                 runnable.run();
             });
             openDialog(shouldSave);

@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
 import net.minecraft.client.Minecraft;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
 import java.awt.*;
-
 
 public class ProgressBar extends Component {
     protected int width, height;

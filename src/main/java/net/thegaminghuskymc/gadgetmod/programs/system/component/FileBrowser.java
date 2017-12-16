@@ -1,8 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.component;
 
-import net.husky.device.api.app.*;
-import net.husky.device.api.app.component.*;
-import net.husky.device.programs.system.SystemApplication;
+import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,10 +15,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -29,7 +27,6 @@ import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
@@ -40,6 +37,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import java.awt.*;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +48,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Casey on 20-Jun-17.
  */
-public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Component {
+public class FileBrowser extends Component {
     private static final ResourceLocation ASSETS = new ResourceLocation(Reference.MOD_ID, "textures/gui/file_browser.png");
 
     private static final Color HEADER_BACKGROUND = Color.decode("0x616161");
@@ -143,7 +141,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
         });
 
         btnPreviousFolder = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 2, Icons.ARROW_LEFT);
-        btnPreviousFolder.setClickListener((c, mouseButton) ->
+        btnPreviousFolder.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 goToPreviousFolder();
@@ -156,7 +154,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
         int btnIndex = 0;
 
         btnNewFolder = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.NEW_FOLDER);
-        btnNewFolder.setClickListener((b, mouseButton) ->
+        btnNewFolder.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 createFolder();
@@ -168,7 +166,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
         btnIndex++;
 
         btnRename = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.RENAME);
-        btnRename.setClickListener((c, mouseButton) ->
+        btnRename.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 renameSelectedFile();
@@ -182,7 +180,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
             btnIndex++;
 
             btnCopy = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.COPY);
-            btnCopy.setClickListener((b, mouseButton) ->
+            btnCopy.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
                     setClipboardFileToSelected();
@@ -195,7 +193,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
             btnIndex++;
 
             btnCut = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.CUT);
-            btnCut.setClickListener((c, mouseButton) ->
+            btnCut.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
                     cutSelectedFile();
@@ -208,7 +206,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
             btnIndex++;
 
             btnPaste = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.CLIPBOARD);
-            btnPaste.setClickListener((b, mouseButton) ->
+            btnPaste.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
                     pasteClipboardFile();
@@ -222,7 +220,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
         btnIndex++;
 
         btnDelete = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.TRASH);
-        btnDelete.setClickListener((b, mouseButton) ->
+        btnDelete.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 deleteSelectedFile();
@@ -557,7 +555,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
             dialog.setMessageText(builder.toString());
             dialog.setTitle("Delete");
             dialog.setPositiveText("Yes");
-            dialog.setPositiveListener((c, mouseButton1) ->
+            dialog.setPositiveListener((mouseX, mouseY, mouseButton1) ->
             {
                 removeFile(fileList.getSelectedIndex());
                 btnRename.setEnabled(false);
@@ -651,7 +649,7 @@ public class FileBrowser extends net.thegaminghuskymc.gadgetmod.api.app.Componen
                 if (currentFolder.hasFile(clipboardFile.getName())) {
                     net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation("A file with the same name already exists in this directory. Do you want to override it?");
                     dialog.setPositiveText("Override");
-                    dialog.setPositiveListener((c, mouseButton) ->
+                    dialog.setPositiveListener((mouseX, mouseY, mouseButton) ->
                     {
                         if (mouseButton == 0) {
                             handleCopyCut(true);

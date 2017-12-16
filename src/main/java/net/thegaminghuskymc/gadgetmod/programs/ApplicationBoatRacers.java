@@ -1,12 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
-import net.husky.device.object.tiles.Tile;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.CheckBox;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
@@ -50,52 +50,31 @@ public class ApplicationBoatRacers extends Application {
         layoutLevelEditor.addComponent(labelLayer);
 
         btnNextLayer = new Button(266, 106, Icons.CHEVRON_RIGHT);
-        btnNextLayer.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                game.nextLayer();
-                labelLayer.setText(Integer.toString(game.getCurrentLayer().layer + 1));
-            }
+        btnNextLayer.setClickListener((mouseX, mouseY, mouseButton) -> {
+            game.nextLayer();
+            labelLayer.setText(Integer.toString(game.getCurrentLayer().layer + 1));
         });
         layoutLevelEditor.addComponent(btnNextLayer);
 
         btnPrevLayer = new Button(314, 106, Icons.CHEVRON_LEFT);
-        btnPrevLayer.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                game.prevLayer();
-                labelLayer.setText(Integer.toString(game.getCurrentLayer().layer + 1));
-            }
+        btnPrevLayer.setClickListener((mouseX, mouseY, mouseButton) -> {
+            game.prevLayer();
+            labelLayer.setText(Integer.toString(game.getCurrentLayer().layer + 1));
         });
         layoutLevelEditor.addComponent(btnPrevLayer);
 
         checkBoxBackground = new CheckBox("Background", 3, 151);
-        checkBoxBackground.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                game.setRenderBackground(checkBoxBackground.isSelected());
-            }
-        });
+        checkBoxBackground.setClickListener((mouseX, mouseY, mouseButton) -> game.setRenderBackground(checkBoxBackground.isSelected()));
         checkBoxBackground.setSelected(true);
         layoutLevelEditor.addComponent(checkBoxBackground);
 
         checkBoxForeground = new CheckBox("Foreground", 80, 151);
-        checkBoxForeground.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                game.setRenderForeground(checkBoxForeground.isSelected());
-            }
-        });
+        checkBoxForeground.setClickListener((mouseX, mouseY, mouseButton) -> game.setRenderForeground(checkBoxForeground.isSelected()));
         checkBoxForeground.setSelected(true);
         layoutLevelEditor.addComponent(checkBoxForeground);
 
         checkBoxPlayer = new CheckBox("Player", 160, 151);
-        checkBoxPlayer.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                game.setRenderPlayer(checkBoxPlayer.isSelected());
-            }
-        });
+        checkBoxPlayer.setClickListener((mouseX, mouseY, mouseButton) -> game.setRenderPlayer(checkBoxPlayer.isSelected()));
         layoutLevelEditor.addComponent(checkBoxPlayer);
 
         setCurrentLayout(layoutLevelEditor);

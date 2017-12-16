@@ -71,7 +71,7 @@ public class AddFileDialog extends Dialog {
         int positiveWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(positiveText);
         buttonPositive = new Button(getWidth() - positiveWidth - 15, getHeight() - 20, positiveText);
         buttonPositive.setSize(positiveWidth + 10, 15);
-        buttonPositive.setClickListener((c, mouseButton) -> {
+        buttonPositive.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (!textFieldInput.getText().isEmpty()) {
                 boolean close = true;
                 if (responseListener != null) {
@@ -87,7 +87,7 @@ public class AddFileDialog extends Dialog {
         buttonNegative = new Button(getWidth() - positiveWidth - negativeWidth - 15 - 15, getHeight() - 20,
                 negativeText);
         buttonNegative.setSize(negativeWidth + 10, 15);
-        buttonNegative.setClickListener((c, mouseButton) -> close());
+        buttonNegative.setClickListener((mouseX, mouseY, mouseButton) -> close());
         this.addComponent(buttonNegative);
     }
 

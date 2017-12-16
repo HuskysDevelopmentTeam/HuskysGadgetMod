@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.IIcon;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -78,7 +78,7 @@ public class ButtonToggle extends Button implements RadioGroup.Item {
 
         if (super.isInside(mouseX, mouseY)) {
             if (clickListener != null) {
-                clickListener.onClick(this, mouseButton);
+                clickListener.onClick(mouseX, mouseY, mouseButton);
             }
             playClickSound(Minecraft.getMinecraft().getSoundHandler());
             if (group != null) {

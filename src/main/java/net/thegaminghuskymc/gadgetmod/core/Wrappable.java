@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.husky.device.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.minecraft.client.Minecraft;
 
 public abstract class Wrappable {

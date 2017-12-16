@@ -73,13 +73,6 @@ public class ApplicationDiscord extends Application {
 
     @Override
     public void init() {
-        ClickListener cl = new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                activeTab = ((ButtonTab) c).getTabIndex();
-            }
-        };
-
         serverList = new Layout(60, 130);
         serverList.setBackground(new Layout.Background() {
             @Override
@@ -96,7 +89,7 @@ public class ApplicationDiscord extends Application {
                 gui.drawRect(x, y, x + width, y + height, new ColourRGBA(32, 34, 37, 255).argb());
             }
         });
-//        super.addComponent(messages);
+        super.addComponent(messages);
 
         for (int i = 0; i < 4; i++) {
             servers[i] = serverList;

@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;

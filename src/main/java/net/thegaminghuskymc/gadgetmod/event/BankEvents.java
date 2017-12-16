@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.event;
 
-import net.husky.device.api.utils.BankUtil;
+import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;

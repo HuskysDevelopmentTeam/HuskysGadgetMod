@@ -1,7 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
-import net.husky.device.api.app.*;
-import net.husky.device.api.app.component.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.app.*;
@@ -68,13 +66,13 @@ public class ApplicationNoteStash extends Application {
 
         btnNew = new Button(124, 5, "Create");
         btnNew.setSize(50, 20);
-        btnNew.setClickListener((c, mouseButton) -> setCurrentLayout(layoutCreateNote));
+        btnNew.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutCreateNote));
         layoutHistory.addComponent(btnNew);
 
         btnShow = new Button(124, 30, "Show");
         btnShow.setSize(50, 20);
         btnShow.setEnabled(false);
-        btnShow.setClickListener((c, mouseButton) ->
+        btnShow.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (notes.getSelectedIndex() != -1) {
                 Note note = notes.getSelectedItem();
@@ -88,7 +86,7 @@ public class ApplicationNoteStash extends Application {
         btnRemove = new Button(124, 55, "Remove");
         btnRemove.setSize(50, 20);
         btnRemove.setEnabled(false);
-        btnRemove.setClickListener((c, mouseButton) ->
+        btnRemove.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (notes.getSelectedIndex() != -1) {
                 if (notes.getSelectedIndex() != -1) {
@@ -124,60 +122,11 @@ public class ApplicationNoteStash extends Application {
         textArea = new TextArea(5, 5, 135, 100);
         textArea.setFocused(true);
         textArea.setPadding(2);
-        textArea.setAlignment(Component.ALIGN_RIGHT);
         layoutCreateNote.addComponent(textArea);
-
-        Button allignLeft = new Button(158, 5, Icons.ALIGN_LEFT);
-        allignLeft.setToolTip("Align Text Left", "");
-        allignLeft.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (mouseButton == 0) {
-                    textArea.setAlignment(Component.ALIGN_LEFT);
-                }
-            }
-        });
-        layoutCreateNote.addComponent(allignLeft);
-
-        Button allignRight = new Button(158, 22, Icons.ALIGN_RIGHT);
-        allignRight.setToolTip("Align Text Right", "");
-        allignRight.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (mouseButton == 0) {
-                    textArea.setAlignment(Component.ALIGN_RIGHT);
-                }
-            }
-        });
-        layoutCreateNote.addComponent(allignRight);
-
-        Button allignCenter = new Button(158, 39, Icons.ALIGN_CENTER);
-        allignCenter.setToolTip("Align Text Center", "");
-        allignCenter.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (mouseButton == 0) {
-                    textArea.setAlignment(Component.ALIGN_CENTER);
-                }
-            }
-        });
-        layoutCreateNote.addComponent(allignCenter);
-
-        Button allignJustify = new Button(158, 56, Icons.ALIGN_JUSTIFY);
-        allignJustify.setToolTip("Align Text Justify", "");
-        allignJustify.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (mouseButton == 0) {
-                    textArea.setAlignment(Component.ALIGN_JUSTIFY);
-                }
-            }
-        });
-        layoutCreateNote.addComponent(allignJustify);
 
         btnSave = new Button(175, 110, Icons.SAVE);
         btnSave.setToolTip("Save", "Saves this file");
-        btnSave.setClickListener((c, mouseButton) ->
+        btnSave.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             NBTTagCompound data = new NBTTagCompound();
             data.setString("content", textArea.getText());
@@ -196,7 +145,7 @@ public class ApplicationNoteStash extends Application {
 
         btnHistory = new Button(158, 110, Icons.CLOCK);
         btnHistory.setToolTip("History", "Look on other older edited notes");
-        btnHistory.setClickListener((c, mouseButton) ->
+        btnHistory.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             textArea.clear();
             setCurrentLayout(layoutHistory);
@@ -215,7 +164,7 @@ public class ApplicationNoteStash extends Application {
 
         btnBack = new Button(124, 5, "Back");
         btnBack.setSize(50, 20);
-        btnBack.setClickListener((c, mouseButton) -> setCurrentLayout(layoutHistory));
+        btnBack.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutHistory));
         layoutShowNote.addComponent(btnBack);
 
         setCurrentLayout(layoutCreateNote);

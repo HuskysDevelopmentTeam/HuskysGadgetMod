@@ -1,9 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Layout;
-import net.husky.device.api.app.listener.ChangeListener;
-import net.husky.device.api.app.renderer.ItemRenderer;
-import net.husky.device.api.app.renderer.ListItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ChangeListener;
+import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

@@ -1,13 +1,16 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
-import net.husky.device.api.app.Icons;
-import net.husky.device.api.app.Layout;
-import net.husky.device.api.app.listener.ClickListener;
-import net.husky.device.api.utils.RenderUtil;
-import net.husky.device.core.Laptop;
-import net.husky.device.object.tiles.Tile;
-import net.husky.device.object.tiles.Tile.Category;
-import net.husky.device.util.GuiHelper;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile.Category;
+import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -37,25 +40,19 @@ public class TileGrid extends Component {
         layout.addComponent(labelCurrentCategory);
 
         btnNextCategory = new Button(left + 81, top, Icons.CHEVRON_RIGHT);
-        btnNextCategory.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (currentCategory < Category.values().length - 1) {
-                    currentCategory++;
-                    updateTiles();
-                }
+        btnNextCategory.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            if (currentCategory < Category.values().length - 1) {
+                currentCategory++;
+                updateTiles();
             }
         });
         layout.addComponent(btnNextCategory);
 
         btnPrevCategory = new Button(left, top, Icons.CHEVRON_LEFT);
-        btnPrevCategory.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
-                if (currentCategory > 0) {
-                    currentCategory--;
-                    updateTiles();
-                }
+        btnPrevCategory.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            if (currentCategory > 0) {
+                currentCategory--;
+                updateTiles();
             }
         });
         layout.addComponent(btnPrevCategory);

@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.programs.bluej.resources.types;
 
-import net.husky.device.programs.bluej.resources.BlueJResolvedResloc;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.resources.BlueJResolvedResloc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;

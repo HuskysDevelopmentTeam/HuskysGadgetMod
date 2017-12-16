@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
-import net.husky.device.Reference;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;

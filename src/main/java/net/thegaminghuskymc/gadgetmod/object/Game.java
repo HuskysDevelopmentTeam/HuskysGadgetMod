@@ -1,9 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
-import net.husky.device.Reference;
-import net.husky.device.core.Laptop;
-import net.husky.device.object.tiles.Tile;
-import net.husky.device.util.GuiHelper;
+import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
+import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;

@@ -1,8 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.programs.email.task;
 
-import net.husky.device.programs.email.ApplicationEmail;
-import net.husky.device.programs.email.ApplicationEmail.Email;
-import net.husky.device.programs.email.ApplicationEmail.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

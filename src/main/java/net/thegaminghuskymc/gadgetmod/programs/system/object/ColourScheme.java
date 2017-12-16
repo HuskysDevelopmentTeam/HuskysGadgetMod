@@ -9,6 +9,7 @@ import java.awt.*;
  * Author: MrCrayfish
  */
 public class ColourScheme {
+
     public int textColour;
     public int textSecondaryColour;
     public int headerColour;

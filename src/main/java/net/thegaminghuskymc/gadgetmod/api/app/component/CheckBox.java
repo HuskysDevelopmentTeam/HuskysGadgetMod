@@ -1,12 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
+
 
 public class CheckBox extends Component implements RadioGroup.Item {
     protected String name;
@@ -81,7 +83,7 @@ public class CheckBox extends Component implements RadioGroup.Item {
             }
             this.checked = !checked;
             if (listener != null) {
-                listener.onClick(this, mouseButton);
+                listener.onClick(mouseX, mouseY, mouseButton);
             }
         }
     }

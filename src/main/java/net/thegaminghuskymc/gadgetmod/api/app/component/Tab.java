@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;

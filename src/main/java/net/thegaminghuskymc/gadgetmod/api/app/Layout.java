@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
+import codechicken.lib.colour.ColourRGBA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -156,7 +157,8 @@ public class Layout extends Component {
             background.render(laptop, mc, x, y, width, height, mouseX, mouseY, windowActive);
         }
 
-        GlStateManager.color(1.0F, 1.0F, 1.0F);
+        ColourRGBA color = new ColourRGBA(153, 146, 146, 127);
+        color.glColour();
         for (Component c : components) {
             GlStateManager.disableDepth();
             c.render(laptop, mc, c.xPosition, c.yPosition, mouseX, mouseY, windowActive, partialTicks);

@@ -1,7 +1,6 @@
 {
     "pack": {
-        "description": "Resources for Futopia",
-        "pack_format": 3,
-        "_comment": "idk what to say here :D"
+        "description": "Device Resources",
+        "pack_format": 3
     }
 }

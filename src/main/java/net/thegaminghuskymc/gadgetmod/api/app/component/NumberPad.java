@@ -30,7 +30,7 @@ public class NumberPad extends Component {
     }
 
     public void addNumberClickListener(Button btn, final TextField field, final int number) {
-        btn.setClickListener((c, mouseButton) ->
+        btn.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (!(field.getText().equals("0") && number == 0)) {

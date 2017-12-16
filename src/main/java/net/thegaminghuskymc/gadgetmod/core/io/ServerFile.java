@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.husky.device.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;

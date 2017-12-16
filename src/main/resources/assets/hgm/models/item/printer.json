@@ -1,5 +1,5 @@
 {
-    "parent": "cdm:block/printer",
+    "parent": "hgm:block/printer",
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0 ],

@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core.io.drive;
 
-import net.husky.device.core.io.FileSystem;
-import net.husky.device.core.io.ServerFolder;
+import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
+import net.thegaminghuskymc.gadgetmod.core.io.ServerFolder;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

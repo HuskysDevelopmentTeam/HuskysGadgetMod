@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.programs.auction.task;
 
-import net.husky.device.programs.auction.AuctionManager;
-import net.husky.device.programs.system.object.Account;
+import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

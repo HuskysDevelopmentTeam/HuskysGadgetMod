@@ -1,9 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Application;
-import net.husky.device.api.app.Component;
-import net.husky.device.api.app.Layout;
-import net.husky.device.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -199,7 +199,7 @@ public class Tabs extends Component {
 
         if (this.hovered) {
             if (clickListener != null) {
-                clickListener.onClick(this, mouseButton);
+                clickListener.onClick(mouseX, mouseY, mouseButton);
             }
             playClickSound(Minecraft.getMinecraft().getSoundHandler());
         }

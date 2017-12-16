@@ -57,7 +57,7 @@ public class ApplicationSettings extends SystemApplication {
     public void init() {
         buttonPrevious = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(2, 2, Icons.ARROW_LEFT);
         buttonPrevious.setVisible(false);
-        buttonPrevious.setClickListener((c, mouseButton) ->
+        buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (predecessor.size() > 0) {
@@ -96,7 +96,7 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformation.addComponent(buttonPrevious);
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button personalise = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 66, "Personalise", Icons.EYE_DROPPER);
-        personalise.setClickListener((c, mouseButton) ->
+        personalise.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 showMenu(layoutPersonalise);
@@ -105,7 +105,7 @@ public class ApplicationSettings extends SystemApplication {
         layoutMain.addComponent(personalise);
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button information = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 86, "Information", Icons.HELP);
-        information.setClickListener((c, mouseButton) ->
+        information.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 showMenu(layoutInformation);
@@ -114,7 +114,7 @@ public class ApplicationSettings extends SystemApplication {
         layoutMain.addComponent(information);
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button wallpapers = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(20, 66, "Wallpapers", Icons.PICTURE);
-        wallpapers.setClickListener((c, mouseButton) ->
+        wallpapers.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 showMenu(layoutWallpapers);
@@ -123,7 +123,7 @@ public class ApplicationSettings extends SystemApplication {
         layoutPersonalise.addComponent(wallpapers);
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonColourScheme = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(40, 86, "Colour Schemes", Icons.TRASH);
-        buttonColourScheme.setClickListener((c, mouseButton) ->
+        buttonColourScheme.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 showMenu(layoutColourScheme);
@@ -133,7 +133,7 @@ public class ApplicationSettings extends SystemApplication {
 
         buttonWallpaperLeft = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(185, 27, Icons.ARROW_LEFT);
         buttonWallpaperLeft.setSize(25, 20);
-        buttonWallpaperLeft.setClickListener((c, mouseButton) ->
+        buttonWallpaperLeft.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 this.getLaptop().prevWallpaper();
@@ -143,7 +143,7 @@ public class ApplicationSettings extends SystemApplication {
 
         buttonWallpaperRight = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(215, 27, Icons.ARROW_RIGHT);
         buttonWallpaperRight.setSize(25, 20);
-        buttonWallpaperRight.setClickListener((c, mouseButton) ->
+        buttonWallpaperRight.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 this.getLaptop().nextWallpaper();
@@ -179,7 +179,7 @@ public class ApplicationSettings extends SystemApplication {
         buttonColourSchemeApply = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 79, Icons.CHECK);
         buttonColourSchemeApply.setEnabled(false);
         buttonColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
-        buttonColourSchemeApply.setClickListener((c, mouseButton) ->
+        buttonColourSchemeApply.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();

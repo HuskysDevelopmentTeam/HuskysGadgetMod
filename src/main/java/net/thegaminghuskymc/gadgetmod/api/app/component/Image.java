@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.AbstractTexture;
@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Image extends Component {
+    
     private static final Map<String, CachedImage> CACHE = new ImageCache(10);
     protected ImageLoader loader;
     protected CachedImage image;

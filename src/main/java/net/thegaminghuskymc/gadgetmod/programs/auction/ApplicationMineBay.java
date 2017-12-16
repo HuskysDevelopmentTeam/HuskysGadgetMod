@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs.auction;
 
-import net.husky.device.api.app.component.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -102,12 +101,12 @@ public class ApplicationMineBay extends Application {
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button btnAddItem = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(70, 5, "Add Item");
         btnAddItem.setSize(60, 15);
-        btnAddItem.setClickListener((c, mouseButton) -> setCurrentLayout(layoutSelectItem));
+        btnAddItem.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutSelectItem));
         super.addComponent(btnAddItem);
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button btnViewItem = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(135, 5, "Your Auctions");
         btnViewItem.setSize(80, 15);
-        btnViewItem.setClickListener((c, mouseButton) -> {
+        btnViewItem.setClickListener((mouseX, mouseY, mouseButton) -> {
             TaskGetAuctions task = new TaskGetAuctions(Minecraft.getMinecraft().player.getUniqueID());
             task.setCallback((nbt, success) -> {
                 items.removeAll();
@@ -172,31 +171,28 @@ public class ApplicationMineBay extends Application {
 
         net.thegaminghuskymc.gadgetmod.api.app.component.Button btnBuy = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(100, 127, "Buy");
         btnBuy.setSize(50, 15);
-        btnBuy.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                final net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation();
-                dialog.setPositiveText("Buy");
-                dialog.setPositiveListener((c13, mouseButton13) -> {
-                    final int index = items.getSelectedIndex();
-                    if (index == -1) return;
+        btnBuy.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            final Dialog.Confirmation dialog = new Dialog.Confirmation();
+            dialog.setPositiveText("Buy");
+            dialog.setPositiveListener((mouseX13, mouseY13, mouseButton13) -> {
+                final int index = items.getSelectedIndex();
+                if (index == -1) return;
 
-                    AuctionItem item = items.getItem(index);
-                    if (item != null) {
-                        TaskBuyItem task = new TaskBuyItem(item.getId());
-                        task.setCallback((nbt, success) ->
-                        {
-                            if (success) {
-                                items.removeItem(index);
-                            }
-                        });
-                        TaskManager.sendTask(task);
-                    }
-                });
-                dialog.setNegativeText("Cancel");
-                dialog.setNegativeListener((c12, mouseButton12) -> dialog.close());
-                ApplicationMineBay.this.openDialog(dialog);
-            }
+                AuctionItem item = items.getItem(index);
+                if (item != null) {
+                    TaskBuyItem task = new TaskBuyItem(item.getId());
+                    task.setCallback((nbt, success) ->
+                    {
+                        if (success) {
+                            items.removeItem(index);
+                        }
+                    });
+                    TaskManager.sendTask(task);
+                }
+            });
+            dialog.setNegativeText("Cancel");
+            dialog.setNegativeListener((mouseX12, mouseY12, mouseButton12) -> dialog.close());
+            ApplicationMineBay.this.openDialog(dialog);
         });
         super.addComponent(btnBuy);
 
@@ -204,28 +200,22 @@ public class ApplicationMineBay extends Application {
 
         layoutSelectItem = new Layout(172, 87);
         layoutSelectItem.setTitle("Add Item");
-        layoutSelectItem.setBackground(new Layout.Background() {
-            @Override
-            public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive) {
-                Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
-                Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
-                mc.fontRenderer.drawString("Select an Item...", x + 5, y + 7, Color.WHITE.getRGB(), true);
-            }
+        layoutSelectItem.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
+            mc.fontRenderer.drawString("Select an Item...", x + 5, y + 7, Color.WHITE.getRGB(), true);
         });
 
         inventory = new Inventory(5, 28);
-        inventory.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                if (inventory.getSelectedSlotIndex() != -1) {
-                    ItemStack stack = Minecraft.getMinecraft().player.inventory.getStackInSlot(inventory.getSelectedSlotIndex());
-                    if (!stack.isEmpty()) {
-                        buttonAddNext.setEnabled(true);
-                        selectorAmount.setMax(stack.getCount());
-                        selectorAmount.setNumber(stack.getCount());
-                    } else {
-                        buttonAddNext.setEnabled(false);
-                    }
+        inventory.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            if (inventory.getSelectedSlotIndex() != -1) {
+                ItemStack stack = Minecraft.getMinecraft().player.inventory.getStackInSlot(inventory.getSelectedSlotIndex());
+                if (!stack.isEmpty()) {
+                    buttonAddNext.setEnabled(true);
+                    selectorAmount.setMax(stack.getCount());
+                    selectorAmount.setNumber(stack.getCount());
+                } else {
+                    buttonAddNext.setEnabled(false);
                 }
             }
         });
@@ -233,24 +223,16 @@ public class ApplicationMineBay extends Application {
 
         buttonAddCancel = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(138, 4, MINEBAY_ASSESTS, 0, 12, 8, 8);
         buttonAddCancel.setToolTip("Cancel", "Go back to main page");
-        buttonAddCancel.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                restoreDefaultLayout();
-            }
-        });
+        buttonAddCancel.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> restoreDefaultLayout());
         layoutSelectItem.addComponent(buttonAddCancel);
 
         buttonAddNext = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(154, 4, MINEBAY_ASSESTS, 16, 12, 8, 8);
         buttonAddNext.setToolTip("Next Page", "Set price and amount");
         buttonAddNext.setEnabled(false);
-        buttonAddNext.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                selectorAmount.updateButtons();
-                selectorPrice.updateButtons();
-                setCurrentLayout(layoutAmountAndPrice);
-            }
+        buttonAddNext.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            selectorAmount.updateButtons();
+            selectorPrice.updateButtons();
+            setCurrentLayout(layoutAmountAndPrice);
         });
         layoutSelectItem.addComponent(buttonAddNext);
 
@@ -259,70 +241,52 @@ public class ApplicationMineBay extends Application {
 
         layoutAmountAndPrice = new Layout(172, 87);
         layoutAmountAndPrice.setTitle("Add Item");
-        layoutAmountAndPrice.setBackground(new Layout.Background() {
-            @Override
-            public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive) {
-                Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
-                Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
-                mc.fontRenderer.drawString("Set amount and price...", x + 5, y + 7, Color.WHITE.getRGB(), true);
+        layoutAmountAndPrice.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
+            mc.fontRenderer.drawString("Set amount and price...", x + 5, y + 7, Color.WHITE.getRGB(), true);
 
-                int offsetX = 14;
-                int offsetY = 40;
-                Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + 38, y + offsetY + 38, Color.BLACK.getRGB());
-                Gui.drawRect(x + offsetX + 1, y + offsetY + 1, x + offsetX + 37, y + offsetY + 37, Color.DARK_GRAY.getRGB());
+            int offsetX = 14;
+            int offsetY = 40;
+            Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + 38, y + offsetY + 38, Color.BLACK.getRGB());
+            Gui.drawRect(x + offsetX + 1, y + offsetY + 1, x + offsetX + 37, y + offsetY + 37, Color.DARK_GRAY.getRGB());
 
-                offsetX = 90;
-                Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + 38, y + offsetY + 38, Color.BLACK.getRGB());
-                Gui.drawRect(x + offsetX + 1, y + offsetY + 1, x + offsetX + 37, y + offsetY + 37, Color.DARK_GRAY.getRGB());
+            offsetX = 90;
+            Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + 38, y + offsetY + 38, Color.BLACK.getRGB());
+            Gui.drawRect(x + offsetX + 1, y + offsetY + 1, x + offsetX + 37, y + offsetY + 37, Color.DARK_GRAY.getRGB());
 
-                if (inventory.getSelectedSlotIndex() != -1) {
-                    ItemStack stack = mc.player.inventory.getStackInSlot(inventory.getSelectedSlotIndex());
-                    if (!stack.isEmpty()) {
-                        GlStateManager.pushMatrix();
-                        {
-                            GlStateManager.translate(x + 17, y + 43, 0);
-                            GlStateManager.scale(2, 2, 0);
-                            RenderUtil.renderItem(0, 0, stack, false);
-                        }
-                        GlStateManager.popMatrix();
+            if (inventory.getSelectedSlotIndex() != -1) {
+                ItemStack stack = mc.player.inventory.getStackInSlot(inventory.getSelectedSlotIndex());
+                if (!stack.isEmpty()) {
+                    GlStateManager.pushMatrix();
+                    {
+                        GlStateManager.translate(x + 17, y + 43, 0);
+                        GlStateManager.scale(2, 2, 0);
+                        RenderUtil.renderItem(0, 0, stack, false);
                     }
+                    GlStateManager.popMatrix();
                 }
-
-                GlStateManager.pushMatrix();
-                {
-                    GlStateManager.translate(x + 92, y + 43, 0);
-                    GlStateManager.scale(2, 2, 0);
-                    RenderUtil.renderItem(0, 0, EMERALD, false);
-                }
-                GlStateManager.popMatrix();
             }
+
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translate(x + 92, y + 43, 0);
+                GlStateManager.scale(2, 2, 0);
+                RenderUtil.renderItem(0, 0, EMERALD, false);
+            }
+            GlStateManager.popMatrix();
         });
 
         buttonAmountAndPriceBack = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(122, 4, MINEBAY_ASSESTS, 8, 12, 8, 8);
-        buttonAmountAndPriceBack.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                setCurrentLayout(layoutSelectItem);
-            }
-        });
+        buttonAmountAndPriceBack.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutSelectItem));
         layoutAmountAndPrice.addComponent(buttonAmountAndPriceBack);
 
         buttonAmountAndPriceCancel = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(138, 4, MINEBAY_ASSESTS, 0, 12, 8, 8);
-        buttonAmountAndPriceCancel.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                restoreDefaultLayout();
-            }
-        });
+        buttonAmountAndPriceCancel.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> restoreDefaultLayout());
         layoutAmountAndPrice.addComponent(buttonAmountAndPriceCancel);
 
         buttonAmountAndPriceNext = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(154, 4, MINEBAY_ASSESTS, 16, 12, 8, 8);
-        buttonAmountAndPriceNext.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                setCurrentLayout(layoutDuration);
-            }
-        });
+        buttonAmountAndPriceNext.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutDuration));
         layoutAmountAndPrice.addComponent(buttonAmountAndPriceNext);
 
         labelAmount = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Amount", 16, 30);
@@ -343,57 +307,41 @@ public class ApplicationMineBay extends Application {
         /* Duration Layout */
         layoutDuration = new Layout(172, 87);
         layoutDuration.setTitle("Add Item");
-        layoutDuration.setBackground(new Layout.Background() {
-            @Override
-            public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive) {
-                Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
-                Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
-                mc.fontRenderer.drawString("Set duration...", x + 5, y + 7, Color.WHITE.getRGB(), true);
-            }
+        layoutDuration.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            Gui.drawRect(x, y, x + width, y + 22, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(x, y + 22, x + width, y + 23, Color.DARK_GRAY.getRGB());
+            mc.fontRenderer.drawString("Set duration...", x + 5, y + 7, Color.WHITE.getRGB(), true);
         });
 
         buttonDurationBack = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(122, 4, MINEBAY_ASSESTS, 8, 12, 8, 8);
-        buttonDurationBack.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                setCurrentLayout(layoutAmountAndPrice);
-            }
-        });
+        buttonDurationBack.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutAmountAndPrice));
         layoutDuration.addComponent(buttonDurationBack);
 
         buttonDurationCancel = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(138, 4, MINEBAY_ASSESTS, 0, 12, 8, 8);
-        buttonDurationCancel.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                restoreDefaultLayout();
-            }
-        });
+        buttonDurationCancel.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> restoreDefaultLayout());
         layoutDuration.addComponent(buttonDurationCancel);
 
         buttonDurationAdd = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(154, 4, MINEBAY_ASSESTS, 24, 12, 8, 8);
-        buttonDurationAdd.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(net.thegaminghuskymc.gadgetmod.api.app.Component c, int mouseButton) {
-                final net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation dialog = new Dialog.Confirmation();
-                dialog.setMessageText("Are you sure you want to auction this item?");
-                dialog.setPositiveText("Yes");
-                dialog.setPositiveListener((c1, mouseButton1) ->
+        buttonDurationAdd.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            final Dialog.Confirmation dialog = new Dialog.Confirmation();
+            dialog.setMessageText("Are you sure you want to auction this item?");
+            dialog.setPositiveText("Yes");
+            dialog.setPositiveListener((mouseX1, mouseY1, mouseButton1) ->
+            {
+                int ticks = (int) TimeUtil.getRealTimeToTicks(selectorHours.getNumber(), selectorMinutes.getNumber(), selectorSeconds.getNumber());
+                TaskAddAuction task = new TaskAddAuction(inventory.getSelectedSlotIndex(), selectorAmount.getNumber(), selectorPrice.getNumber(), ticks);
+                task.setCallback((nbt, success) ->
                 {
-                    int ticks = (int) TimeUtil.getRealTimeToTicks(selectorHours.getNumber(), selectorMinutes.getNumber(), selectorSeconds.getNumber());
-                    TaskAddAuction task = new TaskAddAuction(inventory.getSelectedSlotIndex(), selectorAmount.getNumber(), selectorPrice.getNumber(), ticks);
-                    task.setCallback((nbt, success) ->
-                    {
-                        if (success) {
-                            List<AuctionItem> auctionItems = AuctionManager.INSTANCE.getItems();
-                            items.addItem(auctionItems.get(auctionItems.size() - 1));
-                        }
-                    });
-                    TaskManager.sendTask(task);
-                    dialog.close();
-                    restoreDefaultLayout();
+                    if (success) {
+                        List<AuctionItem> auctionItems = AuctionManager.INSTANCE.getItems();
+                        items.addItem(auctionItems.get(auctionItems.size() - 1));
+                    }
                 });
-                openDialog(dialog);
-            }
+                TaskManager.sendTask(task);
+                dialog.close();
+                restoreDefaultLayout();
+            });
+            openDialog(dialog);
         });
         layoutDuration.addComponent(buttonDurationAdd);
 

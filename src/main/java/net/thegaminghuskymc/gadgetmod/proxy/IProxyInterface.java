@@ -1,9 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
 public interface IProxyInterface {
-    public void preInit();
+    void preInit();
 
-    public void init();
+    void init();
 
-    public void postInit();
+    void postInit();
 }

@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity.render;
 
-import net.husky.device.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -15,17 +15,19 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.block.BlockLaptop;
-import net.thegaminghuskymc.gadgetmod.init.DeviceBlocks;
-import net.thegaminghuskymc.gadgetmod.init.DeviceItems;
+import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 
-public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> {
+public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
+{
     private Minecraft mc = Minecraft.getMinecraft();
 
     private EntityItem entityItem = new EntityItem(Minecraft.getMinecraft().world, 0D, 0D, 0D);
 
     @Override
-    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        IBlockState state = DeviceBlocks.laptop.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
+    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+    {
+        IBlockState state = GadgetBlocks.LAPTOP.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
         BlockPos pos = te.getPos();
 
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -33,7 +35,8 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
         {
             GlStateManager.translate(x, y, z);
 
-            if (te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.flash_drive)) {
+            if(te.isExternalDriveAttached())
+            {
                 GlStateManager.pushMatrix();
                 {
                     GlStateManager.translate(0.5, 0, 0.5);
@@ -41,60 +44,12 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
                     GlStateManager.translate(-0.5, 0, -0.5);
                     GlStateManager.translate(0.6, -0.21, -0.005);
                     entityItem.hoverStart = 0.0F;
-                    entityItem.setItem(new ItemStack(DeviceItems.flash_drive));
+                    entityItem.setItem(new ItemStack(GadgetItems.flash_drive));
                     Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
                     GlStateManager.translate(0.1, 0, 0);
                 }
                 GlStateManager.popMatrix();
             }
-
-			/*else if(te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.iPhone))
-			{
-				GlStateManager.pushMatrix();
-				{
-					GlStateManager.translate(0.5, 0, 0.5);
-					GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-					GlStateManager.translate(-0.5, 0, -0.5);
-					GlStateManager.translate(0.6, -0.21, -0.005);
-					entityItem.hoverStart = 0.0F;
-					entityItem.setItem(new ItemStack(DeviceItems.iPhone));
-					Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-					GlStateManager.translate(0.1, 0, 0);
-				}
-				GlStateManager.popMatrix();
-			}
-
-			else if(te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.iPad))
-			{
-				GlStateManager.pushMatrix();
-				{
-					GlStateManager.translate(0.5, 0, 0.5);
-					GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-					GlStateManager.translate(-0.5, 0, -0.5);
-					GlStateManager.translate(0.6, -0.21, -0.005);
-					entityItem.hoverStart = 0.0F;
-					entityItem.setItem(new ItemStack(DeviceItems.iPad));
-					Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-					GlStateManager.translate(0.1, 0, 0);
-				}
-				GlStateManager.popMatrix();
-			}
-
-			else if(te.isExternalDriveAttached() && Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(DeviceItems.apple_watch))
-			{
-				GlStateManager.pushMatrix();
-				{
-					GlStateManager.translate(0.5, 0, 0.5);
-					GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-					GlStateManager.translate(-0.5, 0, -0.5);
-					GlStateManager.translate(0.6, -0.21, -0.005);
-					entityItem.hoverStart = 0.0F;
-					entityItem.setItem(new ItemStack(DeviceItems.apple_watch));
-					Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-					GlStateManager.translate(0.1, 0, 0);
-				}
-				GlStateManager.popMatrix();
-			}*/
 
             GlStateManager.pushMatrix();
             {

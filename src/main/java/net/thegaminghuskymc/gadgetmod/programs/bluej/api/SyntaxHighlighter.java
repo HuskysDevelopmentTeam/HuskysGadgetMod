@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.programs.bluej.api;
 
-import net.husky.device.programs.bluej.Project;
-import net.husky.device.programs.bluej.ProjectFile;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.Project;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.ProjectFile;
 
 import java.util.List;
 

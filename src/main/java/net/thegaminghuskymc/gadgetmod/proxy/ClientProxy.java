@@ -1,14 +1,19 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
-import net.husky.device.HuskyGadgetMod;
-import net.husky.device.Reference;
-import net.husky.device.api.ApplicationManager;
-import net.husky.device.api.app.Application;
-import net.husky.device.core.Laptop;
-import net.husky.device.init.DeviceBlocks;
-import net.husky.device.init.DeviceItems;
-import net.husky.device.tileentity.TileEntityLaptop;
-import net.husky.device.tileentity.render.LaptopRenderer;
+import net.minecraftforge.common.MinecraftForge;
+import net.thegaminghuskymc.gadgetmod.DeviceConfig;
+import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
+import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
+import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
+import net.thegaminghuskymc.gadgetmod.tileentity.*;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -24,19 +29,26 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClientProxy extends CommonProxy {
+
     @Override
     public void preInit() {
-        DeviceBlocks.registerRenders();
-        DeviceItems.registerRenders();
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void init() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRouter.class, new RouterRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
 
         if (HuskyGadgetMod.DEVELOPER_MODE) {
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/developer_wallpaper.png"));
@@ -57,7 +69,7 @@ public class ClientProxy extends CommonProxy {
         generateIconAtlas();
     }
 
-    public void generateIconAtlas() {
+    private void generateIconAtlas() {
         final int ICON_SIZE = 14;
         int index = 0;
 
@@ -137,8 +149,44 @@ public class ClientProxy extends CommonProxy {
         return null;
     }
 
-    @SubscribeEvent
-    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-        allowedApps = null;
+    @Override
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
+    {
+        try
+        {
+            Constructor<? extends IPrint> constructor = classPrint.getConstructor();
+            IPrint print = constructor.newInstance();
+            Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
+            try
+            {
+                IPrint.Renderer renderer = classRenderer.newInstance();
+                Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
+                if(idToRenderer == null)
+                {
+                    idToRenderer = new HashMap<>();
+                    ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
+                }
+                idToRenderer.put(identifier.toString(), renderer);
+            }
+            catch(InstantiationException e)
+            {
+                HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
+                return false;
+            }
+            return true;
+        }
+        catch(Exception e)
+        {
+            HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
+        }
+        return false;
     }
+
+    @SubscribeEvent
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
+    {
+        allowedApps = null;
+        DeviceConfig.restore();
+    }
+
 }

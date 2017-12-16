@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io.drive;
 
-import net.husky.device.core.io.ServerFolder;
+import net.thegaminghuskymc.gadgetmod.core.io.ServerFolder;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 

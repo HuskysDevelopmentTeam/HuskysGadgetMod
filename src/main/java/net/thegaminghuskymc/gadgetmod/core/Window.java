@@ -1,11 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.husky.device.Reference;
-import net.husky.device.api.app.Application;
-import net.husky.device.api.utils.RenderUtil;
-import net.husky.device.gui.GuiButtonClose;
-import net.husky.device.gui.GuiButtonFullscreen;
-import net.husky.device.gui.GuiButtonMinimise;
+import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
+import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
+import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -16,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 public class Window<T extends Wrappable> {
+
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
     public static final int COLOUR_WINDOW_DARK = new Color(0F, 0F, 0F, 0.25F).getRGB();

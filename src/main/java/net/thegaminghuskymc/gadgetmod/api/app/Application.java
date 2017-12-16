@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
-import net.husky.device.api.io.File;
+import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -332,6 +332,7 @@ public abstract class Application extends Wrappable {
         if (currentLayout.hasTitle()) {
             return currentLayout.getTitle();
         }
+        assert false;
         return info.getName();
     }
 
@@ -344,7 +345,8 @@ public abstract class Application extends Wrappable {
     }
 
 
-    public String getApplicationFolderPath() {
+    protected String getApplicationFolderPath() {
+        assert false;
         return FileSystem.DIR_APPLICATION_DATA + "/" + info.getFormattedId();
     }
 

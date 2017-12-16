@@ -1,7 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.programs.system;
 
-import net.husky.device.api.app.component.*;
-import net.husky.device.programs.system.object.Account;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.model.ModelVillager;
@@ -17,14 +21,11 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
-import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 
 import java.awt.*;
@@ -36,27 +37,27 @@ public class ApplicationCalculator extends SystemApplication {
     private static final ModelVillager villagerModel = new ModelVillager(0.0F);
 
     private Layout layoutStart;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelTeller;
+    private Label labelTeller;
     private Text textWelcome;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnDepositWithdraw;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnTransfer;
+    private Button btnDepositWithdraw;
+    private Button btnTransfer;
 
     private Layout layoutMain;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelBalance;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelAmount;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.TextField amountField;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnZero;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnClear;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonDeposit;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonWithdraw;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelEmeraldAmount;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelInventory;
+    private Label labelBalance;
+    private Label labelAmount;
+    private TextField amountField;
+    private Button btnZero;
+    private Button btnClear;
+    private Button buttonDeposit;
+    private Button buttonWithdraw;
+    private Label labelEmeraldAmount;
+    private Label labelInventory;
 
     private int emeraldAmount;
     private int rotation;
 
     public ApplicationCalculator() {
-        //super(Reference.MOD_ID + "Bank", "The Emerald Bank");
+        
     }
 
     @Override
@@ -92,27 +93,24 @@ public class ApplicationCalculator extends SystemApplication {
             RenderUtil.drawRectWithTexture(x + 46, y + 19, 0, 0, 146, 52, 146, 52);
         });
 
-        labelTeller = new net.thegaminghuskymc.gadgetmod.api.app.component.Label(TextFormatting.YELLOW + "Casey The Teller", 60, 7);
+        labelTeller = new Label(TextFormatting.YELLOW + "Casey The Teller", 60, 7);
         layoutStart.addComponent(labelTeller);
 
         textWelcome = new Text(TextFormatting.BLACK + "Hello " + Minecraft.getMinecraft().player.getName() + ", welcome to The Emerald Bank! How can I help you?", 62, 25, 125);
         layoutStart.addComponent(textWelcome);
 
-        btnDepositWithdraw = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(54, 74, "View Account");
+        btnDepositWithdraw = new Button(54, 74, "View Account");
         btnDepositWithdraw.setSize(76, 20);
-        btnDepositWithdraw.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(Component c, int mouseButton) {
+        btnDepositWithdraw.setClickListener((mouseX, mouseY, mouseButton) -> {
 
-            }
         });
         btnDepositWithdraw.setToolTip("View Account", "Shows your balance");
         layoutStart.addComponent(btnDepositWithdraw);
 
-        btnTransfer = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(133, 74, "Transfer");
+        btnTransfer = new Button(133, 74, "Transfer");
         btnTransfer.setSize(58, 20);
         btnTransfer.setToolTip("Transfer", "Withdraw and deposit emeralds");
-        btnTransfer.setClickListener((c, mouseButton) ->
+        btnTransfer.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 setCurrentLayout(layoutMain);
@@ -140,41 +138,32 @@ public class ApplicationCalculator extends SystemApplication {
             RenderUtil.renderItem(x + 65, y + 118, EMERALD, false);
         });
 
-        labelBalance = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Balance", 60, 5);
-        labelBalance.setAlignment(net.thegaminghuskymc.gadgetmod.api.app.component.Label.ALIGN_CENTER);
+        labelBalance = new Label("Balance", 60, 5);
+        labelBalance.setAlignment(Label.ALIGN_CENTER);
         labelBalance.setShadow(false);
         layoutMain.addComponent(labelBalance);
 
-        labelAmount = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Loading balance...", 60, 18);
-        labelAmount.setAlignment(net.thegaminghuskymc.gadgetmod.api.app.component.Label.ALIGN_CENTER);
+        labelAmount = new Label("Loading balance...", 60, 18);
+        labelAmount.setAlignment(Label.ALIGN_CENTER);
         labelAmount.setScale(2);
         layoutMain.addComponent(labelAmount);
 
-        amountField = new net.thegaminghuskymc.gadgetmod.api.app.component.TextField(5, 45, 110);
+        amountField = new TextField(5, 45, 110);
         amountField.setText("0");
         amountField.setEditable(false);
         layoutMain.addComponent(amountField);
 
-		/*for(int i = 0; i < 9; i++)
-		{
-			int posX = 5 + (i % 3) * 19;
-			int posY = 65 + (i / 3) * 19;
-			Button button = new Button(posX, posY, Integer.toString(i + 1));
-			button.setSize(16, 16);
-			addNumberClickListener(button, amountField, i + 1);
-			layoutMain.addComponent(button);
-		}*/
         NumberPad numberPad = new NumberPad(10, 10);
         layoutMain.addComponent(numberPad);
 
-        btnZero = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 122, "0");
+        btnZero = new Button(5, 122, "0");
         btnZero.setSize(16, 16);
         addNumberClickListener(btnZero, amountField, 0);
         layoutMain.addComponent(btnZero);
 
-        btnClear = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(24, 122, "Clr");
+        btnClear = new Button(24, 122, "Clr");
         btnClear.setSize(35, 16);
-        btnClear.setClickListener((c, mouseButton) ->
+        btnClear.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 amountField.setText("0");
@@ -182,9 +171,9 @@ public class ApplicationCalculator extends SystemApplication {
         });
         layoutMain.addComponent(btnClear);
 
-        buttonDeposit = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(62, 65, "Deposit");
+        buttonDeposit = new Button(62, 65, "Deposit");
         buttonDeposit.setSize(53, 16);
-        buttonDeposit.setClickListener((c, mouseButton) ->
+        buttonDeposit.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (amountField.getText().equals("0")) {
@@ -204,9 +193,9 @@ public class ApplicationCalculator extends SystemApplication {
         });
         layoutMain.addComponent(buttonDeposit);
 
-        buttonWithdraw = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(62, 84, "Withdraw");
+        buttonWithdraw = new Button(62, 84, "Withdraw");
         buttonWithdraw.setSize(53, 16);
-        buttonWithdraw.setClickListener((c, mouseButton) ->
+        buttonWithdraw.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (amountField.getText().equals("0")) {
@@ -225,10 +214,10 @@ public class ApplicationCalculator extends SystemApplication {
         });
         layoutMain.addComponent(buttonWithdraw);
 
-        labelEmeraldAmount = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("x 0", 83, 123);
+        labelEmeraldAmount = new Label("x 0", 83, 123);
         layoutMain.addComponent(labelEmeraldAmount);
 
-        labelInventory = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Wallet", 74, 105);
+        labelInventory = new Label("Wallet", 74, 105);
         labelInventory.setShadow(false);
         layoutMain.addComponent(labelInventory);
 
@@ -241,8 +230,8 @@ public class ApplicationCalculator extends SystemApplication {
         });
     }
 
-    public void addNumberClickListener(net.thegaminghuskymc.gadgetmod.api.app.component.Button btn, final TextField field, final int number) {
-        btn.setClickListener((c, mouseButton) ->
+    public void addNumberClickListener(Button btn, final TextField field, final int number) {
+        btn.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (!(field.getText().equals("0") && number == 0)) {

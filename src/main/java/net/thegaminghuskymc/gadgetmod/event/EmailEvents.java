@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.event;
 
-import net.husky.device.programs.email.ApplicationEmail.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;

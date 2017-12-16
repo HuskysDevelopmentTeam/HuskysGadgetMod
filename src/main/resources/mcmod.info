@@ -2,13 +2,9 @@
 {
   "modid": "hgm",
   "name": "Husky's Gadget Mod",
-  "description": "This is a mod that adds different gadgets like laptops, phones, servers and more",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "authorList": ["TheGamingHuskyMC, itay2805, Nova, AlexCouch, Dbrown55, GradedWarrior, lucas2005"],
-  "logoFile": "assets/futopia/textures/logo.png",
-  "dependencies": [
-    "huskylib"
-  ]
+  "description": "Adds working electronic devices into Minecraft!",
+  "version": "$version",
+  "mcversion": "$mcversion",
+  "authorList": ["TheGamingHuskyMC"]
 }
 ]

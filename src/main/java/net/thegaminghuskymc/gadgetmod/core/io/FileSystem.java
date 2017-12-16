@@ -1,13 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.husky.device.HuskyGadgetMod;
-import net.husky.device.api.app.Application;
-import net.husky.device.api.io.Drive;
-import net.husky.device.api.io.Folder;
-import net.husky.device.api.task.Callback;
-import net.husky.device.api.task.Task;
-import net.husky.device.api.task.TaskManager;
-import net.husky.device.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.io.Drive;
+import net.thegaminghuskymc.gadgetmod.api.io.Folder;
+import net.thegaminghuskymc.gadgetmod.api.task.Callback;
+import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -23,7 +23,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.drive.InternalDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
-import net.thegaminghuskymc.gadgetmod.init.DeviceItems;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
@@ -235,7 +235,7 @@ public class FileSystem {
     @Nullable
     public ItemStack removeAttachedDrive() {
         if (attachedDrive != null) {
-            ItemStack stack = new ItemStack(DeviceItems.flash_drive);
+            ItemStack stack = new ItemStack(GadgetItems.flash_drive);
             stack.setStackDisplayName(attachedDrive.getName());
             stack.getTagCompound().setTag("drive", attachedDrive.toTag());
             attachedDrive = null;

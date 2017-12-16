@@ -11,4 +11,12 @@ public interface System {
     boolean hasContext();
 
     void closeContext();
+
+    /**
+     * Gets the system settings
+     *
+     * @return the system settings
+     */
+    Settings getSettings();
+
 }

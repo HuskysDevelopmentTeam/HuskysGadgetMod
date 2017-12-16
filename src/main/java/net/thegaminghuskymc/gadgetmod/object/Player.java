@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
-import net.husky.device.object.tiles.Tile;
-import net.husky.device.util.Vec2d;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
+import net.thegaminghuskymc.gadgetmod.util.Vec2d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBoat;

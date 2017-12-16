@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.io;
 
-import net.husky.device.programs.system.component.FileBrowser;
+import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;

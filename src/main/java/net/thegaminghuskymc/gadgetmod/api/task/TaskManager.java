@@ -1,8 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.api.task;
 
-import net.husky.device.HuskyGadgetMod;
-import net.husky.device.network.PacketHandler;
-import net.husky.device.network.task.MessageRequest;
+import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageRequest;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

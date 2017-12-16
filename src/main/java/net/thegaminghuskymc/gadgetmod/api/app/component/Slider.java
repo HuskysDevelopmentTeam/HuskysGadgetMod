@@ -1,13 +1,15 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.listener.ClickListener;
-import net.husky.device.api.app.listener.ReleaseListener;
-import net.husky.device.api.app.listener.SlideListener;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ReleaseListener;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.SlideListener;
 import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
+
 
 public class Slider extends Component {
     protected boolean dragging = false;
@@ -56,7 +58,7 @@ public class Slider extends Component {
             this.dragging = true;
             this.clickX = mouseX;
             if (clickListener != null) {
-                clickListener.onClick(this, mouseButton);
+                clickListener.onClick(mouseX, mouseY, mouseButton);
             }
         }
     }

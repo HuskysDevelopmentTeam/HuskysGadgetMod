@@ -1,12 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.husky.device.programs.system.object.ColourScheme;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Author: MrCrayfish
  */
 public class Settings {
+
     private static boolean showAllApps = false;
 
     private ColourScheme colourScheme = new ColourScheme();

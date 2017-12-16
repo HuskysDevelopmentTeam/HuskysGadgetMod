@@ -12,15 +12,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.io.task.*;
+import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
+import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
+import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
+import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
 import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
-import net.thegaminghuskymc.gadgetmod.init.DeviceBlocks;
-import net.thegaminghuskymc.gadgetmod.init.DeviceCrafting;
-import net.thegaminghuskymc.gadgetmod.init.DeviceItems;
-import net.thegaminghuskymc.gadgetmod.init.DeviceTileEntites;
+import net.thegaminghuskymc.gadgetmod.init.*;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.programs.*;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationMineBay;
@@ -38,8 +40,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.ModVersion, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
+
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
 
@@ -63,26 +66,21 @@ public class HuskyGadgetMod {
 
         logger = event.getModLog();
 
-        /* Block Registering */
-        DeviceBlocks.init();
-        DeviceBlocks.register();
+        DeviceConfig.load(event.getSuggestedConfigurationFile());
+        MinecraftForge.EVENT_BUS.register(new DeviceConfig());
 
-        DeviceItems.init();
-        DeviceItems.register();
-
-        /* Packet Registering */
-        PacketHandler.init();
+        RegistrationHandler.init();
 
         proxy.preInit();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        /* Crafting Registering */
-        DeviceCrafting.register();
-
         /* Tile Entity Registering */
-        DeviceTileEntites.register();
+        GadgetTileEntities.register();
+
+        /* Packet Registering */
+        PacketHandler.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
@@ -112,10 +110,15 @@ public class HuskyGadgetMod {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "mine_bay"), ApplicationMineBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "test"), ApplicationTest.class);
 
         // Core
         TaskManager.registerTask(TaskUpdateApplicationData.class);
+        TaskManager.registerTask(TaskPrint.class);
         TaskManager.registerTask(TaskUpdateSystemData.class);
+        TaskManager.registerTask(TaskConnect.class);
+        TaskManager.registerTask(TaskPing.class);
+        TaskManager.registerTask(TaskGetDevices.class);
 
         //Bank
         TaskManager.registerTask(ApplicationBank.TaskDeposit.class);
@@ -157,5 +160,6 @@ public class HuskyGadgetMod {
             // Applications (Developers)
             ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "example"), ApplicationExample.class);
         }
+        PrintingManager.registerPrint(new ResourceLocation(Reference.MOD_ID, "picture"), ApplicationPixelPainter.PicturePrint.class);
     }
 }

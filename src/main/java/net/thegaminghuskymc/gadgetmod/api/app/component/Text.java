@@ -1,12 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
 import net.minecraft.client.Minecraft;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
 import java.awt.*;
 import java.util.List;
 
 public class Text extends Component {
+
     protected List<String> lines;
     protected int width;
     protected boolean shadow = false;

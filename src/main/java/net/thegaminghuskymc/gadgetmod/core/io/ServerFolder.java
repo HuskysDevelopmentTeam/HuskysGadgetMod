@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.husky.device.core.io.FileSystem.Status;
+import net.thegaminghuskymc.gadgetmod.core.io.FileSystem.Status;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.Constants;

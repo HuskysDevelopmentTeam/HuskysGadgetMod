@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.husky.device.api.app.Component;
-import net.husky.device.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import org.lwjgl.input.Mouse;
@@ -43,7 +43,7 @@ public class NumberSelector extends Component {
     public void init(Layout layout) {
         btnUp = new Button(left, top, COMPONENTS_GUI, 111, 12, 8, 5);
         btnUp.setSize(width, 11);
-        btnUp.setClickListener((c, mouseButton) ->
+        btnUp.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (current < max) {
                 current++;
@@ -60,7 +60,7 @@ public class NumberSelector extends Component {
 
         btnDown = new Button(left, top + 24, COMPONENTS_GUI, 119, 12, 8, 5);
         btnDown.setSize(width, 11);
-        btnDown.setClickListener((c, mouseButton) ->
+        btnDown.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (current > min) {
                 current--;

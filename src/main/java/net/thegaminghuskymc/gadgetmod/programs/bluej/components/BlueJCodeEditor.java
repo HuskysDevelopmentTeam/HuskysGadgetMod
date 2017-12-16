@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.programs.bluej.components;
 
-import net.husky.device.programs.bluej.Project;
-import net.husky.device.programs.bluej.ProjectFile;
-import net.husky.device.programs.bluej.api.Problem;
-import net.husky.device.programs.bluej.api.SyntaxHighlighter;
-import net.husky.device.programs.bluej.api.Token;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.Project;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.ProjectFile;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Problem;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.SyntaxHighlighter;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Token;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

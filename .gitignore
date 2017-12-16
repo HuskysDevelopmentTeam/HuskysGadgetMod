@@ -23,3 +23,5 @@ eclipse
 run
 libs
 src/main/java/com/*
+classes/*
+src/main/resources/assets/cdm/*
