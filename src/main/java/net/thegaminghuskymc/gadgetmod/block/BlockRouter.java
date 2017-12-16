@@ -89,6 +89,16 @@ public class BlockRouter extends BlockHorizontal implements ITileEntityProvider
     }
 
     @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+    	return this.getBoundingBox(state, worldIn, pos);
+    }
+    
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    	return this.getBoundingBox(state, worldIn, pos);
+    }
+    
+    @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if(worldIn.isRemote && playerIn.capabilities.isCreativeMode)

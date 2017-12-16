@@ -1,12 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.network.task;
 
-import com.mrcrayfish.device.DeviceConfig;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 
 /**
  * Author: MrCrayfish
