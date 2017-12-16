@@ -261,7 +261,7 @@ public class ApplicationPixelPainter extends Application {
         layoutColours.left = 180;
         layoutDraw.addComponent(layoutColours);
 
-        ButtonToggle btnPencil = new ButtonToggle(5, 5, PIXEL_PAINTER_ICONS, 0, 0, 10, 10);
+        ButtonToggle btnPencil = new ButtonToggle(5, 5, Icons.EDIT);
         btnPencil.setClickListener((mouseX, mouseY, mouseButton) -> canvas.setCurrentTool(Canvas.PENCIL));
         btnPencil.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnPencil);
@@ -286,7 +286,7 @@ public class ApplicationPixelPainter extends Application {
         btnMagicWand.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnMagicWand);
 
-        ButtonToggle btnMove = new ButtonToggle(5, 100, PIXEL_PAINTER_ICONS, 50, 0, 10, 10);
+        ButtonToggle btnMove = new ButtonToggle(5, 100, Icons.EXPAND);
         btnMove.setClickListener((mouseX, mouseY, mouseButton) -> canvas.setCurrentTool(Canvas.MOVE));
         btnMove.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnMove);
@@ -301,7 +301,7 @@ public class ApplicationPixelPainter extends Application {
         btnSmudge.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnSmudge);
 
-        ButtonToggle btnEyeDropper = new ButtonToggle(5, 157, PIXEL_PAINTER_ICONS, 80, 0, 10, 10);
+        ButtonToggle btnEyeDropper = new ButtonToggle(5, 157, Icons.EYE_DROPPER);
         btnEyeDropper.setClickListener((mouseX, mouseY, mouseButton) -> {
             canvas.setCurrentTool(Canvas.EYE_DROPPER);
             Color color = new Color(canvas.getCurrentColour());
@@ -310,7 +310,7 @@ public class ApplicationPixelPainter extends Application {
         btnEyeDropper.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnEyeDropper);
 
-        Button btnCancel = new Button(5, 176, PIXEL_PAINTER_ICONS, 50, 0, 10, 10);
+        Button btnCancel = new Button(5, 176, Icons.CROSS);
         btnCancel.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (canvas.isExistingImage())
                 setCurrentLayout(layoutLoadPicture);
@@ -320,7 +320,7 @@ public class ApplicationPixelPainter extends Application {
         });
         layoutTools.addComponent(btnCancel);
 
-        Button btnSave = new Button(5, 195, PIXEL_PAINTER_ICONS, 40, 0, 10, 10);
+        Button btnSave = new Button(5, 195, Icons.SAVE);
         btnSave.setClickListener((mouseX, mouseY, mouseButton) -> {
             canvas.picture.pixels = canvas.copyPixels();
 
@@ -354,7 +354,7 @@ public class ApplicationPixelPainter extends Application {
         });
         layoutTools.addComponent(btnSave);
 
-        /*Button button = new Button(138, 81, Icons.PRINTER);
+        Button button = new Button(162, 31, Icons.PRINTER);
         button.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -363,9 +363,9 @@ public class ApplicationPixelPainter extends Application {
                 openDialog(dialog);
             }
         });
-        layoutDraw.addComponent(button);*/
+        layoutDraw.addComponent(button);
 
-        colourPicker = new ComboBox.Custom<>(159, 26, 50, 100, 100);
+        colourPicker = new ComboBox.Custom<>(5, 5, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
         colourPicker.setItemRenderer(new ItemRenderer<Integer>() {
             @Override
@@ -387,7 +387,7 @@ public class ApplicationPixelPainter extends Application {
 
         layoutColours.addComponent(colourPicker);
 
-        Component colourDisplay = new Component(158, 5) {
+        Component colourDisplay = new Component(58, 15) {
             @Override
             public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
                 drawRect(xPosition, yPosition, xPosition + 50, yPosition + 20, Color.DARK_GRAY.getRGB());

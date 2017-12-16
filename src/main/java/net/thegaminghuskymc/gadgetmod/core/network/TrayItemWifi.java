@@ -1,5 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core.network;
 
+import com.mrcrayfish.device.DeviceTab;
+import com.mrcrayfish.device.init.DeviceBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -96,6 +98,7 @@ public class TrayItemWifi extends TrayItem
     private static Layout createWifiMenu(TrayItem item)
     {
         Layout layout = new Layout.Context(100, 100);
+        layout.yPosition = 40;
         layout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
                 Gui.drawRect(x, y, x + width, y + height, new Color(0.65F, 0.65F, 0.65F, 0.9F).getRGB()));
 
@@ -174,7 +177,7 @@ public class TrayItemWifi extends TrayItem
                 {
                     BlockPos pos = new BlockPos(laptopPos.getX() + x, laptopPos.getY() + y, laptopPos.getZ() + z);
                     IBlockState state = world.getBlockState(pos);
-                    if(state.getBlock() == GadgetBlocks.ROUTER)
+                    if(state.getBlock() == GadgetBlocks.ROUTER || state.getBlock() == DeviceBlocks.ROUTER)
                     {
                         routers.add(pos);
                     }

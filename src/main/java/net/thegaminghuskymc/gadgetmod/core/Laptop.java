@@ -42,9 +42,9 @@ public class Laptop extends GuiScreen implements System {
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     private static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
     private static final int BORDER = 10;
-    private static final int DEVICE_WIDTH = 464;
+    public static final int DEVICE_WIDTH = 464;
     static final int SCREEN_WIDTH = DEVICE_WIDTH - BORDER * 2;
-    private static final int DEVICE_HEIGHT = 246;
+    public static final int DEVICE_HEIGHT = 246;
     static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
 
     private static System system;

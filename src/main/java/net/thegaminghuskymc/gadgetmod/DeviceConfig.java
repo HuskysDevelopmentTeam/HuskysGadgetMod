@@ -4,14 +4,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
 
-
 /**
  * Author: MrCrayfish
  */
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class DeviceConfig
 {
     private static final String CATEGORY_LAPTOP = "laptop-settings";
@@ -45,7 +46,7 @@ public class DeviceConfig
 
         signalRange = config.get(CATEGORY_ROUTER, "signalRange", 20, "The range that routers can produce a signal to devices. This is the radius in blocks. Be careful when increasing this value, the performance is O(n^3) and larger numbers will have a bigger impact on the server", 10, 100).getInt();
         beaconInterval = config.get(CATEGORY_ROUTER, "beaconInterval", 20, "The amount of ticks the router waits before sending out a beacon signal. Higher number will increase performance but devices won't know as quick if they lost connection.", 1, 200).getInt();
-        maxDevices = config.get(CATEGORY_ROUTER, "maxDevices", 16, "The maximum amount of devices that can be connected to the router.", 1, 64).getInt();
+        maxDevices = config.get(CATEGORY_ROUTER, "maxDevices", 16, "The maximum amount of devices that can be connected to the router.", 1, 1000).getInt();
 
         overridePrintSpeed = config.get(CATEGORY_PRINTING, "overridePrintSpeed", false, "If enable, overrides all printing times with customPrintSpeed property").getBoolean();
         customPrintSpeed = config.get(CATEGORY_PRINTING, "customPrintSpeed", 20, "The amount of seconds it should take for the printer to addToQueue a document", 1, 600).getInt();
@@ -124,11 +125,6 @@ public class DeviceConfig
     public static int getMaxPaperCount()
     {
         return maxPaperCount;
-    }
-
-    public static boolean isPixelPainterEnable()
-    {
-        return pixelPainterEnable;
     }
 
     public static boolean isRenderPrinted3D()
