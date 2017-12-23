@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/screen",
+    "textures": {
+        "0": "hgm:model/screen_brown"
+    }
+}

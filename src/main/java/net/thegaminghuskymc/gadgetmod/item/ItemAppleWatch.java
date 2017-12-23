@@ -9,6 +9,6 @@ public class ItemAppleWatch extends Item {
     public ItemAppleWatch() {
         this.setUnlocalizedName("apple_watch");
         this.setRegistryName(Reference.MOD_ID, "apple_watch");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

@@ -9,6 +9,6 @@ public class ItemSoundCard extends Item {
     public ItemSoundCard() {
         this.setUnlocalizedName("sound_card");
         this.setRegistryName(Reference.MOD_ID, "sound_card");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

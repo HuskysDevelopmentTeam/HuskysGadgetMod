@@ -9,6 +9,6 @@ public class ItemMotherBoard extends Item {
     public ItemMotherBoard() {
         this.setUnlocalizedName("mother_board");
         this.setRegistryName(Reference.MOD_ID, "mother_board");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

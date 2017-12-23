@@ -16,5 +16,6 @@ public class GadgetTileEntities {
         GameRegistry.registerTileEntity(TileEntityScreen.class, "hgm:screen");
         GameRegistry.registerTileEntity(TileEntityServer.class, "hgm:server");
         GameRegistry.registerTileEntity(TileEntityServerTerminal.class, "hgm:server_terminal");
+        GameRegistry.registerTileEntity(TileEntityOfficeChair.class, "hgm:office_chair");
     }
 }

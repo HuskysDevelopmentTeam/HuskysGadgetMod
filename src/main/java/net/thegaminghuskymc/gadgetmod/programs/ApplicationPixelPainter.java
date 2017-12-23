@@ -20,7 +20,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
@@ -33,6 +32,7 @@ import net.thegaminghuskymc.gadgetmod.object.Picture;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class ApplicationPixelPainter extends Application {
 
@@ -57,7 +57,7 @@ public class ApplicationPixelPainter extends Application {
     private Button btnDeleteSavedPicture;
 
     /* Drawing */
-    private Layout layoutDraw, layoutTools, layoutColours;
+    private Layout layoutDraw;
     private Canvas canvas;
     private CheckBox displayGrid;
 
@@ -116,21 +116,12 @@ public class ApplicationPixelPainter extends Application {
         checkBox32x.setRadioGroup(sizeGroup);
         layoutNewPicture.addComponent(checkBox32x);
 
-        /*CheckBox checkBox64x = new CheckBox("64x", 180, 34);
-        checkBox64x.setRadioGroup(sizeGroup);
-        layoutNewPicture.addComponent(checkBox64x);
-
-        CheckBox checkBox128x = new CheckBox("128x", 215, 34);
-        checkBox128x.setRadioGroup(sizeGroup);
-        layoutNewPicture.addComponent(checkBox128x);*/
-
         Button btnCreatePicture = new Button(110, 40, "Create");
         btnCreatePicture.setSize(65, 20);
         btnCreatePicture.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             setCurrentLayout(layoutDraw);
             canvas.createPicture(fieldName.getText(), fieldAuthor.getText(), checkBox16x.isSelected() ? Picture.Size.X16 : Picture.Size.X32);
-//            canvas.createPicture(fieldName.getText(), fieldAuthor.getText(), checkBox16x.isSelected() ? Picture.Size.X64 : Picture.Size.X128);
         });
         layoutNewPicture.addComponent(btnCreatePicture);
 
@@ -145,7 +136,7 @@ public class ApplicationPixelPainter extends Application {
             {
                 if(success)
                 {
-                    folder.search(file -> file.isForApplication(this)).forEach(file ->
+                    Objects.requireNonNull(folder).search(file -> file.isForApplication(this)).forEach(file ->
                     {
                         Picture picture = Picture.fromFile(file);
                         listPictures.addItem(picture);
@@ -252,12 +243,12 @@ public class ApplicationPixelPainter extends Application {
 
         RadioGroup toolGroup = new RadioGroup();
 
-        layoutTools = new Layout(25, 164);
-        layoutTools.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
+        Layout layoutTools = new Layout(25, 164);
+        layoutTools.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
         layoutDraw.addComponent(layoutTools);
 
-        layoutColours = new Layout(100, 164);
-        layoutColours.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
+        Layout layoutColours = new Layout(100, 164);
+        layoutColours.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
         layoutColours.left = 180;
         layoutDraw.addComponent(layoutColours);
 
@@ -332,7 +323,7 @@ public class ApplicationPixelPainter extends Application {
                 if (file != null) {
                     file.setData(pictureTag, (response, success) ->
                     {
-                        if (response.getStatus() == FileSystem.Status.SUCCESSFUL) {
+                        if (Objects.requireNonNull(response).getStatus() == FileSystem.Status.SUCCESSFUL) {
                             canvas.clear();
                             setCurrentLayout(layoutLoadPicture);
                         }
@@ -425,9 +416,7 @@ public class ApplicationPixelPainter extends Application {
         private int resolution;
         private boolean cut;
 
-        public PicturePrint() {}
-
-        public PicturePrint(String name, int[] pixels, int resolution)
+       PicturePrint(String name, int[] pixels, int resolution)
         {
             this.name = name;
             this.pixels = pixels;
@@ -469,7 +458,7 @@ public class ApplicationPixelPainter extends Application {
             tag.setString("name", name);
             tag.setIntArray("pixels", pixels);
             tag.setInteger("resolution", resolution);
-            if(cut) tag.setBoolean("cut", cut);
+            if(cut) tag.setBoolean("cut", true);
             return tag;
         }
 
@@ -491,7 +480,7 @@ public class ApplicationPixelPainter extends Application {
 
     public static class PictureRenderer implements IPrint.Renderer
     {
-        public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
+        static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
 
         @Override
         public boolean render(NBTTagCompound data)

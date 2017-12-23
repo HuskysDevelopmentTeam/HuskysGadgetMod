@@ -9,6 +9,6 @@ public class ItemCPU extends Item {
     public ItemCPU() {
         this.setUnlocalizedName("cpu");
         this.setRegistryName(Reference.MOD_ID, "cpu");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

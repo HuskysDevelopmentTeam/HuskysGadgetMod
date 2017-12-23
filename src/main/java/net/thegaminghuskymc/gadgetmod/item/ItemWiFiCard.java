@@ -9,6 +9,6 @@ public class ItemWiFiCard extends Item {
     public ItemWiFiCard() {
         this.setUnlocalizedName("wifi_card");
         this.setRegistryName(Reference.MOD_ID, "wifi_card");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

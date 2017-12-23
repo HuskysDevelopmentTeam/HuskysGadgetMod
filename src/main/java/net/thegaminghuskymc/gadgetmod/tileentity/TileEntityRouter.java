@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -8,12 +9,15 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 /**
  * Author: MrCrayfish
  */
-public class TileEntityRouter extends TileEntitySync implements ITickable
-{
+public class TileEntityRouter extends TileEntitySync implements ITickable, Colorable {
+
+    private EnumDyeColor color = EnumDyeColor.RED;
+
     private Router router;
 
     @SideOnly(Side.CLIENT)
@@ -65,6 +69,7 @@ public class TileEntityRouter extends TileEntitySync implements ITickable
     {
         super.writeToNBT(compound);
         compound.setTag("router", getRouter().toTag(false));
+        compound.setByte("color", (byte) color.getDyeDamage());
         return compound;
     }
 
@@ -76,12 +81,17 @@ public class TileEntityRouter extends TileEntitySync implements ITickable
         {
             router = Router.fromTag(pos, compound.getCompoundTag("router"));
         }
+        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
+        }
     }
 
     @Override
     public NBTTagCompound writeSyncTag()
     {
-        return new NBTTagCompound();
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setByte("color", (byte) color.getDyeDamage());
+        return tag;
     }
 
     public void syncDevicesToClient()
@@ -102,4 +112,15 @@ public class TileEntityRouter extends TileEntitySync implements ITickable
     {
         return INFINITE_EXTENT_AABB;
     }
+
+    @Override
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
+    }
+
+    @Override
+    public EnumDyeColor getColor() {
+        return color;
+    }
+
 }

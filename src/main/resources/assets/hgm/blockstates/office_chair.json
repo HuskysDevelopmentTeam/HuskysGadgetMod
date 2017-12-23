@@ -1,0 +1,110 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block"
+	},
+	"variants": {
+		"type": {
+			"legs": {
+				"model": "hgm:office_chair_legs"
+			},
+			"seat": {
+				"model": "hgm:office_chair_seat"
+			},
+			"full": {
+				"model": "hgm:office_chair_full"
+			}
+		},
+		"facing": {
+			"north": { "y": 0   },
+			"east":  { "y": 90  },
+			"south": { "y": 180 },
+			"west":  { "y": 270 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"chair_color": "hgm:model/gaming_chair_black"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}
+
+

@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/printer",
+    "textures": {
+        "0": "hgm:model/printer_white"
+    }
+}

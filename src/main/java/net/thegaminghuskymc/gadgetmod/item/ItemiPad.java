@@ -9,6 +9,6 @@ public class ItemiPad extends Item {
     public ItemiPad() {
         this.setUnlocalizedName("iPad");
         this.setRegistryName(Reference.MOD_ID, "ipad");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

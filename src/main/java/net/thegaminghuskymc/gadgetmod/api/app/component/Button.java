@@ -75,7 +75,6 @@ public class Button extends Component
 	 *
 	 * @param left how many pixels from the left
 I	 * @param top how many pixels from the top
-	 * @param icon
 	 */
 	public Button(int left, int top, IIcon icon)
 	{
@@ -91,7 +90,6 @@ I	 * @param top how many pixels from the top
 	 *
 	 * @param left how many pixels from the left
 	 * @param top how many pixels from the top
-	 * @param icon
 	 */
 	public Button(int left, int top, int buttonWidth, int buttonHeight, IIcon icon)
 	{

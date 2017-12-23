@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -7,12 +8,14 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
-public class TileEntityDesktop extends TileEntityDevice implements ITickable
+public class TileEntityDesktop extends TileEntityDevice implements ITickable, Colorable
 {
     private String name = "Desktop";
     private boolean powered = false;
+    private EnumDyeColor color = EnumDyeColor.RED;
 
     private NBTTagCompound applicationData;
     private NBTTagCompound systemData;
@@ -81,6 +84,9 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable
         {
             this.hasExternalDrive = compound.getBoolean("has_external_drive");
         }
+        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
+        }
     }
 
     @Override
@@ -89,6 +95,7 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable
         super.writeToNBT(compound);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
+        compound.setByte("color", (byte) color.getDyeDamage());
 
         if(systemData != null)
         {
@@ -114,6 +121,7 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable
         tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
         tag.setBoolean("has_external_drive", getFileSystem().getAttachedDrive() != null);
+        tag.setByte("color", (byte) color.getDyeDamage());
         return tag;
     }
 
@@ -179,4 +187,15 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable
     {
         return hasExternalDrive;
     }
+
+    @Override
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
+    }
+
+    @Override
+    public EnumDyeColor getColor() {
+        return color;
+    }
+
 }

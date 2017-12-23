@@ -13,20 +13,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Layout class is the main implementation for displaying
- * components in your application. You can have multiple layouts
- * in your application to switch interfaces during runtime.
- * <p>
- * Use {@link net.thegaminghuskymc.gadgetmod.api.app.Application#setCurrentLayout(Layout)}
- * inside of {@link net.thegaminghuskymc.gadgetmod.api.app.Application#init()}
- * to set the current layout for your application.
- * <p>
- * Check out the example applications to get a better understand of
- * how this works.
- *
- * @author MrCrayfish
- */
 public class Layout extends Component {
     /**
      * The list of components in the layout
@@ -66,7 +52,7 @@ public class Layout extends Component {
         if (height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<Component>();
+        this.components = new ArrayList<>();
         this.width = width;
         this.height = height;
     }
@@ -76,8 +62,6 @@ public class Layout extends Component {
      * noted that the width must be in the range of 20 to 362 and
      * the height 20 to 164.
      *
-     * @param width
-     * @param height
      */
     public Layout(int left, int top, int width, int height) {
         super(left, top);
@@ -88,7 +72,7 @@ public class Layout extends Component {
         if (height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<Component>();
+        this.components = new ArrayList<>();
         this.width = width;
         this.height = height;
     }
@@ -244,7 +228,6 @@ public class Layout extends Component {
      * Sets the initialization listener for this layout.
      * See {@link InitListener}.
      *
-     * @param initListener
      */
     public void setInitListener(InitListener initListener) {
         this.initListener = initListener;
@@ -314,10 +297,6 @@ public class Layout extends Component {
                 drawVerticalLine(x, y, y + height - 1, Color.BLACK.getRGB());
                 drawVerticalLine(x + width - 1, y, y + height - 1, Color.BLACK.getRGB());
             }
-        }
-
-        public void setBorderVisible(boolean visible) {
-            this.borderVisible = visible;
         }
     }
 }

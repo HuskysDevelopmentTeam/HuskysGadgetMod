@@ -4,8 +4,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
+import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitor;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitorOld;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
 import javax.annotation.Nullable;
@@ -77,6 +79,8 @@ public class Connection
     {
         Connection connection = new Connection();
         connection.routerId = UUID.fromString(tag.getString("id"));
+
         return connection;
     }
+
 }

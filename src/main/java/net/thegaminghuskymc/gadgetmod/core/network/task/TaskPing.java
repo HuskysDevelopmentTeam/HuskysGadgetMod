@@ -42,7 +42,7 @@ public class TaskPing extends Task
             TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
             if(tileEntityDevice.isConnected())
             {
-                this.strength = tileEntityDevice.getSignalStrength();
+                this.strength = tileEntityDevice.getRouterSignalStrength();
                 this.setSuccessful();
             }
         }

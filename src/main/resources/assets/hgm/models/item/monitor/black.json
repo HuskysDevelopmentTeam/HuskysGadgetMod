@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/monitor",
+    "textures": {
+        "0": "hgm:model/monitor_black"
+    }
+}

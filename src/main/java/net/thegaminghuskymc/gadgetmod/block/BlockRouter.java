@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -27,6 +28,7 @@ import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncBlock;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -35,7 +37,7 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public class BlockRouter extends BlockHorizontal implements ITileEntityProvider
+public class BlockRouter extends BlockDevice implements ITileEntityProvider
 {
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
@@ -48,7 +50,7 @@ public class BlockRouter extends BlockHorizontal implements ITileEntityProvider
     {
         super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VERTICAL, false));
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
         this.setUnlocalizedName("router");
         this.setRegistryName(Reference.MOD_ID,"router");
     }
@@ -96,6 +98,18 @@ public class BlockRouter extends BlockHorizontal implements ITileEntityProvider
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
     	return this.getBoundingBox(state, worldIn, pos);
+    }
+
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity instanceof Colorable)
+        {
+            Colorable colorable = (Colorable) tileEntity;
+            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
+        }
+        return state;
     }
     
     @Override
@@ -188,6 +202,6 @@ public class BlockRouter extends BlockHorizontal implements ITileEntityProvider
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, FACING, VERTICAL);
+        return new BlockStateContainer(this, FACING, VERTICAL, BlockColored.COLOR);
     }
 }

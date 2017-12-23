@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockColored;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,19 +14,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockDesktop extends BlockHorizontal implements ITileEntityProvider {
+public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
 
     public BlockDesktop() {
         super(Material.ANVIL);
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
         this.setUnlocalizedName("desktop");
         this.setRegistryName(Reference.MOD_ID, "desktop");
     }
@@ -41,6 +43,18 @@ public class BlockDesktop extends BlockHorizontal implements ITileEntityProvider
     public boolean isFullCube(IBlockState state)
     {
         return false;
+    }
+
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity instanceof Colorable)
+        {
+            Colorable colorable = (Colorable) tileEntity;
+            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
+        }
+        return state;
     }
 
     @Override
@@ -104,7 +118,7 @@ public class BlockDesktop extends BlockHorizontal implements ITileEntityProvider
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, FACING);
+        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
     }
 
     @Override

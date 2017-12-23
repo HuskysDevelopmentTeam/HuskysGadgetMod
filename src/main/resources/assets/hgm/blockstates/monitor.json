@@ -1,0 +1,99 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "hgm:monitor",
+      	"transform": "forge:default-block"
+	},
+	"variants": {
+		"facing": {
+			"north": { "y": 0   },
+			"east":  { "y": 90  },
+			"south": { "y": 180 },
+			"west":  { "y": 270 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"0": "hgm:model/monitor_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"0": "hgm:model/monitor_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"0": "hgm:model/monitor_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"0": "hgm:model/monitor_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"0": "hgm:model/monitor_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"0": "hgm:model/monitor_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"0": "hgm:model/monitor_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"0": "hgm:model/monitor_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"0": "hgm:model/monitor_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"0": "hgm:model/monitor_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"0": "hgm:model/monitor_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"0": "hgm:model/monitor_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"0": "hgm:model/monitor_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"0": "hgm:model/monitor_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"0": "hgm:model/monitor_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"0": "hgm:model/monitor_black"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}
+

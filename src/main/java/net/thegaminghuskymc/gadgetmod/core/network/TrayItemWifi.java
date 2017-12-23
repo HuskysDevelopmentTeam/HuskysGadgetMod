@@ -12,7 +12,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
@@ -28,6 +27,8 @@ import java.util.List;
 public class TrayItemWifi extends TrayItem
 {
     private int pingTimer;
+
+    public static TrayItem trayItem;
 
     public TrayItemWifi()
     {
@@ -45,11 +46,10 @@ public class TrayItemWifi extends TrayItem
             }
             else
             {
-                //Laptop.getSystem().openContext(createWifiMenu(this), 222, 24); // Fixed position
             	Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 100);
             }
         });
-    	
+
         runPingTask();
     }
 
@@ -97,6 +97,8 @@ public class TrayItemWifi extends TrayItem
 
     private static Layout createWifiMenu(TrayItem item)
     {
+        trayItem = item;
+
         Layout layout = new Layout.Context(100, 100);
         layout.yPosition = 40;
         layout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
@@ -161,7 +163,7 @@ public class TrayItemWifi extends TrayItem
         return layout;
     }
 
-    private static List<BlockPos> getRouters()
+    public static List<BlockPos> getRouters()
     {
         List<BlockPos> routers = new ArrayList<>();
 

@@ -1,22 +1,16 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
-import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
-import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
 
-public class TileEntityScreen extends TileEntitySync {
+public class TileEntityScreen extends TileEntitySync implements Colorable {
+
+    private EnumDyeColor color = EnumDyeColor.RED;
 
     private IPrint print;
     private byte rotation;
@@ -30,7 +24,6 @@ public class TileEntityScreen extends TileEntitySync {
         }
         pipeline.setByte("rotation", rotation);
         sync();
-        playSound(SoundEvents.ENTITY_ITEMFRAME_ROTATE_ITEM);
     }
 
     public float getRotation()
@@ -56,6 +49,9 @@ public class TileEntityScreen extends TileEntitySync {
         {
             rotation = compound.getByte("rotation");
         }
+        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
+        }
     }
 
     @Override
@@ -67,16 +63,25 @@ public class TileEntityScreen extends TileEntitySync {
             compound.setTag("print", IPrint.writeToTag(print));
         }
         compound.setByte("rotation", rotation);
+        compound.setByte("color", (byte) color.getDyeDamage());
         return compound;
-    }
-
-    private void playSound(SoundEvent sound)
-    {
-        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
     @Override
     public NBTTagCompound writeSyncTag() {
-        return null;
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setByte("color", (byte) color.getDyeDamage());
+        return tag;
     }
+
+    @Override
+    public EnumDyeColor getColor() {
+        return color;
+    }
+
+    @Override
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
+    }
+
 }

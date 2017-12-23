@@ -1,14 +1,18 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockColored;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
@@ -35,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider {
+public class BlockLaptop extends BlockDevice implements ITileEntityProvider {
 
     public static final PropertyEnum TYPE = PropertyEnum.create("type", Type.class);
 
@@ -49,7 +53,7 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider 
     {
         super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.BASE));
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
         this.setUnlocalizedName("laptop");
         this.setRegistryName(Reference.MOD_ID, "laptop");
     }
@@ -104,13 +108,6 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider 
             return;
         }
         Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, FULL_BLOCK_AABB);
-    }
-
-    @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
-        IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
-        return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
@@ -208,7 +205,20 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if(tileEntity instanceof Colorable)
+        {
+            Colorable colorable = (Colorable) tileEntity;
+            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
+        }
         return state.withProperty(TYPE, Type.BASE);
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    {
+        IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
+        return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
@@ -232,7 +242,10 @@ public class BlockLaptop extends BlockHorizontal implements ITileEntityProvider 
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, FACING, TYPE);
+        BlockStateContainer.Builder builder = new BlockStateContainer.Builder(this);
+        builder.add(FACING, TYPE);
+        builder.add(BlockColored.COLOR);
+        return builder.build();
     }
 
     @Override

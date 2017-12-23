@@ -26,7 +26,6 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
-import scala.collection.mutable.FlatHashTable;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,28 +33,26 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class ItemEthernetCable extends Item
-{
-    public ItemEthernetCable()
-    {
+public class ItemEthernetCable extends Item {
+    public ItemEthernetCable() {
         this.setUnlocalizedName("ethernet_cable");
         this.setRegistryName("ethernet_cable");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);
     }
 
+    private static double getDistance(BlockPos source, BlockPos target) {
+        return Math.sqrt(source.distanceSqToCenter(target.getX() + 0.5, target.getY() + 0.5, target.getZ() + 0.5));
+    }
+
     @Override
-    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
-    {
-        if(!world.isRemote)
-        {
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+        if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
             TileEntity tileEntity = world.getTileEntity(pos);
 
-            if(tileEntity instanceof TileEntityRouter)
-            {
-                if(!heldItem.hasTagCompound())
-                {
+            if (tileEntity instanceof TileEntityRouter) {
+                if (!heldItem.hasTagCompound()) {
                     sendGameInfoMessage(player, "message.invalid_cable");
                     return EnumActionResult.SUCCESS;
                 }
@@ -67,54 +64,37 @@ public class ItemEthernetCable extends Item
                 BlockPos devicePos = BlockPos.fromLong(tag.getLong("pos"));
 
                 TileEntity tileEntity1 = world.getTileEntity(devicePos);
-                if(tileEntity1 instanceof TileEntityDevice)
-                {
+                if (tileEntity1 instanceof TileEntityDevice) {
                     TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity1;
-                    if(!router.hasDevice(tileEntityDevice))
-                    {
-                        if(router.addDevice(tileEntityDevice))
-                        {
+                    if (!router.hasDevice(tileEntityDevice)) {
+                        if (router.addDevice(tileEntityDevice)) {
                             tileEntityDevice.connect(router);
                             heldItem.shrink(1);
-                            if(getDistance(tileEntity1.getPos(), tileEntityRouter.getPos()) > DeviceConfig.getSignalRange())
-                            {
+                            if (getDistance(tileEntity1.getPos(), tileEntityRouter.getPos()) > DeviceConfig.getSignalRange()) {
                                 sendGameInfoMessage(player, "message.successful_registered");
-                            }
-                            else
-                            {
+                            } else {
                                 sendGameInfoMessage(player, "message.successful_connection");
                             }
-                        }
-                        else
-                        {
+                        } else {
                             sendGameInfoMessage(player, "message.router_max_devices");
                         }
-                    }
-                    else
-                    {
+                    } else {
                         sendGameInfoMessage(player, "message.device_already_connected");
                     }
-                }
-                else
-                {
-                    if(router.addDevice(tag.getUniqueId("id"), tag.getString("name")))
-                    {
+                } else {
+                    if (router.addDevice(tag.getUniqueId("id"), tag.getString("name"))) {
                         heldItem.shrink(1);
                         sendGameInfoMessage(player, "message.successful_registered");
-                    }
-                    else
-                    {
+                    } else {
                         sendGameInfoMessage(player, "message.router_max_devices");
                     }
                 }
                 return EnumActionResult.SUCCESS;
             }
 
-            if(tileEntity instanceof TileEntityDevice)
-            {
+            if (tileEntity instanceof TileEntityDevice) {
                 TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-                if(!heldItem.hasTagCompound())
-                {
+                if (!heldItem.hasTagCompound()) {
                     heldItem.setTagCompound(new NBTTagCompound());
                 }
                 NBTTagCompound tag = heldItem.getTagCompound();
@@ -130,22 +110,17 @@ public class ItemEthernetCable extends Item
         return EnumActionResult.SUCCESS;
     }
 
-    private void sendGameInfoMessage(EntityPlayer player, String message)
-    {
-        if(player instanceof EntityPlayerMP)
-        {
+    private void sendGameInfoMessage(EntityPlayer player, String message) {
+        if (player instanceof EntityPlayerMP) {
             ((EntityPlayerMP) player).connection.sendPacket(new SPacketChat(new TextComponentTranslation(message), ChatType.GAME_INFO));
         }
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
-    {
-        if(!world.isRemote)
-        {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
-            if(player.isSneaking())
-            {
+            if (player.isSneaking()) {
                 heldItem.clearCustomName();
                 heldItem.setTagCompound(null);
                 return new ActionResult<>(EnumActionResult.SUCCESS, heldItem);
@@ -156,13 +131,10 @@ public class ItemEthernetCable extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
-        if(stack.hasTagCompound())
-        {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (stack.hasTagCompound()) {
             NBTTagCompound tag = stack.getTagCompound();
-            if(tag != null)
-            {
+            if (tag != null) {
                 tooltip.add(TextFormatting.RED.toString() + TextFormatting.BOLD.toString() + "ID: " + TextFormatting.RESET.toString() + tag.getUniqueId("id"));
                 tooltip.add(TextFormatting.RED.toString() + TextFormatting.BOLD.toString() + "Device: " + TextFormatting.RESET.toString() + tag.getString("name"));
 
@@ -173,11 +145,8 @@ public class ItemEthernetCable extends Item
                 builder.append(TextFormatting.RED.toString() + TextFormatting.BOLD.toString() + "Z: " + TextFormatting.RESET.toString() + devicePos.getZ());
                 tooltip.add(builder.toString());
             }
-        }
-        else
-        {
-            if(!GuiScreen.isShiftKeyDown())
-            {
+        } else {
+            if (!GuiScreen.isShiftKeyDown()) {
                 tooltip.add(TextFormatting.GRAY.toString() + "Use this cable to connect");
                 tooltip.add(TextFormatting.GRAY.toString() + "a device to a router.");
                 tooltip.add(TextFormatting.YELLOW.toString() + "Hold SHIFT for How-To");
@@ -194,13 +163,7 @@ public class ItemEthernetCable extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack)
-    {
+    public boolean hasEffect(ItemStack stack) {
         return stack.hasTagCompound();
-    }
-
-    private static double getDistance(BlockPos source, BlockPos target)
-    {
-        return Math.sqrt(source.distanceSqToCenter(target.getX() + 0.5, target.getY() + 0.5, target.getZ() + 0.5));
     }
 }

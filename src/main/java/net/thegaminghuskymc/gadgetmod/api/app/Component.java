@@ -1,11 +1,15 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import scala.tools.cmd.gen.AnyVals;
 
+@SideOnly(Side.CLIENT)
 public abstract class Component extends Gui {
     /**
      * The default components textures

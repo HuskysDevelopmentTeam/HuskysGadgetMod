@@ -9,6 +9,6 @@ public class ItemServerKey extends Item {
     public ItemServerKey() {
         this.setUnlocalizedName("server_key");
         this.setRegistryName(Reference.MOD_ID, "server_key");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

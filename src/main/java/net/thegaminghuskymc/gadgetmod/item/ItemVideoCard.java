@@ -9,6 +9,6 @@ public class ItemVideoCard extends Item {
     public ItemVideoCard() {
         this.setUnlocalizedName("video_card");
         this.setRegistryName(Reference.MOD_ID, "video_card");
-        this.setCreativeTab(HuskyGadgetMod.tabDevice);
+        this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 }

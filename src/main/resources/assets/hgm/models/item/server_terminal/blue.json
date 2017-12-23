@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/server_terminal",
+    "textures": {
+        "0": "hgm:model/server_terminal_blue"
+    }
+}

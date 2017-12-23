@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
+import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
 import net.thegaminghuskymc.gadgetmod.core.network.Connection;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
 
@@ -21,6 +22,7 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
     private int counter;
     private UUID deviceId;
     private Connection connection;
+    private net.thegaminghuskymc.gadgetmod.core.images.Connection connectionMonitor;
 
     @Override
     public void update()
@@ -57,6 +59,26 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         this.markDirty();
     }
 
+    public void connect(Monitor monitor)
+    {
+        if(monitor == null)
+        {
+            if(connection != null)
+            {
+                Monitor connectedRouter = connectionMonitor.getRouter(world);
+                if(connectedRouter != null)
+                {
+                    connectedRouter.removeDevice(this);
+                }
+            }
+            connection = null;
+            return;
+        }
+        connectionMonitor = new net.thegaminghuskymc.gadgetmod.core.images.Connection(monitor);
+        counter = 0;
+        this.markDirty();
+    }
+
     public Connection getConnection()
     {
         return connection;
@@ -66,6 +88,12 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
     public Router getRouter()
     {
         return connection != null ? connection.getRouter(world) : null;
+    }
+
+    @Nullable
+    public Monitor getMonitor()
+    {
+        return connectionMonitor != null ? connectionMonitor.getRouter(world) : null;
     }
 
     public final UUID getId()
@@ -81,7 +109,7 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
 
     public boolean isConnected()
     {
-        return connection != null && connection.isConnected();
+        return connection != null && connection.isConnected() && connectionMonitor != null && connectionMonitor.isConnected();
     }
 
     public boolean receiveBeacon(Router router)
@@ -89,6 +117,29 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         if(connection.getRouterId().equals(router.getId()))
         {
             connection.setRouterPos(router.getPos());
+            counter = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public int getRouterSignalStrength()
+    {
+        BlockPos routerPos = connection.getRouterPos();
+        if(routerPos != null)
+        {
+            double distance = Math.sqrt(pos.distanceSqToCenter(routerPos.getX() + 0.5, routerPos.getY() + 0.5, routerPos.getZ() + 0.5));
+            double level = DeviceConfig.getSignalRange() / 3.0;
+            return distance > level * 2 ? 2 : distance > level ? 1 : 0;
+        }
+        return -1;
+    }
+
+    public boolean receiveBeacon(Monitor monitor)
+    {
+        if(connection.getRouterId().equals(monitor.getId()))
+        {
+            connection.setRouterPos(monitor.getPos());
             counter = 0;
             return true;
         }

@@ -9,9 +9,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
-import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
-import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 import net.minecraft.client.Minecraft;
@@ -49,6 +46,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRouter.class, new RouterRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
         if (HuskyGadgetMod.DEVELOPER_MODE) {
             Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/developer_wallpaper.png"));

@@ -1,12 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
 import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
+import net.thegaminghuskymc.gadgetmod.api.app.component.IThingy;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 
 /**
  * Author: MrCrayfish
  */
-public class TrayItem
+public class TrayItem implements IThingy
 {
     private IIcon icon;
     private ClickListener listener;

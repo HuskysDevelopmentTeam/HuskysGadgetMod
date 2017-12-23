@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/robot",
+    "textures": {
+        "0": "hgm:model/robot_yellow"
+    }
+}

@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.minecraft.block.BlockColored;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
@@ -134,7 +135,7 @@ public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
     @Override
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, FACING);
+        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
     }
 
     public EnumBlockRenderType getRenderType(IBlockState state)

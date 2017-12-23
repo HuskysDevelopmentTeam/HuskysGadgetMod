@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/flash_drive",
+    "textures": {
+        "1": "blocks/wool_colored_red"
+    }
+}

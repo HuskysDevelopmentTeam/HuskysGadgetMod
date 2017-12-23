@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/laptop",
+    "textures": {
+        "2": "blocks/wool_colored_yellow"
+    }
+}

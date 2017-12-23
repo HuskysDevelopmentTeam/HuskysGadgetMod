@@ -1,12 +1,108 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"transform": "forge:default-block"
+	},
 	"variants": {
-		"facing=north,vertical=false": { "model": "hgm:router"                             },
-		"facing=east,vertical=false":  { "model": "hgm:router",                   "y": 90  },
-		"facing=south,vertical=false": { "model": "hgm:router",                   "y": 180 },
-		"facing=west,vertical=false":  { "model": "hgm:router",                   "y": 270 },
-		"facing=north,vertical=true":  { "model": "hgm:router_vertical", "x":-90           },
-		"facing=east,vertical=true":   { "model": "hgm:router_vertical", "x":-90, "y": 90  },
-		"facing=south,vertical=true":  { "model": "hgm:router_vertical", "x":-90, "y": 180 },
-		"facing=west,vertical=true":   { "model": "hgm:router_vertical", "x":-90, "y": 270 }
+		"vertical": {
+			"true": {
+				"model": "hgm:router_vertical",
+				"x": -90
+			},
+			"false": {
+				"model": "hgm:router"
+			}
+		},
+		"facing": {
+			"north": { "y": 0   },
+			"east":  { "y": 90  },
+			"south": { "y": 180 },
+			"west":  { "y": 270 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"0": "hgm:model/router_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"0": "hgm:model/router_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"0": "hgm:model/router_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"0": "hgm:model/router_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"0": "hgm:model/router_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"0": "hgm:model/router_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"0": "hgm:model/router_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"0": "hgm:model/router_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"0": "hgm:model/router_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"0": "hgm:model/router_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"0": "hgm:model/router_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"0": "hgm:model/router_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"0": "hgm:model/router_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"0": "hgm:model/router_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"0": "hgm:model/router_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"0": "hgm:model/router_black"
+				}
+			}
+		},
+		"inventory": [{}]
 	}
 }
+
+

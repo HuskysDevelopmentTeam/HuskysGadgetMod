@@ -5,46 +5,38 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.CheckBox;
-import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Palette;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
+import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 public class ApplicationSettings extends SystemApplication {
 
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonPrevious;
-
-    private Layout layoutMain;
-    private Layout layoutGeneral;
-    private CheckBox checkBoxShowApps;
-
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnWallpaperNext;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnWallpaperPrev;
+    private Button buttonPrevious;
 
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
 
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonColourSchemeApply;
-
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonWallpaperLeft;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonWallpaperRight;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonWallpaperUrl;
+    private Button buttonColourSchemeApply;
 
     private Layout layoutInformation;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label OSVersion;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label OSName;
 
     private Stack<Layout> predecessor = new Stack<>();
 
@@ -55,7 +47,7 @@ public class ApplicationSettings extends SystemApplication {
 
     @Override
     public void init() {
-        buttonPrevious = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(2, 2, Icons.ARROW_LEFT);
+        buttonPrevious = new Button(2, 2, Icons.ARROW_LEFT);
         buttonPrevious.setVisible(false);
         buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -69,7 +61,7 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
 
-        layoutMain = new Menu("Home");
+        Layout layoutMain = new Menu("Home");
         layoutMain.addComponent(buttonPrevious);
 
         layoutColourScheme = new Menu("Colour Scheme");
@@ -84,18 +76,21 @@ public class ApplicationSettings extends SystemApplication {
         {
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 172, y + wallpaperY - 1 + 90, getLaptop().getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 520, y + wallpaperY - 1 + 90, Objects.requireNonNull(getLaptop()).getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
             mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
-            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 170, 88, 256, 144);
+            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 520, 289, 520, 288);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
         layoutInformation = new Menu("Information");
         layoutInformation.addComponent(buttonPrevious);
 
-        net.thegaminghuskymc.gadgetmod.api.app.component.Button personalise = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 66, "Personalise", Icons.EYE_DROPPER);
+        Layout layoutWifi = new Menu("WiFi");
+        layoutWifi.addComponent(buttonPrevious);
+
+        Button personalise = new Button(5, 66, "Personalise", Icons.EYE_DROPPER);
         personalise.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -104,7 +99,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(personalise);
 
-        net.thegaminghuskymc.gadgetmod.api.app.component.Button information = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 86, "Information", Icons.HELP);
+        Button information = new Button(5, 86, "Information", Icons.HELP);
         information.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -113,7 +108,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(information);
 
-        net.thegaminghuskymc.gadgetmod.api.app.component.Button wallpapers = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(20, 66, "Wallpapers", Icons.PICTURE);
+        Button wallpapers = new Button(20, 66, "Wallpapers", Icons.PICTURE);
         wallpapers.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -122,7 +117,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutPersonalise.addComponent(wallpapers);
 
-        net.thegaminghuskymc.gadgetmod.api.app.component.Button buttonColourScheme = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(40, 86, "Colour Schemes", Icons.TRASH);
+        Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.TRASH);
         buttonColourScheme.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -131,68 +126,132 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutPersonalise.addComponent(buttonColourScheme);
 
-        buttonWallpaperLeft = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(185, 27, Icons.ARROW_LEFT);
+        Button buttonWiFi = new Button(50, 96, "Wifi", Icons.WIFI_HIGH);
+        buttonWiFi.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if(mouseButton == 0) {
+                showMenu(layoutWifi);
+            }
+        });
+        layoutMain.addComponent(buttonWiFi);
+
+        ItemList<BlockPos> itemListRouters = new ItemList<>(5, 25, 90, 4);
+        itemListRouters.setItems(TrayItemWifi.getRouters());
+        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16)
+        {
+            @Override
+            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
+            {
+                Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
+                gui.drawString(mc.fontRenderer, "Monitor", x + 16, y + 4, Color.WHITE.getRGB());
+
+                BlockPos laptopPos = Laptop.getPos();
+                double distance = Math.sqrt(blockPos.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+                if(distance > 20)
+                {
+                    Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
+                }
+                else if(distance > 10)
+                {
+                    Icons.WIFI_MED.draw(mc, x + 3, y + 3);
+                }
+                else
+                {
+                    Icons.WIFI_HIGH.draw(mc, x + 3, y + 3);
+                }
+            }
+        });
+        itemListRouters.sortBy((o1, o2) -> {
+            BlockPos laptopPos = Laptop.getPos();
+            double distance1 = Math.sqrt(o1.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+            double distance2 = Math.sqrt(o2.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+            return Double.compare(distance1, distance2);
+        });
+        layoutWifi.addComponent(itemListRouters);
+
+        Button buttonConnect = new Button(79, 99, Icons.CHECK);
+        buttonConnect.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                if(itemListRouters.getSelectedItem() != null)
+                {
+                    TaskConnect connect = new TaskConnect(Laptop.getPos(), itemListRouters.getSelectedItem());
+                    connect.setCallback((tagCompound, success) ->
+                    {
+                        if(success)
+                        {
+                            TrayItemWifi.trayItem.setIcon(Icons.WIFI_HIGH);
+                            Laptop.getSystem().closeContext();
+                        }
+                    });
+                    TaskManager.sendTask(connect);
+                }
+            }
+        });
+        layoutWifi.addComponent(buttonConnect);
+
+        Button buttonWallpaperLeft = new Button(185, 27, Icons.ARROW_LEFT);
         buttonWallpaperLeft.setSize(25, 20);
         buttonWallpaperLeft.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
-                this.getLaptop().prevWallpaper();
+                Objects.requireNonNull(this.getLaptop()).prevWallpaper();
             }
         });
         layoutWallpapers.addComponent(buttonWallpaperLeft);
 
-        buttonWallpaperRight = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(215, 27, Icons.ARROW_RIGHT);
+        Button buttonWallpaperRight = new Button(215, 27, Icons.ARROW_RIGHT);
         buttonWallpaperRight.setSize(25, 20);
         buttonWallpaperRight.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
-                this.getLaptop().nextWallpaper();
+                Objects.requireNonNull(this.getLaptop()).nextWallpaper();
             }
         });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
-        buttonWallpaperUrl = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(185, 52, "Load", Icons.EARTH);
+        Button buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(145, 26);
+        ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(26);
         layoutColourScheme.addComponent(comboBoxTextColour);
 
-        ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(145, 44);
+        ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(44);
         layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
 
-        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(145, 62);
+        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(62);
         layoutColourScheme.addComponent(comboBoxHeaderColour);
 
-        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(145, 80);
+        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(80);
         layoutColourScheme.addComponent(comboBoxBackgroundColour);
 
-        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(145, 98);
+        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(98);
         layoutColourScheme.addComponent(comboBoxBackgroundSecondaryColour);
 
-        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(145, 116);
+        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(116);
         layoutColourScheme.addComponent(comboBoxItemBackgroundColour);
 
-        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(145, 134);
+        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(134);
         layoutColourScheme.addComponent(comboBoxItemHighlightColour);
 
-        buttonColourSchemeApply = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 79, Icons.CHECK);
+        buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
         buttonColourSchemeApply.setEnabled(false);
         buttonColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
         buttonColourSchemeApply.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-                colourScheme.setBackgroundColour(comboBoxHeaderColour.getValue());
+                colourScheme.setBackgroundColour(Objects.requireNonNull(comboBoxHeaderColour.getValue()));
                 buttonColourSchemeApply.setEnabled(false);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        OSName = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("OS Name: " + Reference.OSName, 10, 50);
+        Label OSName = new Label("OS Name: " + Reference.OSName, 10, 50);
         layoutInformation.addComponent(OSName);
 
-        OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
+        Label OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
         layoutInformation.addComponent(OSVersion);
 
         setCurrentLayout(layoutMain);
@@ -220,8 +279,8 @@ public class ApplicationSettings extends SystemApplication {
         predecessor.clear();
     }
 
-    public ComboBox.Custom<Integer> createColourPicker(int left, int top) {
-        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(left, top, 50, 100, 100);
+    private ComboBox.Custom<Integer> createColourPicker(int top) {
+        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(145, top, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
         colourPicker.setItemRenderer(new ItemRenderer<Integer>() {
             @Override
@@ -231,10 +290,7 @@ public class ApplicationSettings extends SystemApplication {
                 }
             }
         });
-        colourPicker.setChangeListener((oldValue, newValue) ->
-        {
-            buttonColourSchemeApply.setEnabled(true);
-        });
+        colourPicker.setChangeListener((oldValue, newValue) -> buttonColourSchemeApply.setEnabled(true));
 
         Palette palette = new Palette(5, 5, colourPicker);
         Layout layout = colourPicker.getLayout();
@@ -246,7 +302,7 @@ public class ApplicationSettings extends SystemApplication {
     private static class Menu extends Layout {
         private String title;
 
-        public Menu(String title) {
+        Menu(String title) {
             super(280, 160);
             this.title = title;
         }

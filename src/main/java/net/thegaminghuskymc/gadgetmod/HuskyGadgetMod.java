@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -19,6 +20,7 @@ import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
 import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
+import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
 import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
@@ -49,7 +51,9 @@ public class HuskyGadgetMod {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
 
-    public static CreativeTabs tabDevice = new DeviceTab("hdmTabDevice");
+    public static CreativeTabs deviceBlocks = new DeviceTab("hdmTabDeviceBlocks");
+    public static CreativeTabs deviceItems = new DeviceTab("hdmTabDeviceItems");
+    public static CreativeTabs deviceDecoration = new DeviceTab("hdmTabDeviceDecoration");
     public static boolean DEVELOPER_MODE;
     public static boolean HUSKY_MODE;
     private static Logger logger;
@@ -78,6 +82,8 @@ public class HuskyGadgetMod {
     public void init(FMLInitializationEvent event) {
         /* Tile Entity Registering */
         GadgetTileEntities.register();
+
+        EntityRegistry.registerModEntity(new ResourceLocation("hgmSeat"), EntitySeat.class, "hgmSeat", 0, this, 80, 1, false);
 
         /* Packet Registering */
         PacketHandler.init();
@@ -119,6 +125,10 @@ public class HuskyGadgetMod {
         TaskManager.registerTask(TaskConnect.class);
         TaskManager.registerTask(TaskPing.class);
         TaskManager.registerTask(TaskGetDevices.class);
+
+        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskConnect.class);
+        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskPing.class);
+        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskGetDevices.class);
 
         //Bank
         TaskManager.registerTask(ApplicationBank.TaskDeposit.class);

@@ -1,12 +1,20 @@
 itemGroup.hgmTabDevice=Husky's Device Mod
 
 tile.laptop.name=Laptop
-tile.router.name=Router
+tile.monitor.name=Router
 tile.printer.name=Printer
+tile.screen.name=Screen
+tile.monitor.name=Monitor
+tile.desktop.name=Desktop
+tile.office_chair.name=Gaming Chair
+tile.server.name=Server
+tile.server_terminal.name=Server Terminal
+tile.robot.name=Robot
 
 item.flash_drive.name=Flash Drive
 item.printed_paper.name=Printed Paper
 item.ethernet_cable.name=Ethernet Cable
+item.hdmi_cable.name=HDMI Cable
 
 app.hgm.settings.name=Settings
 app.hgm.bank.name=Bank
@@ -19,9 +27,9 @@ app.hgm.boat_racers.name=Boat Racers
 app.hgm.mine_bay.name=MineBay
 app.hgm.bluej.name=BlueJ
 
-message.select_router=Now select a router to connect this device to.
-message.invalid_cable=Please select a device first before adding it to this router.
-message.router_max_devices=The maximum amount of devices has been reached for this router.
-message.device_already_connected=The selected device is already connected to this router.
-message.successful_connection=Successfully connected the selected device to this router.
-message.successful_registered=Successfully registered the selected device to this router.
+message.select_router=Now select a monitor to connect this device to.
+message.invalid_cable=Please select a device first before adding it to this monitor.
+message.router_max_devices=The maximum amount of devices has been reached for this monitor.
+message.device_already_connected=The selected device is already connected to this monitor.
+message.successful_connection=Successfully connected the selected device to this monitor.
+message.successful_registered=Successfully registered the selected device to this monitor.
