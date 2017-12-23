@@ -1,6 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockWoodSlab;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemBlock;
 import net.thegaminghuskymc.gadgetmod.block.*;
 import net.thegaminghuskymc.gadgetmod.item.ItemColorable;
@@ -41,8 +44,8 @@ public class GadgetBlocks {
         GAMING_DESK = new BlockGamingDesk();
     }
 
-    public static void register()
-    {
+    public static void register() {
+
         registerBlock(LAPTOP, new ItemDevice(LAPTOP));
         registerBlock(ROUTER, new ItemDevice(ROUTER));
         registerBlock(PRINTER, new ItemDevice(PRINTER));

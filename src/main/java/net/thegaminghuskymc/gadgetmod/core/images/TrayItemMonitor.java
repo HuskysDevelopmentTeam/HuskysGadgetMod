@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.core.images;
 
-import com.mrcrayfish.device.init.DeviceBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

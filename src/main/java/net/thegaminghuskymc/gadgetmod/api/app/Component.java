@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import scala.tools.cmd.gen.AnyVals;
 
-@SideOnly(Side.CLIENT)
 public abstract class Component extends Gui {
     /**
      * The default components textures

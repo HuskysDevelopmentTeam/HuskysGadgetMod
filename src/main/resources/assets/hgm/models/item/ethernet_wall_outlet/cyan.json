@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/ethernet_wall_outlet",
+    "textures": {
+        "0": "hgm:model/ethernet_wall_outlet_cyan"
+    }
+}

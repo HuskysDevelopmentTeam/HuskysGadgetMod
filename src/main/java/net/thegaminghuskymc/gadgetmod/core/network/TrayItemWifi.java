@@ -1,7 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.core.network;
 
-import com.mrcrayfish.device.DeviceTab;
-import com.mrcrayfish.device.init.DeviceBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -179,7 +177,7 @@ public class TrayItemWifi extends TrayItem
                 {
                     BlockPos pos = new BlockPos(laptopPos.getX() + x, laptopPos.getY() + y, laptopPos.getZ() + z);
                     IBlockState state = world.getBlockState(pos);
-                    if(state.getBlock() == GadgetBlocks.ROUTER || state.getBlock() == DeviceBlocks.ROUTER)
+                    if(state.getBlock() == GadgetBlocks.ROUTER)
                     {
                         routers.add(pos);
                     }

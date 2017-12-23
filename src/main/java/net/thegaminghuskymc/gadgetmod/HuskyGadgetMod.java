@@ -1,6 +1,8 @@
 package net.thegaminghuskymc.gadgetmod;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -12,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -51,9 +54,9 @@ public class HuskyGadgetMod {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
 
-    public static CreativeTabs deviceBlocks = new DeviceTab("hdmTabDeviceBlocks");
-    public static CreativeTabs deviceItems = new DeviceTab("hdmTabDeviceItems");
-    public static CreativeTabs deviceDecoration = new DeviceTab("hdmTabDeviceDecoration");
+    public static CreativeTabs deviceBlocks = new DeviceTab("deviceBlocks");
+    public static CreativeTabs deviceItems = new DeviceTab("deviceItems");
+    public static CreativeTabs deviceDecoration = new DeviceTab("deviceDecoration");
     public static boolean DEVELOPER_MODE;
     public static boolean HUSKY_MODE;
     private static Logger logger;
@@ -95,6 +98,8 @@ public class HuskyGadgetMod {
 
         registerApplications();
 
+        GadgetOreDictionary.init();
+
         proxy.init();
     }
 
@@ -125,10 +130,6 @@ public class HuskyGadgetMod {
         TaskManager.registerTask(TaskConnect.class);
         TaskManager.registerTask(TaskPing.class);
         TaskManager.registerTask(TaskGetDevices.class);
-
-        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskConnect.class);
-        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskPing.class);
-        TaskManager.registerTask(net.thegaminghuskymc.gadgetmod.core.images.task.TaskGetDevices.class);
 
         //Bank
         TaskManager.registerTask(ApplicationBank.TaskDeposit.class);

@@ -14,11 +14,13 @@ public class GadgetSounds
 {
     public static final SoundEvent PRINTER_PRINTING;
     public static final SoundEvent PRINTER_LOADING_PAPER;
+    public static final SoundEvent FANS_BLOWING;
 
     static
     {
         PRINTER_PRINTING = registerSound(Reference.RESOURCE_PREFIX + "printing_ink");
         PRINTER_LOADING_PAPER = registerSound(Reference.RESOURCE_PREFIX + "printing_paper");
+        FANS_BLOWING = registerSound(Reference.RESOURCE_PREFIX + "fans_blowing");
     }
 
     private static SoundEvent registerSound(String soundNameIn)
@@ -36,6 +38,7 @@ public class GadgetSounds
         {
             event.getRegistry().register(PRINTER_PRINTING);
             event.getRegistry().register(PRINTER_LOADING_PAPER);
+            event.getRegistry().register(FANS_BLOWING);
         }
     }
 }
