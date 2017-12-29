@@ -55,9 +55,10 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
             {
                 GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate(te.getBlockMetadata() * -90F + 180F, 0, 1, 0);
-                GlStateManager.translate(-0.5, 0, -0.5);
-                GlStateManager.translate(0, 0.0625, 0.25);
-                float f = te.prevRotation + (te.rotation - te.prevRotation) * partialTicks;
+                GlStateManager.translate(-0.5, 0.1, -0.45);
+
+                GlStateManager.translate(0, -0.04, 0.2);
+                float f = te.prevRotation + (te.rotation - te.prevRotation) * partialTicks + 20F;
                 GlStateManager.rotate(-f, 1, 0, 0);
 
                 GlStateManager.disableLighting();

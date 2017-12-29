@@ -2,11 +2,14 @@ package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.oredict.OreDictionary;
 import net.thegaminghuskymc.gadgetmod.enums.EnumStorage;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class GadgetOreDictionary {
@@ -39,7 +42,7 @@ public class GadgetOreDictionary {
 
         IntStream.range(0, EnumDyeColor.values().length).forEach(meta -> registerWithHandlers("flashDriveGadget" + StringUtils.capitalize(EnumDyeColor.values()[meta].getName()),
                 new ItemStack(GadgetItems.flash_drive, 1, meta)));
-        IntStream.range(0, EnumStorage.values().length).forEach(meta -> registerWithHandlers("ramGadget" + StringUtils.capitalize(EnumStorage.values()[meta].getName()),
+        IntStream.range(0, EnumStorage.values().length).forEach(meta -> registerWithHandlers("ramStickGadget" + StringUtils.capitalize(EnumStorage.values()[meta].getName()),
                 new ItemStack(GadgetItems.ramSticks, 1, meta)));
 	}
 

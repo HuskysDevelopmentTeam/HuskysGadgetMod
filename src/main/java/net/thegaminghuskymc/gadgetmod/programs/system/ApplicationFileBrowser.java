@@ -6,6 +6,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 
 public class ApplicationFileBrowser extends SystemApplication {
+
     private FileBrowser browser;
 
     public ApplicationFileBrowser() {
@@ -22,7 +23,7 @@ public class ApplicationFileBrowser extends SystemApplication {
 
     @Override
     public void load(NBTTagCompound tagCompound) {
-
+        
     }
 
     @Override

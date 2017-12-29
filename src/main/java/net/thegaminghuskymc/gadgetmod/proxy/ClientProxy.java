@@ -1,6 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
@@ -9,6 +14,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.handler.GuiDrawHandler;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 import net.minecraft.client.Minecraft;
@@ -34,9 +40,32 @@ import java.util.Map;
 
 public class ClientProxy extends CommonProxy {
 
+    public static boolean rendering = false;
+    public static Entity renderEntity = null;
+    public static Entity backupEntity = null;
+
+    @Override
+    public EntityPlayer getClientPlayer()
+    {
+        return Minecraft.getMinecraft().player;
+    }
+
+    @Override
+    public boolean isSinglePlayer()
+    {
+        return Minecraft.getMinecraft().isSingleplayer();
+    }
+
+    @Override
+    public boolean isDedicatedServer()
+    {
+        return false;
+    }
+
     @Override
     public void preInit() {
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
     }
 
     @Override
@@ -48,18 +77,14 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-        if (HuskyGadgetMod.DEVELOPER_MODE) {
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/developer_wallpaper.png"));
-        } else {
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-            Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
-        }
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
     }
 
     @Override
@@ -185,6 +210,51 @@ public class ClientProxy extends CommonProxy {
     {
         allowedApps = null;
         DeviceConfig.restore();
+    }
+
+    @SubscribeEvent
+    public void onClientWorldLoad(WorldEvent.Load event)
+    {
+        if (event.getWorld() instanceof WorldClient)
+        {
+
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientWorldUnload(WorldEvent.Unload event)
+    {
+        if (event.getWorld() instanceof WorldClient)
+        {
+
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onPrePlayerRender(RenderPlayerEvent.Pre event)
+    {
+        if(!rendering)
+            return;
+
+        if(event.getEntityPlayer() == renderEntity)
+        {
+            this.backupEntity = Minecraft.getMinecraft().getRenderManager().renderViewEntity;
+            Minecraft.getMinecraft().getRenderManager().renderViewEntity = renderEntity;
+        }
+    }
+
+    @SubscribeEvent
+    public void onPostPlayerRender(RenderPlayerEvent.Post event)
+    {
+        if(!rendering)
+            return;
+
+        if (event.getEntityPlayer() == renderEntity)
+        {
+            Minecraft.getMinecraft().getRenderManager().renderViewEntity = backupEntity;
+            renderEntity = null;
+        }
     }
 
 }

@@ -12,12 +12,15 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 
 import java.util.Random;
 
+
 public class DeviceTab extends CreativeTabs {
 
+    @SideOnly(Side.CLIENT)
+    private String title = getTabLabel();
+    private boolean hoveringButton = false;
+
     private ItemStack icon = ItemStack.EMPTY;
-    private boolean hasSearchBar = false;
     private boolean displayRandom = true;
-    protected final Random RANDOM = new Random();
     private int tempIndex = 0;
     private ItemStack tempDisplayStack = ItemStack.EMPTY;
 
@@ -25,8 +28,8 @@ public class DeviceTab extends CreativeTabs {
         super(label);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @SideOnly(Side.CLIENT)
     public ItemStack getIconItemStack() {
         if(this.displayRandom) {
             if (Minecraft.getSystemTime() % 120 == 0) {
@@ -35,6 +38,25 @@ public class DeviceTab extends CreativeTabs {
             return this.tempDisplayStack;
         }
         else return this.icon;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getTranslatedTabLabel()
+    {
+        return hoveringButton ? title : getTabLabel();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void setHoveringButton(boolean hoveringButton)
+    {
+        this.hoveringButton = hoveringButton;
     }
 
     @SideOnly(Side.CLIENT)
@@ -52,7 +74,6 @@ public class DeviceTab extends CreativeTabs {
         }
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public ItemStack getTabIconItem() {
         return this.getIconItemStack();

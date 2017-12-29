@@ -1,6 +1,6 @@
 {
     "parent": "cdm:item/flash_drive",
     "textures": {
-        "1": "blocks/wool_colored_cyan"
+        "0": "hgm:model/flash_drive_cyan"
     }
 }

@@ -1,14 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockWoodSlab;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemBlock;
 import net.thegaminghuskymc.gadgetmod.block.*;
-import net.thegaminghuskymc.gadgetmod.item.ItemColorable;
-import net.thegaminghuskymc.gadgetmod.item.ItemDevice;
-import net.thegaminghuskymc.gadgetmod.item.ItemPaper;
+import net.thegaminghuskymc.gadgetmod.item.*;
 
 public class GadgetBlocks {
 
@@ -18,7 +13,6 @@ public class GadgetBlocks {
     public static final Block PAPER;
     public static final Block SCREEN;
     public static final Block OFFICE_CHAIR;
-    public static Block TV;
     public static final Block MONITOR;
     public static final Block DESKTOP;
     public static final Block SERVER;
@@ -26,6 +20,16 @@ public class GadgetBlocks {
     public static final Block ROBOT;
     public static final Block ETHERNET_WALL_OUTLET;
     public static final Block GAMING_DESK;
+    public static final Block THREEDE_PRINTER;
+    public static final Block BENCHMARK_STATION;
+    public static final Block DRAWING_TABLET;
+    public static final Block MECHANICAL_KEYBOARD;
+    public static final Block COMPUTER_MOUSE;
+    public static final Block PORTABLE_TOILET;
+    public static final Block RGB_LIGHTS;
+    public static final Block ROOF_LIGHTS;
+    public static final Block SECURITY_CAMERA;
+    public static final Block SOUNDWOOFERS;
 
     static
     {
@@ -42,6 +46,16 @@ public class GadgetBlocks {
         ROBOT = new BlockRobot();
         ETHERNET_WALL_OUTLET = new BlockEthernetWallOutlet();
         GAMING_DESK = new BlockGamingDesk();
+        THREEDE_PRINTER = new Block3DPrinter();
+        BENCHMARK_STATION = new BlockBenchmarkStation();
+        DRAWING_TABLET = new BlockDrawingTablet();
+        MECHANICAL_KEYBOARD = new BlockMechanicalKeyboard();
+        COMPUTER_MOUSE = new BlockMouse();
+        PORTABLE_TOILET = new BlockPortableToilet();
+        RGB_LIGHTS = new BlockRGBLights();
+        ROOF_LIGHTS = new BlockRoofLights();
+        SECURITY_CAMERA = new BlockSecurityCamera();
+        SOUNDWOOFERS = new BlockSoundwoofers();
     }
 
     public static void register() {
@@ -59,10 +73,19 @@ public class GadgetBlocks {
         registerBlock(ETHERNET_WALL_OUTLET, new ItemColorable(ETHERNET_WALL_OUTLET));
         registerBlock(OFFICE_CHAIR, new ItemColorable(OFFICE_CHAIR));
         registerBlock(GAMING_DESK, new ItemColorable(GAMING_DESK));
+//        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
+//        registerBlock(BENCHMARK_STATION, new ItemDevice(BENCHMARK_STATION));
+//        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
+//        registerBlock(MECHANICAL_KEYBOARD, new ItemColorable(MECHANICAL_KEYBOARD));
+//        registerBlock(COMPUTER_MOUSE, new ItemColorable(COMPUTER_MOUSE));
+//        registerBlock(PORTABLE_TOILET);
+//        registerBlock(RGB_LIGHTS, new ItemColorable(RGB_LIGHTS));
+//        registerBlock(ROOF_LIGHTS, new ItemColorable(ROOF_LIGHTS));
+//        registerBlock(SECURITY_CAMERA);
+//        registerBlock(SOUNDWOOFERS);
     }
 
-    private static void registerBlock(Block block)
-    {
+    private static void registerBlock(Block block) {
         registerBlock(block, new ItemBlock(block));
     }
 

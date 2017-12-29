@@ -37,7 +37,12 @@ public class BlockGamingDesk extends BlockDecoration {
     private static final AxisAlignedBB BODY_BOX_WEST = CollisionHelper.getBlockBounds(EnumFacing.WEST, BODY_BOUNDS);
     private static final AxisAlignedBB[] BODY_BOUNDING_BOX = { BODY_BOX_SOUTH, BODY_BOX_WEST, BODY_BOX_NORTH, BODY_BOX_EAST };
 
-    private static final AxisAlignedBB SELECTION_BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 2.0);
+    private static final Bounds SELECTION_BOUNDS = new Bounds(0.0, 0.0, 0.0, 1.0, 1.0, 2.0);
+    private static final AxisAlignedBB SELECTION_BOUNDING_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, SELECTION_BOUNDS);
+    private static final AxisAlignedBB SELECTION_BOUNDING_BOX_EAST = CollisionHelper.getBlockBounds(EnumFacing.EAST, SELECTION_BOUNDS);
+    private static final AxisAlignedBB SELECTION_BOUNDING_BOX_SOUTH = CollisionHelper.getBlockBounds(EnumFacing.SOUTH, SELECTION_BOUNDS);
+    private static final AxisAlignedBB SELECTION_BOUNDING_BOX_WEST = CollisionHelper.getBlockBounds(EnumFacing.WEST, SELECTION_BOUNDS);
+    private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = { SELECTION_BOUNDING_BOX_SOUTH, SELECTION_BOUNDING_BOX_WEST, SELECTION_BOUNDING_BOX_NORTH, SELECTION_BOUNDING_BOX_EAST };
 
     public BlockGamingDesk() {
         super(Material.ANVIL);
@@ -61,7 +66,8 @@ public class BlockGamingDesk extends BlockDecoration {
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return SELECTION_BOUNDING_BOX;
+        EnumFacing facing = state.getValue(FACING);
+        return SELECTION_BOUNDING_BOX[facing.getHorizontalIndex()];
     }
 
     @Override

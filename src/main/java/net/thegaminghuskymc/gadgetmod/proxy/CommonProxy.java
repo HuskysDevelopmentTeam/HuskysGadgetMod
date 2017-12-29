@@ -1,9 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import com.google.common.collect.ImmutableList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
@@ -25,6 +30,26 @@ import java.util.List;
 public class CommonProxy {
 
     List<AppInfo> allowedApps;
+
+    public World getClientWorld()
+    {
+        return null;
+    }
+
+    public EntityPlayer getClientPlayer()
+    {
+        return null;
+    }
+
+    public boolean isSinglePlayer()
+    {
+        return false;
+    }
+
+    public boolean isDedicatedServer()
+    {
+        return true;
+    }
 
     public void preInit() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -84,6 +109,31 @@ public class CommonProxy {
             if(world.getBlockState(event.getPos()).getBlock() == GadgetBlocks.PRINTER)
             {
                 event.setUseBlock(Event.Result.ALLOW);
+            }
+        }
+    }
+
+    private static final List<String> IGNORE_SOUNDS;
+
+    static
+    {
+        ImmutableList.Builder<String> builder = ImmutableList.builder();
+        builder.add("channel_news");
+        builder.add("channel_sam_tabor");
+        builder.add("channel_heman");
+        builder.add("channel_switch");
+        builder.add("channel_cooking");
+        IGNORE_SOUNDS = builder.build();
+    }
+
+    @SubscribeEvent
+    public void onMissingMap(RegistryEvent.MissingMappings<SoundEvent> event)
+    {
+        for(RegistryEvent.MissingMappings.Mapping<SoundEvent> missing : event.getMappings())
+        {
+            if(missing.key.getResourceDomain().equals(Reference.MOD_ID) && IGNORE_SOUNDS.contains(missing.key.getResourcePath().toString()))
+            {
+                missing.ignore();
             }
         }
     }

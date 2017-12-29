@@ -11,7 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationManager {
-    private static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
+
+    private static AppInfo appInfo;
+
+    public static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
 
     /**
      * Registers an application into the application list

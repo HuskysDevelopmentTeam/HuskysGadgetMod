@@ -4,8 +4,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 public class AppInfo {
+
     private final ResourceLocation APP_ID;
     private int iconU = 0, iconV = 0;
+
+    private String defaultAppVersion = "0.0.1";
 
     public AppInfo(ResourceLocation identifier) {
         this.APP_ID = identifier;
@@ -44,6 +47,12 @@ public class AppInfo {
 
     public String getDescription() {
         return I18n.format("app." + this.getFormattedId() + ".desc");
+    }
+
+    public String getVersion() { return I18n.format("app" + this.getFormattedId() + ".version"); }
+
+    public String getDefaultAppVersion() {
+        return "app" + this.getFormattedId() + "." + defaultAppVersion;
     }
 
     public int getIconU() {

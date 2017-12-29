@@ -9,9 +9,11 @@ import javax.annotation.Nullable;
  * Created by Casey on 03-Aug-17.
  */
 public abstract class SystemApplication extends Application {
+
     private Laptop laptop;
 
     SystemApplication() {
+
     }
 
     @Nullable
@@ -22,4 +24,5 @@ public abstract class SystemApplication extends Application {
     public void setLaptop(@Nullable Laptop laptop) {
         this.laptop = laptop;
     }
+
 }

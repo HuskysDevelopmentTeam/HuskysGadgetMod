@@ -17,5 +17,14 @@ public class GadgetTileEntities {
         GameRegistry.registerTileEntity(TileEntityServer.class, "hgm:server");
         GameRegistry.registerTileEntity(TileEntityServerTerminal.class, "hgm:server_terminal");
         GameRegistry.registerTileEntity(TileEntityOfficeChair.class, "hgm:office_chair");
+
+        GameRegistry.registerTileEntity(TileEntity3DPrinter.class, "hgm:3d_printer");
+        GameRegistry.registerTileEntity(TileEntityBenchmarkStation.class, "hgm:benchmark_station");
+        GameRegistry.registerTileEntity(TileEntityDrawingTablet.class, "hgm:drawing_tablet");
+        GameRegistry.registerTileEntity(TileEntityMechanicalKeyboard.class, "hgm:mechanical_keyboard");
+        GameRegistry.registerTileEntity(TileEntityRGBLights.class, "hgm:rgb_lights");
+        GameRegistry.registerTileEntity(TileEntityRoofLights.class, "hgm:roof_lights");
+        GameRegistry.registerTileEntity(TileEntitySecurityCamera.class, "hgm:security_camera");
+        GameRegistry.registerTileEntity(TileEntitySoundwoofers.class, "hgm:soundwoofers");
     }
 }

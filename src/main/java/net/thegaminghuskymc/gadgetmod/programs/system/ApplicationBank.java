@@ -31,6 +31,7 @@ import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 import java.awt.*;
 
 public class ApplicationBank extends SystemApplication {
+
     private static final ItemStack EMERALD = new ItemStack(Items.EMERALD);
     private static final ResourceLocation BANK_ASSETS = new ResourceLocation(Reference.MOD_ID, "textures/gui/bank.png");
     private static final ResourceLocation villagerTextures = new ResourceLocation("textures/entity/villager/villager.png");
@@ -53,7 +54,6 @@ public class ApplicationBank extends SystemApplication {
     private Label labelEmeraldAmount;
     private Label labelInventory;
 
-    private int emeraldAmount;
     private int rotation;
 
     public ApplicationBank() {

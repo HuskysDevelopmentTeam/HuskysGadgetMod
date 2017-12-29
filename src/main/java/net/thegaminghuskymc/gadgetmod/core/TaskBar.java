@@ -30,7 +30,7 @@ public class TaskBar
 {
     public static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
 
-    private static final int APPS_DISPLAYED = HuskyGadgetMod.DEVELOPER_MODE ? 18 : 10;
+    private static final int APPS_DISPLAYED = 18;
     public static final int BAR_HEIGHT = 18;
 
     private Button btnLeft;
@@ -61,11 +61,7 @@ public class TaskBar
                 return true;
             }
             if(HuskyGadgetMod.proxy.hasAllowedApplications()) {
-                return HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo()) && (!HuskyGadgetMod.DEVELOPER_MODE || Settings.isShowAllApps());
-            }
-            else if(HuskyGadgetMod.DEVELOPER_MODE)
-            {
-                return Settings.isShowAllApps();
+                return HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo()) && (Settings.isShowAllApps());
             }
             return true;
         };
@@ -165,7 +161,7 @@ public class TaskBar
         btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
 
-        if(isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16))
+        if(isMouseInside(mouseX, mouseY, x + 18, y + 1, x + Laptop.SCREEN_WIDTH, y + 16))
         {
             int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
             if(appIndex <= offset + APPS_DISPLAYED && appIndex < applications.size())

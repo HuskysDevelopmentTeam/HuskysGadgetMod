@@ -1,4 +1,6 @@
-itemGroup.hgmTabDevice=Husky's Device Mod
+itemGroup.gadgetBlocks=Husky's Gadget Mod: Blocks
+itemGroup.gadgetItems=Husky's Gadget Mod: Items
+itemGroup.gadgetDecoration=Husky's Gadget Mod: Decoration
 
 tile.laptop.name=Laptop
 tile.monitor.name=Router
@@ -21,13 +23,17 @@ app.hgm.bank.name=Bank
 app.hgm.example.name=UI Components
 app.hgm.file_browser.name=File Browser
 app.hgm.note_stash.name=NotePad
-app.hgm.pixel_painter.name=Huskydobe PixelShop
+app.hgm.pixel_shop.name=Huskydobe PixelShop
 app.hgm.ender_mail.name=EnderMail
 app.hgm.boat_racers.name=Boat Racers
 app.hgm.mine_bay.name=MineBay
 app.hgm.bluej.name=BlueJ
+app.hgm.pixel_book.name=PixelBook
+app.hgm.pixel_browser.name=Pixel Browser
+app.hgm.cackler.name=Cackler
+app.hgm.flame_chat.name=Flame Chat
 
-message.select_router=Now select a monitor to connect this device to.
+message.select_router=Now select a router to connect this device to.
 message.invalid_cable=Please select a device first before adding it to this monitor.
 message.router_max_devices=The maximum amount of devices has been reached for this monitor.
 message.device_already_connected=The selected device is already connected to this monitor.

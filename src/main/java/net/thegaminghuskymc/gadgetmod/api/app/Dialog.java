@@ -189,8 +189,7 @@ public abstract class Dialog extends Wrappable
         this.pendingClose = true;
     }
 
-    public static class Message extends Dialog
-    {
+    public static class Message extends Dialog {
         private String messageText = "";
 
         private ClickListener positiveListener;
@@ -211,21 +210,14 @@ public abstract class Dialog extends Wrappable
 
             super.init();
 
-            defaultLayout.setBackground(new Background()
-            {
-                @Override
-                public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive)
-                {
-                    Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB());
-                }
-            });
+            defaultLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB()));
 
             Text message = new Text(messageText, 5, 5, getWidth() - 10);
             this.addComponent(message);
 
             buttonPositive = new Button(getWidth() - 41, getHeight() - 20, "Close");
             buttonPositive.setSize(36, 15);
-            buttonPositive.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+            buttonPositive.setClickListener((mouseX, mouseY, mouseButton) -> {
                 if(positiveListener != null)
                 {
                     positiveListener.onClick(mouseX, mouseY, mouseButton);
@@ -244,8 +236,8 @@ public abstract class Dialog extends Wrappable
      * uses this dialog to prompt the user if it should override
      * a file.
      */
-    public static class Confirmation extends Dialog
-    {
+    public static class Confirmation extends Dialog {
+
         private String messageText = "Are you sure?";
         private String positiveText = "Yes";
         private String negativeText = "No";
@@ -273,14 +265,7 @@ public abstract class Dialog extends Wrappable
 
             super.init();
 
-            defaultLayout.setBackground(new Background()
-            {
-                @Override
-                public void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive)
-                {
-                    Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB());
-                }
-            });
+            defaultLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB()));
 
             Text message = new Text(messageText, 5, 5, getWidth() - 10);
             this.addComponent(message);

@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 
 public class ApplicationPackageManager extends Application {
+
     @Override
     public void init() {
 

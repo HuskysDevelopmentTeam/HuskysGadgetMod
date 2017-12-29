@@ -83,12 +83,7 @@ public class Layout extends Component {
      * trigger on initialization listener if set.
      * See {@link #setInitListener(InitListener)}
      */
-    public void init() {
-        if (initListener != null) {
-            initListener.onInit();
-        }
-        handleOnLoad();
-    }
+    public void init() {}
 
     /**
      * Adds a component to this layout and initializes it.
@@ -107,7 +102,10 @@ public class Layout extends Component {
     }
 
     @Override
-    public void handleOnLoad() {
+    protected void handleOnLoad() {
+        if (initListener != null) {
+            initListener.onInit();
+        }
         for (Component c : components) {
             c.handleOnLoad();
         }

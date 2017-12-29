@@ -21,11 +21,15 @@ import javax.annotation.Nullable;
  */
 public abstract class Application extends Wrappable {
 
+    private String APP_VERSION;
+
     protected final AppInfo info = null;
     private final Layout defaultLayout = new Layout();
     private BlockPos laptopPositon;
     private int width, height;
     private Layout currentLayout;
+
+
 
     /**
      * If set to true, will update NBT data for Application
@@ -100,18 +104,6 @@ public abstract class Application extends Wrappable {
         currentLayout.handleTick();
     }
 
-    // TODO Remove laptop instance
-
-    /**
-     * @param laptop
-     * @param mc
-     * @param x
-     * @param y
-     * @param mouseX
-     * @param mouseY
-     * @param active
-     * @param partialTicks
-     */
     @Override
     public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
         currentLayout.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
@@ -189,8 +181,6 @@ public abstract class Application extends Wrappable {
     public void handleKeyReleased(char character, int code) {
         currentLayout.handleKeyReleased(character, code);
     }
-
-    // TODO: Remove from here and put into core
 
     /**
      * Updates the components of the current layout to adjust to new window
@@ -353,11 +343,10 @@ public abstract class Application extends Wrappable {
     /**
      * Gets the active dialog window for this application
      *
-     * @return
      */
     @Nullable
-    public Window<Dialog> getActiveDialog() {
-        Window<Dialog> dialogWindow = getWindow().getDialogWindow();
+    public Window getActiveDialog() {
+        Window dialogWindow = getWindow().getDialogWindow();
         if (dialogWindow != null) {
             while (true) {
                 if (dialogWindow.getDialogWindow() == null) {
@@ -366,7 +355,7 @@ public abstract class Application extends Wrappable {
                 dialogWindow = dialogWindow.getDialogWindow();
             }
         }
-        return dialogWindow;
+        return null;
     }
 
     /**

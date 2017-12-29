@@ -1,6 +1,6 @@
 {
     "parent": "hgm:item/flash_drive",
     "textures": {
-        "1": "blocks/wool_colored_purple"
+        "0": "hgm:model/flash_drive_purple"
     }
 }

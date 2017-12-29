@@ -2,8 +2,7 @@
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "blocks/laptop_1",
-		"particle": "blocks/laptop_1"
+		"particle": "#0"
 	},
 	"elements": [
 		{
@@ -244,11 +243,11 @@
 						1.3999999999999986,
 						0.40000000000000036
 					],
-					"texture": "#missing"
+					"texture": "#0"
 				},
 				"south": {
 					"uv": [0, 0, 10.4, 0.40000000000000036],
-					"texture": "#missing"
+					"texture": "#0"
 				},
 				"west": {
 					"uv": [
@@ -262,7 +261,7 @@
 				"up": {"uv": [8.1, 8, 16, 9.4], "texture": "#0"},
 				"down": {
 					"uv": [0, 0, 10.4, 1.3999999999999986],
-					"texture": "#missing"
+					"texture": "#0"
 				}
 			},
 			"type": "cube"

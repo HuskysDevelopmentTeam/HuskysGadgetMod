@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
@@ -76,16 +75,40 @@ public class ApplicationSettings extends SystemApplication {
         {
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 520, y + wallpaperY - 1 + 90, Objects.requireNonNull(getLaptop()).getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 150, y + wallpaperY - 1 + 90, Objects.requireNonNull(getLaptop()).getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
             mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
-            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 520, 289, 520, 288);
+            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 148, 88, 252, 256);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
         layoutInformation = new Menu("Information");
         layoutInformation.addComponent(buttonPrevious);
+
+        Layout layoutInformationComputer = new Menu("Computer Information");
+        layoutInformationComputer.addComponent(buttonPrevious);
+
+        Layout layoutInformationApps = new Menu("App Information");
+        layoutInformationApps.addComponent(buttonPrevious);
+
+        Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
+        buttonInformationApps.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if (mouseButton == 0) {
+                showMenu(layoutInformationApps);
+            }
+        });
+        layoutInformation.addComponent(buttonInformationApps);
+
+        Button buttonInformationComputer = new Button(5, 46, "Computer Information", Icons.COMPUTER);
+        buttonInformationComputer.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if (mouseButton == 0) {
+                showMenu(layoutInformationComputer);
+            }
+        });
+        layoutInformation.addComponent(buttonInformationComputer);
 
         Layout layoutWifi = new Menu("WiFi");
         layoutWifi.addComponent(buttonPrevious);
@@ -99,7 +122,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(personalise);
 
-        Button information = new Button(5, 86, "Information", Icons.HELP);
+        Button information = new Button(5, 87, "Information", Icons.HELP);
         information.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -126,7 +149,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutPersonalise.addComponent(buttonColourScheme);
 
-        Button buttonWiFi = new Button(50, 96, "Wifi", Icons.WIFI_HIGH);
+        Button buttonWiFi = new Button(5, 108, "Wifi", Icons.WIFI_HIGH);
         buttonWiFi.setClickListener((mouseX, mouseY, mouseButton) -> {
             if(mouseButton == 0) {
                 showMenu(layoutWifi);
@@ -145,7 +168,7 @@ public class ApplicationSettings extends SystemApplication {
                 gui.drawString(mc.fontRenderer, "Monitor", x + 16, y + 4, Color.WHITE.getRGB());
 
                 BlockPos laptopPos = Laptop.getPos();
-                double distance = Math.sqrt(blockPos.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+                double distance = Math.sqrt(blockPos.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
                 if(distance > 20)
                 {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
@@ -162,7 +185,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         itemListRouters.sortBy((o1, o2) -> {
             BlockPos laptopPos = Laptop.getPos();
-            double distance1 = Math.sqrt(o1.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+            double distance1 = Math.sqrt(o1.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             double distance2 = Math.sqrt(o2.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             return Double.compare(distance1, distance2);
         });
@@ -248,11 +271,47 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        Label OSName = new Label("OS Name: " + Reference.OSName, 10, 50);
-        layoutInformation.addComponent(OSName);
+        Label nameOnPage = new Label("Basic information about the computer", 40, 25);
+        nameOnPage.setTextColour(Color.GRAY.getRGB());
+        layoutInformationComputer.addComponent(nameOnPage);
 
-        Label OSVersion = new Label("OS Version: " + Reference.OSVersion, 10, 65);
-        layoutInformation.addComponent(OSVersion);
+        layoutInformationComputer.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            Gui.drawRect(x, y + 35,  x + width, y + 36, Color.GRAY.getRGB());
+
+            Gui.drawRect(x, y + 49,  x + width, y + 50, Color.GRAY.getRGB());
+
+            Gui.drawRect(x, y + 80,  x + width, y + 81, Color.GRAY.getRGB());
+
+            Gui.drawRect(x, y + 93,  x + width, y + 94, Color.GRAY.getRGB());
+
+            Gui.drawRect(x, y + 147,  x + width, y + 148, Color.GRAY.getRGB());
+        });
+
+        Label NeonOSVersion = new Label("NeonOS-Version", 40, 38);
+        NeonOSVersion.setTextColour(Color.LIGHT_GRAY.getRGB());
+        layoutInformationComputer.addComponent(NeonOSVersion);
+
+        Label OS = new Label("NeonOS 3 Professional", 40, 54);
+        layoutInformationComputer.addComponent(OS);
+
+        Label copyright = new Label("© 2017 HextCraft  Corporation. With sole rights", 40, 69);
+        layoutInformationComputer.addComponent(copyright);
+
+        Label system = new Label("System", 40, 83);
+        system.setTextColour(Color.LIGHT_GRAY.getRGB());
+        layoutInformationComputer.addComponent(system);
+
+        Label graphicCard = new Label("Graphic Card: Mine-Vidia Titan X", 40, 97);
+        layoutInformationComputer.addComponent(graphicCard);
+
+        Label CPU = new Label("CPU: Minetel i9-7980XE Extreme Edition", 40, 110);
+        layoutInformationComputer.addComponent(CPU);
+
+        Label Ram = new Label("Ram: 64GB " + "(63GB can be used)", 40, 123);
+        layoutInformationComputer.addComponent(Ram);
+
+        Label systemType = new Label("System Type: 64-bit-OS, x64-based-processor", 40, 135);
+        layoutInformationComputer.addComponent(systemType);
 
         setCurrentLayout(layoutMain);
     }
