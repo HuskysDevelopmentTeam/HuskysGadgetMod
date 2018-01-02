@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.io.task.*;
@@ -65,6 +67,9 @@ public class HuskyGadgetMod {
     public static CreativeTabs deviceDecoration = new DeviceTab("gadgetDecoration");
     public static boolean HUSKY_MODE;
     private static Logger logger;
+
+
+    public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
 
     public static Logger getLogger() {
         return logger;
@@ -126,6 +131,13 @@ public class HuskyGadgetMod {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+
+        try {
+            Class<Application> app = classLoader.loadClass("http:///multicraft-mod.cba.pl/ASimpleApp.class");
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"hello"), app);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Core
         TaskManager.registerTask(TaskUpdateApplicationData.class);
