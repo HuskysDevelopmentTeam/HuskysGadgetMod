@@ -15,51 +15,42 @@ public class TileEntityScreen extends TileEntitySync implements Colorable {
     private IPrint print;
     private byte rotation;
 
-    public void nextRotation()
-    {
+    public void nextRotation() {
         rotation++;
-        if(rotation > 7)
-        {
+        if (rotation > 7) {
             rotation = 0;
         }
         pipeline.setByte("rotation", rotation);
         sync();
     }
 
-    public float getRotation()
-    {
+    public float getRotation() {
         return rotation * 45F;
     }
 
     @Nullable
-    public IPrint getPrint()
-    {
+    public IPrint getPrint() {
         return print;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("print", Constants.NBT.TAG_COMPOUND))
-        {
+        if (compound.hasKey("print", Constants.NBT.TAG_COMPOUND)) {
             print = IPrint.loadFromTag(compound.getCompoundTag("print"));
         }
-        if(compound.hasKey("rotation", Constants.NBT.TAG_BYTE))
-        {
+        if (compound.hasKey("rotation", Constants.NBT.TAG_BYTE)) {
             rotation = compound.getByte("rotation");
         }
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        if(print != null)
-        {
+        if (print != null) {
             compound.setTag("print", IPrint.writeToTag(print));
         }
         compound.setByte("rotation", rotation);

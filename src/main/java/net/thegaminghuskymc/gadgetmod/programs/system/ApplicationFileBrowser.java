@@ -23,7 +23,7 @@ public class ApplicationFileBrowser extends SystemApplication {
 
     @Override
     public void load(NBTTagCompound tagCompound) {
-        
+
     }
 
     @Override

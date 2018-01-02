@@ -1,10 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.component;
 
-import net.thegaminghuskymc.gadgetmod.api.app.*;
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,6 +10,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -27,6 +25,7 @@ import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
@@ -35,6 +34,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import java.awt.*;
 import java.lang.System;
@@ -478,7 +478,7 @@ public class FileBrowser extends Component {
     }
 
     private void createFolder() {
-        net.thegaminghuskymc.gadgetmod.api.app.Dialog.Input dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Input("Enter a name");
+        Dialog.Input dialog = new Dialog.Input("Enter a name");
         dialog.setResponseHandler((success, v) ->
         {
             if (success) {
@@ -538,12 +538,12 @@ public class FileBrowser extends Component {
         if (file != null) {
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be deleted.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
 
-            net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation();
+            Dialog.Confirmation dialog = new Dialog.Confirmation();
             StringBuilder builder = new StringBuilder();
             builder.append("Are you sure you want to delete this ");
             if (file.isFolder()) {
@@ -574,7 +574,7 @@ public class FileBrowser extends Component {
         if (file != null) {
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be deleted.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
@@ -595,7 +595,7 @@ public class FileBrowser extends Component {
         if (file != null) {
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be deleted.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
@@ -617,7 +617,7 @@ public class FileBrowser extends Component {
             File file = fileList.getSelectedItem();
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be copied.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
@@ -632,7 +632,7 @@ public class FileBrowser extends Component {
             File file = fileList.getSelectedItem();
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be cut.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
@@ -647,7 +647,7 @@ public class FileBrowser extends Component {
         if (clipboardFile != null) {
             if (canPasteHere()) {
                 if (currentFolder.hasFile(clipboardFile.getName())) {
-                    net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Confirmation("A file with the same name already exists in this directory. Do you want to override it?");
+                    Dialog.Confirmation dialog = new Dialog.Confirmation("A file with the same name already exists in this directory. Do you want to override it?");
                     dialog.setPositiveText("Override");
                     dialog.setPositiveListener((mouseX, mouseY, mouseButton) ->
                     {
@@ -660,7 +660,7 @@ public class FileBrowser extends Component {
                     handleCopyCut(false);
                 }
             } else {
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message("Destination folder can't be a subfolder");
+                Dialog.Message dialog = new Dialog.Message("Destination folder can't be a subfolder");
                 wrappable.openDialog(dialog);
             }
         }
@@ -775,12 +775,12 @@ public class FileBrowser extends Component {
         if (file != null) {
             if (file.isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be renamed.";
-                net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message(message);
+                Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
 
-            net.thegaminghuskymc.gadgetmod.api.app.Dialog.Input dialog = new net.thegaminghuskymc.gadgetmod.api.app.Dialog.Input("Enter a name");
+            Dialog.Input dialog = new Dialog.Input("Enter a name");
             dialog.setResponseHandler((success, s) ->
             {
                 if (success) {
@@ -804,7 +804,7 @@ public class FileBrowser extends Component {
     }
 
     private void createErrorDialog(String message) {
-        net.thegaminghuskymc.gadgetmod.api.app.Dialog.Message dialog = new Dialog.Message(message);
+        Dialog.Message dialog = new Dialog.Message(message);
         dialog.setTitle("Error");
         wrappable.openDialog(dialog);
     }

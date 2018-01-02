@@ -11,14 +11,11 @@ import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 public class TileEntityMonitorOld extends TileEntityDevice implements ITickable, Colorable {
 
+    @SideOnly(Side.CLIENT)
+    public float rotation;
     private String name = "Monitor";
     private boolean powered = false;
     private EnumDyeColor color = EnumDyeColor.RED;
-
-
-    @SideOnly(Side.CLIENT)
-    public float rotation;
-
     @SideOnly(Side.CLIENT)
     private float prevRotation;
 
@@ -26,29 +23,21 @@ public class TileEntityMonitorOld extends TileEntityDevice implements ITickable,
     private boolean hasComputerConnected;
 
     @Override
-    public String getDeviceName()
-    {
+    public String getDeviceName() {
         return name;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         super.update();
-        if(world.isRemote)
-        {
+        if (world.isRemote) {
             prevRotation = rotation;
-            if(!powered)
-            {
-                if(rotation > 0)
-                {
+            if (!powered) {
+                if (rotation > 0) {
                     rotation -= 10F;
                 }
-            }
-            else
-            {
-                if(rotation < 110)
-                {
+            } else {
+                if (rotation < 110) {
                     rotation += 10F;
                 }
             }
@@ -56,29 +45,24 @@ public class TileEntityMonitorOld extends TileEntityDevice implements ITickable,
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("powered"))
-        {
+        if (compound.hasKey("powered")) {
             this.powered = compound.getBoolean("powered");
         }
-        if(compound.hasKey("device_name", Constants.NBT.TAG_STRING))
-        {
+        if (compound.hasKey("device_name", Constants.NBT.TAG_STRING)) {
             this.name = compound.getString("device_name");
         }
-        if(compound.hasKey("has_computer_connected"))
-        {
+        if (compound.hasKey("has_computer_connected")) {
             this.hasComputerConnected = compound.getBoolean("has_computer_connected");
         }
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
@@ -88,8 +72,7 @@ public class TileEntityMonitorOld extends TileEntityDevice implements ITickable,
     }
 
     @Override
-    public NBTTagCompound writeSyncTag()
-    {
+    public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
@@ -99,42 +82,37 @@ public class TileEntityMonitorOld extends TileEntityDevice implements ITickable,
     }
 
     @Override
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return 16384;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
+    public AxisAlignedBB getRenderBoundingBox() {
         return INFINITE_EXTENT_AABB;
     }
 
-    public void powerUnpower()
-    {
+    public void powerUnpower() {
         powered = !powered;
         pipeline.setBoolean("powered", powered);
         sync();
     }
 
-    public boolean isPowered()
-    {
+    public boolean isPowered() {
         return powered;
     }
 
-    public boolean isComputerConnected()
-    {
+    public boolean isComputerConnected() {
         return hasComputerConnected;
-    }
-
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
     }
 
     @Override
     public EnumDyeColor getColor() {
         return color;
+    }
+
+    @Override
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
     }
 }

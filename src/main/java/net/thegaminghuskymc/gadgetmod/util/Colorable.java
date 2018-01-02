@@ -5,8 +5,7 @@ import net.minecraft.item.EnumDyeColor;
 /**
  * Author: MrCrayfish
  */
-public interface Colorable
-{
+public interface Colorable {
     EnumDyeColor getColor();
 
     void setColor(EnumDyeColor color);

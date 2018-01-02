@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.minecraft.util.ResourceLocation;
+import net.thegaminghuskymc.gadgetmod.Reference;
 
 /**
  * Author: MrCrayfish

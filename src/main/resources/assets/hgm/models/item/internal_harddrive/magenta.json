@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/internal_harddrive",
+    "textures": {
+        "0": "hgm:model/internal_harddrive_magenta"
+    }
+}

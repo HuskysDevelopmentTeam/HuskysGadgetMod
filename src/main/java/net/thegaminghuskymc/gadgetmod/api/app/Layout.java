@@ -61,7 +61,6 @@ public class Layout extends Component {
      * Constructor to set a custom width and height. It should be
      * noted that the width must be in the range of 20 to 362 and
      * the height 20 to 164.
-     *
      */
     public Layout(int left, int top, int width, int height) {
         super(left, top);
@@ -83,7 +82,8 @@ public class Layout extends Component {
      * trigger on initialization listener if set.
      * See {@link #setInitListener(InitListener)}
      */
-    public void init() {}
+    public void init() {
+    }
 
     /**
      * Adds a component to this layout and initializes it.
@@ -225,7 +225,6 @@ public class Layout extends Component {
     /**
      * Sets the initialization listener for this layout.
      * See {@link InitListener}.
-     *
      */
     public void setInitListener(InitListener initListener) {
         this.initListener = initListener;

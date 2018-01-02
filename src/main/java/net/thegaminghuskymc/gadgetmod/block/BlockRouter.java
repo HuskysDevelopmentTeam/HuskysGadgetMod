@@ -2,7 +2,6 @@ package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -16,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,8 +37,7 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public class BlockRouter extends BlockDevice implements ITileEntityProvider
-{
+public class BlockRouter extends BlockDevice implements ITileEntityProvider {
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
     private static final AxisAlignedBB[] BODY_BOUNDING_BOX = new Bounds(4, 0, 2, 12, 2, 14).getRotatedBounds();
@@ -46,84 +45,74 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = new Bounds(3, 0, 1, 13, 3, 15).getRotatedBounds();
     private static final AxisAlignedBB[] SELECTION_VERTICAL_BOUNDING_BOX = new Bounds(13, 0, 1, 16, 10, 15).getRotatedBounds();
 
-    public BlockRouter()
-    {
+    public BlockRouter() {
         super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VERTICAL, false));
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
         this.setUnlocalizedName("router");
-        this.setRegistryName(Reference.MOD_ID,"router");
+        this.setRegistryName(Reference.MOD_ID, "router");
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
-        if(state.getValue(VERTICAL))
-        {
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        if (state.getValue(VERTICAL)) {
             return SELECTION_VERTICAL_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()];
         }
         return SELECTION_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()];
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
-    {
-        if(state.getValue(VERTICAL))
-        {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
+        if (state.getValue(VERTICAL)) {
             Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, BODY_VERTICAL_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()]);
-        }
-        else
-        {
+        } else {
             Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, BODY_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()]);
         }
     }
 
     @Override
     public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
-    	return this.getBoundingBox(state, worldIn, pos);
-    }
-    
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-    	return this.getBoundingBox(state, worldIn, pos);
+        return this.getBoundingBox(state, worldIn, pos);
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return this.getBoundingBox(state, worldIn, pos);
+    }
+
+    @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             Colorable colorable = (Colorable) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
         return state;
     }
-    
+
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        if(worldIn.isRemote && playerIn.capabilities.isCreativeMode)
-        {
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT;
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (worldIn.isRemote && playerIn.capabilities.isCreativeMode) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if(tileEntity instanceof TileEntityRouter)
-            {
+            if (tileEntity instanceof TileEntityRouter) {
                 TileEntityRouter tileEntityRouter = (TileEntityRouter) tileEntity;
                 tileEntityRouter.setDebug();
-                if(tileEntityRouter.isDebug())
-                {
+                if (tileEntityRouter.isDebug()) {
                     PacketHandler.INSTANCE.sendToServer(new MessageSyncBlock(pos));
                 }
             }
@@ -133,19 +122,15 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-    {
-        if(!world.isRemote && !player.capabilities.isCreativeMode)
-        {
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (!world.isRemote && !player.capabilities.isCreativeMode) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof TileEntityRouter)
-            {
+            if (tileEntity instanceof TileEntityRouter) {
                 TileEntityRouter router = (TileEntityRouter) tileEntity;
 
                 NBTTagCompound tileEntityTag = new NBTTagCompound();
@@ -168,40 +153,34 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing()).withProperty(VERTICAL, facing.getHorizontalIndex() != -1);
     }
 
     @Override
-    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
-    {
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
         return side != EnumFacing.DOWN;
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityRouter();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(FACING).getHorizontalIndex() + (state.getValue(VERTICAL) ? 4 : 0);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(VERTICAL, meta - 4 >= 0);
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING, VERTICAL, BlockColored.COLOR);
     }
 }

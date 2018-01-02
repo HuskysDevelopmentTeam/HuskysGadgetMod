@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/pixel_watch",
+    "textures": {
+        "0": "hgm:model/pixel_watch_silver"
+    }
+}

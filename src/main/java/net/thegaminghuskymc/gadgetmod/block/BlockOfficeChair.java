@@ -23,12 +23,10 @@ import javax.annotation.Nullable;
 /**
  * Author: MrCrayfish
  */
-public class BlockOfficeChair extends BlockColorable
-{
+public class BlockOfficeChair extends BlockColorable {
     public static final PropertyEnum<Type> TYPE = PropertyEnum.create("type", Type.class);
 
-    public BlockOfficeChair()
-    {
+    public BlockOfficeChair() {
         super(Material.ROCK);
         this.setUnlocalizedName("office_chair");
         this.setRegistryName("office_chair");
@@ -37,20 +35,17 @@ public class BlockOfficeChair extends BlockColorable
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
-    {
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
         return false;
     }
 
@@ -62,22 +57,20 @@ public class BlockOfficeChair extends BlockColorable
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if(!worldIn.isRemote) {
+        if (!worldIn.isRemote) {
             SeatUtil.createSeatAndSit(worldIn, pos, playerIn, 0.5);
         }
         return true;
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state)
-    {
+    public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state)
-    {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityOfficeChair();
     }
 
@@ -86,13 +79,11 @@ public class BlockOfficeChair extends BlockColorable
         return new BlockStateContainer(this, FACING, BlockColored.COLOR, TYPE);
     }
 
-    public enum Type implements IStringSerializable
-    {
+    public enum Type implements IStringSerializable {
         LEGS, SEAT, FULL;
 
         @Override
-        public String getName()
-        {
+        public String getName() {
             return name().toLowerCase();
         }
     }

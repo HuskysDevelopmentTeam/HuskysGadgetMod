@@ -13,35 +13,29 @@ import java.io.File;
  * Author: MrCrayfish
  */
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-public class DeviceConfig
-{
+public class DeviceConfig {
     private static final String CATEGORY_LAPTOP = "laptop-settings";
-    private static int pingRate;
-
     private static final String CATEGORY_ROUTER = "router-settings";
+    private static final String CATEGORY_PRINTING = "printer-settings";
+    private static final String CATEGORY_PIXEL_PAINTER = "pixel-painter";
+    private static int pingRate;
     private static int signalRange;
     private static int beaconInterval;
     private static int maxDevices;
-
-    private static final String CATEGORY_PRINTING = "printer-settings";
     private static boolean overridePrintSpeed;
     private static int customPrintSpeed;
     private static int maxPaperCount;
-
-    private static final String CATEGORY_PIXEL_PAINTER = "pixel-painter";
     private static boolean pixelPainterEnable;
     private static boolean renderPrinted3D;
 
     private static Configuration config;
 
-    public static void load(File file)
-    {
+    public static void load(File file) {
         config = new Configuration(file);
         init();
     }
 
-    private static void init()
-    {
+    private static void init() {
         pingRate = config.get(CATEGORY_LAPTOP, "pingRate", 20, "The amount of ticks the laptop waits until sending another ping to it's connected router.", 1, 200).getInt();
 
         signalRange = config.get(CATEGORY_ROUTER, "signalRange", 20, "The range that routers can produce a signal to devices. This is the radius in blocks. Be careful when increasing this value, the performance is O(n^3) and larger numbers will have a bigger impact on the server", 10, 100).getInt();
@@ -58,77 +52,62 @@ public class DeviceConfig
         config.save();
     }
 
-    public static void readSyncTag(NBTTagCompound tag)
-    {
-        if(tag.hasKey("pingRate", Constants.NBT.TAG_INT))
-        {
+    public static void readSyncTag(NBTTagCompound tag) {
+        if (tag.hasKey("pingRate", Constants.NBT.TAG_INT)) {
             pingRate = tag.getInteger("pingRate");
         }
-        if(tag.hasKey("signalRange", Constants.NBT.TAG_INT))
-        {
+        if (tag.hasKey("signalRange", Constants.NBT.TAG_INT)) {
             signalRange = tag.getInteger("signalRange");
         }
     }
 
-    public static NBTTagCompound writeSyncTag()
-    {
+    public static NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setInteger("pingRate", pingRate);
         tag.setInteger("signalRange", signalRange);
         return tag;
     }
 
-    public static void restore()
-    {
+    public static void restore() {
         init();
     }
 
-    @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        if(event.getModID().equals(Reference.MOD_ID))
-        {
-            init();
-        }
-    }
-
-    public static int getPingRate()
-    {
+    public static int getPingRate() {
         return pingRate;
     }
 
-    public static int getSignalRange()
-    {
+    public static int getSignalRange() {
         return signalRange;
     }
 
-    public static int getBeaconInterval()
-    {
+    public static int getBeaconInterval() {
         return beaconInterval;
     }
 
-    public static int getMaxDevices()
-    {
+    public static int getMaxDevices() {
         return maxDevices;
     }
 
-    public static boolean isOverridePrintSpeed()
-    {
+    public static boolean isOverridePrintSpeed() {
         return overridePrintSpeed;
     }
 
-    public static int getCustomPrintSpeed()
-    {
+    public static int getCustomPrintSpeed() {
         return customPrintSpeed;
     }
 
-    public static int getMaxPaperCount()
-    {
+    public static int getMaxPaperCount() {
         return maxPaperCount;
     }
 
-    public static boolean isRenderPrinted3D()
-    {
+    public static boolean isRenderPrinted3D() {
         return renderPrinted3D;
+    }
+
+    @SubscribeEvent
+    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Reference.MOD_ID)) {
+            init();
+        }
     }
 }

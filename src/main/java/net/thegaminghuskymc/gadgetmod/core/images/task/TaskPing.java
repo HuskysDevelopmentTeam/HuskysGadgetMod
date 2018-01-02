@@ -11,37 +11,30 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
 /**
  * Author: MrCrayfish
  */
-public class TaskPing extends Task
-{
+public class TaskPing extends Task {
     private BlockPos sourceDevicePos;
     private int strength;
 
-    private TaskPing()
-    {
+    private TaskPing() {
         super("ping");
     }
 
-    public TaskPing(BlockPos sourceDevicePos)
-    {
+    public TaskPing(BlockPos sourceDevicePos) {
         this();
         this.sourceDevicePos = sourceDevicePos;
     }
 
     @Override
-    public void prepareRequest(NBTTagCompound nbt)
-    {
+    public void prepareRequest(NBTTagCompound nbt) {
         nbt.setLong("sourceDevicePos", sourceDevicePos.toLong());
     }
 
     @Override
-    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player)
-    {
+    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("sourceDevicePos")));
-        if(tileEntity instanceof TileEntityDevice)
-        {
+        if (tileEntity instanceof TileEntityDevice) {
             TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if(tileEntityDevice.isConnected())
-            {
+            if (tileEntityDevice.isConnected()) {
                 this.strength = tileEntityDevice.getSignalStrength();
                 this.setSuccessful();
             }
@@ -49,17 +42,14 @@ public class TaskPing extends Task
     }
 
     @Override
-    public void prepareResponse(NBTTagCompound nbt)
-    {
-        if(this.isSucessful())
-        {
+    public void prepareResponse(NBTTagCompound nbt) {
+        if (this.isSucessful()) {
             nbt.setInteger("strength", strength);
         }
     }
 
     @Override
-    public void processResponse(NBTTagCompound nbt)
-    {
+    public void processResponse(NBTTagCompound nbt) {
 
     }
 }

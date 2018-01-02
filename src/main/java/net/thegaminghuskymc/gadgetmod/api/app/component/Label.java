@@ -1,11 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 

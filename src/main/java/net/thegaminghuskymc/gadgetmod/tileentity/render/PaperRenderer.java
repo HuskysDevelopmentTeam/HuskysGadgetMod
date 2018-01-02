@@ -21,59 +21,8 @@ import org.lwjgl.opengl.GL11;
 /**
  * Author: MrCrayfish
  */
-public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper>
-{
-    @Override
-    public void render(TileEntityPaper te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
-        GlStateManager.pushMatrix();
-        {
-            GlStateManager.translate(x, y, z);
-            GlStateManager.translate(0.5, 0.5, 0.5);
-            IBlockState state = te.getWorld().getBlockState(te.getPos());
-            if(state.getBlock() != GadgetBlocks.PAPER) return;
-            GlStateManager.rotate(state.getValue(BlockPaper.FACING).getHorizontalIndex() * -90F + 180F, 0, 1, 0);
-            GlStateManager.rotate(-te.getRotation(), 0, 0, 1);
-            GlStateManager.translate(-0.5, -0.5, -0.5);
-
-            IPrint print = te.getPrint();
-            if(print != null)
-            {
-                NBTTagCompound data = print.toTag();
-                if(data.hasKey("pixels", Constants.NBT.TAG_INT_ARRAY) && data.hasKey("resolution", Constants.NBT.TAG_INT))
-                {
-                    Minecraft.getMinecraft().getTextureManager().bindTexture(PrinterRenderer.ModelPaper.TEXTURE);
-                    if(DeviceConfig.isRenderPrinted3D() && !data.getBoolean("cut"))
-                    {
-                        drawCuboid(0, 0, 0, 16, 16, 1);
-                    }
-
-                    GlStateManager.translate(0, 0, DeviceConfig.isRenderPrinted3D() ? 0.0625 : 0.001);
-
-                    GlStateManager.pushMatrix();
-                    {
-                        IPrint.Renderer renderer = PrintingManager.getRenderer(print);
-                        renderer.render(data);
-                    }
-                    GlStateManager.popMatrix();
-
-                    GlStateManager.pushMatrix();
-                    {
-                        if(DeviceConfig.isRenderPrinted3D() && data.getBoolean("cut"))
-                        {
-                            NBTTagCompound tag = print.toTag();
-                            drawPixels(tag.getIntArray("pixels"), tag.getInteger("resolution"), tag.getBoolean("cut"));
-                        }
-                    }
-                    GlStateManager.popMatrix();
-                }
-            }
-        }
-        GlStateManager.popMatrix();
-    }
-
-    private static void drawCuboid(double x, double y, double z, double width, double height, double depth)
-    {
+public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper> {
+    private static void drawCuboid(double x, double y, double z, double width, double height, double depth) {
         x /= 16;
         y /= 16;
         z /= 16;
@@ -92,8 +41,7 @@ public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper>
         GlStateManager.enableLighting();
     }
 
-    private static void drawQuad(double xFrom, double yFrom, double zFrom, double xTo, double yTo, double zTo, EnumFacing facing)
-    {
+    private static void drawQuad(double xFrom, double yFrom, double zFrom, double xTo, double yTo, double zTo, EnumFacing facing) {
         double textureWidth = Math.abs(xTo - xFrom);
         double textureHeight = Math.abs(yTo - yFrom);
         double textureDepth = Math.abs(zTo - zFrom);
@@ -101,8 +49,7 @@ public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper>
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        switch(facing.getAxis())
-        {
+        switch (facing.getAxis()) {
             case X:
                 buffer.pos(xFrom, yFrom, zFrom).tex(1 - xFrom + textureDepth, 1 - yFrom + textureHeight).endVertex();
                 buffer.pos(xFrom, yTo, zFrom).tex(1 - xFrom + textureDepth, 1 - yFrom).endVertex();
@@ -125,21 +72,15 @@ public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper>
         tessellator.draw();
     }
 
-    private static void drawPixels(int[] pixels, int resolution, boolean cut)
-    {
+    private static void drawPixels(int[] pixels, int resolution, boolean cut) {
         double scale = 16 / (double) resolution;
-        for(int i = 0; i < resolution; i++)
-        {
-            for(int j = 0; j < resolution; j++)
-            {
+        for (int i = 0; i < resolution; i++) {
+            for (int j = 0; j < resolution; j++) {
                 float a = (float) Math.floor((pixels[j + i * resolution] >> 24 & 255) / 255.0F);
-                if(a < 1.0F)
-                {
-                    if(cut) continue;
+                if (a < 1.0F) {
+                    if (cut) continue;
                     GlStateManager.color(1.0F, 1.0F, 1.0F);
-                }
-                else
-                {
+                } else {
                     float r = (float) (pixels[j + i * resolution] >> 16 & 255) / 255.0F;
                     float g = (float) (pixels[j + i * resolution] >> 8 & 255) / 255.0F;
                     float b = (float) (pixels[j + i * resolution] & 255) / 255.0F;
@@ -148,5 +89,49 @@ public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper>
                 drawCuboid(j * scale - (resolution - 1) * scale, -i * scale + (resolution - 1) * scale, -1, scale, scale, 1);
             }
         }
+    }
+
+    @Override
+    public void render(TileEntityPaper te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        GlStateManager.pushMatrix();
+        {
+            GlStateManager.translate(x, y, z);
+            GlStateManager.translate(0.5, 0.5, 0.5);
+            IBlockState state = te.getWorld().getBlockState(te.getPos());
+            if (state.getBlock() != GadgetBlocks.PAPER) return;
+            GlStateManager.rotate(state.getValue(BlockPaper.FACING).getHorizontalIndex() * -90F + 180F, 0, 1, 0);
+            GlStateManager.rotate(-te.getRotation(), 0, 0, 1);
+            GlStateManager.translate(-0.5, -0.5, -0.5);
+
+            IPrint print = te.getPrint();
+            if (print != null) {
+                NBTTagCompound data = print.toTag();
+                if (data.hasKey("pixels", Constants.NBT.TAG_INT_ARRAY) && data.hasKey("resolution", Constants.NBT.TAG_INT)) {
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(PrinterRenderer.ModelPaper.TEXTURE);
+                    if (DeviceConfig.isRenderPrinted3D() && !data.getBoolean("cut")) {
+                        drawCuboid(0, 0, 0, 16, 16, 1);
+                    }
+
+                    GlStateManager.translate(0, 0, DeviceConfig.isRenderPrinted3D() ? 0.0625 : 0.001);
+
+                    GlStateManager.pushMatrix();
+                    {
+                        IPrint.Renderer renderer = PrintingManager.getRenderer(print);
+                        renderer.render(data);
+                    }
+                    GlStateManager.popMatrix();
+
+                    GlStateManager.pushMatrix();
+                    {
+                        if (DeviceConfig.isRenderPrinted3D() && data.getBoolean("cut")) {
+                            NBTTagCompound tag = print.toTag();
+                            drawPixels(tag.getIntArray("pixels"), tag.getInteger("resolution"), tag.getBoolean("cut"));
+                        }
+                    }
+                    GlStateManager.popMatrix();
+                }
+            }
+        }
+        GlStateManager.popMatrix();
     }
 }

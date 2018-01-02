@@ -5,7 +5,6 @@ import java.util.UUID;
 /**
  * Author: MrCrayfish
  */
-public interface IDevice
-{
+public interface IDevice {
     UUID getId();
 }

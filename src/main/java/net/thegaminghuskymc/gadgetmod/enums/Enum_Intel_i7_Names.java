@@ -36,20 +36,20 @@ public enum Enum_Intel_i7_Names implements IStringSerializable {
         return cores;
     }
 
-    public int getMB_cache() {
-        return MB_cache;
-    }
-
-    public int getThreads() {
-        return threads;
-    }
-
     public void setCores(int cores) {
         this.cores = cores;
     }
 
+    public int getMB_cache() {
+        return MB_cache;
+    }
+
     public void setMB_cache(int MB_cache) {
         this.MB_cache = MB_cache;
+    }
+
+    public int getThreads() {
+        return threads;
     }
 
     public void setThreads(int threads) {

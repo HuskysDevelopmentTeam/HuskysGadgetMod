@@ -7,39 +7,34 @@ import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 /**
  * Author: MrCrayfish
  */
-public class TrayItem implements IThingy
-{
+public class TrayItem implements IThingy {
     private IIcon icon;
     private ClickListener listener;
 
-    public TrayItem(IIcon icon)
-    {
+    public TrayItem(IIcon icon) {
         this.icon = icon;
     }
 
-    public void init() {}
-
-    public void tick() {}
-
-    public void setIcon(IIcon icon)
-    {
-        this.icon = icon;
+    public void init() {
     }
 
-    public IIcon getIcon()
-    {
+    public void tick() {
+    }
+
+    public IIcon getIcon() {
         return icon;
     }
 
-    public void setClickListener(ClickListener listener)
-    {
+    public void setIcon(IIcon icon) {
+        this.icon = icon;
+    }
+
+    public void setClickListener(ClickListener listener) {
         this.listener = listener;
     }
 
-    public void handleClick(int mouseX, int mouseY, int mouseButton)
-    {
-    	if(listener != null)
-        {
+    public void handleClick(int mouseX, int mouseY, int mouseButton) {
+        if (listener != null) {
             listener.onClick(mouseX, mouseY, mouseButton);
         }
     }

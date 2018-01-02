@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDrawingTablet;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServerTerminal;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
@@ -36,18 +35,15 @@ public class BlockDrawingTablet extends BlockDevice implements ITileEntityProvid
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             Colorable colorable = (Colorable) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }

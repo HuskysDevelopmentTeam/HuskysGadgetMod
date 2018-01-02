@@ -6,9 +6,10 @@ import net.thegaminghuskymc.gadgetmod.item.*;
 public class GadgetItems {
 
     public static final ItemFlashDrive flash_drive;
-    public static final ItemAppleWatch apple_watch;
-    public static final ItemiPad iPad;
-    public static final ItemiPhone iPhone;
+    public static final ItemInternalHarddrive internal_harddrive;
+    public static final ItemPixelWatch pixel_watch;
+    public static final ItemPixelTab pixel_pad;
+    public static final ItemPixelPhone pixel_phone;
 
     public static final ItemCPU cpu;
     public static final ItemMotherBoard motherBoard;
@@ -20,12 +21,14 @@ public class GadgetItems {
     public static final ItemServerKey serverKey;
     public static final Item ethernet_cable;
     public static final Item hdmi_cable;
+    public static final Item usb_cable;
 
     static {
         flash_drive = new ItemFlashDrive();
-        apple_watch = new ItemAppleWatch();
-        iPad = new ItemiPad();
-        iPhone = new ItemiPhone();
+        internal_harddrive = new ItemInternalHarddrive();
+        pixel_watch = new ItemPixelWatch();
+        pixel_pad = new ItemPixelTab();
+        pixel_phone = new ItemPixelPhone();
         cpu = new ItemCPU();
         motherBoard = new ItemMotherBoard();
         ramSticks = new ItemRamSticks();
@@ -35,13 +38,15 @@ public class GadgetItems {
         serverKey = new ItemServerKey();
         ethernet_cable = new ItemEthernetCable();
         hdmi_cable = new ItemHDMICable();
+        usb_cable = new ItemUSBCable();
     }
 
     public static void register() {
         register(flash_drive);
-        register(apple_watch);
-        register(iPad);
-        register(iPhone);
+        register(internal_harddrive);
+        register(pixel_watch);
+        register(pixel_pad);
+        register(pixel_phone);
         register(cpu);
         register(motherBoard);
         register(ramSticks);
@@ -51,10 +56,10 @@ public class GadgetItems {
         register(serverKey);
         register(ethernet_cable);
         register(hdmi_cable);
+        register(usb_cable);
     }
 
-    private static void register(Item item)
-    {
+    private static void register(Item item) {
         RegistrationHandler.Items.add(item);
     }
 

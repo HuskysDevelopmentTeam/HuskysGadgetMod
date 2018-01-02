@@ -1,6 +1,6 @@
 {
     "parent": "hgm:item/router",
     "textures": {
-        "1": "blocks/wool_colored_blue"
+        "0": "hgm:model/router_blue"
     }
 }

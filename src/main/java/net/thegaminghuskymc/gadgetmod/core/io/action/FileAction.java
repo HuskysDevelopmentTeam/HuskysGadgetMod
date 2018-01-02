@@ -1,8 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.core.io.action;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
-import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Author: MrCrayfish

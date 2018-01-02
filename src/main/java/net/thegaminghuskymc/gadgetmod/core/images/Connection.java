@@ -13,69 +13,59 @@ import java.util.UUID;
 /**
  * Author: MrCrayfish
  */
-public class Connection
-{
+public class Connection {
     private UUID monitorId;
     private BlockPos monitorPos;
 
-    private Connection() {}
+    private Connection() {
+    }
 
-    public Connection(Monitor monitor)
-    {
+    public Connection(Monitor monitor) {
         this.monitorId = monitor.getId();
         this.monitorPos = monitor.getPos();
     }
 
-    public UUID getRouterId()
-    {
+    public static Connection fromTag(TileEntityDevice device, NBTTagCompound tag) {
+        Connection connection = new Connection();
+        connection.monitorId = UUID.fromString(tag.getString("id"));
+        return connection;
+    }
+
+    public UUID getRouterId() {
         return monitorId;
     }
 
     @Nullable
-    public BlockPos getRouterPos()
-    {
+    public BlockPos getRouterPos() {
         return monitorPos;
     }
 
-    public void setRouterPos(BlockPos routerPos)
-    {
+    public void setRouterPos(BlockPos routerPos) {
         this.monitorPos = routerPos;
     }
 
     @Nullable
-    public Monitor getRouter(World world)
-    {
-        if(monitorPos == null)
+    public Monitor getRouter(World world) {
+        if (monitorPos == null)
             return null;
 
         TileEntity tileEntity = world.getTileEntity(monitorPos);
-        if(tileEntity instanceof TileEntityMonitor)
-        {
+        if (tileEntity instanceof TileEntityMonitor) {
             TileEntityMonitor router = (TileEntityMonitor) tileEntity;
-            if(router.getMonitor().getId().equals(monitorId))
-            {
+            if (router.getMonitor().getId().equals(monitorId)) {
                 return router.getMonitor();
             }
         }
         return null;
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return monitorPos != null;
     }
 
-    public NBTTagCompound toTag()
-    {
+    public NBTTagCompound toTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("id", monitorId.toString());
         return tag;
-    }
-
-    public static Connection fromTag(TileEntityDevice device, NBTTagCompound tag)
-    {
-        Connection connection = new Connection();
-        connection.monitorId = UUID.fromString(tag.getString("id"));
-        return connection;
     }
 }

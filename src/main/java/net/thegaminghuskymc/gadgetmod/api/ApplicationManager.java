@@ -12,9 +12,8 @@ import java.util.Map;
 
 public class ApplicationManager {
 
-    private static AppInfo appInfo;
-
     public static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
+    private static AppInfo appInfo;
 
     /**
      * Registers an application into the application list
@@ -31,6 +30,16 @@ public class ApplicationManager {
         Application application = HuskyGadgetMod.proxy.registerApplication(identifier, clazz);
         if (application != null) {
             APP_INFO.put(identifier, application.getInfo());
+            return application;
+        }
+        return null;
+    }
+
+    @Nullable
+    public static Application removeApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+        Application application = HuskyGadgetMod.proxy.removeApplication(identifier, clazz);
+        if (application != null) {
+            APP_INFO.remove(identifier, application.getInfo());
             return application;
         }
         return null;

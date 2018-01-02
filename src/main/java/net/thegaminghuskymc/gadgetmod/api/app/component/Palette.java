@@ -1,13 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;

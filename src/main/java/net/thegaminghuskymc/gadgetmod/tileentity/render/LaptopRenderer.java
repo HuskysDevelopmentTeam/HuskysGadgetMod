@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.tileentity.render;
 
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -17,16 +16,15 @@ import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.block.BlockLaptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
-public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
-{
+public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> {
     private Minecraft mc = Minecraft.getMinecraft();
 
     private EntityItem entityItem = new EntityItem(Minecraft.getMinecraft().world, 0D, 0D, 0D);
 
     @Override
-    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
+    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         IBlockState state = GadgetBlocks.LAPTOP.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
         BlockPos pos = te.getPos();
 
@@ -35,20 +33,63 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop>
         {
             GlStateManager.translate(x, y, z);
 
-            if(te.isExternalDriveAttached())
-            {
-                GlStateManager.pushMatrix();
-                {
-                    GlStateManager.translate(0.5, 0, 0.5);
-                    GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-                    GlStateManager.translate(-0.5, 0, -0.5);
-                    GlStateManager.translate(0.6, -0.21, -0.005);
-                    entityItem.hoverStart = 0.0F;
-                    entityItem.setItem(new ItemStack(GadgetItems.flash_drive));
-                    Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-                    GlStateManager.translate(0.1, 0, 0);
+            if (te.isExternalDriveAttached()) {
+                if (Minecraft.getMinecraft().player.getHeldItemMainhand() == new ItemStack(GadgetItems.flash_drive)) {
+                    GlStateManager.pushMatrix();
+                    {
+                        GlStateManager.translate(0.5, 0, 0.2);
+                        GlStateManager.rotate(te.getBlockMetadata() * -100F - 90F, 0, 1, 0);
+                        GlStateManager.translate(-0.5, 0, -0.5);
+                        GlStateManager.translate(0.6, -0.1, -0.005);
+                        entityItem.hoverStart = 0.0F;
+                        entityItem.setItem(new ItemStack(GadgetItems.flash_drive));
+                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+                        GlStateManager.translate(0.1, 0, 0);
+                    }
+                    GlStateManager.popMatrix();
                 }
-                GlStateManager.popMatrix();
+                /*if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_watch)) {
+                    GlStateManager.pushMatrix();
+                    {
+                        GlStateManager.translate(0.5, 0, 0.2);
+                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
+                        GlStateManager.translate(-0.5, 0, -0.5);
+                        GlStateManager.translate(0.6, -0.1, -0.005);
+                        entityItem.hoverStart = 0.0F;
+                        entityItem.setItem(new ItemStack(GadgetItems.pixel_watch));
+                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+                        GlStateManager.translate(0.1, 0, 0);
+                    }
+                    GlStateManager.popMatrix();
+                }
+                if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_pad)) {
+                    GlStateManager.pushMatrix();
+                    {
+                        GlStateManager.translate(0.5, 0, 0.2);
+                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
+                        GlStateManager.translate(-0.5, 0, -0.5);
+                        GlStateManager.translate(0.6, -0.1, -0.005);
+                        entityItem.hoverStart = 0.0F;
+                        entityItem.setItem(new ItemStack(GadgetItems.pixel_pad));
+                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+                        GlStateManager.translate(0.1, 0, 0);
+                    }
+                    GlStateManager.popMatrix();
+                }
+                if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_phone)) {
+                    GlStateManager.pushMatrix();
+                    {
+                        GlStateManager.translate(0.5, 0, 0.2);
+                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
+                        GlStateManager.translate(-0.5, 0, -0.5);
+                        GlStateManager.translate(0.6, -0.1, -0.005);
+                        entityItem.hoverStart = 0.0F;
+                        entityItem.setItem(new ItemStack(GadgetItems.pixel_phone));
+                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+                        GlStateManager.translate(0.1, 0, 0);
+                    }
+                    GlStateManager.popMatrix();
+                }*/
             }
 
             GlStateManager.pushMatrix();

@@ -1,0 +1,108 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "hgm:external_harddrive",
+      	"transform": "forge:default-block"
+	},
+	"variants": {
+		"vertical": {
+			"true": {
+				"model": "hgm:external_harddrive_vertical",
+				"x": -90
+			},
+			"false": {
+				"model": "hgm:external_harddrive"
+			}
+		},
+		"facing": {
+			"north": { "y": 180   },
+			"east":  { "y": 270  },
+			"south": { "y": 360 },
+			"west":  { "y": 450 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"0": "hgm:model/external_harddrive_black"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}
+

@@ -19,15 +19,13 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import org.lwjgl.opengl.GL11;
 
-public class LaptopRendererNew extends TileEntitySpecialRenderer<TileEntityLaptop>
-{
+public class LaptopRendererNew extends TileEntitySpecialRenderer<TileEntityLaptop> {
     private Minecraft mc = Minecraft.getMinecraft();
 
     private EntityItem entityItem = new EntityItem(Minecraft.getMinecraft().world, 0D, 0D, 0D);
 
     @Override
-    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
+    public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         IBlockState state = GadgetBlocks.LAPTOP.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
         BlockPos pos = te.getPos();
 
@@ -36,8 +34,7 @@ public class LaptopRendererNew extends TileEntitySpecialRenderer<TileEntityLapto
         {
             GlStateManager.translate(x, y, z);
 
-            if(te.isExternalDriveAttached())
-            {
+            if (te.isExternalDriveAttached()) {
                 GlStateManager.pushMatrix();
                 {
                     GlStateManager.translate(0.5, 0, 0.5);

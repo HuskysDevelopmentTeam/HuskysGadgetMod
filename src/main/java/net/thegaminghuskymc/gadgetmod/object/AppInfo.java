@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 public class AppInfo {
 
     private final ResourceLocation APP_ID;
-    private int iconU = 0, iconV = 0;
+    private int iconU = 0, iconV = 0, bannerU = 0, bannerV = 0 ;
 
     private String defaultAppVersion = "0.0.1";
 
@@ -49,7 +49,9 @@ public class AppInfo {
         return I18n.format("app." + this.getFormattedId() + ".desc");
     }
 
-    public String getVersion() { return I18n.format("app" + this.getFormattedId() + ".version"); }
+    public String getVersion() {
+        return I18n.format("app" + this.getFormattedId() + ".version");
+    }
 
     public String getDefaultAppVersion() {
         return "app" + this.getFormattedId() + "." + defaultAppVersion;
@@ -61,6 +63,14 @@ public class AppInfo {
 
     public int getIconV() {
         return iconV;
+    }
+
+    public int getBannerU() {
+        return bannerU;
+    }
+
+    public int getBannerV() {
+        return bannerV;
     }
 
     @Override

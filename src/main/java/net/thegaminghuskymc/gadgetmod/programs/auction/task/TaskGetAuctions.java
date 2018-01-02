@@ -1,11 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.programs.auction.task;
 
-import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
 import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
 
 import java.util.List;

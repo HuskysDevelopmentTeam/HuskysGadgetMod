@@ -1,11 +1,19 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
@@ -14,22 +22,14 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.handler.GuiDrawHandler;
+import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -37,6 +37,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy {
 
@@ -45,27 +46,9 @@ public class ClientProxy extends CommonProxy {
     public static Entity backupEntity = null;
 
     @Override
-    public EntityPlayer getClientPlayer()
-    {
-        return Minecraft.getMinecraft().player;
-    }
-
-    @Override
-    public boolean isSinglePlayer()
-    {
-        return Minecraft.getMinecraft().isSingleplayer();
-    }
-
-    @Override
-    public boolean isDedicatedServer()
-    {
-        return false;
-    }
-
-    @Override
     public void preInit() {
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
+//        MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
     }
 
     @Override
@@ -77,19 +60,24 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+        /*Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));*/
+
+        for (File f : Objects.requireNonNull(Minecraft.getMinecraft().mcDataDir.getAbsoluteFile().listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png")))) {
+            Laptop.addWallpaper(f.getAbsolutePath());
+        }
     }
 
     @Override
     public void postInit() {
         generateIconAtlas();
+        generateBannerAtlas();
     }
 
     private void generateIconAtlas() {
@@ -100,7 +88,7 @@ public class ClientProxy extends CommonProxy {
         Graphics g = atlas.createGraphics();
 
         try {
-            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/icon/missing.png"));
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/icon/missing.png"));
             g.drawImage(icon, 0, 0, ICON_SIZE, ICON_SIZE, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,7 +98,7 @@ public class ClientProxy extends CommonProxy {
 
         for (AppInfo info : ApplicationManager.getAvailableApps()) {
             ResourceLocation identifier = info.getId();
-            String path = "/assets/" + identifier.getResourceDomain() + "/textures/icon/" + identifier.getResourcePath() + ".png";
+            String path = "/assets/" + identifier.getResourceDomain() + "/textures/app/icon/" + identifier.getResourcePath() + ".png";
             try {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
                 if (input != null) {
@@ -136,9 +124,59 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.ICON_TEXTURES, new DynamicTexture(atlas));
     }
 
+    private void generateBannerAtlas() {
+        final int BANNER_WIDTH = 250;
+        final int BANNER_HEIGHT = 40;
+        int index = 0;
+
+        BufferedImage atlas = new BufferedImage(BANNER_WIDTH, BANNER_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = atlas.createGraphics();
+
+        try {
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/banner/banner_default.png"));
+            g.drawImage(icon, 0, 0, BANNER_WIDTH, BANNER_HEIGHT, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        index++;
+
+        for (AppInfo info : ApplicationManager.getAvailableApps()) {
+            ResourceLocation identifier = info.getId();
+            String path = "/assets/" + identifier.getResourceDomain() + "/textures/app/banner/" + "banner_" + identifier.getResourcePath() + ".png";
+            try {
+                InputStream input = ClientProxy.class.getResourceAsStream(path);
+                if (input != null) {
+                    BufferedImage icon = TextureUtil.readBufferedImage(input);
+                    if (icon.getWidth() != BANNER_WIDTH || icon.getHeight() != BANNER_HEIGHT) {
+                        HuskyGadgetMod.getLogger().error("Incorrect banner size for " + identifier.toString() + " (Must be 250 by 40 pixels)");
+                        continue;
+                    }
+                    int bannerU = BANNER_HEIGHT;
+                    int bannerV = BANNER_WIDTH;
+                    g.drawImage(icon, bannerU, bannerV, BANNER_WIDTH, BANNER_HEIGHT, null);
+                    updateBanner(info, bannerU, bannerV);
+                    index++;
+                } else {
+                    HuskyGadgetMod.getLogger().error("Missing banner for " + identifier.toString());
+                }
+            } catch (Exception e) {
+                HuskyGadgetMod.getLogger().error("Unable to load banner for " + identifier.toString());
+            }
+        }
+
+        g.dispose();
+        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.BANNER_TEXTURES, new DynamicTexture(atlas));
+    }
+
     private void updateIcon(AppInfo info, int iconU, int iconV) {
         ReflectionHelper.setPrivateValue(AppInfo.class, info, iconU, "iconU");
         ReflectionHelper.setPrivateValue(AppInfo.class, info, iconV, "iconV");
+    }
+
+    private void updateBanner(AppInfo info, int bannerU, int bannerV) {
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "iconU");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "iconV");
     }
 
     @Nullable
@@ -172,86 +210,100 @@ public class ClientProxy extends CommonProxy {
         return null;
     }
 
+    @Nullable
     @Override
-    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
-    {
-        try
-        {
+    public Application removeApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+        if ("minecraft".equals(identifier.getResourceDomain())) {
+            throw new IllegalArgumentException("Invalid identifier domain");
+        }
+
+        try {
+            Application application = clazz.newInstance();
+            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
+            APPS.add(application);
+
+            AppInfo info = new AppInfo(identifier);
+
+            Field field = Application.class.getDeclaredField("info");
+            field.setAccessible(true);
+
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+            field.set(application, info);
+
+            return application;
+        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
+        try {
             Constructor<? extends IPrint> constructor = classPrint.getConstructor();
             IPrint print = constructor.newInstance();
             Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
-            try
-            {
+            try {
                 IPrint.Renderer renderer = classRenderer.newInstance();
                 Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
-                if(idToRenderer == null)
-                {
+                if (idToRenderer == null) {
                     idToRenderer = new HashMap<>();
                     ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
                 }
                 idToRenderer.put(identifier.toString(), renderer);
-            }
-            catch(InstantiationException e)
-            {
+            } catch (InstantiationException e) {
                 HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
                 return false;
             }
             return true;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
         }
         return false;
     }
 
     @SubscribeEvent
-    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
-    {
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
         allowedApps = null;
         DeviceConfig.restore();
     }
 
     @SubscribeEvent
-    public void onClientWorldLoad(WorldEvent.Load event)
-    {
-        if (event.getWorld() instanceof WorldClient)
-        {
+    public void onClientWorldLoad(WorldEvent.Load event) {
+        if (event.getWorld() instanceof WorldClient) {
 
         }
     }
 
     @SubscribeEvent
-    public void onClientWorldUnload(WorldEvent.Unload event)
-    {
-        if (event.getWorld() instanceof WorldClient)
-        {
+    public void onClientWorldUnload(WorldEvent.Unload event) {
+        if (event.getWorld() instanceof WorldClient) {
 
         }
     }
 
 
     @SubscribeEvent
-    public void onPrePlayerRender(RenderPlayerEvent.Pre event)
-    {
-        if(!rendering)
+    public void onPrePlayerRender(RenderPlayerEvent.Pre event) {
+        if (!rendering)
             return;
 
-        if(event.getEntityPlayer() == renderEntity)
-        {
+        if (event.getEntityPlayer() == renderEntity) {
             this.backupEntity = Minecraft.getMinecraft().getRenderManager().renderViewEntity;
             Minecraft.getMinecraft().getRenderManager().renderViewEntity = renderEntity;
         }
     }
 
     @SubscribeEvent
-    public void onPostPlayerRender(RenderPlayerEvent.Post event)
-    {
-        if(!rendering)
+    public void onPostPlayerRender(RenderPlayerEvent.Post event) {
+        if (!rendering)
             return;
 
-        if (event.getEntityPlayer() == renderEntity)
-        {
+        if (event.getEntityPlayer() == renderEntity) {
             Minecraft.getMinecraft().getRenderManager().renderViewEntity = backupEntity;
             renderEntity = null;
         }

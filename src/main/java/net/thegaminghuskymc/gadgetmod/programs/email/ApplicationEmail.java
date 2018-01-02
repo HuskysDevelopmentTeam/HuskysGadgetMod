@@ -12,18 +12,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.*;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.InitListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -44,7 +40,7 @@ import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
 public class ApplicationEmail extends Application {
     private static final ResourceLocation ENDER_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/ender_mail.png");
 
-    private static final Pattern EMAIL = Pattern.compile("^([a-zA-Z0-9]{1,10})@endermail\\.com$");
+    private static final Pattern EMAIL = Pattern.compile("^([a-zA-Z0-9]{1,10})@pixelmail\\.com$");
     private final Color COLOR_EMAIL_CONTENT_BACKGROUND = new Color(160, 160, 160);
 
     /* Loading Layout */
@@ -164,7 +160,7 @@ public class ApplicationEmail extends Application {
         fieldEmail = new TextField(5, 15, 80);
         layoutRegisterAccount.addComponent(fieldEmail);
 
-        labelDomain = new Label("@endermail.com", 88, 18);
+        labelDomain = new Label("@pixelmail.com", 88, 18);
         layoutRegisterAccount.addComponent(labelDomain);
 
         btnRegister = new Button(5, 35, "Register");
@@ -223,7 +219,7 @@ public class ApplicationEmail extends Application {
                 }
 
                 mc.fontRenderer.drawString(e.subject, x + 5, y + 5, Color.WHITE.getRGB());
-                mc.fontRenderer.drawString(e.author + "@endermail.com", x + 5, y + 18, Color.LIGHT_GRAY.getRGB());
+                mc.fontRenderer.drawString(e.author + "@pixelmail.com", x + 5, y + 18, Color.LIGHT_GRAY.getRGB());
             }
         });
         layoutInbox.addComponent(listEmails);
@@ -237,7 +233,7 @@ public class ApplicationEmail extends Application {
                 email.setRead(true);
                 textMessage.setText(email.message);
                 labelViewSubject.setText(email.subject);
-                labelFrom.setText(email.author + "@endermail.com");
+                labelFrom.setText(email.author + "@ppixelmail.com");
                 attachedFile = email.getAttachment();
                 if (attachedFile != null) {
                     btnSaveAttachment.setVisible(true);
@@ -260,7 +256,7 @@ public class ApplicationEmail extends Application {
             Email email = listEmails.getSelectedItem();
             if (email != null) {
                 setCurrentLayout(layoutNewEmail);
-                fieldRecipient.setText(email.author + "@endermail.com");
+                fieldRecipient.setText(email.author + "@pixelmail.com");
                 fieldSubject.setText("RE: " + email.subject);
             }
         });
@@ -520,7 +516,7 @@ public class ApplicationEmail extends Application {
     @Override
     public String getWindowTitle() {
         if (getCurrentLayout() == layoutInbox) {
-            return "Inbox: " + currentName + "@endermail.com";
+            return "Inbox: " + currentName + "@pixelmail.com";
         }
         if (getCurrentLayout() == layoutContacts) {
             return "Contacts";

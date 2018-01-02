@@ -1,9 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.init;
 
-import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.thegaminghuskymc.gadgetmod.tileentity.*;
 
 public class GadgetTileEntities {
+
     public static void register() {
         GameRegistry.registerTileEntity(TileEntityLaptop.class, "hgm:laptop");
         GameRegistry.registerTileEntity(TileEntityRouter.class, "hgm:router");
@@ -26,5 +27,8 @@ public class GadgetTileEntities {
         GameRegistry.registerTileEntity(TileEntityRoofLights.class, "hgm:roof_lights");
         GameRegistry.registerTileEntity(TileEntitySecurityCamera.class, "hgm:security_camera");
         GameRegistry.registerTileEntity(TileEntitySoundwoofers.class, "hgm:soundwoofers");
+        GameRegistry.registerTileEntity(TileEntityPlaystation4Pro.class, "hgm:playstation_4_pro");
+        GameRegistry.registerTileEntity(TileEntityExternalHarddrive.class, "hgm:external_harddrive");
     }
+
 }

@@ -6,7 +6,6 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Author: MrCrayfish
  */
-public interface SubItems
-{
+public interface SubItems {
     NonNullList<ResourceLocation> getModels();
 }

@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.minecraft.client.Minecraft;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 
 public abstract class Wrappable {
     private Window window;

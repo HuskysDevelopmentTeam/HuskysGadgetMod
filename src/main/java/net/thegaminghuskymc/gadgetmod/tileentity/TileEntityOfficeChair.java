@@ -15,59 +15,48 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class TileEntityOfficeChair extends TileEntitySync implements Colorable
-{
+public class TileEntityOfficeChair extends TileEntitySync implements Colorable {
     private EnumDyeColor color = EnumDyeColor.RED;
 
     @Override
-    public EnumDyeColor getColor()
-    {
+    public EnumDyeColor getColor() {
         return color;
     }
 
     @Override
-    public void setColor(EnumDyeColor color)
-    {
+    public void setColor(EnumDyeColor color) {
         this.color = color;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE))
-        {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             color = EnumDyeColor.byMetadata(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setByte("color", (byte) color.getMetadata());
         return compound;
     }
 
     @Override
-    public NBTTagCompound writeSyncTag()
-    {
+    public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setByte("color", (byte) color.getMetadata());
         return tag;
     }
 
     @SideOnly(Side.CLIENT)
-    public float getRotation()
-    {
+    public float getRotation() {
         List<EntitySeat> seats = world.getEntitiesWithinAABB(EntitySeat.class, new AxisAlignedBB(pos));
-        if(!seats.isEmpty())
-        {
+        if (!seats.isEmpty()) {
             EntitySeat seat = seats.get(0);
-            if(seat.getControllingPassenger() != null)
-            {
-                if(seat.getControllingPassenger() instanceof EntityLivingBase)
-                {
+            if (seat.getControllingPassenger() != null) {
+                if (seat.getControllingPassenger() instanceof EntityLivingBase) {
                     EntityLivingBase living = (EntityLivingBase) seat.getControllingPassenger();
                     living.renderYawOffset = living.rotationYaw;
                     living.prevRenderYawOffset = living.rotationYaw;

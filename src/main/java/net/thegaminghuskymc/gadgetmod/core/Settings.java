@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import net.minecraft.nbt.NBTTagCompound;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 /**
  * Author: MrCrayfish

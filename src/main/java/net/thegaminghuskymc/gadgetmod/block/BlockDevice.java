@@ -20,48 +20,40 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public abstract class BlockDevice extends BlockColorable
-{
-    BlockDevice(Material materialIn)
-    {
+public abstract class BlockDevice extends BlockColorable {
+    BlockDevice(Material materialIn) {
         super(materialIn);
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
-    {
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
         return false;
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {}
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-    {
-        if(!world.isRemote && !player.capabilities.isCreativeMode)
-        {
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (!world.isRemote && !player.capabilities.isCreativeMode) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof Colorable)
-            {
+            if (tileEntity instanceof Colorable) {
                 Colorable colorable = (Colorable) tileEntity;
 
                 NBTTagCompound tileEntityTag = new NBTTagCompound();
@@ -86,11 +78,11 @@ public abstract class BlockDevice extends BlockColorable
         return super.removedByPlayer(state, world, pos, player, willHarvest);
     }
 
-    protected void removeTagsForDrop(NBTTagCompound tileEntityTag) {}
+    protected void removeTagsForDrop(NBTTagCompound tileEntityTag) {
+    }
 
     @Override
-    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param)
-    {
+    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity != null && tileentity.receiveClientEvent(id, param);
     }

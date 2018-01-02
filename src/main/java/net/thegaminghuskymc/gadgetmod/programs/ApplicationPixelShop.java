@@ -1,22 +1,20 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
 import codechicken.lib.colour.ColourRGBA;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.api.app.*;
-import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.*;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
@@ -134,8 +132,7 @@ public class ApplicationPixelShop extends Application {
             listPictures.removeAll();
             FileSystem.getApplicationFolder(this, (folder, success) ->
             {
-                if(success)
-                {
+                if (success) {
                     Objects.requireNonNull(folder).search(file -> file.isForApplication(this)).forEach(file ->
                     {
                         Picture picture = Picture.fromFile(file);
@@ -146,11 +143,9 @@ public class ApplicationPixelShop extends Application {
         });
 
         listPictures = new ItemList<>(5, 5, 100, 5);
-        listPictures.setListItemRenderer(new ListItemRenderer<Picture>(20)
-        {
+        listPictures.setListItemRenderer(new ListItemRenderer<Picture>(20) {
             @Override
-            public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
                 mc.fontRenderer.drawString(picture.getName(), x + 2, y + 2, Color.WHITE.getRGB(), false);
                 mc.fontRenderer.drawString(picture.getAuthor(), x + 2, y + 11, AUTHOR_TEXT.getRGB(), false);
@@ -158,8 +153,7 @@ public class ApplicationPixelShop extends Application {
         });
         listPictures.setItemClickListener((picture, index, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 btnLoadSavedPicture.setEnabled(true);
                 btnDeleteSavedPicture.setEnabled(true);
             }
@@ -171,8 +165,7 @@ public class ApplicationPixelShop extends Application {
         btnLoadSavedPicture.setEnabled(false);
         btnLoadSavedPicture.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if (listPictures.getSelectedIndex() != -1)
-            {
+            if (listPictures.getSelectedIndex() != -1) {
                 canvas.setPicture(listPictures.getSelectedItem());
                 setCurrentLayout(layoutDraw);
             }
@@ -186,15 +179,12 @@ public class ApplicationPixelShop extends Application {
             Dialog.OpenFile dialog = new Dialog.OpenFile(this);
             dialog.setResponseHandler((success, file) ->
             {
-                if(file.isForApplication(this))
-                {
+                if (file.isForApplication(this)) {
                     Picture picture = Picture.fromFile(file);
                     canvas.setPicture(picture);
                     setCurrentLayout(layoutDraw);
                     return true;
-                }
-                else
-                {
+                } else {
                     Dialog.Message dialog2 = new Dialog.Message("Invalid file for Pixel Painter");
                     openDialog(dialog2);
                 }
@@ -209,16 +199,13 @@ public class ApplicationPixelShop extends Application {
         btnDeleteSavedPicture.setEnabled(false);
         btnDeleteSavedPicture.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(listPictures.getSelectedIndex() != -1)
-            {
+            if (listPictures.getSelectedIndex() != -1) {
                 Picture picture = listPictures.getSelectedItem();
                 File file = picture.getSource();
-                if(file != null)
-                {
+                if (file != null) {
                     file.delete((o, success) ->
                     {
-                        if(success)
-                        {
+                        if (success) {
                             listPictures.removeItem(listPictures.getSelectedIndex());
                             btnDeleteSavedPicture.setEnabled(false);
                             btnLoadSavedPicture.setEnabled(false);
@@ -348,8 +335,7 @@ public class ApplicationPixelShop extends Application {
         Button button = new Button(162, 31, Icons.PRINTER);
         button.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 Dialog.Print dialog = new Dialog.Print(new PicturePrint(canvas.picture.getName(), canvas.getPixels(), canvas.picture.getWidth()));
                 openDialog(dialog);
             }
@@ -409,42 +395,36 @@ public class ApplicationPixelShop extends Application {
         super.onClose();
         listPictures.removeAll();
     }
-    public static class PicturePrint implements IPrint
-    {
+
+    public static class PicturePrint implements IPrint {
         private String name;
         private int[] pixels;
         private int resolution;
         private boolean cut;
 
-       PicturePrint(String name, int[] pixels, int resolution)
-        {
+        PicturePrint(String name, int[] pixels, int resolution) {
             this.name = name;
             this.pixels = pixels;
             this.resolution = resolution;
         }
 
         @Override
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
         @Override
-        public int speed()
-        {
+        public int speed() {
             return resolution;
         }
 
         @Override
-        public boolean requiresColor()
-        {
-            for(int pixel : pixels)
-            {
+        public boolean requiresColor() {
+            for (int pixel : pixels) {
                 int r = (pixel >> 16 & 255);
                 int g = (pixel >> 8 & 255);
                 int b = (pixel & 255);
-                if(r != g || r != b)
-                {
+                if (r != g || r != b) {
                     return true;
                 }
             }
@@ -452,19 +432,17 @@ public class ApplicationPixelShop extends Application {
         }
 
         @Override
-        public NBTTagCompound toTag()
-        {
+        public NBTTagCompound toTag() {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setString("name", name);
             tag.setIntArray("pixels", pixels);
             tag.setInteger("resolution", resolution);
-            if(cut) tag.setBoolean("cut", true);
+            if (cut) tag.setBoolean("cut", true);
             return tag;
         }
 
         @Override
-        public void fromTag(NBTTagCompound tag)
-        {
+        public void fromTag(NBTTagCompound tag) {
             name = tag.getString("name");
             pixels = tag.getIntArray("pixels");
             resolution = tag.getInteger("resolution");
@@ -472,26 +450,22 @@ public class ApplicationPixelShop extends Application {
         }
 
         @Override
-        public Class<? extends IPrint.Renderer> getRenderer()
-        {
+        public Class<? extends IPrint.Renderer> getRenderer() {
             return PictureRenderer.class;
         }
     }
 
-    public static class PictureRenderer implements IPrint.Renderer
-    {
+    public static class PictureRenderer implements IPrint.Renderer {
         static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
 
         @Override
-        public boolean render(NBTTagCompound data)
-        {
-            if(data.hasKey("pixels", Constants.NBT.TAG_INT_ARRAY) && data.hasKey("resolution", Constants.NBT.TAG_INT))
-            {
+        public boolean render(NBTTagCompound data) {
+            if (data.hasKey("pixels", Constants.NBT.TAG_INT_ARRAY) && data.hasKey("resolution", Constants.NBT.TAG_INT)) {
                 int[] pixels = data.getIntArray("pixels");
                 int resolution = data.getInteger("resolution");
                 boolean cut = data.getBoolean("cut");
 
-                if(pixels.length != resolution * resolution)
+                if (pixels.length != resolution * resolution)
                     return false;
 
                 GlStateManager.enableBlend();
@@ -502,7 +476,7 @@ public class ApplicationPixelShop extends Application {
                 // This is for the paper background
                 if (!cut) {
                     Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
-                    RenderUtil.drawRectWithTexture(-1, 0, 0, 0, 1, 1, resolution ,resolution, resolution, resolution);
+                    RenderUtil.drawRectWithTexture(-1, 0, 0, 0, 1, 1, resolution, resolution, resolution, resolution);
                 }
 
                 // This creates an flipped copy of the pixel array
@@ -510,7 +484,7 @@ public class ApplicationPixelShop extends Application {
                 int[] pixels2 = new int[pixels.length];
                 for (int i = 0; i < resolution; i++) {
                     for (int j = 0; j < resolution; j++) {
-                        pixels2[resolution - i - 1 + (resolution - j - 1) * resolution] = pixels[i + j*resolution];
+                        pixels2[resolution - i - 1 + (resolution - j - 1) * resolution] = pixels[i + j * resolution];
                     }
                 }
 
@@ -528,7 +502,7 @@ public class ApplicationPixelShop extends Application {
                 }
                 // Rendering the texture
                 GlStateManager.bindTexture(texture.getGlTextureId());
-                RenderUtil.drawRectWithTexture(-1, 0, 0, 0, 1, 1, resolution ,resolution, resolution, resolution);
+                RenderUtil.drawRectWithTexture(-1, 0, 0, 0, 1, 1, resolution, resolution, resolution, resolution);
                 GlStateManager.deleteTexture(texture.getGlTextureId());
 
                 GlStateManager.disableRescaleNormal();

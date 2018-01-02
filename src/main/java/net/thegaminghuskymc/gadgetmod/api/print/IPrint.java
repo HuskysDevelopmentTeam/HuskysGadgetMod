@@ -11,35 +11,8 @@ import javax.annotation.Nullable;
 /**
  * Author: MrCrayfish
  */
-public interface IPrint
-{
-    String getName();
-
-    /**
-     * Gets the speed of the print. The higher the value, the longer it will take to print.
-     * @return the speed of this print
-     */
-    int speed();
-
-    /**
-     * Gets whether or not this print requires coloured ink.
-     * @return if print requires ink
-     */
-    boolean requiresColor();
-
-    /**
-     * Converts print into an NBT tag compound. Used for the renderer.
-     * @return nbt form of print
-     */
-    NBTTagCompound toTag();
-
-    void fromTag(NBTTagCompound tag);
-
-    @SideOnly(Side.CLIENT)
-    Class<? extends Renderer> getRenderer();
-
-    static NBTTagCompound writeToTag(IPrint print)
-    {
+public interface IPrint {
+    static NBTTagCompound writeToTag(IPrint print) {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("type", PrintingManager.getPrintIdentifier(print));
         tag.setTag("data", print.toTag());
@@ -47,19 +20,16 @@ public interface IPrint
     }
 
     @Nullable
-    static IPrint loadFromTag(NBTTagCompound tag)
-    {
+    static IPrint loadFromTag(NBTTagCompound tag) {
         IPrint print = PrintingManager.getPrint(tag.getString("type"));
-        if(print != null)
-        {
+        if (print != null) {
             print.fromTag(tag.getCompoundTag("data"));
             return print;
         }
         return null;
     }
 
-    static ItemStack generateItem(IPrint print)
-    {
+    static ItemStack generateItem(IPrint print) {
         NBTTagCompound blockEntityTag = new NBTTagCompound();
         blockEntityTag.setTag("print", writeToTag(print));
 
@@ -69,15 +39,41 @@ public interface IPrint
         ItemStack stack = new ItemStack(GadgetBlocks.PAPER);
         stack.setTagCompound(itemTag);
 
-        if(print.getName() != null && !print.getName().isEmpty())
-        {
+        if (print.getName() != null && !print.getName().isEmpty()) {
             stack.setStackDisplayName(print.getName());
         }
         return stack;
     }
 
-    interface Renderer
-    {
+    String getName();
+
+    /**
+     * Gets the speed of the print. The higher the value, the longer it will take to print.
+     *
+     * @return the speed of this print
+     */
+    int speed();
+
+    /**
+     * Gets whether or not this print requires coloured ink.
+     *
+     * @return if print requires ink
+     */
+    boolean requiresColor();
+
+    /**
+     * Converts print into an NBT tag compound. Used for the renderer.
+     *
+     * @return nbt form of print
+     */
+    NBTTagCompound toTag();
+
+    void fromTag(NBTTagCompound tag);
+
+    @SideOnly(Side.CLIENT)
+    Class<? extends Renderer> getRenderer();
+
+    interface Renderer {
         boolean render(NBTTagCompound data);
     }
 }

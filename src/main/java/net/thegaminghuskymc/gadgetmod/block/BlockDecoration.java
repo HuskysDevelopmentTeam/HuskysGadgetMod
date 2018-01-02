@@ -20,48 +20,41 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public abstract class BlockDecoration extends BlockColorable
-{
-    BlockDecoration(Material materialIn)
-    {
+public abstract class BlockDecoration extends BlockColorable {
+
+    BlockDecoration(Material materialIn) {
         super(materialIn);
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
-    {
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
         return false;
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {}
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-    {
-        if(!world.isRemote && !player.capabilities.isCreativeMode)
-        {
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (!world.isRemote && !player.capabilities.isCreativeMode) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof Colorable)
-            {
+            if (tileEntity instanceof Colorable) {
                 Colorable colorable = (Colorable) tileEntity;
 
                 NBTTagCompound tileEntityTag = new NBTTagCompound();

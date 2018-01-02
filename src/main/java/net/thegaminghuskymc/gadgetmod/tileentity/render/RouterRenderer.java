@@ -21,17 +21,14 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Collection;
 
-public class RouterRenderer extends TileEntitySpecialRenderer<TileEntityRouter>
-{
+public class RouterRenderer extends TileEntitySpecialRenderer<TileEntityRouter> {
     @Override
-    public void render(TileEntityRouter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
+    public void render(TileEntityRouter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         IBlockState state = te.getWorld().getBlockState(te.getPos());
-        if(state.getBlock() != GadgetBlocks.ROUTER)
+        if (state.getBlock() != GadgetBlocks.ROUTER)
             return;
 
-        if(te.isDebug())
-        {
+        if (te.isDebug()) {
             GlStateManager.enableBlend();
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GlStateManager.disableLighting();
@@ -77,14 +74,12 @@ public class RouterRenderer extends TileEntitySpecialRenderer<TileEntityRouter>
         }
     }
 
-    private Vec3d getLineStartPosition(IBlockState state)
-    {
+    private Vec3d getLineStartPosition(IBlockState state) {
         float lineX = 0.5F;
         float lineY = 0.1F;
         float lineZ = 0.5F;
 
-        if(state.getValue(BlockRouter.VERTICAL))
-        {
+        if (state.getValue(BlockRouter.VERTICAL)) {
             double[] fixedPosition = CollisionHelper.fixRotation(state.getValue(BlockPrinter.FACING), 14 * 0.0625, 0.5, 14 * 0.0625, 0.5);
             lineX = (float) fixedPosition[0];
             lineY = 0.35F;

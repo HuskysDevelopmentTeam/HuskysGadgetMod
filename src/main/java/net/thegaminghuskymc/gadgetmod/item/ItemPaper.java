@@ -10,23 +10,18 @@ import javax.annotation.Nullable;
 /**
  * Author: MrCrayfish
  */
-public class ItemPaper extends ItemBlock
-{
-    public ItemPaper(Block block)
-    {
+public class ItemPaper extends ItemBlock {
+    public ItemPaper(Block block) {
         super(block);
         this.setMaxStackSize(1);
     }
 
 
-
     @Nullable
     @Override
-    public NBTTagCompound getNBTShareTag(ItemStack stack)
-    {
+    public NBTTagCompound getNBTShareTag(ItemStack stack) {
         NBTTagCompound tag = stack.getTagCompound();
-        if(tag != null)
-        {
+        if (tag != null) {
             NBTTagCompound copy = tag.copy();
             copy.removeTag("BlockEntityTag");
             return copy;

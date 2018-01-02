@@ -1,16 +1,16 @@
 package net.thegaminghuskymc.gadgetmod.programs.bluej.components;
 
-import net.thegaminghuskymc.gadgetmod.programs.bluej.Project;
-import net.thegaminghuskymc.gadgetmod.programs.bluej.ProjectFile;
-import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Problem;
-import net.thegaminghuskymc.gadgetmod.programs.bluej.api.SyntaxHighlighter;
-import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Token;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.Project;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.ProjectFile;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Problem;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.SyntaxHighlighter;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.api.Token;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import net.thegaminghuskymc.gadgetmod.util.Timer;
 import org.lwjgl.input.Keyboard;

@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/pixel_phone",
+    "textures": {
+        "0": "hgm:model/pixel_phone_white"
+    }
+}

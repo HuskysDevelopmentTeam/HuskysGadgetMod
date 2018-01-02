@@ -9,8 +9,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
@@ -39,14 +37,15 @@ public class Laptop extends GuiScreen implements System {
 
     public static final int ID = 1;
     public static final ResourceLocation ICON_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_icons.png");
+    public static final ResourceLocation BANNER_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_banners.png");
     public static final FontRenderer fontRenderer = new LaptopFontRenderer(Minecraft.getMinecraft());
+    public static final int DEVICE_WIDTH = 464;
+    public static final int DEVICE_HEIGHT = 246;
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     private static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
     private static final int BORDER = 10;
-    public static final int DEVICE_WIDTH = 464;
     static final int SCREEN_WIDTH = DEVICE_WIDTH - BORDER * 2;
-    public static final int DEVICE_HEIGHT = 246;
     static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
 
     private static System system;
@@ -90,6 +89,12 @@ public class Laptop extends GuiScreen implements System {
     public static void addWallpaper(ResourceLocation wallpaper) {
         if (wallpaper != null) {
             WALLPAPERS.add(wallpaper);
+        }
+    }
+
+    public static void addWallpaper(String wallpaper) {
+        if (wallpaper != null) {
+            WALLPAPERS.add(new ResourceLocation(Reference.MOD_ID, wallpaper));
         }
     }
 

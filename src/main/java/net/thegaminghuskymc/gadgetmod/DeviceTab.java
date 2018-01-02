@@ -3,14 +3,10 @@ package net.thegaminghuskymc.gadgetmod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
-
-import java.util.Random;
 
 
 public class DeviceTab extends CreativeTabs {
@@ -31,31 +27,27 @@ public class DeviceTab extends CreativeTabs {
     @Override
     @SideOnly(Side.CLIENT)
     public ItemStack getIconItemStack() {
-        if(this.displayRandom) {
+        if (this.displayRandom) {
             if (Minecraft.getSystemTime() % 120 == 0) {
                 this.updateDisplayStack();
             }
             return this.tempDisplayStack;
-        }
-        else return this.icon;
+        } else return this.icon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getTranslatedTabLabel()
-    {
+    public String getTranslatedTabLabel() {
         return hoveringButton ? title : getTabLabel();
     }
 
     @SideOnly(Side.CLIENT)
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
     @SideOnly(Side.CLIENT)
-    public void setHoveringButton(boolean hoveringButton)
-    {
+    public void setHoveringButton(boolean hoveringButton) {
         this.hoveringButton = hoveringButton;
     }
 
@@ -67,7 +59,7 @@ public class DeviceTab extends CreativeTabs {
             this.tempDisplayStack = !itemStacks.isEmpty() ? itemStacks.get(tempIndex) : ItemStack.EMPTY;
             if (++tempIndex >= itemStacks.size()) tempIndex = 0;
         } else {
-            if(this.icon.isEmpty()) {
+            if (this.icon.isEmpty()) {
                 this.tempDisplayStack = new ItemStack(Items.DIAMOND);
             }
             this.tempDisplayStack = this.icon;

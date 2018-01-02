@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs.bluej.resources.types;
 
-import net.thegaminghuskymc.gadgetmod.programs.bluej.resources.BlueJResolvedResloc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
@@ -8,6 +7,7 @@ import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.programs.bluej.resources.BlueJResolvedResloc;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 
 public class BlueJFileSystemResloc implements BlueJResolvedResloc {

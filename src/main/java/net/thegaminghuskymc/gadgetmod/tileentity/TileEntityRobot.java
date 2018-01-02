@@ -13,51 +13,46 @@ public class TileEntityRobot extends TileEntitySync implements Colorable {
     private EnumDyeColor color = EnumDyeColor.RED;
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setByte("color", (byte) color.getDyeDamage());
         return compound;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeSyncTag()
-    {
+    public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setByte("color", (byte) color.getDyeDamage());
         return tag;
     }
 
     @Override
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return 16384;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
+    public AxisAlignedBB getRenderBoundingBox() {
         return INFINITE_EXTENT_AABB;
-    }
-
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
     }
 
     @Override
     public EnumDyeColor getColor() {
         return color;
+    }
+
+    @Override
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
     }
 
 }

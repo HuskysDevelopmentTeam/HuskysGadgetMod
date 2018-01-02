@@ -13,13 +13,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -57,7 +55,7 @@ public class ApplicationBank extends SystemApplication {
     private int rotation;
 
     public ApplicationBank() {
-        
+
     }
 
     @Override

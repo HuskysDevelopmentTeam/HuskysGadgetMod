@@ -6,10 +6,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
@@ -18,6 +19,7 @@ import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
+import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
@@ -40,8 +42,8 @@ public class ApplicationSettings extends SystemApplication {
     private Stack<Layout> predecessor = new Stack<>();
 
     public ApplicationSettings() {
-        this.setDefaultWidth(280);
-        this.setDefaultHeight(160);
+        this.setDefaultWidth(330);
+        this.setDefaultHeight(260);
     }
 
     @Override
@@ -151,7 +153,7 @@ public class ApplicationSettings extends SystemApplication {
 
         Button buttonWiFi = new Button(5, 108, "Wifi", Icons.WIFI_HIGH);
         buttonWiFi.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
+            if (mouseButton == 0) {
                 showMenu(layoutWifi);
             }
         });
@@ -159,26 +161,19 @@ public class ApplicationSettings extends SystemApplication {
 
         ItemList<BlockPos> itemListRouters = new ItemList<>(5, 25, 90, 4);
         itemListRouters.setItems(TrayItemWifi.getRouters());
-        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16)
-        {
+        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16) {
             @Override
-            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
                 gui.drawString(mc.fontRenderer, "Monitor", x + 16, y + 4, Color.WHITE.getRGB());
 
                 BlockPos laptopPos = Laptop.getPos();
                 double distance = Math.sqrt(blockPos.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
-                if(distance > 20)
-                {
+                if (distance > 20) {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
-                }
-                else if(distance > 10)
-                {
+                } else if (distance > 10) {
                     Icons.WIFI_MED.draw(mc, x + 3, y + 3);
-                }
-                else
-                {
+                } else {
                     Icons.WIFI_HIGH.draw(mc, x + 3, y + 3);
                 }
             }
@@ -194,15 +189,12 @@ public class ApplicationSettings extends SystemApplication {
         Button buttonConnect = new Button(79, 99, Icons.CHECK);
         buttonConnect.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                if(itemListRouters.getSelectedItem() != null)
-                {
+            if (mouseButton == 0) {
+                if (itemListRouters.getSelectedItem() != null) {
                     TaskConnect connect = new TaskConnect(Laptop.getPos(), itemListRouters.getSelectedItem());
                     connect.setCallback((tagCompound, success) ->
                     {
-                        if(success)
-                        {
+                        if (success) {
                             TrayItemWifi.trayItem.setIcon(Icons.WIFI_HIGH);
                             Laptop.getSystem().closeContext();
                         }
@@ -271,20 +263,35 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
+        ItemList apps = new ItemList<AppInfo>(120, 80, 100, 3);
+        apps.addItem(ApplicationManager.getAvailableApps());
+        apps.setListItemRenderer(new ListItemRenderer<AppInfo>(20) {
+            @Override
+            public void render(AppInfo e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
+                if (selected)
+                    Gui.drawRect(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
+                else
+                    Gui.drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
+                RenderUtil.drawApplicationIcon(e, x + 3, y + 3);
+                gui.drawString(mc.fontRenderer, e.getName(), x + 20, y + 6, Color.WHITE.getRGB());
+            }
+        });
+        layoutInformationApps.addComponent(apps);
+
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
         nameOnPage.setTextColour(Color.GRAY.getRGB());
         layoutInformationComputer.addComponent(nameOnPage);
 
         layoutInformationComputer.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
-            Gui.drawRect(x, y + 35,  x + width, y + 36, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 35, x + width, y + 36, Color.GRAY.getRGB());
 
-            Gui.drawRect(x, y + 49,  x + width, y + 50, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 49, x + width, y + 50, Color.GRAY.getRGB());
 
-            Gui.drawRect(x, y + 80,  x + width, y + 81, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 80, x + width, y + 81, Color.GRAY.getRGB());
 
-            Gui.drawRect(x, y + 93,  x + width, y + 94, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 93, x + width, y + 94, Color.GRAY.getRGB());
 
-            Gui.drawRect(x, y + 147,  x + width, y + 148, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 147, x + width, y + 148, Color.GRAY.getRGB());
         });
 
         Label NeonOSVersion = new Label("NeonOS-Version", 40, 38);
@@ -301,13 +308,13 @@ public class ApplicationSettings extends SystemApplication {
         system.setTextColour(Color.LIGHT_GRAY.getRGB());
         layoutInformationComputer.addComponent(system);
 
-        Label graphicCard = new Label("Graphic Card: Mine-Vidia Titan X", 40, 97);
+        Label graphicCard = new Label("Graphic Card: Mine-Vidia Titan X 12GPB GDDR5X", 40, 97);
         layoutInformationComputer.addComponent(graphicCard);
 
         Label CPU = new Label("CPU: Minetel i9-7980XE Extreme Edition", 40, 110);
         layoutInformationComputer.addComponent(CPU);
 
-        Label Ram = new Label("Ram: 64GB " + "(63GB can be used)", 40, 123);
+        Label Ram = new Label("Ram: Mineston Hyper X Beast 64GPB " + "(63GPB can be used)", 40, 123);
         layoutInformationComputer.addComponent(Ram);
 
         Label systemType = new Label("System Type: 64-bit-OS, x64-based-processor", 40, 135);
@@ -362,7 +369,7 @@ public class ApplicationSettings extends SystemApplication {
         private String title;
 
         Menu(String title) {
-            super(280, 160);
+            super(330, 260);
             this.title = title;
         }
 

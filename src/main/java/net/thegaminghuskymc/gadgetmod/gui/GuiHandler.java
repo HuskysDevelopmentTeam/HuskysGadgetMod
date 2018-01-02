@@ -1,12 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.gui;
 
-import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
 public class GuiHandler implements IGuiHandler {
     @Override

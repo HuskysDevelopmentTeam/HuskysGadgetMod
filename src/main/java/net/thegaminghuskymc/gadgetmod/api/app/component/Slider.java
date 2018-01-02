@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
+import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ReleaseListener;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.SlideListener;
-import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 

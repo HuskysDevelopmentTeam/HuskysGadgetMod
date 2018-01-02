@@ -11,38 +11,32 @@ public class TileEntityServer extends TileEntitySync implements Colorable {
 
     private byte rotation;
 
-    public void nextRotation()
-    {
+    public void nextRotation() {
         rotation++;
-        if(rotation > 7)
-        {
+        if (rotation > 7) {
             rotation = 0;
         }
         pipeline.setByte("rotation", rotation);
         sync();
     }
 
-    public float getRotation()
-    {
+    public float getRotation() {
         return rotation * 45F;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("rotation", Constants.NBT.TAG_BYTE))
-        {
+        if (compound.hasKey("rotation", Constants.NBT.TAG_BYTE)) {
             rotation = compound.getByte("rotation");
         }
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setByte("rotation", rotation);
         compound.setByte("color", (byte) color.getDyeDamage());

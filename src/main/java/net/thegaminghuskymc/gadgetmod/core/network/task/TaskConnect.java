@@ -13,45 +13,37 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 /**
  * Author: MrCrayfish
  */
-public class TaskConnect extends Task
-{
+public class TaskConnect extends Task {
     private BlockPos devicePos;
     private BlockPos routerPos;
 
-    public TaskConnect()
-    {
+    public TaskConnect() {
         super("connect");
     }
 
-    public TaskConnect(BlockPos devicePos, BlockPos routerPos)
-    {
+    public TaskConnect(BlockPos devicePos, BlockPos routerPos) {
         this();
         this.devicePos = devicePos;
         this.routerPos = routerPos;
     }
 
     @Override
-    public void prepareRequest(NBTTagCompound nbt)
-    {
+    public void prepareRequest(NBTTagCompound nbt) {
         nbt.setLong("devicePos", devicePos.toLong());
         nbt.setLong("routerPos", routerPos.toLong());
     }
 
     @Override
-    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player)
-    {
+    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("routerPos")));
-        if(tileEntity instanceof TileEntityRouter)
-        {
+        if (tileEntity instanceof TileEntityRouter) {
             TileEntityRouter tileEntityRouter = (TileEntityRouter) tileEntity;
             Router router = tileEntityRouter.getRouter();
 
             TileEntity tileEntity1 = world.getTileEntity(BlockPos.fromLong(nbt.getLong("devicePos")));
-            if(tileEntity1 instanceof TileEntityDevice)
-            {
+            if (tileEntity1 instanceof TileEntityDevice) {
                 TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity1;
-                if(router.addDevice(tileEntityDevice))
-                {
+                if (router.addDevice(tileEntityDevice)) {
                     tileEntityDevice.connect(router);
                     this.setSuccessful();
                 }
@@ -60,14 +52,12 @@ public class TaskConnect extends Task
     }
 
     @Override
-    public void prepareResponse(NBTTagCompound nbt)
-    {
+    public void prepareResponse(NBTTagCompound nbt) {
 
     }
 
     @Override
-    public void processResponse(NBTTagCompound nbt)
-    {
+    public void processResponse(NBTTagCompound nbt) {
 
     }
 }

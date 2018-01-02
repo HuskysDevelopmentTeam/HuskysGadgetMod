@@ -5,8 +5,8 @@
 	},
 	"variants": {
 		"type": {
-			"base": { "model": "hgm:laptop_base_new" },
-			"screen": { "model": "hgm:laptop_screen_new" }
+			"base": { "model": "hgm:laptop_base" },
+			"screen": { "model": "hgm:laptop_screen" }
 		},
 		"facing": {
 			"north": { "y": 0   },

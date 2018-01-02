@@ -1,8 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
+import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import org.lwjgl.input.Mouse;
 

@@ -2,9 +2,7 @@ package net.thegaminghuskymc.gadgetmod.programs.social_medias;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.SlideListener;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 
 public class ApplicationPixelBook extends Application {
 

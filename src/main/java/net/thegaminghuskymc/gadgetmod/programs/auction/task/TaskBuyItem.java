@@ -1,14 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.programs.auction.task;
 
-import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
+import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
 import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 
 import java.util.UUID;
 

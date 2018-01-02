@@ -19,20 +19,17 @@ import java.awt.*;
 /**
  * Author: MrCrayfish
  */
-public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter>
-{
+public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter> {
     private static final ModelPaper MODEL_PAPER = new ModelPaper();
 
     @Override
-    public void render(TileEntityPrinter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
+    public void render(TileEntityPrinter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.translate(x, y, z);
 
-            if(te.hasPaper())
-            {
+            if (te.hasPaper()) {
                 GlStateManager.pushMatrix();
                 {
                     GlStateManager.translate(0.5, 0.5, 0.5);
@@ -48,8 +45,7 @@ public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter
 
             GlStateManager.pushMatrix();
             {
-                if(te.isLoading())
-                {
+                if (te.isLoading()) {
                     GlStateManager.translate(0.5, 0.5, 0.5);
                     IBlockState state1 = te.getWorld().getBlockState(te.getPos());
                     GlStateManager.rotate(state1.getValue(BlockPrinter.FACING).getHorizontalIndex() * -90F, 0, 1, 0);
@@ -58,9 +54,7 @@ public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter
                     GlStateManager.translate(0, progress, 0.36875);
                     GlStateManager.translate(-11 * 0.015625, -13 * 0.015625, -0.5 * 0.015625);
                     MODEL_PAPER.render(null, 0F, 0F, 0F, 0F, 0F, 0.015625F);
-                }
-                else if(te.isPrinting())
-                {
+                } else if (te.isPrinting()) {
                     GlStateManager.translate(0.5, 0.078125, 0.5);
                     IBlockState state1 = te.getWorld().getBlockState(te.getPos());
                     GlStateManager.rotate(state1.getValue(BlockPrinter.FACING).getHorizontalIndex() * -90F, 0, 1, 0);
@@ -109,15 +103,13 @@ public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter
         GlStateManager.popMatrix();
     }
 
-    public static class ModelPaper extends ModelBase
-    {
+    public static class ModelPaper extends ModelBase {
         public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
 
         private ModelRenderer box = new ModelRenderer(this, 0, 0).addBox(0, 0, 0, 22, 30, 1);
 
         @Override
-        public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
-        {
+        public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(TEXTURE);
             box.render(scale);
         }

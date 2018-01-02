@@ -14,8 +14,7 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public class GadgetSounds
-{
+public class GadgetSounds {
     public static final SoundEvent PRINTER_PRINTING;
     public static final SoundEvent PRINTER_LOADING_PAPER;
     public static final SoundEvent FANS_BLOWING;
@@ -33,8 +32,7 @@ public class GadgetSounds
     public static SoundEvent channel_heman;
     public static SoundEvent channel_switch;
 
-    static
-    {
+    static {
         PRINTER_PRINTING = registerSound(Reference.RESOURCE_PREFIX + "printing_ink");
         PRINTER_LOADING_PAPER = registerSound(Reference.RESOURCE_PREFIX + "printing_paper");
         FANS_BLOWING = registerSound(Reference.RESOURCE_PREFIX + "fans_blowing");
@@ -52,11 +50,9 @@ public class GadgetSounds
         channel_switch = registerSound(Reference.RESOURCE_PREFIX + "channel_switch");
     }
 
-    public static SoundEvent getRandomFart(Random rand)
-    {
+    public static SoundEvent getRandomFart(Random rand) {
         int num = rand.nextInt(3);
-        switch(num)
-        {
+        switch (num) {
             case 1:
                 return fart_2;
             case 2:
@@ -66,8 +62,7 @@ public class GadgetSounds
         }
     }
 
-    private static SoundEvent registerSound(String soundNameIn)
-    {
+    private static SoundEvent registerSound(String soundNameIn) {
         ResourceLocation resource = new ResourceLocation(soundNameIn);
         SoundEvent sound = new SoundEvent(resource).setRegistryName(soundNameIn);
         RegistrationHandler.SOUNDS.add(sound);
@@ -75,13 +70,11 @@ public class GadgetSounds
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-    public static class RegistrationHandler
-    {
+    public static class RegistrationHandler {
         public static final List<SoundEvent> SOUNDS = new LinkedList<>();
 
         @SubscribeEvent
-        public static void registerItems(final RegistryEvent.Register<SoundEvent> event)
-        {
+        public static void registerItems(final RegistryEvent.Register<SoundEvent> event) {
             SOUNDS.stream().forEach(sound -> event.getRegistry().register(sound));
         }
     }

@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
-import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
@@ -21,14 +21,12 @@ import javax.annotation.Nullable;
  */
 public abstract class Application extends Wrappable {
 
-    private String APP_VERSION;
-
     protected final AppInfo info = null;
     private final Layout defaultLayout = new Layout();
+    private String APP_VERSION;
     private BlockPos laptopPositon;
     private int width, height;
     private Layout currentLayout;
-
 
 
     /**
@@ -334,7 +332,6 @@ public abstract class Application extends Wrappable {
         return laptopPositon;
     }
 
-
     protected String getApplicationFolderPath() {
         assert false;
         return FileSystem.DIR_APPLICATION_DATA + "/" + info.getFormattedId();
@@ -342,7 +339,6 @@ public abstract class Application extends Wrappable {
 
     /**
      * Gets the active dialog window for this application
-     *
      */
     @Nullable
     public Window getActiveDialog() {

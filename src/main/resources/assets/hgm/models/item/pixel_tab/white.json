@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/pixel_tab",
+    "textures": {
+        "0": "hgm:model/pixel_tab_white"
+    }
+}

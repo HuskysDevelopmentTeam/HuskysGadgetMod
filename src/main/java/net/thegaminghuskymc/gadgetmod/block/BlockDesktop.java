@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -34,23 +35,19 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             Colorable colorable = (Colorable) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
@@ -58,33 +55,32 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof TileEntityDesktop)
-        {
-            TileEntityDesktop laptop = (TileEntityDesktop) tileEntity;
+        if (tileEntity instanceof TileEntityDesktop) {
+            TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
 
             NBTTagCompound tileEntityTag = new NBTTagCompound();
-            laptop.writeToNBT(tileEntityTag);
+            desktop.writeToNBT(tileEntityTag);
             tileEntityTag.removeTag("x");
             tileEntityTag.removeTag("y");
             tileEntityTag.removeTag("z");
             tileEntityTag.removeTag("id");
-            tileEntityTag.removeTag("open");
+            tileEntityTag.removeTag("doorOpen");
+            tileEntityTag.removeTag("powered");
+            tileEntityTag.removeTag("online");
+            tileEntityTag.removeTag("connected");
 
             NBTTagCompound compound = new NBTTagCompound();
             compound.setTag("BlockEntityTag", tileEntityTag);
@@ -104,26 +100,27 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return (state.getValue(FACING)).getHorizontalIndex();
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.CUTOUT_MIPPED;
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING, BlockColored.COLOR);
     }
 
     @Override
-    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param)
-    {
+    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity != null && tileentity.receiveClientEvent(id, param);
     }

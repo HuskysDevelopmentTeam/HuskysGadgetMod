@@ -1,20 +1,21 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import scala.actors.threadpool.Arrays;
 
 import java.awt.*;
+
+import static scala.actors.threadpool.Arrays.asList;
 
 
 /**
@@ -26,6 +27,7 @@ import java.awt.*;
  * @author MrCrayfish
  */
 public class Inventory extends Component {
+
     protected static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 
     protected int selectedColour = new Color(1F, 1F, 0F, 0.15F).getRGB();
@@ -76,9 +78,8 @@ public class Inventory extends Component {
                     int y = yPosition + (i * 18) - 1;
                     if (GuiHelper.isMouseInside(mouseX, mouseY, x, y, x + 18, y + 18)) {
                         ItemStack stack = mc.player.inventory.getStackInSlot((i * 9) + j + 9);
-                        if (!stack.isEmpty()) {
-                            laptop.drawHoveringText(Arrays.asList(new String[]{stack.getDisplayName()}), mouseX, mouseY);
-                        }
+                        if (!stack.isEmpty())
+                            laptop.drawHoveringText(asList(new String[]{stack.getDisplayName()}), mouseX, mouseY);
                         return;
                     }
                 }

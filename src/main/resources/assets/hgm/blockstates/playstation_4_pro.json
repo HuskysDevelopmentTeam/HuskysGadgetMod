@@ -1,0 +1,107 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+      	"transform": "forge:default-block"
+	},
+	"variants": {
+		"vertical": {
+			"true": {
+				"model": "hgm:playstation_4_pro_vertical",
+				"x": -90
+			},
+			"false": {
+				"model": "hgm:playstation_4_pro"
+			}
+		},
+		"facing": {
+			"north": { "y": 90   },
+			"east":  { "y": 180  },
+			"south": { "y": 270 },
+			"west":  { "y": 360 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"0": "hgm:model/playstation_4_pro_black"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}
+

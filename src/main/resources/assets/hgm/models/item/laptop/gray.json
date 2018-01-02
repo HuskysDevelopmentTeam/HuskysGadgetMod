@@ -1,6 +1,6 @@
 {
-    "parent": "cdm:item/laptop",
+    "parent": "hgm:item/laptop",
     "textures": {
-        "2": "blocks/wool_colored_gray"
+        "0": "hgm:model/laptop_gray"
     }
 }

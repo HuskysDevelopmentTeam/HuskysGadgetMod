@@ -1,15 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.item.EnumDyeColor;
-import net.thegaminghuskymc.gadgetmod.DeviceConfig;
-import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
-import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
-import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
-import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,6 +13,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants;
+import net.thegaminghuskymc.gadgetmod.DeviceConfig;
+import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
+import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
+import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
+import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
@@ -29,8 +29,7 @@ import static net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter.State.
 /**
  * Author: MrCrayfish
  */
-public class TileEntityPrinter extends TileEntityDevice implements ITickable, Colorable
-{
+public class TileEntityPrinter extends TileEntityDevice implements ITickable, Colorable {
     private String name = "Printer";
     private State state = IDLE;
     private EnumDyeColor color = EnumDyeColor.RED;
@@ -43,33 +42,24 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
     private int paperCount = 0;
 
     @Override
-    public void update()
-    {
-        if(!world.isRemote)
-        {
-            if(remainingPrintTime > 0)
-            {
-                if(remainingPrintTime % 20 == 0 || state == LOADING_PAPER)
-                {
+    public void update() {
+        if (!world.isRemote) {
+            if (remainingPrintTime > 0) {
+                if (remainingPrintTime % 20 == 0 || state == LOADING_PAPER) {
                     pipeline.setInteger("remainingPrintTime", remainingPrintTime);
                     sync();
-                    if(remainingPrintTime != 0 && state == PRINTING)
-                    {
+                    if (remainingPrintTime != 0 && state == PRINTING) {
                         world.playSound(null, pos, GadgetSounds.PRINTER_PRINTING, SoundCategory.BLOCKS, 0.5F, 1.0F);
                     }
                 }
                 remainingPrintTime--;
-            }
-            else
-            {
+            } else {
                 setState(state.next());
             }
         }
 
-        if(state == IDLE && remainingPrintTime == 0 && currentPrint != null)
-        {
-            if(!world.isRemote)
-            {
+        if (state == IDLE && remainingPrintTime == 0 && currentPrint != null) {
+            if (!world.isRemote) {
                 IBlockState state = world.getBlockState(pos);
                 double[] fixedPosition = CollisionHelper.fixRotation(state.getValue(BlockPrinter.FACING), 0.15, 0.5, 0.15, 0.5);
                 EntityItem entity = new EntityItem(world, pos.getX() + fixedPosition[0], pos.getY() + 0.0625, pos.getZ() + fixedPosition[1], IPrint.generateItem(currentPrint));
@@ -81,64 +71,52 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
             currentPrint = null;
         }
 
-        if(state == IDLE && currentPrint == null && !printQueue.isEmpty() && paperCount > 0)
-        {
+        if (state == IDLE && currentPrint == null && !printQueue.isEmpty() && paperCount > 0) {
             print(printQueue.poll());
         }
     }
 
     @Override
-    public String getDeviceName()
-    {
+    public String getDeviceName() {
         return name;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("name", Constants.NBT.TAG_STRING))
-        {
+        if (compound.hasKey("name", Constants.NBT.TAG_STRING)) {
             name = compound.getString("name");
         }
-        if(compound.hasKey("currentPrint", Constants.NBT.TAG_COMPOUND))
-        {
+        if (compound.hasKey("currentPrint", Constants.NBT.TAG_COMPOUND)) {
             currentPrint = IPrint.loadFromTag(compound.getCompoundTag("currentPrint"));
         }
-        if(compound.hasKey("totalPrintTime", Constants.NBT.TAG_INT))
-        {
+        if (compound.hasKey("totalPrintTime", Constants.NBT.TAG_INT)) {
             totalPrintTime = compound.getInteger("totalPrintTime");
         }
-        if(compound.hasKey("remainingPrintTime", Constants.NBT.TAG_INT))
-        {
+        if (compound.hasKey("remainingPrintTime", Constants.NBT.TAG_INT)) {
             remainingPrintTime = compound.getInteger("remainingPrintTime");
         }
-        if(compound.hasKey("state", Constants.NBT.TAG_INT))
-        {
+        if (compound.hasKey("state", Constants.NBT.TAG_INT)) {
             state = State.values()[compound.getInteger("state")];
         }
-        if(compound.hasKey("paperCount", Constants.NBT.TAG_INT))
-        {
+        if (compound.hasKey("paperCount", Constants.NBT.TAG_INT)) {
             paperCount = compound.getInteger("paperCount");
         }
-        if(compound.hasKey("queue", Constants.NBT.TAG_LIST))
-        {
+        if (compound.hasKey("queue", Constants.NBT.TAG_LIST)) {
             printQueue.clear();
             NBTTagList queue = compound.getTagList("queue", Constants.NBT.TAG_COMPOUND);
-            for(int i = 0; i < queue.tagCount(); i++)
-            {
+            for (int i = 0; i < queue.tagCount(); i++) {
                 IPrint print = IPrint.loadFromTag(queue.getCompoundTagAt(i));
                 printQueue.offer(print);
             }
         }
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setString("name", name);
         compound.setInteger("totalPrintTime", totalPrintTime);
@@ -146,12 +124,10 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         compound.setInteger("state", state.ordinal());
         compound.setInteger("paperCount", paperCount);
         compound.setByte("color", (byte) color.getDyeDamage());
-        if(currentPrint != null)
-        {
+        if (currentPrint != null) {
             compound.setTag("currentPrint", IPrint.writeToTag(currentPrint));
         }
-        if(!printQueue.isEmpty())
-        {
+        if (!printQueue.isEmpty()) {
             NBTTagList queue = new NBTTagList();
             printQueue.forEach(print -> {
                 queue.appendTag(IPrint.writeToTag(print));
@@ -162,8 +138,7 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
     }
 
     @Override
-    public NBTTagCompound writeSyncTag()
-    {
+    public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("name", name);
         tag.setInteger("paperCount", paperCount);
@@ -171,25 +146,18 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         return tag;
     }
 
-    public void setState(State newState)
-    {
-        if(newState == null)
+    public void setState(State newState) {
+        if (newState == null)
             return;
 
         state = newState;
-        if(state == PRINTING)
-        {
-            if(DeviceConfig.isOverridePrintSpeed())
-            {
+        if (state == PRINTING) {
+            if (DeviceConfig.isOverridePrintSpeed()) {
                 remainingPrintTime = DeviceConfig.getCustomPrintSpeed() * 20;
-            }
-            else
-            {
+            } else {
                 remainingPrintTime = currentPrint.speed() * 20;
             }
-        }
-        else
-        {
+        } else {
             remainingPrintTime = state.animationTime;
         }
         totalPrintTime = remainingPrintTime;
@@ -200,13 +168,11 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         sync();
     }
 
-    public void addToQueue(IPrint print)
-    {
+    public void addToQueue(IPrint print) {
         printQueue.offer(print);
     }
 
-    private void print(IPrint print)
-    {
+    private void print(IPrint print) {
         world.playSound(null, pos, GadgetSounds.PRINTER_LOADING_PAPER, SoundCategory.BLOCKS, 0.5F, 1.0F);
 
         setState(LOADING_PAPER);
@@ -218,37 +184,28 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         sync();
     }
 
-    public boolean isLoading()
-    {
+    public boolean isLoading() {
         return state == LOADING_PAPER;
     }
 
-    public boolean isPrinting()
-    {
+    public boolean isPrinting() {
         return state == PRINTING;
     }
 
-    public int getTotalPrintTime()
-    {
+    public int getTotalPrintTime() {
         return totalPrintTime;
     }
 
-    public int getRemainingPrintTime()
-    {
+    public int getRemainingPrintTime() {
         return remainingPrintTime;
     }
 
-    public boolean addPaper(ItemStack stack, boolean addAll)
-    {
-        if(!stack.isEmpty() && stack.getItem() == Items.PAPER && paperCount < DeviceConfig.getMaxPaperCount())
-        {
-            if(!addAll)
-            {
+    public boolean addPaper(ItemStack stack, boolean addAll) {
+        if (!stack.isEmpty() && stack.getItem() == Items.PAPER && paperCount < DeviceConfig.getMaxPaperCount()) {
+            if (!addAll) {
                 paperCount++;
                 stack.shrink(1);
-            }
-            else
-            {
+            } else {
                 paperCount += stack.getCount();
                 stack.setCount(Math.max(0, paperCount - 64));
                 paperCount = Math.min(64, paperCount);
@@ -261,55 +218,35 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         return false;
     }
 
-    public boolean hasPaper()
-    {
+    public boolean hasPaper() {
         return paperCount > 0;
     }
 
-    public int getPaperCount()
-    {
+    public int getPaperCount() {
         return paperCount;
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public IPrint getPrint()
-    {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public IPrint getPrint() {
         return currentPrint;
     }
 
     @Nullable
     @Override
-    public ITextComponent getDisplayName()
-    {
+    public ITextComponent getDisplayName() {
         return new TextComponentString(name);
     }
 
-    public enum State
-    {
-        LOADING_PAPER(30), PRINTING(0), IDLE(0);
-
-        final int animationTime;
-
-        State(int time)
-        {
-            this.animationTime = time;
-        }
-
-        public State next()
-        {
-            if(ordinal() + 1 >= values().length)
-                return null;
-            return values()[ordinal() + 1];
-        }
+    @Override
+    public EnumDyeColor getColor() {
+        return color;
     }
 
     @Override
@@ -317,8 +254,19 @@ public class TileEntityPrinter extends TileEntityDevice implements ITickable, Co
         this.color = color;
     }
 
-    @Override
-    public EnumDyeColor getColor() {
-        return color;
+    public enum State {
+        LOADING_PAPER(30), PRINTING(0), IDLE(0);
+
+        final int animationTime;
+
+        State(int time) {
+            this.animationTime = time;
+        }
+
+        public State next() {
+            if (ordinal() + 1 >= values().length)
+                return null;
+            return values()[ordinal() + 1];
+        }
     }
 }

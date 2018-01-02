@@ -11,49 +11,45 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class EntitySeat extends Entity
-{
-    public EntitySeat(World worldIn)
-    {
+public class EntitySeat extends Entity {
+    public EntitySeat(World worldIn) {
         super(worldIn);
         this.setSize(0.001F, 0.001F);
         this.setInvisible(true);
     }
 
-    public EntitySeat(World worldIn, BlockPos pos, double yOffset)
-    {
+    public EntitySeat(World worldIn, BlockPos pos, double yOffset) {
         this(worldIn);
         this.setPosition(pos.getX() + 0.5, pos.getY() + yOffset, pos.getZ() + 0.5);
     }
 
     @Override
-    protected boolean shouldSetPosAfterLoading()
-    {
+    protected boolean shouldSetPosAfterLoading() {
         return false;
     }
 
     @Override
-    public void onEntityUpdate()
-    {
-        if(!this.world.isRemote && (!this.isBeingRidden() || this.world.isAirBlock(new BlockPos(this.posX, this.posY, this.posZ))))
-        {
+    public void onEntityUpdate() {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.world.isAirBlock(new BlockPos(this.posX, this.posY, this.posZ)))) {
             this.setDead();
         }
     }
 
     @Nullable
-    public Entity getControllingPassenger()
-    {
+    public Entity getControllingPassenger() {
         List<Entity> list = this.getPassengers();
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
-    protected void entityInit() {}
+    protected void entityInit() {
+    }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {}
+    protected void readEntityFromNBT(NBTTagCompound compound) {
+    }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound compound) {}
+    protected void writeEntityToNBT(NBTTagCompound compound) {
+    }
 }

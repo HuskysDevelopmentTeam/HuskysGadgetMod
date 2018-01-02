@@ -25,55 +25,45 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public abstract class BlockColorable extends BlockHorizontal
-{
-    protected BlockColorable(Material materialIn)
-    {
+public abstract class BlockColorable extends BlockHorizontal {
+    protected BlockColorable(Material materialIn) {
         super(materialIn);
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-    {
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         System.out.println(state);
         TileEntity tileEntity = world.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             drops.add(new ItemStack(Item.getItemFromBlock(this), 1, ((Colorable) tileEntity).getColor().getMetadata()));
         }
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-    {
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             return new ItemStack(Item.getItemFromBlock(this), 1, ((Colorable) tileEntity).getColor().getMetadata());
         }
         return super.getPickBlock(state, target, world, pos, player);
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             Colorable colorable = (Colorable) tileEntity;
             colorable.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
         }
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         ItemStack stack = placer.getHeldItem(hand);
         EnumDyeColor color = EnumDyeColor.byMetadata(stack.getItemDamage());
@@ -81,11 +71,9 @@ public abstract class BlockColorable extends BlockHorizontal
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof Colorable)
-        {
+        if (tileEntity instanceof Colorable) {
             Colorable colorable = (Colorable) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
@@ -93,20 +81,17 @@ public abstract class BlockColorable extends BlockHorizontal
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING, BlockColored.COLOR);
     }
 }

@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.api.io;
 
-import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
@@ -12,6 +11,7 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
+import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

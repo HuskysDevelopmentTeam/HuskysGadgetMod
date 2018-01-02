@@ -1,10 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
@@ -17,37 +15,29 @@ import java.util.UUID;
 /**
  * Author: MrCrayfish
  */
-public abstract class TileEntityDevice extends TileEntitySync implements ITickable
-{
+public abstract class TileEntityDevice extends TileEntitySync implements ITickable {
     private int counter;
     private UUID deviceId;
     private Connection connection;
     private net.thegaminghuskymc.gadgetmod.core.images.Connection connectionMonitor;
 
     @Override
-    public void update()
-    {
-        if(world.isRemote)
+    public void update() {
+        if (world.isRemote)
             return;
 
-        if(connection != null && connection.getRouterPos() != null)
-        {
-            if(++counter >= DeviceConfig.getBeaconInterval() * 2)
-            {
+        if (connection != null && connection.getRouterPos() != null) {
+            if (++counter >= DeviceConfig.getBeaconInterval() * 2) {
                 connection.setRouterPos(null);
             }
         }
     }
 
-    public void connect(Router router)
-    {
-        if(router == null)
-        {
-            if(connection != null)
-            {
+    public void connect(Router router) {
+        if (router == null) {
+            if (connection != null) {
                 Router connectedRouter = connection.getRouter(world);
-                if(connectedRouter != null)
-                {
+                if (connectedRouter != null) {
                     connectedRouter.removeDevice(this);
                 }
             }
@@ -59,15 +49,11 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         this.markDirty();
     }
 
-    public void connect(Monitor monitor)
-    {
-        if(monitor == null)
-        {
-            if(connection != null)
-            {
+    public void connect(Monitor monitor) {
+        if (monitor == null) {
+            if (connection != null) {
                 Monitor connectedRouter = connectionMonitor.getRouter(world);
-                if(connectedRouter != null)
-                {
+                if (connectedRouter != null) {
                     connectedRouter.removeDevice(this);
                 }
             }
@@ -79,27 +65,22 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         this.markDirty();
     }
 
-    public Connection getConnection()
-    {
+    public Connection getConnection() {
         return connection;
     }
 
     @Nullable
-    public Router getRouter()
-    {
+    public Router getRouter() {
         return connection != null ? connection.getRouter(world) : null;
     }
 
     @Nullable
-    public Monitor getMonitor()
-    {
+    public Monitor getMonitor() {
         return connectionMonitor != null ? connectionMonitor.getRouter(world) : null;
     }
 
-    public final UUID getId()
-    {
-        if(deviceId == null)
-        {
+    public final UUID getId() {
+        if (deviceId == null) {
             deviceId = UUID.randomUUID();
         }
         return deviceId;
@@ -107,15 +88,12 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
 
     public abstract String getDeviceName();
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return connection != null && connection.isConnected() && connectionMonitor != null && connectionMonitor.isConnected();
     }
 
-    public boolean receiveBeacon(Router router)
-    {
-        if(connection.getRouterId().equals(router.getId()))
-        {
+    public boolean receiveBeacon(Router router) {
+        if (connection.getRouterId().equals(router.getId())) {
             connection.setRouterPos(router.getPos());
             counter = 0;
             return true;
@@ -123,11 +101,9 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         return false;
     }
 
-    public int getRouterSignalStrength()
-    {
+    public int getRouterSignalStrength() {
         BlockPos routerPos = connection.getRouterPos();
-        if(routerPos != null)
-        {
+        if (routerPos != null) {
             double distance = Math.sqrt(pos.distanceSqToCenter(routerPos.getX() + 0.5, routerPos.getY() + 0.5, routerPos.getZ() + 0.5));
             double level = DeviceConfig.getSignalRange() / 3.0;
             return distance > level * 2 ? 2 : distance > level ? 1 : 0;
@@ -135,10 +111,8 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         return -1;
     }
 
-    public boolean receiveBeacon(Monitor monitor)
-    {
-        if(connection.getRouterId().equals(monitor.getId()))
-        {
+    public boolean receiveBeacon(Monitor monitor) {
+        if (connection.getRouterId().equals(monitor.getId())) {
             connection.setRouterPos(monitor.getPos());
             counter = 0;
             return true;
@@ -146,11 +120,9 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         return false;
     }
 
-    public int getSignalStrength()
-    {
+    public int getSignalStrength() {
         BlockPos routerPos = connection.getRouterPos();
-        if(routerPos != null)
-        {
+        if (routerPos != null) {
             double distance = Math.sqrt(pos.distanceSqToCenter(routerPos.getX() + 0.5, routerPos.getY() + 0.5, routerPos.getZ() + 0.5));
             double level = DeviceConfig.getSignalRange() / 3.0;
             return distance > level * 2 ? 2 : distance > level ? 1 : 0;
@@ -159,13 +131,11 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setString("deviceId", getId().toString());
 
-        if(connection != null)
-        {
+        if (connection != null) {
             compound.setTag("connection", connection.toTag());
         }
 
@@ -173,15 +143,12 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("deviceId", Constants.NBT.TAG_STRING))
-        {
+        if (compound.hasKey("deviceId", Constants.NBT.TAG_STRING)) {
             deviceId = UUID.fromString(compound.getString("deviceId"));
         }
-        if(compound.hasKey("connection", Constants.NBT.TAG_COMPOUND))
-        {
+        if (compound.hasKey("connection", Constants.NBT.TAG_COMPOUND)) {
             connection = Connection.fromTag(this, compound.getCompoundTag("connection"));
         }
     }

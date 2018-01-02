@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/playstation_4_pro",
+    "textures": {
+        "0": "hgm:model/playstation_4_pro_green"
+    }
+}

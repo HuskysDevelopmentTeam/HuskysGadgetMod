@@ -18,62 +18,57 @@ import net.thegaminghuskymc.gadgetmod.item.SubItems;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Author: MrCrayfish
  */
-public class RegistrationHandler
-{
+public class RegistrationHandler {
+    public static void init() {
+        GadgetBlocks.register();
+        GadgetItems.register();
+        GadgetCrafting.register();
+    }
+
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-    public static class Blocks
-    {
+    public static class Blocks {
         private static final List<Block> BLOCKS = new LinkedList<>();
 
-        static void add(Block block)
-        {
+        static void add(Block block) {
             BLOCKS.add(block);
         }
 
         @SubscribeEvent
-        public static void register(final RegistryEvent.Register<Block> event)
-        {
+        public static void register(final RegistryEvent.Register<Block> event) {
             HuskyGadgetMod.getLogger().info("Registering blocks");
             BLOCKS.forEach(block -> event.getRegistry().register(block));
         }
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-    public static class Items
-    {
+    public static class Items {
         private static final List<Item> ITEMS = new LinkedList<>();
 
-        static void add(Item item)
-        {
+        static void add(Item item) {
             ITEMS.add(item);
         }
 
         @SubscribeEvent
-        public static void register(final RegistryEvent.Register<Item> event)
-        {
+        public static void register(final RegistryEvent.Register<Item> event) {
             HuskyGadgetMod.getLogger().info("Registering items");
             ITEMS.forEach(item -> event.getRegistry().register(item));
         }
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
-    public static class Recipes
-    {
+    public static class Recipes {
         private static final List<IRecipe> RECIPES = new LinkedList<>();
 
-        static void add(IRecipe recipe)
-        {
+        static void add(IRecipe recipe) {
             RECIPES.add(recipe);
         }
 
         @SubscribeEvent
-        public static void register(final RegistryEvent.Register<IRecipe> event)
-        {
+        public static void register(final RegistryEvent.Register<IRecipe> event) {
             HuskyGadgetMod.getLogger().info("Registering recipes");
             RECIPES.forEach(recipe -> event.getRegistry().register(recipe));
             System.out.println(event.getRegistry().getEntries());
@@ -81,36 +76,22 @@ public class RegistrationHandler
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Side.CLIENT)
-    public static class Models
-    {
+    public static class Models {
         @SubscribeEvent
-        public static void register(ModelRegistryEvent event)
-        {
+        public static void register(ModelRegistryEvent event) {
             HuskyGadgetMod.getLogger().info("Registering models");
             Items.ITEMS.forEach(Models::registerRender);
         }
 
-        private static void registerRender(Item item)
-        {
-            if(item instanceof SubItems)
-            {
+        private static void registerRender(Item item) {
+            if (item instanceof SubItems) {
                 NonNullList<ResourceLocation> modelLocations = ((SubItems) item).getModels();
-                for(int i = 0; i < modelLocations.size(); i++)
-                {
+                for (int i = 0; i < modelLocations.size(); i++) {
                     ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(modelLocations.get(i), "inventory"));
                 }
-            }
-            else
-            {
+            } else {
                 ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
             }
         }
-    }
-
-    public static void init()
-    {
-        GadgetBlocks.register();
-        GadgetItems.register();
-        GadgetCrafting.register();
     }
 }

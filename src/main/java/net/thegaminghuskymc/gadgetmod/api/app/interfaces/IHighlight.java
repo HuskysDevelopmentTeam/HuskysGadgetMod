@@ -5,7 +5,6 @@ import net.minecraft.util.text.TextFormatting;
 /**
  * Author: MrCrayfish
  */
-public interface IHighlight
-{
+public interface IHighlight {
     TextFormatting[] getKeywordFormatting(String text);
 }

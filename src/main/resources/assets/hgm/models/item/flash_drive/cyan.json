@@ -1,5 +1,5 @@
 {
-    "parent": "cdm:item/flash_drive",
+    "parent": "hgm:item/flash_drive",
     "textures": {
         "0": "hgm:model/flash_drive_cyan"
     }

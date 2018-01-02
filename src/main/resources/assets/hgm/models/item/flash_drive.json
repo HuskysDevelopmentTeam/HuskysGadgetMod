@@ -1,9 +1,5 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
-	"ambientocclusion": false,
-	"textures": {
-		"particle": "#0"
-	},
 	"elements": [
 		{
 			"name": "cube",
@@ -328,5 +324,42 @@
 			},
 			"type": "cube"
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [88, 0, 90],
+			"translation": [-3, 1.5, 1]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [88, 0, 90],
+			"translation": [-3, 1.5, 1]
+		},
+		"firstperson_righthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [54, 0, 90],
+			"translation": [-3, 1.5, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [54, 0, 90],
+			"translation": [-3, 1.5, 0]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5],
+			"rotation": [0, 0, 0],
+			"translation": [0, 2, 0]
+		},
+		"fixed": {
+			"scale": [0.7, 0.7, 0.7],
+			"rotation": [91, 0, 0],
+			"translation": [0, 0, 4.5]
+		},
+		"gui": {
+			"scale": [0.625, 0.625, 0.625],
+			"rotation": [30, 225, 0],
+			"translation": [0, 3, 0]
+		}
+	}
 }

@@ -13,74 +13,57 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
 
 import java.util.Collection;
 
-public class TaskGetDevices extends Task
-{
+public class TaskGetDevices extends Task {
     private BlockPos devicePos;
     private Class<? extends TileEntityDevice> targetDeviceClass;
 
     private Collection<NetworkDevice> foundDevices;
 
-    private TaskGetDevices()
-    {
+    private TaskGetDevices() {
         super("get_network_devices");
     }
 
-    public TaskGetDevices(BlockPos devicePos)
-    {
+    public TaskGetDevices(BlockPos devicePos) {
         this();
         this.devicePos = devicePos;
     }
 
-    public TaskGetDevices(BlockPos devicePos, Class<? extends TileEntityDevice> targetDeviceClass)
-    {
+    public TaskGetDevices(BlockPos devicePos, Class<? extends TileEntityDevice> targetDeviceClass) {
         this();
         this.devicePos = devicePos;
         this.targetDeviceClass = targetDeviceClass;
     }
 
     @Override
-    public void prepareRequest(NBTTagCompound nbt)
-    {
+    public void prepareRequest(NBTTagCompound nbt) {
         nbt.setLong("devicePos", devicePos.toLong());
-        if(targetDeviceClass != null)
-        {
+        if (targetDeviceClass != null) {
             nbt.setString("targetClass", targetDeviceClass.getName());
         }
     }
 
     @Override
-    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player)
-    {
+    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
         BlockPos devicePos = BlockPos.fromLong(nbt.getLong("devicePos"));
         Class targetDeviceClass = null;
-        try
-        {
+        try {
             Class targetClass = Class.forName(nbt.getString("targetClass"));
-            if(TileEntityDevice.class.isAssignableFrom(targetClass))
-            {
+            if (TileEntityDevice.class.isAssignableFrom(targetClass)) {
                 targetDeviceClass = targetClass;
             }
-        }
-        catch(ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         TileEntity tileEntity = world.getTileEntity(devicePos);
-        if(tileEntity instanceof TileEntityDevice)
-        {
+        if (tileEntity instanceof TileEntityDevice) {
             TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if(tileEntityDevice.isConnected())
-            {
+            if (tileEntityDevice.isConnected()) {
                 Router router = tileEntityDevice.getRouter();
-                if(router != null)
-                {
-                    if(targetDeviceClass != null)
-                    {
+                if (router != null) {
+                    if (targetDeviceClass != null) {
                         foundDevices = router.getConnectedDevices(world, targetDeviceClass);
-                    }
-                    else
-                    {
+                    } else {
                         foundDevices = router.getConnectedDevices(world);
                     }
                     this.setSuccessful();
@@ -90,10 +73,8 @@ public class TaskGetDevices extends Task
     }
 
     @Override
-    public void prepareResponse(NBTTagCompound nbt)
-    {
-        if(this.isSucessful())
-        {
+    public void prepareResponse(NBTTagCompound nbt) {
+        if (this.isSucessful()) {
             NBTTagList deviceList = new NBTTagList();
             foundDevices.forEach(device -> deviceList.appendTag(device.toTag(true)));
             nbt.setTag("network_devices", deviceList);
@@ -101,8 +82,7 @@ public class TaskGetDevices extends Task
     }
 
     @Override
-    public void processResponse(NBTTagCompound nbt)
-    {
+    public void processResponse(NBTTagCompound nbt) {
 
     }
 }

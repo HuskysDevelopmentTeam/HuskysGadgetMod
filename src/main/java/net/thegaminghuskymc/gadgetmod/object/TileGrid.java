@@ -1,5 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
@@ -11,8 +13,6 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 import net.thegaminghuskymc.gadgetmod.object.tiles.Tile.Category;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 import java.util.ArrayList;

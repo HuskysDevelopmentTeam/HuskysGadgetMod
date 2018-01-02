@@ -1,6 +1,6 @@
 {
     "parent": "hgm:item/laptop",
     "textures": {
-        "2": "blocks/wool_colored_magenta"
+        "0": "hgm:model/laptop_magenta"
     }
 }

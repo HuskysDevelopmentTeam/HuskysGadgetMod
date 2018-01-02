@@ -1,8 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
-import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 
 public class ButtonToggle extends Button implements RadioGroup.Item {
     protected boolean toggle = false;

@@ -1,11 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.programs.email.task;
 
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 
 public class TaskSendEmail extends Task {
 

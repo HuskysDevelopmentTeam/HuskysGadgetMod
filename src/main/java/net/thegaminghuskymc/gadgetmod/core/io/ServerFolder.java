@@ -1,9 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.thegaminghuskymc.gadgetmod.core.io.FileSystem.Status;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.Constants;
+import net.thegaminghuskymc.gadgetmod.core.io.FileSystem.Status;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -9,17 +9,14 @@ import net.thegaminghuskymc.gadgetmod.handler.ConfigurationHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiGadgetConfig extends GuiConfig
-{
-	public GuiGadgetConfig(GuiScreen parent)
-	{
-		super(parent, getConfigElements(), "hgm", false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.config.toString()));
-	}
-	
-	public static List<IConfigElement> getConfigElements()
-	{
-		List<IConfigElement> configs = new ArrayList<IConfigElement>();
-		configs.addAll(new ConfigElement(ConfigurationHandler.config.getCategory(ConfigurationHandler.CATEGORY_SETTINGS)).getChildElements());
-		return configs;
-	}
+public class GuiGadgetConfig extends GuiConfig {
+    public GuiGadgetConfig(GuiScreen parent) {
+        super(parent, getConfigElements(), "hgm", false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.config.toString()));
+    }
+
+    public static List<IConfigElement> getConfigElements() {
+        List<IConfigElement> configs = new ArrayList<IConfigElement>();
+        configs.addAll(new ConfigElement(ConfigurationHandler.config.getCategory(ConfigurationHandler.CATEGORY_SETTINGS)).getChildElements());
+        return configs;
+    }
 }

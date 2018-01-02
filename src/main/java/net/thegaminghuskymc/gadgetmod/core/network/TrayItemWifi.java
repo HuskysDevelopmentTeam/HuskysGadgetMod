@@ -22,108 +22,37 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrayItemWifi extends TrayItem
-{
+public class TrayItemWifi extends TrayItem {
+    public static TrayItem trayItem;
     private int pingTimer;
 
-    public static TrayItem trayItem;
-
-    public TrayItemWifi()
-    {
+    public TrayItemWifi() {
         super(Icons.WIFI_NONE);
     }
 
-    @Override
-    public void init()
-    {
-        this.setClickListener((mouseX, mouseY, mouseButton) ->
-        {
-        	if(Laptop.getSystem().hasContext())
-            {
-                Laptop.getSystem().closeContext();
-            }
-            else
-            {
-            	Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 100);
-            }
-        });
-
-        runPingTask();
-    }
-
-    @Override
-    public void tick()
-    {
-        if(++pingTimer >= DeviceConfig.getPingRate())
-        {
-            runPingTask();
-            pingTimer = 0;
-        }
-    }
-
-    private void runPingTask()
-    {
-        TaskPing task = new TaskPing(Laptop.getPos());
-        task.setCallback((tagCompound, success) ->
-        {
-            if(success)
-            {
-                int strength = tagCompound.getInteger("strength");
-                switch(strength)
-                {
-                    case 2:
-                        setIcon(Icons.WIFI_LOW);
-                        break;
-                    case 1:
-                        setIcon(Icons.WIFI_MED);
-                        break;
-                    case 0:
-                        setIcon(Icons.WIFI_HIGH);
-                        break;
-                    default:
-                        setIcon(Icons.WIFI_NONE);
-                        break;
-                }
-            }
-            else
-            {
-                setIcon(Icons.WIFI_NONE);
-            }
-        });
-        TaskManager.sendTask(task);
-    }
-
-    private static Layout createWifiMenu(TrayItem item)
-    {
+    private static Layout createWifiMenu(TrayItem item) {
         trayItem = item;
 
         Layout layout = new Layout.Context(100, 100);
-        layout.yPosition = 40;
+        layout.yPosition = 70;
         layout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
                 Gui.drawRect(x, y, x + width, y + height, new Color(0.65F, 0.65F, 0.65F, 0.9F).getRGB()));
 
         ItemList<BlockPos> itemListRouters = new ItemList<>(5, 5, 90, 4);
         itemListRouters.setItems(getRouters());
-        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16)
-        {
+        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16) {
             @Override
-            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
                 gui.drawString(mc.fontRenderer, "Router", x + 16, y + 4, Color.WHITE.getRGB());
 
                 BlockPos laptopPos = Laptop.getPos();
                 double distance = Math.sqrt(blockPos.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
-                if(distance > 20)
-                {
+                if (distance > 20) {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
-                }
-                else if(distance > 10)
-                {
+                } else if (distance > 10) {
                     Icons.WIFI_MED.draw(mc, x + 3, y + 3);
-                }
-                else
-                {
+                } else {
                     Icons.WIFI_HIGH.draw(mc, x + 3, y + 3);
                 }
             }
@@ -137,17 +66,12 @@ public class TrayItemWifi extends TrayItem
         layout.addComponent(itemListRouters);
 
         Button buttonConnect = new Button(79, 79, Icons.CHECK);
-        buttonConnect.setClickListener((mouseX, mouseY, mouseButton) ->
-        {
-            if(mouseButton == 0)
-            {
-                if(itemListRouters.getSelectedItem() != null)
-                {
+        buttonConnect.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if (mouseButton == 0) {
+                if (itemListRouters.getSelectedItem() != null) {
                     TaskConnect connect = new TaskConnect(Laptop.getPos(), itemListRouters.getSelectedItem());
-                    connect.setCallback((tagCompound, success) ->
-                    {
-                        if(success)
-                        {
+                    connect.setCallback((tagCompound, success) -> {
+                        if (success) {
                             item.setIcon(Icons.WIFI_HIGH);
                             Laptop.getSystem().closeContext();
                         }
@@ -161,29 +85,71 @@ public class TrayItemWifi extends TrayItem
         return layout;
     }
 
-    public static List<BlockPos> getRouters()
-    {
+    public static List<BlockPos> getRouters() {
         List<BlockPos> routers = new ArrayList<>();
 
         World world = Minecraft.getMinecraft().world;
         BlockPos laptopPos = Laptop.getPos();
         int range = DeviceConfig.getSignalRange();
 
-        for(int y = -range; y < range + 1; y++)
-        {
-            for(int z = -range; z < range + 1; z++)
-            {
-                for(int x = -range; x < range + 1; x++)
-                {
+        for (int y = -range; y < range + 1; y++) {
+            for (int z = -range; z < range + 1; z++) {
+                for (int x = -range; x < range + 1; x++) {
                     BlockPos pos = new BlockPos(laptopPos.getX() + x, laptopPos.getY() + y, laptopPos.getZ() + z);
                     IBlockState state = world.getBlockState(pos);
-                    if(state.getBlock() == GadgetBlocks.ROUTER)
-                    {
+                    if (state.getBlock() == GadgetBlocks.ROUTER) {
                         routers.add(pos);
                     }
                 }
             }
         }
         return routers;
+    }
+
+    @Override
+    public void init() {
+        this.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if (Laptop.getSystem().hasContext()) {
+                Laptop.getSystem().closeContext();
+            } else {
+                Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 80);
+            }
+        });
+
+        runPingTask();
+    }
+
+    @Override
+    public void tick() {
+        if (++pingTimer >= DeviceConfig.getPingRate()) {
+            runPingTask();
+            pingTimer = 0;
+        }
+    }
+
+    private void runPingTask() {
+        TaskPing task = new TaskPing(Laptop.getPos());
+        task.setCallback((tagCompound, success) -> {
+            if (success) {
+                int strength = tagCompound.getInteger("strength");
+                switch (strength) {
+                    case 2:
+                        setIcon(Icons.WIFI_LOW);
+                        break;
+                    case 1:
+                        setIcon(Icons.WIFI_MED);
+                        break;
+                    case 0:
+                        setIcon(Icons.WIFI_HIGH);
+                        break;
+                    default:
+                        setIcon(Icons.WIFI_NONE);
+                        break;
+                }
+            } else {
+                setIcon(Icons.WIFI_NONE);
+            }
+        });
+        TaskManager.sendTask(task);
     }
 }

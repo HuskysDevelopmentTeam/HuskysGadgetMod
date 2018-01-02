@@ -1,19 +1,18 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
-import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.CheckBox;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.object.Game;
 import net.thegaminghuskymc.gadgetmod.object.TileGrid;
+import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 
 public class ApplicationBoatRacers extends Application {
+
     private Layout layoutLevelEditor;
     private Game game;
     private TileGrid tileGrid;

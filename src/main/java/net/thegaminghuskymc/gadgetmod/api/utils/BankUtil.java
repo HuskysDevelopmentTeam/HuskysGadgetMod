@@ -1,5 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.api.utils;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
@@ -7,9 +10,6 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskAdd;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskGetBalance;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskPay;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskRemove;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,0 +1,6 @@
+{
+    "parent": "hgm:item/video_card",
+    "textures": {
+        "0": "hgm:model/minevidia_titan_x_gray"
+    }
+}

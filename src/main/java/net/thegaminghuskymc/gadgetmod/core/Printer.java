@@ -6,16 +6,13 @@ import net.minecraft.inventory.Container;
 /**
  * Author: MrCrayfish
  */
-public class Printer extends GuiContainer
-{
-    public Printer(Container inventorySlotsIn)
-    {
+public class Printer extends GuiContainer {
+    public Printer(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
-    {
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 
     }
 }

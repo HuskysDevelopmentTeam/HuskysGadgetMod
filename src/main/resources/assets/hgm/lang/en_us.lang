@@ -24,14 +24,18 @@ app.hgm.example.name=UI Components
 app.hgm.file_browser.name=File Browser
 app.hgm.note_stash.name=NotePad
 app.hgm.pixel_shop.name=Huskydobe PixelShop
-app.hgm.ender_mail.name=EnderMail
+app.hgm.pixel_mail.name=PixelMail
 app.hgm.boat_racers.name=Boat Racers
-app.hgm.mine_bay.name=MineBay
+app.hgm.pixel_bay.name=PixelBay
 app.hgm.bluej.name=BlueJ
 app.hgm.pixel_book.name=PixelBook
 app.hgm.pixel_browser.name=Pixel Browser
+app.hgm.pixel_tube.name=PixelTube
+app.hgm.pixel_plus.name=Pixel+
 app.hgm.cackler.name=Cackler
 app.hgm.flame_chat.name=Flame Chat
+app.hgm.app_store.name=App Store
+
 
 message.select_router=Now select a router to connect this device to.
 message.invalid_cable=Please select a device first before adding it to this monitor.

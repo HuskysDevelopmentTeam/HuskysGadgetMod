@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.minecraft.nbt.NBTTagCompound;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;

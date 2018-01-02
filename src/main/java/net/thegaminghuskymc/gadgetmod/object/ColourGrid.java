@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
+import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Slider;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 

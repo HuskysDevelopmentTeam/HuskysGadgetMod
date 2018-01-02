@@ -11,21 +11,15 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class SeatUtil
-{
-    public static void createSeatAndSit(World worldIn, BlockPos pos, EntityPlayer playerIn, double yOffset)
-    {
+public class SeatUtil {
+    public static void createSeatAndSit(World worldIn, BlockPos pos, EntityPlayer playerIn, double yOffset) {
         List<EntitySeat> seats = worldIn.getEntitiesWithinAABB(EntitySeat.class, new AxisAlignedBB(pos));
-        if(!seats.isEmpty())
-        {
+        if (!seats.isEmpty()) {
             EntitySeat seat = seats.get(0);
-            if(seat.getRidingEntity() == null)
-            {
+            if (seat.getRidingEntity() == null) {
                 playerIn.startRiding(seat);
             }
-        }
-        else
-        {
+        } else {
             EntitySeat seat = new EntitySeat(worldIn, pos, yOffset);
             worldIn.spawnEntity(seat);
             playerIn.startRiding(seat);

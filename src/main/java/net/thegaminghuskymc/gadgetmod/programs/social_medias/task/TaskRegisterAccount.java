@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.programs.social_medias.task;
 
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
 
 public class TaskRegisterAccount extends Task {
     private String name;

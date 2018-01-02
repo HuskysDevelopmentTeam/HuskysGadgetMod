@@ -1,13 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.util.NonNullList;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ItemClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.util.NonNullList;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
@@ -65,6 +65,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
     @Override
     public void init(Layout layout) {
         btnUp = new Button(left + width - 12, top, Icons.CHEVRON_UP);
+        btnUp.setSize(14, 14);
         btnUp.setEnabled(false);
         btnUp.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -74,6 +75,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
         layout.addComponent(btnUp);
 
         btnDown = new Button(left + width - 12, top + getHeight() - 12, Icons.CHEVRON_DOWN);
+        btnDown.setSize(14, 14);
         btnDown.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) scrollDown();
