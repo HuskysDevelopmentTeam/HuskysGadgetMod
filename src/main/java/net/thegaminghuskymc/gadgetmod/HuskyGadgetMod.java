@@ -130,14 +130,15 @@ public class HuskyGadgetMod {
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class)
 
-        try {
-            Class<Application> app = classLoader.loadClass("http:///multicraft-mod.cba.pl/ASimpleApp.class");
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"hello"), app);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+// Example on how to load an app from a url
+//        try {
+//            Class<Application> app = classLoader.loadClass("http:///multicraft-mod.cba.pl/ASimpleApp.class");
+//            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"hello"), app);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         // Core
         TaskManager.registerTask(TaskUpdateApplicationData.class);
