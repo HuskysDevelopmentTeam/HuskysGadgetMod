@@ -133,8 +133,8 @@ public class HuskyGadgetMod {
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
 
         try {
-            Class<Application> app = classLoader.loadClass("http:///multicraft-mod.cba.pl/ASimpleApp.class");
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"hello"), app);
+            Class<Application> app = classLoader.loadClass("http://huskysdevicemod.cba.pl/ApplicationTest.class");
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"test"), app);
         } catch (Exception e) {
             e.printStackTrace();
         }
