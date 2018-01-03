@@ -139,11 +139,14 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider {
                 tileEntityTag.removeTag("y");
                 tileEntityTag.removeTag("z");
                 tileEntityTag.removeTag("id");
+                byte color = tileEntityTag.getByte("color");
+                tileEntityTag.removeTag("color");
 
                 NBTTagCompound compound = new NBTTagCompound();
                 compound.setTag("BlockEntityTag", tileEntityTag);
 
                 ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
+                drop.setItemDamage(15 - color);
                 drop.setTagCompound(compound);
 
                 world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));

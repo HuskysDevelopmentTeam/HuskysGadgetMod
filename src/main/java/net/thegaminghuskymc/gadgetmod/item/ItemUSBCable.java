@@ -128,7 +128,7 @@ public class ItemUSBCable extends Item {
             }
         }
         return super.onItemRightClick(world, player, hand);
-    }
+    }*/
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -149,7 +149,7 @@ public class ItemUSBCable extends Item {
         } else {
             if (!GuiScreen.isShiftKeyDown()) {
                 tooltip.add(TextFormatting.GRAY.toString() + "Use this cable to connect");
-                tooltip.add(TextFormatting.GRAY.toString() + "a device to a monitor.");
+                tooltip.add(TextFormatting.GRAY.toString() + "a device to either a drawing tablet or a server terminal.");
                 tooltip.add(TextFormatting.YELLOW.toString() + "Hold SHIFT for How-To");
                 return;
             }
@@ -157,13 +157,13 @@ public class ItemUSBCable extends Item {
             tooltip.add(TextFormatting.GRAY.toString() + "Start by right clicking a");
             tooltip.add(TextFormatting.GRAY.toString() + "device with this cable");
             tooltip.add(TextFormatting.GRAY.toString() + "then right click the ");
-            tooltip.add(TextFormatting.GRAY.toString() + "monitor you want to");
-            tooltip.add(TextFormatting.GRAY.toString() + "connect this device to.");
+            tooltip.add(TextFormatting.GRAY.toString() + "either the drawing tablet or server terminal ");
+            tooltip.add(TextFormatting.GRAY.toString() + "you want to connect this device to.");
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-    @SideOnly(Side.CLIENT)
+    /*@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack) {
         return stack.hasTagCompound();
     }*/

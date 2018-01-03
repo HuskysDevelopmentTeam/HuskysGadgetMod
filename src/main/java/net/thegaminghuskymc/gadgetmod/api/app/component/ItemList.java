@@ -101,7 +101,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
             int size = getSize();
 
             /* Fill */
-            Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + (size * height) + size, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 4, yPosition + (size * height) + size, Color.LIGHT_GRAY.getRGB());
 
             /* Box */
             drawHorizontalLine(xPosition, xPosition + width - 1, yPosition, borderColour);

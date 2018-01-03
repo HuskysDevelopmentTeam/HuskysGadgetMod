@@ -33,8 +33,9 @@ public class ApplicationAppStore extends Application {
         Layout layoutHome = new Layout(250, 159);
         layoutHome.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y + 50, x + width, y + 51, Color.DARK_GRAY.getRGB());
-            Gui.drawRect(x, y + 51, x + width, y + 63, Color.DARK_GRAY.getRGB());
+            Gui.drawRect(x, y + 50, x + width, y + 51, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(x, y + 51, x + width, y + 62, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 62, x + width, y + 63, Color.DARK_GRAY.getRGB());
         });
 
         Image imageBanner = new Image(0, 0, 250, 50, "https://i.imgur.com/VAGCpKY.jpg");
@@ -63,7 +64,7 @@ public class ApplicationAppStore extends Application {
         Label appsLabel = new Label("Application List", 120, 70);
         layoutHome.addComponent(appsLabel);
 
-        ItemList apps = new ItemList<AppInfo>(120, 80, 100, 3);
+        ItemList apps = new ItemList<AppInfo>(120, 82, 120, 3);
         apps.addItem(new AppInfo(new ResourceLocation(Reference.MOD_ID, "bank")));
         apps.addItem(new AppInfo(new ResourceLocation(Reference.MOD_ID, "pixel_book")));
         apps.addItem(new AppInfo(new ResourceLocation(Reference.MOD_ID, "cackler")));

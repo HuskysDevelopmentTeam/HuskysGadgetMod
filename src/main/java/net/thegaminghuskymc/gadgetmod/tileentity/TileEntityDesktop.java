@@ -12,13 +12,14 @@ import net.thegaminghuskymc.gadgetmod.util.Colorable;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 public class TileEntityDesktop extends TileEntityDevice implements ITickable, Colorable {
+
     @SideOnly(Side.CLIENT)
     public float rotation;
     @SideOnly(Side.CLIENT)
     public float prevRotation;
     private String name = "Desktop";
-    private boolean powered = false;
-    private EnumDyeColor color = EnumDyeColor.RED;
+    private boolean powered = false, online = false, connected = false, monitorConnected = false, doorOpen = false;
+    public EnumDyeColor color = EnumDyeColor.RED;
     private NBTTagCompound applicationData;
     private NBTTagCompound systemData;
     private FileSystem fileSystem;
@@ -48,9 +49,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if (compound.hasKey("powered")) {
-            this.powered = compound.getBoolean("powered");
-        }
         if (compound.hasKey("device_name", Constants.NBT.TAG_STRING)) {
             this.name = compound.getString("device_name");
         }
@@ -69,12 +67,26 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
         if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
         }
+        if (compound.hasKey("powered")) {
+            this.powered = compound.getBoolean("powered");
+        }
+        if (compound.hasKey("online")) {
+            this.online = compound.getBoolean("online");
+        }
+        if (compound.hasKey("connected")) {
+            this.connected = compound.getBoolean("connected");
+        }
+        if (compound.hasKey("monitorConnected")) {
+            this.monitorConnected = compound.getBoolean("monitorConnected");
+        }
+        if (compound.hasKey("doorOpen")) {
+            this.doorOpen = compound.getBoolean("doorOpen");
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
         compound.setByte("color", (byte) color.getDyeDamage());
 
@@ -89,16 +101,25 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
         if (fileSystem != null) {
             compound.setTag("file_system", fileSystem.toTag());
         }
+        compound.setBoolean("powered", powered);
+        compound.setBoolean("online", online);
+        compound.setBoolean("connected", connected);
+        compound.setBoolean("monitorConnected", monitorConnected);
+        compound.setBoolean("doorOpen", doorOpen);
         return compound;
     }
 
     @Override
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
         tag.setBoolean("has_external_drive", getFileSystem().getAttachedDrive() != null);
         tag.setByte("color", (byte) color.getDyeDamage());
+        tag.setBoolean("powered", powered);
+        tag.setBoolean("online", powered);
+        tag.setBoolean("connected", powered);
+        tag.setBoolean("monitorConnected", monitorConnected);
+        tag.setBoolean("doorOpen", doorOpen);
         return tag;
     }
 
@@ -121,6 +142,46 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
 
     public boolean isPowered() {
         return powered;
+    }
+
+    public void onlineOffline() {
+        online = !online;
+        pipeline.setBoolean("online", online);
+        sync();
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void connectNotConnected() {
+        connected = !connected;
+        pipeline.setBoolean("connected", connected);
+        sync();
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void monitorConnectedMonitorNotConnected() {
+        monitorConnected = !monitorConnected;
+        pipeline.setBoolean("monitorConnected", monitorConnected);
+        sync();
+    }
+
+    public boolean isMonitorConnected() {
+        return monitorConnected;
+    }
+
+    public void doorOpenDoorClosed() {
+        doorOpen = !doorOpen;
+        pipeline.setBoolean("doorOpen", doorOpen);
+        sync();
+    }
+
+    public boolean isDoorOpen() {
+        return doorOpen;
     }
 
     public NBTTagCompound getApplicationData() {

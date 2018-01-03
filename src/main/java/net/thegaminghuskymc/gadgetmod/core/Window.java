@@ -25,8 +25,6 @@ public class Window<T extends Wrappable> {
     T content;
     int width, height;
     int offsetX, offsetY;
-    int defaultApplicationBarColor = Color.DARK_GRAY.getRGB();
-    int applicationBarColor;
     Laptop laptop;
     Window<Dialog> dialogWindow = null;
     Window<? extends Wrappable> parent = null;
@@ -35,7 +33,6 @@ public class Window<T extends Wrappable> {
         this.content = wrappable;
         this.laptop = laptop;
         wrappable.setWindow(this);
-        applicationBarColor = defaultApplicationBarColor;
     }
 
     void setWidth(int width) {
@@ -87,7 +84,8 @@ public class Window<T extends Wrappable> {
         gui.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
 
         /* Edges */
-        getDefaultApplicationBarColor();
+        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getApplicationBarColour());
+        color.getRGB();
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
@@ -258,21 +256,4 @@ public class Window<T extends Wrappable> {
         return content;
     }
 
-    public int getDefaultApplicationBarColor() {
-        return defaultApplicationBarColor;
-    }
-
-    public int setDefaultApplicationBarColor(int defaultApplicationBarColor) {
-        this.defaultApplicationBarColor = defaultApplicationBarColor;
-        return defaultApplicationBarColor;
-    }
-
-    public int getApplicationBarColor() {
-        return applicationBarColor;
-    }
-
-    public int setApplicationBarColor(int applicationBarColor) {
-        this.applicationBarColor = applicationBarColor;
-        return applicationBarColor;
-    }
 }

@@ -132,11 +132,13 @@ public class HuskyGadgetMod {
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
 
-        try {
-            Class<Application> app = classLoader.loadClass("http://huskysdevicemod.cba.pl/ApplicationTest.class");
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"test"), app);
-        } catch (Exception e) {
-            e.printStackTrace();
+        for(int i = 0; i > System.nanoTime(); i++) {
+            try {
+                Class<Application> app = classLoader.loadClass("http://huskysdevicemod.cba.pl/ApplicationTest.class");
+                ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"test"), app);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // Core

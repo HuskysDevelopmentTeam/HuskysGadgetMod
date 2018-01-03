@@ -7,6 +7,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -77,7 +78,8 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
             tileEntityTag.removeTag("y");
             tileEntityTag.removeTag("z");
             tileEntityTag.removeTag("id");
-            tileEntityTag.removeTag("doorOpen");
+            byte color = tileEntityTag.getByte("color");
+            tileEntityTag.removeTag("color");
             tileEntityTag.removeTag("powered");
             tileEntityTag.removeTag("online");
             tileEntityTag.removeTag("connected");
@@ -86,6 +88,7 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
             compound.setTag("BlockEntityTag", tileEntityTag);
 
             ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
+            drop.setItemDamage(15 - color);
             drop.setTagCompound(compound);
 
             worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));

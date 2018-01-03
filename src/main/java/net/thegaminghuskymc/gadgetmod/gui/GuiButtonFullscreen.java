@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 
 public class GuiButtonFullscreen extends GuiButton {
+
     public GuiButtonFullscreen(int buttonId, int x, int y) {
         super(buttonId, x, y, 11, 11, "");
     }

@@ -81,9 +81,9 @@ public class LayoutAppPage extends Layout {
     @Override
     public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
         super.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
-        GlStateManager.color(1.0F, 1.0F, 1.0F);
+        /*GlStateManager.color(1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.BANNER_TEXTURES);
-        RenderUtil.drawRectWithTexture(xPosition, yPosition, info.getBannerU(), info.getBannerV(), 250, 40, 250, 40, 500, 160);
+        RenderUtil.drawRectWithTexture(xPosition, yPosition, info.getBannerU(), info.getBannerV(), 250, 40, 250, 40, 500, 160);*/
 
         GlStateManager.color(1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.ICON_TEXTURES);

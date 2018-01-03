@@ -88,14 +88,16 @@ public class BlockPlaystation4Pro extends BlockDevice implements ITileEntityProv
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof TileEntityPlaystation4Pro) {
-            TileEntityPlaystation4Pro externalHarddrive = (TileEntityPlaystation4Pro) tileEntity;
+            TileEntityPlaystation4Pro playstation4Pro = (TileEntityPlaystation4Pro) tileEntity;
 
             NBTTagCompound tileEntityTag = new NBTTagCompound();
-            externalHarddrive.writeToNBT(tileEntityTag);
+            playstation4Pro.writeToNBT(tileEntityTag);
             tileEntityTag.removeTag("x");
             tileEntityTag.removeTag("y");
             tileEntityTag.removeTag("z");
             tileEntityTag.removeTag("id");
+            byte color = tileEntityTag.getByte("color");
+            tileEntityTag.removeTag("color");
             tileEntityTag.removeTag("powered");
             tileEntityTag.removeTag("online");
             tileEntityTag.removeTag("connected");
@@ -104,6 +106,7 @@ public class BlockPlaystation4Pro extends BlockDevice implements ITileEntityProv
             compound.setTag("BlockEntityTag", tileEntityTag);
 
             ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
+            drop.setItemDamage(15 - color);
             drop.setTagCompound(compound);
 
             worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
