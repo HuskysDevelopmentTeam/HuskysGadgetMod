@@ -1,11 +1,26 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,24 +38,18 @@ import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.*;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.LaptopRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.OfficeChairRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PaperRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PrinterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.RouterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.ScreenRenderer;
 
 public class ClientProxy extends CommonProxy {
 
@@ -72,20 +81,24 @@ public class ClientProxy extends CommonProxy {
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
-        for (File f : Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile().listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"))) {
-
-            BufferedImage img = null;
-            try {
-                if (!f.exists()) f.createNewFile();
-                img = ImageIO.read(f);
-            } catch (IOException e) {
-
-            }
-            Laptop.addWallpaper( Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
+        if(!folder.exists()) {
+        	folder.mkdir();
         }
-
-
-
+        File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
+        if(files != null) {
+	        for (File f : files) {
+		
+		        BufferedImage img = null;
+		        try {
+		            if (!f.exists()) f.createNewFile();
+		            img = ImageIO.read(f);
+		        } catch (IOException e) {
+		
+		        }
+		        Laptop.addWallpaper( Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+		    }
+        }
     }
 
     @Override

@@ -1,10 +1,24 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -24,20 +38,13 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplication
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Laptop extends GuiScreen implements System {
 
     public static final int ID = 1;
     public static final ResourceLocation ICON_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_icons.png");
     public static final ResourceLocation BANNER_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_banners.png");
+    public static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
     public static final FontRenderer fontRenderer = new LaptopFontRenderer(Minecraft.getMinecraft());
     public static final int DEVICE_WIDTH = 464;
     public static final int DEVICE_HEIGHT = 246;
@@ -64,6 +71,10 @@ public class Laptop extends GuiScreen implements System {
     private int currentWallpaper;
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
+    
+    private static final int BOOT_TIME = 200;
+    private int bootTimer = BOOT_TIME;
+    private int blinkTimer = 0;
 
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
@@ -143,24 +154,31 @@ public class Laptop extends GuiScreen implements System {
 
     @Override
     public void onResize(Minecraft mcIn, int width, int height) {
-        super.onResize(mcIn, width, height);
-        for (Window window : windows) {
-            if (window != null)
-                window.content.markForLayoutUpdate();
-        }
+    	if(this.bootTimer == 0) {
+	        super.onResize(mcIn, width, height);
+	        for (Window window : windows) {
+	            if (window != null)
+	                window.content.markForLayoutUpdate();
+	        }
+    	}
     }
 
     @Override
     public void updateScreen() {
-        bar.onTick();
-
-        for (Window window : windows) {
-            if (window != null) {
-                window.onTick();
-            }
-        }
-
-        FileBrowser.refreshList = false;
+    	if(this.bootTimer == 0) {
+	        bar.onTick();
+	
+	        for (Window window : windows) {
+	            if (window != null) {
+	                window.onTick();
+	            }
+	        }
+	
+	        FileBrowser.refreshList = false;
+    	} else {
+    		this.bootTimer = Math.max(this.bootTimer - 1, 0);
+    		this.blinkTimer = Math.max(this.blinkTimer - 1, 0);
+    	}
     }
 
     @Override
@@ -189,31 +207,75 @@ public class Laptop extends GuiScreen implements System {
         /* Center */
         RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
 
-        /* Wallpaper */
-        this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
-        RenderUtil.drawRectWithFullTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        boolean insideContext = false;
-        if (context != null) {
-            insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
+        if(this.bootTimer == 0) {
+	        
+	        /* Wallpaper */
+	        this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
+	        RenderUtil.drawRectWithFullTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+	        boolean insideContext = false;
+	        if (context != null) {
+	            insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
+	        }
+	
+	        /* Window */
+	        for (int i = windows.length - 1; i >= 0; i--) {
+	            Window window = windows[i];
+	            if (window != null) {
+	                window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
+	            }
+	        }
+	
+	        /* Application Bar */
+	        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
+	
+	        if (context != null) {
+	            context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
+	        }
+	
+	        super.drawScreen(mouseX, mouseY, partialTicks);
+        } else {
+        	Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0xFF000000);
+        	this.mc.getTextureManager().bindTexture(BOOT_TEXTURES);
+        	float f = 1.0f;
+        	if(this.bootTimer > BOOT_TIME - 20) {
+        		f = ((float) (BOOT_TIME - this.bootTimer))/20.0f;
+        	}
+        	int value = (int) (255 * f);
+        	GlStateManager.color(f, f, f);
+        	int cX = posX + DEVICE_WIDTH/2;
+        	int cY = posY + DEVICE_HEIGHT/2;
+        	
+        	/* Husky and NeonOs logos */
+        	this.drawTexturedModalRect(cX - 34, cY - 80, 0, 0, 68, 90);
+        	if((this.blinkTimer%5) > 2) {
+        		this.drawTexturedModalRect(cX - 24, cY - 52, 68, 16, 38, 12);
+        	}
+        	this.drawTexturedModalRect(cX - 64, cY + 15, 2, 94, 128, 30);
+        	
+        	/* Legal information stuff */
+        	this.drawTexturedModalRect(posX + BORDER + 2, posY + DEVICE_HEIGHT - BORDER - 10, 1, 152, 150, 8);
+        	this.drawTexturedModalRect(posX + DEVICE_WIDTH - BORDER - 41, posY + DEVICE_HEIGHT - BORDER - 10, 1, 162, 39, 7);
+        	
+        	/* Loading bar */
+        	GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        	ScaledResolution sr = new ScaledResolution(this.mc);
+        	int scale = sr.getScaleFactor();
+        	GL11.glScissor((cX - 70)*scale, (height - (cY + 74))*scale, 140*scale, 13*scale);
+        	if(this.bootTimer <= BOOT_TIME - 20) {
+        		int xAdd = (BOOT_TIME - (this.bootTimer + 20))*4;
+        		this.drawTexturedModalRect(cX - 87 + xAdd%184, cY + 61, 76, 1, 17, 13);
+        	}
+        	//this.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
+        	GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        	
+        	/* Loading bar outline */
+        	this.drawTexturedModalRect(cX - 70, cY + 60, 68, 0, 3, 15);
+        	this.drawTexturedModalRect(cX + 67, cY + 60, 72, 0, 3, 15);
+        	int color = 0xFF000000 + (value << 16) + (value << 8) + value;
+        	Gui.drawRect(cX - 67, cY + 60, cX + 67, cY + 61, color);
+        	Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
         }
-
-        /* Window */
-        for (int i = windows.length - 1; i >= 0; i--) {
-            Window window = windows[i];
-            if (window != null) {
-                window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
-            }
-        }
-
-        /* Application Bar */
-        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
-
-        if (context != null) {
-            context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
-        }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -224,43 +286,49 @@ public class Laptop extends GuiScreen implements System {
         int posX = (width - SCREEN_WIDTH) / 2;
         int posY = (height - SCREEN_HEIGHT) / 2;
 
-        if (this.context != null) {
-            int dropdownX = context.xPosition;
-            int dropdownY = context.yPosition;
-            if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
-                this.context.handleMouseClick(mouseX, mouseY, mouseButton);
-                this.dragging = true;
-                return;
-            } else {
-                this.context = null;
-            }
-        }
-
-        this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - 226, mouseX, mouseY, mouseButton);
-
-        for (int i = 0; i < windows.length; i++) {
-            Window<Application> window = windows[i];
-            if (window != null) {
-                Window<net.thegaminghuskymc.gadgetmod.api.app.Dialog> dialogWindow = window.getContent().getActiveDialog();
-                if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
-                    windows[i] = null;
-                    updateWindowStack();
-                    windows[0] = window;
-
-                    windows[0].handleMouseClick(this, posX, posY, mouseX, mouseY, mouseButton);
-
-                    if (isMouseWithinWindowBar(mouseX, mouseY, dialogWindow)) {
-                        this.dragging = true;
-                        return;
-                    }
-
-                    if (isMouseWithinWindowBar(mouseX, mouseY, window) && dialogWindow == null) {
-                        this.dragging = true;
-                        return;
-                    }
-                    break;
-                }
-            }
+        if(this.bootTimer == 0) {
+	        if (this.context != null) {
+	            int dropdownX = context.xPosition;
+	            int dropdownY = context.yPosition;
+	            if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
+	                this.context.handleMouseClick(mouseX, mouseY, mouseButton);
+	                this.dragging = true;
+	                return;
+	            } else {
+	                this.context = null;
+	            }
+	        }
+	
+	        this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - 226, mouseX, mouseY, mouseButton);
+	
+	        for (int i = 0; i < windows.length; i++) {
+	            Window<Application> window = windows[i];
+	            if (window != null) {
+	                Window<net.thegaminghuskymc.gadgetmod.api.app.Dialog> dialogWindow = window.getContent().getActiveDialog();
+	                if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
+	                    windows[i] = null;
+	                    updateWindowStack();
+	                    windows[0] = window;
+	
+	                    windows[0].handleMouseClick(this, posX, posY, mouseX, mouseY, mouseButton);
+	
+	                    if (isMouseWithinWindowBar(mouseX, mouseY, dialogWindow)) {
+	                        this.dragging = true;
+	                        return;
+	                    }
+	
+	                    if (isMouseWithinWindowBar(mouseX, mouseY, window) && dialogWindow == null) {
+	                        this.dragging = true;
+	                        return;
+	                    }
+	                    break;
+	                }
+	            }
+	        }
+        } else {
+        	if(isMouseInHusky(mouseX, mouseY)) {
+        		this.blinkTimer = 10;
+        	}
         }
 
         super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -283,74 +351,82 @@ public class Laptop extends GuiScreen implements System {
 
     @Override
     public void handleKeyboardInput() throws IOException {
-        if (Keyboard.getEventKeyState()) {
-            char pressed = Keyboard.getEventCharacter();
-            int code = Keyboard.getEventKey();
-
-            if (windows[0] != null) {
-                windows[0].handleKeyTyped(pressed, code);
-            }
-
-            super.keyTyped(pressed, code);
-        } else {
-            if (windows[0] != null) {
-                windows[0].handleKeyReleased(Keyboard.getEventCharacter(), Keyboard.getEventKey());
-            }
-        }
-
-        this.mc.dispatchKeypresses();
+    	//if(this.bootTimer == 0) {
+	        if (Keyboard.getEventKeyState()) {
+	            char pressed = Keyboard.getEventCharacter();
+	            int code = Keyboard.getEventKey();
+	
+	            if (windows[0] != null) {
+	                windows[0].handleKeyTyped(pressed, code);
+	            }
+	
+	            super.keyTyped(pressed, code);
+	        } else {
+	            if (windows[0] != null) {
+	                windows[0].handleKeyReleased(Keyboard.getEventCharacter(), Keyboard.getEventKey());
+	            }
+	        }
+	
+	        this.mc.dispatchKeypresses();
+    	//}
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        int posX = (width - SCREEN_WIDTH) / 2;
-        int posY = (height - SCREEN_HEIGHT) / 2;
-
-        if (this.context != null) {
-            if (dragging) {
-                int dropdownX = context.xPosition;
-                int dropdownY = context.yPosition;
-                if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
-                    this.context.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
-                }
-            }
-            return;
-        }
-
-        if (windows[0] != null) {
-            Window<Application> window = windows[0];
-            Window<Dialog> dialogWindow = window.getContent().getActiveDialog();
-            if (dragging) {
-                if (isMouseOnScreen(mouseX, mouseY)) {
-                    if (dialogWindow == null) {
-                        window.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
-                    } else {
-                        dialogWindow.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
-                    }
-                } else {
-                    dragging = false;
-                }
-            } else {
-                if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
-                    window.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
-                }
-            }
-        }
-        this.lastMouseX = mouseX;
-        this.lastMouseY = mouseY;
+    	if(this.bootTimer == 0) {
+	        int posX = (width - SCREEN_WIDTH) / 2;
+	        int posY = (height - SCREEN_HEIGHT) / 2;
+	
+	        if (this.context != null) {
+	            if (dragging) {
+	                int dropdownX = context.xPosition;
+	                int dropdownY = context.yPosition;
+	                if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
+	                    this.context.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
+	                }
+	            }
+	            return;
+	        }
+	
+	        if (windows[0] != null) {
+	            Window<Application> window = windows[0];
+	            Window<Dialog> dialogWindow = window.getContent().getActiveDialog();
+	            if (dragging) {
+	                if (isMouseOnScreen(mouseX, mouseY)) {
+	                    if (dialogWindow == null) {
+	                        window.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
+	                    } else {
+	                        dialogWindow.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
+	                    }
+	                } else {
+	                    dragging = false;
+	                }
+	            } else {
+	                if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
+	                    window.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
+	                }
+	            }
+	        }
+	        this.lastMouseX = mouseX;
+	        this.lastMouseY = mouseY;
+    	}
     }
 
     @Override
     public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
+    	super.handleMouseInput();
         int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         int scroll = Mouse.getEventDWheel();
-        if (scroll != 0) {
-            if (windows[0] != null) {
-                windows[0].handleMouseScroll(mouseX, mouseY, scroll >= 0);
-            }
-        }
+    	if(this.bootTimer == 0) {
+	        if (scroll != 0) {
+	            if (windows[0] != null) {
+	                windows[0].handleMouseScroll(mouseX, mouseY, scroll >= 0);
+	            }
+	        }
+    	} else {
+    		
+    	}
     }
 
     @Override
@@ -534,5 +610,16 @@ public class Laptop extends GuiScreen implements System {
     @Override
     public void closeContext() {
         context = null;
+    }
+    
+    private boolean isMouseInHusky(int mouseX, int mouseY) {
+    	if(this.bootTimer > BOOT_TIME - 20 || this.blinkTimer > 0) {
+    		return false;
+    	}
+    	int posX = (width - DEVICE_WIDTH) / 2;
+        int posY = (height - DEVICE_HEIGHT) / 2;
+    	int cX = posX + DEVICE_WIDTH/2;
+    	int cY = posY + DEVICE_HEIGHT/2;
+    	return RenderUtil.isMouseInside(mouseX, mouseY, cX - 34, cY - 80, cX + 34, cY + 10);
     }
 }
