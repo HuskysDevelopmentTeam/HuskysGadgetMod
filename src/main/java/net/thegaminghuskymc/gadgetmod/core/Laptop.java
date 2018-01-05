@@ -126,8 +126,9 @@ public class Laptop extends GuiScreen implements System {
         Keyboard.enableRepeatEvents(false);
 
         for (Window window : windows) {
-            if (window != null)
+            if (window != null) {
                 window.close();
+            }
         }
 
         /* Send system data */
@@ -420,6 +421,65 @@ public class Laptop extends GuiScreen implements System {
                 }
             }
         }
+    }
+
+    public void minimize(Application app) {
+        for (int i = 0; i < windows.length; i++) {
+            Window<Application> window = windows[i];
+            if (window != null) {
+                if (window.content.getInfo().equals(app.getInfo())) {
+                    if (app.isDirty()) {
+                        NBTTagCompound container = new NBTTagCompound();
+                        app.save(container);
+                        appData.setTag(app.getInfo().getFormattedId(), container);
+                        TaskManager.sendTask(new TaskUpdateApplicationData(pos.getX(), pos.getY(), pos.getZ(), app.getInfo().getFormattedId(), container));
+                    }
+
+                    window.handleMinimize();
+                    windows[i] = null;
+                    return;
+                }
+            }
+        }
+    }
+
+    public void fullscreen(Application app) {
+        if (HuskyGadgetMod.proxy.hasAllowedApplications()) {
+            if (!HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo())) {
+                return;
+            }
+        }
+
+        for (int i = 0; i < windows.length; i++) {
+            Window<Application> window = windows[i];
+            if (window != null && window.content.getInfo().getFormattedId().equals(app.getInfo().getFormattedId())) {
+                windows[i] = null;
+                updateWindowStack();
+                windows[0] = window;
+                return;
+            }
+        }
+
+        app.setLaptopPosition(pos);
+
+        Window<Application> window = new Window<>(app, this);
+        window.init((width - SCREEN_WIDTH) / 2, (height - SCREEN_HEIGHT) / 2);
+
+        if (appData.hasKey(app.getInfo().getFormattedId())) {
+            app.load(appData.getCompoundTag(app.getInfo().getFormattedId()));
+        }
+
+        if (app instanceof SystemApplication) {
+            ((SystemApplication) app).setLaptop(this);
+        }
+
+        if (app.getCurrentLayout() == null) {
+            app.restoreDefaultLayout();
+        }
+
+        addWindow(window);
+
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 
     private void addWindow(Window<Application> window) {

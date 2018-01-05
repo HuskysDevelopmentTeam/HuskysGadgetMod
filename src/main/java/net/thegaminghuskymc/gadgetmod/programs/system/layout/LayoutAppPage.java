@@ -50,7 +50,7 @@ public class LayoutAppPage extends Layout {
         Label labelVersion = new Label("v0.2.0", 38, 50);
         this.addComponent(labelVersion);
 
-        Label labelAuthor = new Label("- TheGamingHuskyMC", 70, 50);
+        Label labelAuthor = new Label(info.getCreator(), 70, 50);
         this.addComponent(labelAuthor);
 
         Text textDescription = new Text(info.getDescription(), 150, 70, 95);

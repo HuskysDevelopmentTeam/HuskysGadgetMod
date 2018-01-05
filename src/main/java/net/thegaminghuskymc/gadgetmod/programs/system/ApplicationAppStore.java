@@ -3,6 +3,8 @@ package net.thegaminghuskymc.gadgetmod.programs.system;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
@@ -16,11 +18,17 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppCategories;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
+import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ApplicationAppStore extends Application {
+
+    protected ArrayList<String> repos = new ArrayList<>(Arrays.asList(new String[]{""}));
 
     public ApplicationAppStore() {
         this.setDefaultWidth(250);
@@ -41,24 +49,17 @@ public class ApplicationAppStore extends Application {
         Image imageBanner = new Image(0, 0, 250, 50, "https://i.imgur.com/VAGCpKY.jpg");
         layoutHome.addComponent(imageBanner);
 
-        Label labelBanner = new Label("App Market", 10, 42);
+        Label labelBanner = new Label(RenderHelper.unlocaliseName("appStore.title"), 10, 42);
         labelBanner.setScale(2);
         layoutHome.addComponent(labelBanner);
 
-        Label labelCategories = new Label("Categories", 5, 70);
+        Label labelCategories = new Label(RenderHelper.unlocaliseName("appStore.categories"), 5, 70);
         layoutHome.addComponent(labelCategories);
 
         ItemList itemListCategories = new ItemList<>(5, 82, 100, 5, true);
-        itemListCategories.addItem("Games");
-        itemListCategories.addItem("Tools");
-        itemListCategories.addItem("Education");
-        itemListCategories.addItem("Entertainment");
-        itemListCategories.addItem("Sports");
-        itemListCategories.addItem("VR");
-        itemListCategories.addItem("Finance");
-        itemListCategories.addItem("Multiplayer");
-        itemListCategories.addItem("Shopping");
-        itemListCategories.addItem("Social");
+        for (int i = 0; i < AppStoreAppCategories.getSize(); i++) {
+            itemListCategories.addItem(AppStoreAppCategories.getUnlocalizedName(i));
+        }
         layoutHome.addComponent(itemListCategories);
 
         Label appsLabel = new Label("Application List", 120, 70);
@@ -141,11 +142,21 @@ public class ApplicationAppStore extends Application {
 
     @Override
     public void load(NBTTagCompound tagCompound) {
-
+        if (tagCompound.hasKey("repos")) {
+            repos = new ArrayList<>();
+            NBTTagList list = (NBTTagList) tagCompound.getTag("repos");
+            for (int i = 0; i < list.tagCount(); i++) {
+                repos.add(list.getStringTagAt(i));
+            }
+        }
     }
 
     @Override
     public void save(NBTTagCompound tagCompound) {
-
+        NBTTagList list = new NBTTagList();
+        for (String r : repos) {
+            list.appendTag(new NBTTagString(r));
+        }
+        tagCompound.setTag("repos", list);
     }
 }

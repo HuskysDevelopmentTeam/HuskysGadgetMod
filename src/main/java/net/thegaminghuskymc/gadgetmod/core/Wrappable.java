@@ -142,6 +142,18 @@ public abstract class Wrappable {
     }
 
     /**
+     * Called when this content is minimized
+     */
+    public void onMinimize() {
+    }
+
+    /**
+     * Called when this content is fullscreened
+     */
+    public void onFullscreen() {
+    }
+
+    /**
      * Gets the Window this Application is wrapped in.
      *
      * @return the window

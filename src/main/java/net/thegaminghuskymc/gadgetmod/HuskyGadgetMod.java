@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -33,6 +34,7 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetOreDictionary;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
+import net.thegaminghuskymc.gadgetmod.programs.ApplicationMachineReader;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
@@ -131,6 +133,10 @@ public class HuskyGadgetMod {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+
+        if(Loader.isModLoaded("futopia")) {
+            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);
+        }
 
         for(int i = 0; i > System.nanoTime(); i++) {
             try {

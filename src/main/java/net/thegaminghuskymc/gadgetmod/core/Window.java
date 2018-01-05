@@ -94,7 +94,7 @@ public class Window<T extends Wrappable> {
 
         /* Center */
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
-//
+
         mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
 
         btnClose.drawButton(mc, mouseX, mouseY, partialTicks);
@@ -165,6 +165,20 @@ public class Window<T extends Wrappable> {
             }
         }
 
+        if (btnMinimize.isMouseOver()) {
+            if (content instanceof Application) {
+                gui.minimize((Application) content);
+                return;
+            }
+        }
+
+        if (btnFullscreen.isMouseOver()) {
+            if (content instanceof Application) {
+                gui.fullscreen((Application) content);
+                return;
+            }
+        }
+
         if (dialogWindow != null) {
             dialogWindow.handleMouseClick(gui, x, y, mouseX, mouseY, mouseButton);
             return;
@@ -201,6 +215,14 @@ public class Window<T extends Wrappable> {
         content.onClose();
     }
 
+    public void handleMinimize() {
+        content.onMinimize();
+    }
+
+    public void handleFullscreen() {
+        content.onFullscreen();
+    }
+
     private void updateComponents(int x, int y) {
         content.updateComponents(x + offsetX + 1, y + offsetY + 13);
         btnClose.x = x + offsetX + width - 12;
@@ -209,7 +231,7 @@ public class Window<T extends Wrappable> {
         btnFullscreen.x = x + offsetX + width - 24;
         btnFullscreen.y = y + offsetY + 1;
 
-        btnMinimize.x = x + offsetX + width - 48;
+        btnMinimize.x = x + offsetX + width - 35;
         btnMinimize.y = y + offsetY + 1;
     }
 
@@ -241,6 +263,20 @@ public class Window<T extends Wrappable> {
         }
         if (parent != null) {
             parent.closeDialog();
+        }
+    }
+
+    public void minimize() {
+        if (content instanceof Application) {
+            laptop.minimize((Application) content);
+            return;
+        }
+    }
+
+    public void fullscreen() {
+        if (content instanceof Application) {
+            laptop.fullscreen((Application) content);
+            return;
         }
     }
 
