@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
+
+import java.util.ArrayList;
 
 public class AppData {
 	

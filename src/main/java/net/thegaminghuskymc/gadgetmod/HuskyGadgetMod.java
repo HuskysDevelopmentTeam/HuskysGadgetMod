@@ -1,10 +1,11 @@
 package net.thegaminghuskymc.gadgetmod;
 
-import net.minecraft.client.Minecraft;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -16,8 +17,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.io.task.*;
@@ -30,31 +29,37 @@ import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
 import net.thegaminghuskymc.gadgetmod.handler.PlayerEvents;
+import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetOreDictionary;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationMachineReader;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
-import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
-import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
+import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreCategories;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
 
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
+
+    public static File modDataDir;
+
+    public static Gson gson;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
@@ -89,6 +94,33 @@ public class HuskyGadgetMod {
         RegistrationHandler.init();
 
         proxy.preInit();
+
+        try {
+            gson = new GsonBuilder()
+                    .serializeNulls()
+                    .setPrettyPrinting()
+                    .create();
+
+            ArrayList<AppStoreAppInfo> list = HuskyGadgetMod.gson.fromJson("[\n" +
+                    "  {\n" +
+                    "    \"name\": \"Pixel Browser\",\n" +
+                    "    \"shortDescription\": \"A web browser in mc!\",\n" +
+                    "    \"description\": \"\",\n" +
+                    "    \"category\": \"TOOLS\",\n" +
+                    "    \"urls\": []\n" +
+                    "  }\n" +
+                    "]", new TypeToken<List<AppStoreAppInfo>>(){}.getType());
+            System.out.println(list.get(0));
+
+            ArrayList<AppStoreAppInfo> info = new ArrayList<>();
+            info.add(new AppStoreAppInfo("Pixel Browser", "A web browser in mc!", "", AppStoreCategories.TOOLS, new ArrayList<>(), new ArrayList<>()));
+            System.out.println(gson.toJson(info));
+            new ApplicationAppStore().init();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+//        if (!modDataDir.exists()) modDataDir.mkdirs();
     }
 
     @EventHandler
@@ -96,19 +128,18 @@ public class HuskyGadgetMod {
         /* Tile Entity Registering */
         GadgetTileEntities.register();
 
-        EntityRegistry.registerModEntity(new ResourceLocation("hgmSeat"), EntitySeat.class, "hgmSeat", 0, this, 80, 1, false);
+        EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "seat"), EntitySeat.class, "Seat", 0, this, 80, 1, false);
 
         /* Packet Registering */
         PacketHandler.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-
         MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-
         MinecraftForge.EVENT_BUS.register(new EmailEvents());
         MinecraftForge.EVENT_BUS.register(new BankEvents());
 
-        registerApplications();
+        GadgetApps.init();
+        registerTasks();
 
         GadgetOreDictionary.init();
 
@@ -120,33 +151,7 @@ public class HuskyGadgetMod {
         proxy.postInit();
     }
 
-    private void registerApplications() {
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "settings"), ApplicationSettings.class);
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bank"), ApplicationBank.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "file_browser"), ApplicationFileBrowser.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "note_stash"), ApplicationNoteStash.class);
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_shop"), ApplicationPixelShop.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_mail"), ApplicationEmail.class);
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "app_store"), ApplicationAppStore.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "package_manager"), ApplicationPackageManager.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "boat_racers"), ApplicationBoatRacers.class);
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
-
-        if(Loader.isModLoaded("futopia")) {
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);
-        }
-
-        for(int i = 0; i > System.nanoTime(); i++) {
-            try {
-                Class<Application> app = classLoader.loadClass("http://huskysdevicemod.cba.pl/ApplicationTest.class");
-                ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID,"test"), app);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+    private void registerTasks() {
         // Core
         TaskManager.registerTask(TaskUpdateApplicationData.class);
         TaskManager.registerTask(TaskPrint.class);
@@ -181,15 +186,6 @@ public class HuskyGadgetMod {
         TaskManager.registerTask(TaskRegisterEmailAccount.class);
         TaskManager.registerTask(TaskDeleteEmail.class);
         TaskManager.registerTask(TaskViewEmail.class);
-
-        if (HUSKY_MODE) {
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "flame_chat"), ApplicationFlameChat.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_book"), ApplicationPixelBook.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_plus"), ApplicationPixelPlus.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cackler"), ApplicationCackler.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
-        }
 
         PrintingManager.registerPrint(new ResourceLocation(Reference.MOD_ID, "picture"), ApplicationPixelShop.PicturePrint.class);
     }

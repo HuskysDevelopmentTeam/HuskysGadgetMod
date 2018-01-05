@@ -3,7 +3,6 @@ package net.thegaminghuskymc.gadgetmod.programs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
@@ -15,8 +14,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ApplicationPixelBrowser extends Application {
 

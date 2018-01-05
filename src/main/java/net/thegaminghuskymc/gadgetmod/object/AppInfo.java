@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.core.Window;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

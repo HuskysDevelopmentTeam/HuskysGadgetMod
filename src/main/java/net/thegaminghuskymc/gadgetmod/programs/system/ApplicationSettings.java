@@ -23,6 +23,7 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
@@ -263,9 +264,9 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        ItemList apps = new ItemList<AppInfo>(120, 80, 100, 3);
-        apps.addItem(ApplicationManager.getAvailableApps());
-        apps.setListItemRenderer(new ListItemRenderer<AppInfo>(20) {
+        /*ItemList<AppInfo> apps = new ItemList<>(120, 80, 100, 3, true);
+        apps.addItem(new ArrayList<AppInfo>(ApplicationManager.getAvailableApps()));
+        apps.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
             @Override
             public void render(AppInfo e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 if (selected)
@@ -275,8 +276,10 @@ public class ApplicationSettings extends SystemApplication {
                 RenderUtil.drawApplicationIcon(e, x + 3, y + 3);
                 gui.drawString(mc.fontRenderer, e.getName(), x + 20, y + 6, Color.WHITE.getRGB());
             }
-        });
-        layoutInformationApps.addComponent(apps);
+        });*/
+        ArrayList<AppInfo> arrayList = new ArrayList<>(ApplicationManager.getAvailableApps());
+        ItemList<AppInfo> itemListApps = new ItemList<>(120, 80, 100, 3, true);
+        layoutInformationApps.addComponent(itemListApps);
 
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
         nameOnPage.setTextColour(Color.GRAY.getRGB());

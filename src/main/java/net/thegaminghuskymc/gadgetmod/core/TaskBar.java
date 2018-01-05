@@ -9,17 +9,17 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutStartMenu;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -30,6 +30,7 @@ public class TaskBar {
     private static final int APPS_DISPLAYED = 18;
     private Button btnLeft;
     private Button btnRight;
+    private Button btnStartButton;
 
     private int offset = 0;
 
@@ -61,7 +62,7 @@ public class TaskBar {
     }
 
     public void init(int posX, int posY) {
-        btnLeft = new Button(0, 0, Icons.CHEVRON_LEFT);
+        /*btnLeft = new Button(0, 0, Icons.CHEVRON_LEFT);
         btnLeft.setPadding(1);
         btnLeft.xPosition = posX + 3;
         btnLeft.yPosition = posY + 3;
@@ -77,6 +78,18 @@ public class TaskBar {
         btnRight.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (offset + APPS_DISPLAYED < applications.size()) {
                 offset++;
+            }
+        });*/
+
+        btnStartButton = new Button(0, 0, Icons.EARTH);
+        btnStartButton.setPadding(1);
+        btnStartButton.xPosition = posX + 3;
+        btnStartButton.yPosition = posY + 3;
+        btnStartButton.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if(mouseButton == 0) {
+                Layout layout = new LayoutStartMenu();
+                layout.init();
+                Laptop.getSystem().openContext(layout, layout.xPosition, layout.yPosition);
             }
         });
 
@@ -98,17 +111,18 @@ public class TaskBar {
         GlStateManager.disableBlend();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-        btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+//        btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+//        btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+        btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
 
-        for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
+        /*for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
             AppInfo info = applications.get(i + offset).getInfo();
             RenderUtil.drawApplicationIcon(info, x + 18 + i * 16, y + 2);
             if (gui.isApplicationRunning(info.getFormattedId())) {
                 mc.getTextureManager().bindTexture(APP_BAR_GUI);
                 gui.drawTexturedModalRect(x + 17 + i * 16, y + 1, 35, 0, 16, 16);
             }
-        }
+        }*/
 
         mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 334, y + 5, Color.WHITE.getRGB(), true);
 
@@ -124,20 +138,20 @@ public class TaskBar {
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
         /* Other Apps */
-        if (isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16)) {
+        /*if (isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16)) {
             int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
             if (appIndex < offset + APPS_DISPLAYED && appIndex < applications.size()) {
                 gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 17, y + 1, 35, 0, 16, 16);
                 gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
             }
-        }
+        }*/
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderHelper.disableStandardItemLighting();
     }
 
     public void handleClick(Laptop laptop, int x, int y, int mouseX, int mouseY, int mouseButton) {
-        btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
+        /*btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
 
         if (isMouseInside(mouseX, mouseY, x + 18, y + 1, x + Laptop.SCREEN_WIDTH, y + 16)) {
@@ -146,7 +160,8 @@ public class TaskBar {
                 laptop.open(applications.get(appIndex));
                 return;
             }
-        }
+        }*/
+        btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
 
         int startX = x + 317;
         for (int i = 0; i < trayItems.size(); i++) {

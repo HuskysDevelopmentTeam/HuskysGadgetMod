@@ -1,0 +1,99 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "hgm:roof_light",
+      	"transform": "forge:default-block"
+	},
+	"variants": {
+		"facing": {
+			"north": { "y": 180   },
+			"east":  { "y": 270  },
+			"south": { "y": 360 },
+			"west":  { "y": 450 }
+		},
+		"color": {
+			"white": {
+				"textures": {
+					"0": "hgm:model/roof_light_white"
+				}
+			},
+			"orange": {
+				"textures": {
+					"0": "hgm:model/roof_light_orange"
+				}
+			},
+			"magenta": {
+				"textures": {
+					"0": "hgm:model/roof_light_magenta"
+				}
+			},
+			"light_blue": {
+				"textures": {
+					"0": "hgm:model/roof_light_light_blue"
+				}
+			},
+			"yellow": {
+				"textures": {
+					"0": "hgm:model/roof_light_yellow"
+				}
+			},
+			"lime": {
+				"textures": {
+					"0": "hgm:model/roof_light_lime"
+				}
+			},
+			"pink": {
+				"textures": {
+					"0": "hgm:model/roof_light_pink"
+				}
+			},
+			"gray": {
+				"textures": {
+					"0": "hgm:model/roof_light_gray"
+				}
+			},
+			"silver": {
+				"textures": {
+					"0": "hgm:model/roof_light_silver"
+				}
+			},
+			"cyan": {
+				"textures": {
+					"0": "hgm:model/roof_light_cyan"
+				}
+			},
+			"purple": {
+				"textures": {
+					"0": "hgm:model/roof_light_purple"
+				}
+			},
+			"blue": {
+				"textures": {
+					"0": "hgm:model/roof_light_blue"
+				}
+			},
+			"brown": {
+				"textures": {
+					"0": "hgm:model/roof_light_brown"
+				}
+			},
+			"green": {
+				"textures": {
+					"0": "hgm:model/roof_light_green"
+				}
+			},
+			"red": {
+				"textures": {
+					"0": "hgm:model/roof_light_red"
+				}
+			},
+			"black": {
+				"textures": {
+					"0": "hgm:model/roof_light_black"
+				}
+			}
+		},
+		"inventory": [{}]
+	}
+}
+

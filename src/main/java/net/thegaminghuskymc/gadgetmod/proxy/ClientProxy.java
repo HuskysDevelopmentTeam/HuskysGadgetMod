@@ -1,21 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -38,18 +22,22 @@ import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.LaptopRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.OfficeChairRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.PaperRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.PrinterRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.RouterRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.ScreenRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.*;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClientProxy extends CommonProxy {
 
