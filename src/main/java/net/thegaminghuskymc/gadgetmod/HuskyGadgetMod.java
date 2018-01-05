@@ -51,6 +51,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
 
@@ -100,7 +104,6 @@ public class HuskyGadgetMod {
                     .serializeNulls()
                     .setPrettyPrinting()
                     .create();
-
             ArrayList<AppStoreAppInfo> list = HuskyGadgetMod.gson.fromJson("[\n" +
                     "  {\n" +
                     "    \"name\": \"Pixel Browser\",\n" +

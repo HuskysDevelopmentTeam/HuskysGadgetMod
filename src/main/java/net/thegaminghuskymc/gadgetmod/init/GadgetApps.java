@@ -12,6 +12,9 @@ import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
 import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.*;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
 
 import static net.thegaminghuskymc.gadgetmod.HuskyGadgetMod.HUSKY_MODE;
 
