@@ -209,9 +209,6 @@ public class Laptop extends GuiScreen implements System {
 	
 	        FileBrowser.refreshList = false;
     	} else if(this.bootMode != null) {
-    		if(this.bootMode == BootMode.BOOTING) {
-    			this.bootTimer = 0;
-    		}
     		this.bootTimer = Math.max(this.bootTimer - 1, 0);
     		this.blinkTimer = Math.max(this.blinkTimer - 1, 0);
     		if(this.bootTimer == 0) {
@@ -321,7 +318,9 @@ public class Laptop extends GuiScreen implements System {
             	Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0x7F000000);
             	GlStateManager.pushMatrix();
             		String s = "";
-            		if(this.konamiProgress <= 0) {
+            		if(this.konamiProgress == -1) {
+            			s = "Shutting up, up, down, down, left, right, left, right, B, A...";
+            		} else if(this.konamiProgress == 0) {
             			s = "Shutting " + codeToName.get(this.lastCode) + "...";
             		} else {
             			s = "Shutting ";

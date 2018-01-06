@@ -24,6 +24,7 @@ public class GadgetItems {
     public static final Item usb_cable;
     
     public static final Item easter_egg;
+    public static final Item wiiu_gamepad;
 
     static {
         flash_drive = new ItemFlashDrive();
@@ -42,6 +43,7 @@ public class GadgetItems {
         hdmi_cable = new ItemHDMICable();
         usb_cable = new ItemUSBCable();
         easter_egg = new ItemEasterEgg();
+        wiiu_gamepad = new ItemWiiUGamepad();
     }
 
     public static void register() {
@@ -61,6 +63,7 @@ public class GadgetItems {
         register(hdmi_cable);
         register(usb_cable);
         register(easter_egg);
+        register(wiiu_gamepad);
     }
 
     private static void register(Item item) {
