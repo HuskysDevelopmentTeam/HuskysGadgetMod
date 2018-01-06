@@ -12,11 +12,13 @@ tile.office_chair.name=Gaming Chair
 tile.server.name=Server
 tile.server_terminal.name=Server Terminal
 tile.robot.name=Robot
+tile.easter_egg.name=Easter egg
 
 item.flash_drive.name=Flash Drive
 item.printed_paper.name=Printed Paper
 item.ethernet_cable.name=Ethernet Cable
 item.hdmi_cable.name=HDMI Cable
+item.easter_egg.name=Easter egg
 
 app.hgm.settings.name=Settings
 app.hgm.bank.name=Bank

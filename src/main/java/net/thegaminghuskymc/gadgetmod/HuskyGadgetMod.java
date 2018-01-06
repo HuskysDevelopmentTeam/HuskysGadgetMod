@@ -1,8 +1,15 @@
 package net.thegaminghuskymc.gadgetmod;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +26,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.core.io.task.*;
+import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
+import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
+import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
+import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
+import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
@@ -38,22 +49,23 @@ import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskCheckEmailAccount;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskDeleteEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskRegisterEmailAccount;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskSendEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskUpdateInbox;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskViewEmail;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreCategories;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskAdd;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskGetBalance;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskPay;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskRemove;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
@@ -79,13 +91,12 @@ public class HuskyGadgetMod {
     public static boolean HUSKY_MODE;
     private static Logger logger;
 
-
     public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
 
     public static Logger getLogger() {
         return logger;
     }
-
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         HUSKY_MODE = true;
@@ -98,7 +109,7 @@ public class HuskyGadgetMod {
         RegistrationHandler.init();
 
         proxy.preInit();
-
+        
         try {
             gson = new GsonBuilder()
                     .serializeNulls()

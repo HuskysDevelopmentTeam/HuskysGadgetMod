@@ -29,6 +29,7 @@ public class GadgetTileEntities {
         GameRegistry.registerTileEntity(TileEntitySoundwoofers.class, "hgm:soundwoofers");
         GameRegistry.registerTileEntity(TileEntityPlaystation4Pro.class, "hgm:playstation_4_pro");
         GameRegistry.registerTileEntity(TileEntityExternalHarddrive.class, "hgm:external_harddrive");
+        GameRegistry.registerTileEntity(TileEntityEasterEgg.class, "hgm:easter_egg");
     }
 
 }

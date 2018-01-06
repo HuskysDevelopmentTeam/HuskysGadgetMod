@@ -71,7 +71,7 @@ public class RegistrationHandler {
         public static void register(final RegistryEvent.Register<IRecipe> event) {
             HuskyGadgetMod.getLogger().info("Registering recipes");
             RECIPES.forEach(recipe -> event.getRegistry().register(recipe));
-            System.out.println(event.getRegistry().getEntries());
+            //System.out.println(event.getRegistry().getEntries());
         }
     }
 

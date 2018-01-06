@@ -89,7 +89,7 @@ public class TaskBar {
             if(mouseButton == 0) {
                 Layout layout = new LayoutStartMenu();
                 layout.init();
-                Laptop.getSystem().openContext(layout, layout.xPosition, layout.yPosition);
+                Laptop.getSystem().openContext(layout, btnStartButton.xPosition, btnStartButton.yPosition);
             }
         });
 

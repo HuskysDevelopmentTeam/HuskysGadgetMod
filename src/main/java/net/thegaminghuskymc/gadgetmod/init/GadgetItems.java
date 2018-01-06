@@ -22,6 +22,8 @@ public class GadgetItems {
     public static final Item ethernet_cable;
     public static final Item hdmi_cable;
     public static final Item usb_cable;
+    
+    public static final Item easter_egg;
 
     static {
         flash_drive = new ItemFlashDrive();
@@ -39,6 +41,7 @@ public class GadgetItems {
         ethernet_cable = new ItemEthernetCable();
         hdmi_cable = new ItemHDMICable();
         usb_cable = new ItemUSBCable();
+        easter_egg = new ItemEasterEgg();
     }
 
     public static void register() {
@@ -57,6 +60,7 @@ public class GadgetItems {
         register(ethernet_cable);
         register(hdmi_cable);
         register(usb_cable);
+        register(easter_egg);
     }
 
     private static void register(Item item) {

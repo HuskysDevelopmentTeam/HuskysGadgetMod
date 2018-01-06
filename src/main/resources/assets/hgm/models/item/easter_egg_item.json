@@ -1,0 +1,6 @@
+{
+	"parent": "item/spawn_egg",
+	"textures": {
+		"particle": "blocks/concrete_brown"
+	}
+}

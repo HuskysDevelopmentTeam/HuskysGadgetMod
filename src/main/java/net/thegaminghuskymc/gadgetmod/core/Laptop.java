@@ -1,17 +1,33 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.ImmutableList;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.toasts.GuiToast;
+import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
@@ -21,20 +37,15 @@ import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
+import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
+import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Laptop extends GuiScreen implements System {
 
@@ -69,9 +80,35 @@ public class Laptop extends GuiScreen implements System {
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
     
-    private static final int BOOT_TIME = 200;
-    private int bootTimer = BOOT_TIME;
+    private static final int BOOT_ON_TIME = 200;
+    private static final int BOOT_OFF_TIME = 100;
+    private int bootTimer = BOOT_ON_TIME;
+    private BootMode bootMode = BootMode.BOOTING;
     private int blinkTimer = 0;
+    private int lastCode = Keyboard.KEY_DOWN;
+    private int konamiProgress = 0;
+    private static final int[] konamiCodes = new int[] {
+    		Keyboard.KEY_UP,
+    		Keyboard.KEY_UP,
+    		Keyboard.KEY_DOWN,
+    		Keyboard.KEY_DOWN,
+    		Keyboard.KEY_LEFT,
+    		Keyboard.KEY_RIGHT,
+    		Keyboard.KEY_LEFT,
+    		Keyboard.KEY_RIGHT,
+    		Keyboard.KEY_B,
+    		Keyboard.KEY_A
+    };
+    private static final HashMap<Integer, String> codeToName = new HashMap<Integer, String>();
+    // Populate the list above
+    static {
+    	codeToName.put(Keyboard.KEY_UP, "up");
+    	codeToName.put(Keyboard.KEY_DOWN, "down");
+    	codeToName.put(Keyboard.KEY_LEFT, "left");
+    	codeToName.put(Keyboard.KEY_RIGHT, "right");
+    	codeToName.put(Keyboard.KEY_A, "A");
+    	codeToName.put(Keyboard.KEY_B, "B");
+    }
 
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
@@ -152,18 +189,16 @@ public class Laptop extends GuiScreen implements System {
 
     @Override
     public void onResize(Minecraft mcIn, int width, int height) {
-    	if(this.bootTimer == 0) {
-	        super.onResize(mcIn, width, height);
-	        for (Window window : windows) {
-	            if (window != null)
-	                window.content.markForLayoutUpdate();
-	        }
-    	}
+        super.onResize(mcIn, width, height);
+        for (Window window : windows) {
+            if (window != null)
+                window.content.markForLayoutUpdate();
+        }
     }
 
     @Override
     public void updateScreen() {
-    	if(this.bootTimer == 0) {
+    	if(this.bootMode == BootMode.NOTHING) {
 	        bar.onTick();
 	
 	        for (Window window : windows) {
@@ -173,9 +208,19 @@ public class Laptop extends GuiScreen implements System {
 	        }
 	
 	        FileBrowser.refreshList = false;
-    	} else {
+    	} else if(this.bootMode != null) {
+    		if(this.bootMode == BootMode.BOOTING) {
+    			this.bootTimer = 0;
+    		}
     		this.bootTimer = Math.max(this.bootTimer - 1, 0);
     		this.blinkTimer = Math.max(this.blinkTimer - 1, 0);
+    		if(this.bootTimer == 0) {
+	    		if(this.bootMode == BootMode.BOOTING) {
+	    			this.bootMode = BootMode.NOTHING;
+	    		} else {
+	    			this.bootMode = null;
+	    		}
+    		}
     	}
     }
 
@@ -205,39 +250,12 @@ public class Laptop extends GuiScreen implements System {
         /* Center */
         RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
 
-        if(this.bootTimer == 0) {
-	        
-	        /* Wallpaper */
-	        this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
-	        RenderUtil.drawRectWithFullTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	
-	        boolean insideContext = false;
-	        if (context != null) {
-	            insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
-	        }
-	
-	        /* Window */
-	        for (int i = windows.length - 1; i >= 0; i--) {
-	            Window window = windows[i];
-	            if (window != null) {
-	                window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
-	            }
-	        }
-	
-	        /* Application Bar */
-	        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
-	
-	        if (context != null) {
-	            context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
-	        }
-	
-	        super.drawScreen(mouseX, mouseY, partialTicks);
-        } else {
+        if(this.bootMode == BootMode.BOOTING) {
         	Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0xFF000000);
         	this.mc.getTextureManager().bindTexture(BOOT_TEXTURES);
         	float f = 1.0f;
-        	if(this.bootTimer > BOOT_TIME - 20) {
-        		f = ((float) (BOOT_TIME - this.bootTimer))/20.0f;
+        	if(this.bootTimer > BOOT_ON_TIME - 20) {
+        		f = ((float) (BOOT_ON_TIME - this.bootTimer))/20.0f;
         	}
         	int value = (int) (255 * f);
         	GlStateManager.color(f, f, f);
@@ -260,8 +278,8 @@ public class Laptop extends GuiScreen implements System {
         	ScaledResolution sr = new ScaledResolution(this.mc);
         	int scale = sr.getScaleFactor();
         	GL11.glScissor((cX - 70)*scale, (height - (cY + 74))*scale, 140*scale, 13*scale);
-        	if(this.bootTimer <= BOOT_TIME - 20) {
-        		int xAdd = (BOOT_TIME - (this.bootTimer + 20))*4;
+        	if(this.bootTimer <= BOOT_ON_TIME - 20) {
+        		int xAdd = (BOOT_ON_TIME - (this.bootTimer + 20))*4;
         		this.drawTexturedModalRect(cX - 87 + xAdd%184, cY + 61, 76, 1, 17, 13);
         	}
         	//this.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
@@ -273,7 +291,57 @@ public class Laptop extends GuiScreen implements System {
         	int color = 0xFF000000 + (value << 16) + (value << 8) + value;
         	Gui.drawRect(cX - 67, cY + 60, cX + 67, cY + 61, color);
         	Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
+        } else if(this.bootMode != null) {
+        	/* Wallpaper */
+            this.mc.getTextureManager().bindTexture(WALLPAPERS.get(currentWallpaper));
+            RenderUtil.drawRectWithFullTexture(posX + 10, posY + 10, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            if(this.bootMode == BootMode.NOTHING) {
+    	        boolean insideContext = false;
+    	        if (context != null) {
+    	            insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
+    	        }
+    	
+    	        /* Window */
+    	        for (int i = windows.length - 1; i >= 0; i--) {
+    	            Window window = windows[i];
+    	            if (window != null) {
+    	                window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
+    	            }
+    	        }
+    	
+    	        /* Application Bar */
+    	        bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
+    	
+    	        if (context != null) {
+    	            context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
+    	        }
+    	
+    	        super.drawScreen(mouseX, mouseY, partialTicks);
+            } else {
+            	Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0x7F000000);
+            	GlStateManager.pushMatrix();
+            		String s = "";
+            		if(this.konamiProgress <= 0) {
+            			s = "Shutting " + codeToName.get(this.lastCode) + "...";
+            		} else {
+            			s = "Shutting ";
+            			for(int i = 0; i < this.konamiProgress - 1; i++) {
+            				s = s + codeToName.get(konamiCodes[i]) + ", ";
+            			}
+            			s = s + codeToName.get(konamiCodes[this.konamiProgress - 1]) + "...";
+            		}
+            		int w = this.mc.fontRenderer.getStringWidth(s);
+            		float scale = 3;
+            		while(scale > 1 && w*scale > DEVICE_WIDTH) {
+            			scale = scale - 0.5f;
+            		}
+            		GlStateManager.scale(scale, scale, 1);
+            		GlStateManager.translate((posX + (DEVICE_WIDTH - w*scale)/2)/scale, (posY + (DEVICE_HEIGHT - 8*scale)/2)/scale, 0);
+            		this.mc.fontRenderer.drawString(TextFormatting.ITALIC + s, 0, 0, 0xFFFFFFFF, true);
+            	GlStateManager.popMatrix();
+            }
         }
+        
     }
 
     @Override
@@ -284,7 +352,7 @@ public class Laptop extends GuiScreen implements System {
         int posX = (width - SCREEN_WIDTH) / 2;
         int posY = (height - SCREEN_HEIGHT) / 2;
 
-        if(this.bootTimer == 0) {
+        if(this.bootMode == BootMode.NOTHING) {
 	        if (this.context != null) {
 	            int dropdownX = context.xPosition;
 	            int dropdownY = context.yPosition;
@@ -323,7 +391,7 @@ public class Laptop extends GuiScreen implements System {
 	                }
 	            }
 	        }
-        } else {
+        } else if(this.bootMode == BootMode.BOOTING) {
         	if(isMouseInHusky(mouseX, mouseY)) {
         		this.blinkTimer = 10;
         	}
@@ -349,29 +417,46 @@ public class Laptop extends GuiScreen implements System {
 
     @Override
     public void handleKeyboardInput() throws IOException {
-    	//if(this.bootTimer == 0) {
-	        if (Keyboard.getEventKeyState()) {
-	            char pressed = Keyboard.getEventCharacter();
-	            int code = Keyboard.getEventKey();
-	
-	            if (windows[0] != null) {
-	                windows[0].handleKeyTyped(pressed, code);
-	            }
-	
-	            super.keyTyped(pressed, code);
-	        } else {
-	            if (windows[0] != null) {
-	                windows[0].handleKeyReleased(Keyboard.getEventCharacter(), Keyboard.getEventKey());
-	            }
-	        }
-	
-	        this.mc.dispatchKeypresses();
-    	//}
+        if (Keyboard.getEventKeyState()) {
+            char pressed = Keyboard.getEventCharacter();
+            int code = Keyboard.getEventKey();
+            
+            if(this.bootMode == BootMode.SHUTTING_DOWN) {
+            	if(codeToName.containsKey(code)) {
+            		boolean valid = (this.konamiProgress < 8 && code != Keyboard.KEY_A && code != Keyboard.KEY_B) || (this.konamiProgress >= 8 && (code == Keyboard.KEY_A || code == Keyboard.KEY_B));
+            		if(valid) {
+            			this.lastCode = code;
+            			if(this.konamiProgress != -1 && code == konamiCodes[this.konamiProgress]) {
+            				this.konamiProgress ++;
+            				if(this.konamiProgress == konamiCodes.length) {
+            					this.mc.getToastGui().add(new EasterEggToast());
+            					PacketHandler.INSTANCE.sendToServer(new MessageUnlockAdvancement());
+            					this.konamiProgress = -1;
+            				}
+            			} else {
+            				this.konamiProgress = 0;
+            			}
+            		}
+            	}
+            }
+
+            if (windows[0] != null) {
+                windows[0].handleKeyTyped(pressed, code);
+            }
+
+            super.keyTyped(pressed, code);
+        } else {
+            if (windows[0] != null) {
+                windows[0].handleKeyReleased(Keyboard.getEventCharacter(), Keyboard.getEventKey());
+            }
+        }
+
+        this.mc.dispatchKeypresses();
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-    	if(this.bootTimer == 0) {
+    	if(this.bootMode == BootMode.NOTHING) {
 	        int posX = (width - SCREEN_WIDTH) / 2;
 	        int posY = (height - SCREEN_HEIGHT) / 2;
 	
@@ -416,7 +501,7 @@ public class Laptop extends GuiScreen implements System {
         int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
         int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         int scroll = Mouse.getEventDWheel();
-    	if(this.bootTimer == 0) {
+        if(this.bootMode == BootMode.NOTHING) {
 	        if (scroll != 0) {
 	            if (windows[0] != null) {
 	                windows[0].handleMouseScroll(mouseX, mouseY, scroll >= 0);
@@ -670,7 +755,7 @@ public class Laptop extends GuiScreen implements System {
     }
     
     private boolean isMouseInHusky(int mouseX, int mouseY) {
-    	if(this.bootTimer > BOOT_TIME - 20 || this.blinkTimer > 0) {
+    	if(this.bootTimer > BOOT_ON_TIME - 20 || this.blinkTimer > 0) {
     		return false;
     	}
     	int posX = (width - DEVICE_WIDTH) / 2;
@@ -679,4 +764,41 @@ public class Laptop extends GuiScreen implements System {
     	int cY = posY + DEVICE_HEIGHT/2;
     	return RenderUtil.isMouseInside(mouseX, mouseY, cX - 34, cY - 80, cX + 34, cY + 10);
     }
+    
+    public void shutdown() {
+		this.bootTimer = BOOT_OFF_TIME;
+		this.bootMode = BootMode.SHUTTING_DOWN;
+	}
+    
+    public static enum BootMode {
+    	BOOTING,
+    	NOTHING,
+    	SHUTTING_DOWN;
+    }
+  
+    public static class EasterEggToast implements IToast {
+
+    	private boolean hasPlayedSound = false;
+    	
+		@Override
+		public Visibility draw(GuiToast toastGui, long delta) {
+			toastGui.getMinecraft().getTextureManager().bindTexture(TEXTURE_TOASTS);
+			GlStateManager.color(1.0F, 1.0F, 1.0F);
+			toastGui.drawTexturedModalRect(0, 0, 0, 0, 160, 32);
+
+			int i = 16776960;
+
+			String s = "Easter egg found ;p"; 
+			int w = toastGui.getMinecraft().fontRenderer.getStringWidth(s);
+			toastGui.getMinecraft().fontRenderer.drawString(s, 80 - w/2, 12, i | -16777216);
+
+			if(!this.hasPlayedSound && delta > 0L) {
+				this.hasPlayedSound = true;
+			}
+
+			RenderHelper.enableGUIStandardItemLighting();
+			return delta >= 5000L ? IToast.Visibility.HIDE : IToast.Visibility.SHOW;
+		}
+    }
+    
 }

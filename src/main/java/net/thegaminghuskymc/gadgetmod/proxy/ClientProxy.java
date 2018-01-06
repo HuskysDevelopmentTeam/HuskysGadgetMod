@@ -1,11 +1,35 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -21,23 +45,22 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.*;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.LaptopRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.OfficeChairRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PaperRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PrinterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.RouterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.ScreenRenderer;
 
 public class ClientProxy extends CommonProxy {
 
@@ -87,6 +110,28 @@ public class ClientProxy extends CommonProxy {
 		        Laptop.addWallpaper( Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
 		    }
         }
+        
+        ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
+        IItemColor easterEgg = new IItemColor() {
+			@Override
+			public int colorMultiplier(ItemStack stack, int tintIndex) {
+				return tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
+			}
+        };
+        itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
+        
+        BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
+        IBlockColor easterEggBlock = new IBlockColor() {
+			@Override
+			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+				TileEntity te = worldIn.getTileEntity(pos);
+				if(te != null && te instanceof TileEntityEasterEgg) {
+					return ((TileEntityEasterEgg)te).getColor(tintIndex);
+				}
+				return 0xFFFFFF;
+			}
+        };
+        blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
     }
 
     @Override

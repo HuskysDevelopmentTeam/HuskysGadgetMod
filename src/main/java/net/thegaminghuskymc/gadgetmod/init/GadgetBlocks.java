@@ -31,7 +31,8 @@ public class GadgetBlocks {
     public static final Block SOUNDWOOFERS;
     public static final Block PLAYSTATION_4_PRO;
     public static final Block EXTERNAL_HARDDRIVE;
-
+    public static final Block EASTER_EGG;
+    
     static {
         LAPTOP = new BlockLaptop();
         ROUTER = new BlockRouter();
@@ -55,6 +56,7 @@ public class GadgetBlocks {
         SOUNDWOOFERS = new BlockSoundwoofers();
         PLAYSTATION_4_PRO = new BlockPlaystation4Pro();
         EXTERNAL_HARDDRIVE = new BlockExternalHarddrive();
+        EASTER_EGG = new BlockEasterEgg();
     }
 
     public static void register() {
@@ -81,6 +83,7 @@ public class GadgetBlocks {
         registerBlock(SOUNDWOOFERS);
         registerBlock(PLAYSTATION_4_PRO, new ItemDevice(PLAYSTATION_4_PRO));
         registerBlock(EXTERNAL_HARDDRIVE, new ItemDevice(EXTERNAL_HARDDRIVE));
+        registerBlock(EASTER_EGG);
     }
 
     private static void registerBlock(Block block) {
