@@ -5,14 +5,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 
 public class DeviceTab extends CreativeTabs {
 
-    @SideOnly(Side.CLIENT)
-    private String title = getTabLabel();
+    private String title = "";
     private boolean hoveringButton = false;
 
     private ItemStack icon = ItemStack.EMPTY;
@@ -25,7 +22,6 @@ public class DeviceTab extends CreativeTabs {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public ItemStack getIconItemStack() {
         if (this.displayRandom) {
             if (Minecraft.getSystemTime() % 120 == 0) {
@@ -36,22 +32,18 @@ public class DeviceTab extends CreativeTabs {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public String getTranslatedTabLabel() {
         return hoveringButton ? title : getTabLabel();
     }
 
-    @SideOnly(Side.CLIENT)
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @SideOnly(Side.CLIENT)
     public void setHoveringButton(boolean hoveringButton) {
         this.hoveringButton = hoveringButton;
     }
 
-    @SideOnly(Side.CLIENT)
     private void updateDisplayStack() {
         if (this.displayRandom) {
             NonNullList<ItemStack> itemStacks = NonNullList.create();

@@ -211,15 +211,15 @@ public class ApplicationEmail extends Application {
                     gui.drawTexturedModalRect(x + 247, y + 8, 0, 10, 20, 12);
                 }
 
-                if (e.attachment != null) {
+                if (e.getAttachment() != null) {
                     GlStateManager.color(1.0F, 1.0F, 1.0F);
                     int posX = x + (!e.isRead() ? -30 : 0) + 255;
                     mc.getTextureManager().bindTexture(ENDER_MAIL_ICONS);
                     gui.drawTexturedModalRect(posX, y + 5, 20, 10, 13, 20);
                 }
 
-                mc.fontRenderer.drawString(e.subject, x + 5, y + 5, Color.WHITE.getRGB());
-                mc.fontRenderer.drawString(e.author + "@pixelmail.com", x + 5, y + 18, Color.LIGHT_GRAY.getRGB());
+                mc.fontRenderer.drawString(e.getSubject(), x + 5, y + 5, Color.WHITE.getRGB());
+                mc.fontRenderer.drawString(e.getAuthor() + "@pixelmail.com", x + 5, y + 18, Color.LIGHT_GRAY.getRGB());
             }
         });
         layoutInbox.addComponent(listEmails);
@@ -291,7 +291,6 @@ public class ApplicationEmail extends Application {
             });
             TaskManager.sendTask(taskUpdateInbox);
         });
-
 
         class Reloading extends TimerTask {
             public void run() {
@@ -662,6 +661,17 @@ public class ApplicationEmail extends Application {
             this.author = author;
         }
 
+        public static Email readFromNBT(NBTTagCompound nbt) {
+            File attachment = null;
+            if (nbt.hasKey("attachment", Constants.NBT.TAG_COMPOUND)) {
+                NBTTagCompound fileTag = nbt.getCompoundTag("attachment");
+                attachment = File.fromTag(fileTag.getString("file_name"), fileTag.getCompoundTag("data"));
+            }
+            Email email = new Email(nbt.getString("subject"), nbt.getString("author"), nbt.getString("message"), attachment);
+            email.setRead(nbt.getBoolean("read"));
+            return email;
+        }
+
         public String getSubject() {
             return subject;
         }
@@ -702,17 +712,6 @@ public class ApplicationEmail extends Application {
                 fileTag.setTag("data", attachment.toTag());
                 nbt.setTag("attachment", fileTag);
             }
-        }
-
-        public static Email readFromNBT(NBTTagCompound nbt) {
-            File attachment = null;
-            if (nbt.hasKey("attachment", Constants.NBT.TAG_COMPOUND)) {
-                NBTTagCompound fileTag = nbt.getCompoundTag("attachment");
-                attachment = File.fromTag(fileTag.getString("file_name"), fileTag.getCompoundTag("data"));
-            }
-            Email email = new Email(nbt.getString("subject"), nbt.getString("author"), nbt.getString("message"), attachment);
-            email.setRead(nbt.getBoolean("read"));
-            return email;
         }
     }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class AppInfo {
 
     private final ResourceLocation APP_ID;
-    private int iconU = 0, iconV = 0, bannerU = 0, bannerV = 0 ;
+    private int iconU = 0, iconV = 0, bannerU = 0, bannerV = 0;
 
     private String appName;
     private String appCreator;
@@ -100,8 +100,6 @@ public class AppInfo {
 
         @Override
         public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
-
 
 
             return null;

@@ -42,11 +42,11 @@ public class Banner extends Component {
      * the width and height of the component instead of automatically unlike
      * {@link Banner#Banner(int, int, int, int, ResourceLocation)}
      *
-     * @param left            the amount of pixels to be offset from the left
-     * @param top             the amount of pixels to be offset from the top
-     * @param imageU          the u position on the image resource
-     * @param imageV          the v position on the image resource
-     * @param resource        the resource location of the image
+     * @param left     the amount of pixels to be offset from the left
+     * @param top      the amount of pixels to be offset from the top
+     * @param imageU   the u position on the image resource
+     * @param imageV   the v position on the image resource
+     * @param resource the resource location of the image
      */
     public Banner(int left, int top, int imageU, int imageV, ResourceLocation resource) {
         super(left, top);
@@ -68,9 +68,9 @@ public class Banner extends Component {
      * instant change. Caching has a default limit of 10 resources but this can be changed by the
      * player in the configuration.
      *
-     * @param left            the amount of pixels to be offset from the left
-     * @param top             the amount of pixels to be offset from the top
-     * @param url             the url of the resource
+     * @param left the amount of pixels to be offset from the left
+     * @param top  the amount of pixels to be offset from the top
+     * @param url  the url of the resource
      */
     public Banner(int left, int top, String url) {
         super(left, top);

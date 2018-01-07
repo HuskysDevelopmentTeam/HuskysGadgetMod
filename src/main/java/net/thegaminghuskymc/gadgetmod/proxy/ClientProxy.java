@@ -34,6 +34,9 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -45,6 +48,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
@@ -69,13 +73,15 @@ public class ClientProxy extends CommonProxy {
     public static Entity backupEntity = null;
 
     @Override
-    public void preInit() {
+    public void preInit(FMLPreInitializationEvent event) {
+        super.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
 //        MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
     }
 
     @Override
-    public void init() {
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
@@ -93,49 +99,42 @@ public class ClientProxy extends CommonProxy {
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
         File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
-        if(!folder.exists()) {
-        	folder.mkdir();
+        if (!folder.exists()) {
+            folder.mkdir();
         }
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
-        if(files != null) {
-	        for (File f : files) {
-		
-		        BufferedImage img = null;
-		        try {
-		            if (!f.exists()) f.createNewFile();
-		            img = ImageIO.read(f);
-		        } catch (IOException e) {
-		
-		        }
-		        Laptop.addWallpaper( Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
-		    }
+        if (files != null) {
+            for (File f : files) {
+
+                BufferedImage img = null;
+                try {
+                    if (!f.exists()) f.createNewFile();
+                    img = ImageIO.read(f);
+                } catch (IOException e) {
+
+                }
+                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+            }
         }
-        
+
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
-        IItemColor easterEgg = new IItemColor() {
-			@Override
-			public int colorMultiplier(ItemStack stack, int tintIndex) {
-				return tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
-			}
-        };
+        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
         itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
-        
+
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
-        IBlockColor easterEggBlock = new IBlockColor() {
-			@Override
-			public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
-				TileEntity te = worldIn.getTileEntity(pos);
-				if(te != null && te instanceof TileEntityEasterEgg) {
-					return ((TileEntityEasterEgg)te).getColor(tintIndex);
-				}
-				return 0xFFFFFF;
-			}
+        IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te != null && te instanceof TileEntityEasterEgg) {
+                return ((TileEntityEasterEgg) te).getColor(tintIndex);
+            }
+            return 0xFFFFFF;
         };
         blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
     }
 
     @Override
-    public void postInit() {
+    public void postInit(FMLPostInitializationEvent event) {
+        super.postInit(event);
         generateIconAtlas();
         generateBannerAtlas();
     }

@@ -26,7 +26,7 @@ public class Utils {
     @SideOnly(Side.CLIENT)
     public static void pressUnicode(Robot r, int key_code) {
         r.keyPress(KeyEvent.VK_ALT);
-        for(int i = 3; i >= 0; --i) {
+        for (int i = 3; i >= 0; --i) {
             int numpad_kc = key_code / (int) (Math.pow(10, i)) % 10 + KeyEvent.VK_NUMPAD0;
             r.keyPress(numpad_kc);
             r.keyRelease(numpad_kc);
@@ -68,7 +68,7 @@ public class Utils {
 
     public static File getResourceAsFile(String resource) throws IOException {
         String[] splitRes = resource.split("[.]");
-        return streamToFile(getResourceAsStream(resource), Files.createTempFile("tmp", "."+splitRes[splitRes.length-1]).toFile());
+        return streamToFile(getResourceAsStream(resource), Files.createTempFile("tmp", "." + splitRes[splitRes.length - 1]).toFile());
     }
 
     public static InputStream getResourceAsStream(String resource) {
@@ -122,7 +122,7 @@ public class Utils {
                 e.printStackTrace();
             }
         }
-        return  classes;
+        return classes;
     }
 
 }

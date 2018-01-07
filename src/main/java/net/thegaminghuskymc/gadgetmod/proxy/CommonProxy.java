@@ -6,11 +6,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
+import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
@@ -26,14 +30,15 @@ public class CommonProxy {
 
     List<AppInfo> allowedApps;
 
-    public void preInit() {
+    public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void init() {
+    public void init(FMLInitializationEvent event) {
+        GadgetApps.init();
     }
 
-    public void postInit() {
+    public void postInit(FMLPostInitializationEvent event) {
     }
 
     public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {

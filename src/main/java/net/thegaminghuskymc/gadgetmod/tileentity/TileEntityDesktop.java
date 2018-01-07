@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
@@ -11,15 +12,18 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
+import java.util.List;
+
 public class TileEntityDesktop extends TileEntityDevice implements ITickable, Colorable {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
     @SideOnly(Side.CLIENT)
     public float prevRotation;
+    public EnumDyeColor color = EnumDyeColor.RED;
     private String name = "Desktop";
     private boolean powered = false, online = false, connected = false, monitorConnected = false, doorOpen = false;
-    public EnumDyeColor color = EnumDyeColor.RED;
+    private List<String> components;
     private NBTTagCompound applicationData;
     private NBTTagCompound systemData;
     private FileSystem fileSystem;
@@ -81,6 +85,9 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
         }
         if (compound.hasKey("doorOpen")) {
             this.doorOpen = compound.getBoolean("doorOpen");
+        }
+        if (compound.hasKey("components")) {
+            this.components = Lists.newArrayList();
         }
     }
 

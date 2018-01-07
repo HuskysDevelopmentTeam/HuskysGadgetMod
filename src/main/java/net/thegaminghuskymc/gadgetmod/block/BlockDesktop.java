@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import com.google.common.collect.Sets;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -7,6 +8,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,13 +21,27 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.Set;
 
 public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
+
+    private static final Set<Item> COMPONENTS = Sets.newHashSet();
+
+    static {
+        COMPONENTS.add(GadgetItems.ramSticks);
+        COMPONENTS.add(GadgetItems.cpu);
+        COMPONENTS.add(GadgetItems.motherBoard);
+        COMPONENTS.add(GadgetItems.videoCard);
+        COMPONENTS.add(GadgetItems.wifiCard);
+        COMPONENTS.add(GadgetItems.internal_harddrive);
+    }
 
     public BlockDesktop() {
         super(Material.ANVIL);
@@ -52,6 +68,31 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
         return state;
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+        if (worldIn.isRemote) {
+
+            if (playerIn.isSneaking() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                TileEntity tileEntity = worldIn.getTileEntity(pos);
+                if (tileEntity instanceof TileEntityDesktop) {
+                    TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
+
+                    NBTTagCompound tileEntityTag = new NBTTagCompound();
+                    desktop.writeToNBT(tileEntityTag);
+                    tileEntityTag.setBoolean("doorOpen", true);
+                }
+            }
+
+            if (COMPONENTS.contains(playerIn.getHeldItem(hand).getItem())) {
+
+            }
+
+        }
+
+        return false;
     }
 
     @Override

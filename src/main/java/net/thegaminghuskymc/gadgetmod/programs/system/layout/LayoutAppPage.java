@@ -39,7 +39,7 @@ public class LayoutAppPage extends Layout {
             Gui.drawRect(x, y + 60, x + width, y + 61, color.darker().getRGB());
         });
 
-        Banner imageBanner = new Banner(0, 0, info.getBannerU(), info.getBannerV(), new ResourceLocation(Reference.MOD_ID,"textures/app/banner/banner_default"));
+        Banner imageBanner = new Banner(0, 0, info.getBannerU(), info.getBannerV(), new ResourceLocation(Reference.MOD_ID, "textures/app/banner/banner_default"));
         this.addComponent(imageBanner);
 
         Label labelTitle = new Label(info.getName(), 38, 32);

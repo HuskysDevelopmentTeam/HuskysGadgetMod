@@ -22,9 +22,9 @@ public class GuiButtonClose extends GuiButton {
             GlStateManager.blendFunc(770, 771);
 
             int state = this.getHoverState(this.hovered);
-            if(state != getHoverState(true)) {
+            if (state != getHoverState(true)) {
                 this.drawTexturedModalRect(this.x, this.y, state * this.width + 15, 0, this.width, this.height);
-            } else if (state != getHoverState(false)){
+            } else if (state != getHoverState(false)) {
                 this.drawTexturedModalRect(this.x, this.y, state * this.width + 15, 0, this.width, this.height);
             }
         }

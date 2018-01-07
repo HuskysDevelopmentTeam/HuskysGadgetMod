@@ -173,12 +173,11 @@ public class ColourScheme {
         backgroundSecondaryColour = 0;
         itemBackgroundColour = Color.decode("0x9E9E9E").getRGB();
         itemHighlightColour = Color.decode("0x757575").getRGB();
-
         buttonNormalColour = Color.decode("0x535861").getRGB();
         buttonHoveredColour = Color.decode("0x535861").getRGB();
         buttonDisabledColour = Color.decode("0x535861").getRGB();
         taskBarColour = Color.decode("0x9E9E9E").getRGB();
-        applicationBarColour = Color.decode("0x757575").getRGB();
+        applicationBarColour = Color.decode("0xFFFFFF").getRGB();
     }
 
     public NBTTagCompound toTag() {

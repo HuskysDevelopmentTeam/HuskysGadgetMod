@@ -4,10 +4,10 @@ import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 
 public class AppStoreAppCategories {
 
-	public static String[] categories = {
-			"Games",
-			"Tools",
-			"Education",
+    public static String[] categories = {
+            "Games",
+            "Tools",
+            "Education",
             "Entertainment",
             "Sports",
             "VR",
@@ -15,13 +15,13 @@ public class AppStoreAppCategories {
             "Multiplayer",
             "Shopping",
             "Social"
-	};
-	
-	public static int getSize() {
-		return categories.length;
-	}
-	
-	public static String getUnlocalizedName(int i) {
-		return RenderHelper.unlocaliseName("apps.category." + categories[i].toLowerCase());
-	}
+    };
+
+    public static int getSize() {
+        return categories.length;
+    }
+
+    public static String getUnlocalizedName(int i) {
+        return RenderHelper.unlocaliseName("apps.category." + categories[i].toLowerCase());
+    }
 }

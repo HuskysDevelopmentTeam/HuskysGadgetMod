@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class TaskManager {
-    private static TaskManager instance = null;
+
+    private static TaskManager instance = new TaskManager();
 
     private Map<String, Task> registeredRequests = new HashMap<String, Task>();
     private Map<Integer, Task> requests = new HashMap<Integer, Task>();

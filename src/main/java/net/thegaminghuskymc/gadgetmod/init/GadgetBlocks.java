@@ -32,7 +32,7 @@ public class GadgetBlocks {
     public static final Block PLAYSTATION_4_PRO;
     public static final Block EXTERNAL_HARDDRIVE;
     public static final Block EASTER_EGG;
-    
+
     static {
         LAPTOP = new BlockLaptop();
         ROUTER = new BlockRouter();
@@ -65,22 +65,22 @@ public class GadgetBlocks {
         registerBlock(ROUTER, new ItemDevice(ROUTER));
         registerBlock(PRINTER, new ItemDevice(PRINTER));
         registerBlock(PAPER, new ItemPaper(PAPER));
-        registerBlock(SCREEN, new ItemDevice(SCREEN));
+//        registerBlock(SCREEN, new ItemDevice(SCREEN));
         registerBlock(MONITOR, new ItemDevice(MONITOR));
         registerBlock(DESKTOP, new ItemDevice(DESKTOP));
-        registerBlock(SERVER, new ItemDevice(SERVER));
-        registerBlock(SERVER_TERMINAL, new ItemDevice(SERVER_TERMINAL));
+//        registerBlock(SERVER, new ItemDevice(SERVER));
+//        registerBlock(SERVER_TERMINAL, new ItemDevice(SERVER_TERMINAL));
 //        registerBlock(ROBOT, new ItemDevice(ROBOT));
         registerBlock(ETHERNET_WALL_OUTLET, new ItemColorable(ETHERNET_WALL_OUTLET));
         registerBlock(OFFICE_CHAIR, new ItemColorable(OFFICE_CHAIR));
         registerBlock(GAMING_DESK, new ItemColorable(GAMING_DESK));
-        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
-        registerBlock(BENCHMARK_STATION, new ItemDevice(BENCHMARK_STATION));
-        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
-        registerBlock(RGB_LIGHTS);
+//        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
+//        registerBlock(BENCHMARK_STATION, new ItemDevice(BENCHMARK_STATION));
+//        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
+//        registerBlock(RGB_LIGHTS);
         registerBlock(ROOF_LIGHTS);
-        registerBlock(SECURITY_CAMERA);
-        registerBlock(SOUNDWOOFERS);
+//        registerBlock(SECURITY_CAMERA);
+//        registerBlock(SOUNDWOOFERS);
         registerBlock(PLAYSTATION_4_PRO, new ItemDevice(PLAYSTATION_4_PRO));
         registerBlock(EXTERNAL_HARDDRIVE, new ItemDevice(EXTERNAL_HARDDRIVE));
         registerBlock(EASTER_EGG);

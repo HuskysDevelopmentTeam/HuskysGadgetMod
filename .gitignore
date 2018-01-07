@@ -24,4 +24,4 @@ run
 libs
 src/main/java/com/*
 classes/*
-src/main/resources/assets/cdm/*
+src/main/resources/assets/extraons/*

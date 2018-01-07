@@ -22,7 +22,7 @@ public class GadgetItems {
     public static final Item ethernet_cable;
     public static final Item hdmi_cable;
     public static final Item usb_cable;
-    
+
     public static final Item easter_egg;
     public static final Item wiiu_gamepad;
 

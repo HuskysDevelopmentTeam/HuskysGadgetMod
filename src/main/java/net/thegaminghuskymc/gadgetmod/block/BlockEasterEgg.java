@@ -18,42 +18,42 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
 
 public class BlockEasterEgg extends Block implements ITileEntityProvider {
 
-	public BlockEasterEgg() {
-		super(Material.CARPET);
-		this.setHardness(-1.0f);
-		this.setRegistryName(Reference.MOD_ID, "easter_egg");
-		this.setUnlocalizedName("easter_egg");
-	}
-	
-	@Override
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		super.onBlockClicked(worldIn, pos, playerIn);
-		if(!worldIn.isRemote) {
-			TileEntity te = worldIn.getTileEntity(pos);
-			if(te != null && te instanceof TileEntityEasterEgg) {
-				TileEntityEasterEgg eggte = (TileEntityEasterEgg) te;
-				ItemStack egg = new ItemStack(GadgetItems.easter_egg);
-				NBTTagCompound nbt = eggte.writeColorsToNBT(new NBTTagCompound());
-				egg.setTagCompound(nbt);
-				worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), egg));
-			}
-			worldIn.destroyBlock(pos, false);
-		}
-	}
-	
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
-	
-	@Override
-	public BlockRenderLayer getBlockLayer() {
-		return BlockRenderLayer.CUTOUT;
-	}
+    public BlockEasterEgg() {
+        super(Material.CARPET);
+        this.setHardness(-1.0f);
+        this.setRegistryName(Reference.MOD_ID, "easter_egg");
+        this.setUnlocalizedName("easter_egg");
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityEasterEgg(worldIn.isRemote ? null : worldIn.rand);
-	}
-	
+    @Override
+    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+        super.onBlockClicked(worldIn, pos, playerIn);
+        if (!worldIn.isRemote) {
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te != null && te instanceof TileEntityEasterEgg) {
+                TileEntityEasterEgg eggte = (TileEntityEasterEgg) te;
+                ItemStack egg = new ItemStack(GadgetItems.easter_egg);
+                NBTTagCompound nbt = eggte.writeColorsToNBT(new NBTTagCompound());
+                egg.setTagCompound(nbt);
+                worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), egg));
+            }
+            worldIn.destroyBlock(pos, false);
+        }
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityEasterEgg(worldIn.isRemote ? null : worldIn.rand);
+    }
+
 }

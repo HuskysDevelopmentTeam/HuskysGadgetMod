@@ -17,9 +17,8 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import java.util.Arrays;
 
 public class Button extends Component {
-    protected static final ResourceLocation BUTTON_TEXTURES = new ResourceLocation("textures/gui/widgets.png");
 
-    protected static final int TOOLTIP_DELAY = 20;
+    protected static final int TOOLTIP_DELAY = 10;
 
     protected String text;
     protected String toolTip, toolTipTitle;

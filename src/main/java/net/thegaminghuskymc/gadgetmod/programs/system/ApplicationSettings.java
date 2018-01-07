@@ -6,12 +6,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -20,6 +22,7 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
@@ -35,10 +38,13 @@ public class ApplicationSettings extends SystemApplication {
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
+    private Layout layoutMain;
 
     private Button buttonColourSchemeApply;
 
     private Layout layoutInformation;
+
+    private int lastClick;
 
     private Stack<Layout> predecessor = new Stack<>();
 
@@ -63,7 +69,7 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
 
-        Layout layoutMain = new Menu("Home");
+        layoutMain = new Menu("Home");
         layoutMain.addComponent(buttonPrevious);
 
         layoutColourScheme = new Menu("Colour Scheme");
@@ -226,11 +232,27 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
+        Button reload = new Button(230, 27, Icons.RELOAD);
+        reload.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if(mouseButton == 0) {
+
+            }
+        });
+        layoutWallpapers.addComponent(reload);
+
+        Button renderEntityWolf = new Button(230, 27, Icons.RELOAD);
+        renderEntityWolf.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if(mouseButton == 0) {
+
+            }
+        });
+        layoutWallpapers.addComponent(renderEntityWolf);
+
         Button buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(26);
+        /*ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(26);
         layoutColourScheme.addComponent(comboBoxTextColour);
 
         ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(44);
@@ -249,7 +271,13 @@ public class ApplicationSettings extends SystemApplication {
         layoutColourScheme.addComponent(comboBoxItemBackgroundColour);
 
         ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(134);
-        layoutColourScheme.addComponent(comboBoxItemHighlightColour);
+        layoutColourScheme.addComponent(comboBoxItemHighlightColour);*/
+
+        ComboBox.Custom<Integer> comboBoxApplicationBarColour = createColourPicker(26);
+        layoutColourScheme.addComponent(comboBoxApplicationBarColour);
+
+        Label applicationBarColour = new Label("Application Bar Colour", 200, 29);
+        layoutColourScheme.addComponent(applicationBarColour);
 
         buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
         buttonColourSchemeApply.setEnabled(false);
@@ -258,27 +286,30 @@ public class ApplicationSettings extends SystemApplication {
         {
             if (mouseButton == 0) {
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-                colourScheme.setBackgroundColour(Objects.requireNonNull(comboBoxHeaderColour.getValue()));
+                colourScheme.setApplicationBarColour(Objects.requireNonNull(comboBoxApplicationBarColour.getValue()));
                 buttonColourSchemeApply.setEnabled(false);
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
-        /*ItemList<AppInfo> apps = new ItemList<>(120, 80, 100, 3, true);
-        apps.addItem(new ArrayList<AppInfo>(ApplicationManager.getAvailableApps()));
-        apps.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
+        ItemList<AppInfo> itemListApps = new ItemList<>(10, 30, 310, 5, true);
+        itemListApps.setItems(new ArrayList<>(ApplicationManager.getAvailableApps()));
+        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(20) {
             @Override
-            public void render(AppInfo e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                if (selected)
-                    Gui.drawRect(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
-                else
-                    Gui.drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
-                RenderUtil.drawApplicationIcon(e, x + 3, y + 3);
-                gui.drawString(mc.fontRenderer, e.getName(), x + 20, y + 6, Color.WHITE.getRGB());
+            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
+                GlStateManager.color(1.0f, 1.0f, 1.0f);
+                RenderUtil.drawApplicationIcon(info, x + 3, y + 3);
+                RenderUtil.drawStringClipped(info.getName() + TextFormatting.DARK_GRAY + " : " + TextFormatting.GRAY + info.getDescription(), x + 20, y + 5, itemListApps.getWidth() - 10, Color.WHITE.getRGB(), true);
             }
-        });*/
-        ArrayList<AppInfo> arrayList = new ArrayList<>(ApplicationManager.getAvailableApps());
-        ItemList<AppInfo> itemListApps = new ItemList<>(120, 80, 100, 3, true);
+        });
+        itemListApps.setItemClickListener((appInfo, index, mouseButton) -> {
+            if (mouseButton == 1) {
+
+                if (System.currentTimeMillis() - this.lastClick <= 200) {
+                    openApplication(appInfo);
+                }
+            }
+        });
         layoutInformationApps.addComponent(itemListApps);
 
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
@@ -346,6 +377,15 @@ public class ApplicationSettings extends SystemApplication {
     public void onClose() {
         super.onClose();
         predecessor.clear();
+    }
+
+    private void openApplication(AppInfo info) {
+        Layout layout = new LayoutAppPage(info);
+        Button btnPreviuos = new Button(5, 5, Icons.ARROW_LEFT);
+        btnPreviuos.setClickListener((mouseX, mouseY, mouseButton) -> {
+            setCurrentLayout(layoutMain);
+        });
+        layout.addComponent(btnPreviuos);
     }
 
     private ComboBox.Custom<Integer> createColourPicker(int top) {

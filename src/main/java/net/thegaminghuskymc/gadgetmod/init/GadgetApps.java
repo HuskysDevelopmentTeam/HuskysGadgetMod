@@ -1,7 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.init;
 
-import static net.thegaminghuskymc.gadgetmod.HuskyGadgetMod.HUSKY_MODE;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
@@ -13,19 +11,18 @@ import net.thegaminghuskymc.gadgetmod.programs.ApplicationMachineReader;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationCackler;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationFlameChat;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelBook;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelPlus;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelTube;
+import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationFileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
 
 public class GadgetApps {
-	
+
     public static void init() {
+
+//        TaskBar.TaskBarPlacement.setTaskbarPlacement(TaskBar.TaskBarPlacement.TOP);
+
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "settings"), ApplicationSettings.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bank"), ApplicationBank.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "file_browser"), ApplicationFileBrowser.class);
@@ -38,6 +35,12 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "flame_chat"), ApplicationFlameChat.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_book"), ApplicationPixelBook.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_plus"), ApplicationPixelPlus.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cackler"), ApplicationCackler.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
 
         if (Loader.isModLoaded("futopia")) {
             ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);
@@ -52,14 +55,6 @@ public class GadgetApps {
             }
         }
 
-        if (HUSKY_MODE) {
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "flame_chat"), ApplicationFlameChat.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_book"), ApplicationPixelBook.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_plus"), ApplicationPixelPlus.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cackler"), ApplicationCackler.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
-            ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
-        }
     }
 
 }

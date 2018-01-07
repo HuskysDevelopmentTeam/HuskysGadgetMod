@@ -1,15 +1,8 @@
 package net.thegaminghuskymc.gadgetmod;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,11 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
-import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
-import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
-import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
-import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
+import net.thegaminghuskymc.gadgetmod.core.io.task.*;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
@@ -40,7 +29,6 @@ import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
 import net.thegaminghuskymc.gadgetmod.handler.PlayerEvents;
-import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetOreDictionary;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
@@ -49,54 +37,39 @@ import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskCheckEmailAccount;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskDeleteEmail;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskRegisterEmailAccount;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskSendEmail;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskUpdateInbox;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskViewEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreCategories;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskAdd;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskGetBalance;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskPay;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskRemove;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
 
+    public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
-
     public static File modDataDir;
-
     public static Gson gson;
-
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
-
-    @SideOnly(Side.CLIENT)
     public static CreativeTabs deviceBlocks = new DeviceTab("gadgetBlocks");
-
-    @SideOnly(Side.CLIENT)
     public static CreativeTabs deviceItems = new DeviceTab("gadgetItems");
-
-    @SideOnly(Side.CLIENT)
     public static CreativeTabs deviceDecoration = new DeviceTab("gadgetDecoration");
     public static boolean HUSKY_MODE;
     private static Logger logger;
 
-    public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
-
     public static Logger getLogger() {
         return logger;
     }
-    
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         HUSKY_MODE = true;
@@ -108,8 +81,15 @@ public class HuskyGadgetMod {
 
         RegistrationHandler.init();
 
-        proxy.preInit();
-        
+        proxy.preInit(event);
+
+//        stuff();
+
+//        if (!modDataDir.exists()) modDataDir.mkdirs();
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void stuff() {
         try {
             gson = new GsonBuilder()
                     .serializeNulls()
@@ -123,7 +103,8 @@ public class HuskyGadgetMod {
                     "    \"category\": \"TOOLS\",\n" +
                     "    \"urls\": []\n" +
                     "  }\n" +
-                    "]", new TypeToken<List<AppStoreAppInfo>>(){}.getType());
+                    "]", new TypeToken<List<AppStoreAppInfo>>() {
+            }.getType());
             System.out.println(list.get(0));
 
             ArrayList<AppStoreAppInfo> info = new ArrayList<>();
@@ -133,8 +114,6 @@ public class HuskyGadgetMod {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-
-//        if (!modDataDir.exists()) modDataDir.mkdirs();
     }
 
     @EventHandler
@@ -152,17 +131,17 @@ public class HuskyGadgetMod {
         MinecraftForge.EVENT_BUS.register(new EmailEvents());
         MinecraftForge.EVENT_BUS.register(new BankEvents());
 
-        GadgetApps.init();
-        registerTasks();
-
         GadgetOreDictionary.init();
 
-        proxy.init();
+        proxy.init(event);
+
+        registerTasks();
+
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit();
+        proxy.postInit(event);
     }
 
     private void registerTasks() {

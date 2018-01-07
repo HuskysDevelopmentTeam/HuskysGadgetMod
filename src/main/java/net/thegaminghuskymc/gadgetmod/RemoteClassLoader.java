@@ -12,7 +12,6 @@ import java.util.Map;
  * Our Custom Class Loader to load the classes. Any class in the com.journaldev
  * package will be loaded using this ClassLoader. For other classes, it will
  * delegate the request to its Parent ClassLoader.
- *
  */
 public class RemoteClassLoader extends ClassLoader {
 
@@ -29,8 +28,7 @@ public class RemoteClassLoader extends ClassLoader {
      * Loads the class from the file system. The class file should be located in
      * the file system. The name should be relative to get the file location
      *
-     * @param name
-     *            Fully Classified name of class, for example com.journaldev.Foo
+     * @param name Fully Classified name of class, for example com.journaldev.Foo
      */
     private Class getClass(URL url, String name) throws ClassNotFoundException {
         byte[] b = null;
@@ -54,9 +52,7 @@ public class RemoteClassLoader extends ClassLoader {
      * com.journaldev package, we will use this classloader or else delegate the
      * request to parent classloader.
      *
-     *
-     * @param urlS
-     *            Full class url
+     * @param urlS Full class url
      */
     @Override
     public Class loadClass(String urlS) throws ClassNotFoundException {
@@ -83,30 +79,28 @@ public class RemoteClassLoader extends ClassLoader {
      * accessible as a resource and make sure that its not in Classpath to avoid
      * any confusion.
      *
-     * @param url
-     *            class files url
+     * @param url class files url
      * @return Byte array read from the file
-     * @throws IOException
-     *             if any exception comes in reading the file
+     * @throws IOException if any exception comes in reading the file
      */
     private byte[] loadClassFileData(URL url) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         InputStream is = null;
         try {
-            is = url.openStream ();
+            is = url.openStream();
             byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
             int n;
 
-            while ( (n = is.read(byteChunk)) > 0 ) {
+            while ((n = is.read(byteChunk)) > 0) {
                 baos.write(byteChunk, 0, n);
             }
-        }
-        catch (IOException e) {
-            e.printStackTrace ();
+        } catch (IOException e) {
+            e.printStackTrace();
             // Perform any other exception handling that's appropriate.
-        }
-        finally {
-            if (is != null) { is.close(); }
+        } finally {
+            if (is != null) {
+                is.close();
+            }
         }
         return baos.toByteArray();
     }

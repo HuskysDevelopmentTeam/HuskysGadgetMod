@@ -12,6 +12,7 @@ import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -20,7 +21,9 @@ public class Window<T extends Wrappable> {
 
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
-    public static final int COLOUR_WINDOW_DARK = new Color(0F, 0F, 0F, 0.25F).getRGB();
+    private ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
+
+    public final int COLOUR_WINDOW_DARK = new Color(colourScheme.getApplicationBarColour()).getRGB();
     protected GuiButton btnClose, btnMinimize, btnFullscreen;
     T content;
     int width, height;
@@ -76,6 +79,7 @@ public class Window<T extends Wrappable> {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(WINDOW_GUI);
+        GlStateManager.color(new Color(0x535861).getRed(), new Color(0x535861).getGreen(), new Color(0x535861).getBlue());
 
         /* Corners */
         gui.drawTexturedModalRect(x + offsetX, y + offsetY, 0, 0, 1, 13);
@@ -84,13 +88,12 @@ public class Window<T extends Wrappable> {
         gui.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
 
         /* Edges */
-        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getApplicationBarColour());
-        color.getRGB();
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + height - 1, 1, 14, width - 2, 1, 13, 1);
         RenderUtil.drawRectWithTexture(x + offsetX, y + offsetY + 13, 0, 13, 1, height - 14, 1, 1);
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
 
         /* Center */
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
