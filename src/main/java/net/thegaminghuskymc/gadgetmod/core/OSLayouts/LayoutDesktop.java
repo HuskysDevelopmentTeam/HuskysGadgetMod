@@ -18,21 +18,19 @@ public class LayoutDesktop extends Layout {
     }
 
     @Override
-    public void init() {
-
+    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         int posX = (width - DEVICE_WIDTH) / 2;
         int posY = (height - DEVICE_HEIGHT) / 2;
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.WALLPAPERS.get(Laptop.currentWallpaper));
-        RenderUtil.drawRectWithFullTexture(posX - 204, posY - 99, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT);
+        mc.getTextureManager().bindTexture(Laptop.WALLPAPERS.get(Laptop.currentWallpaper));
+        RenderUtil.drawRectWithFullTexture(x, y, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT);
 
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 50);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 65);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 80);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 95);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 110);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 125);
-
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 20);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 35);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 50);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 65);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 80);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 95);
     }
 
 }

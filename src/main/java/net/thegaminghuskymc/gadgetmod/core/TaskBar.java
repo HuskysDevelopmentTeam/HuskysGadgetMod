@@ -39,6 +39,8 @@ public class TaskBar {
 
     private List<Application> applications;
     private List<TrayItem> trayItems = new ArrayList<>();
+    
+    private int posX, posY;
 
     public TaskBar(List<Application> applications) {
         setupApplications(applications);
@@ -57,6 +59,8 @@ public class TaskBar {
     }
 
     public void init(int posX, int posY) {
+    	this.posX = posX;
+    	this.posY = posY;
         btnLeft = new Button(0, 0, Icons.CHEVRON_LEFT);
         btnLeft.setPadding(1);
         btnLeft.xPosition = posX + 20;
@@ -84,8 +88,8 @@ public class TaskBar {
             if (mouseButton == 0) {
                 Layout layout = new LayoutStartMenu();
                 layout.init();
-                if (!Laptop.getSystem().hasContext()) {
-                    Laptop.getSystem().openContext(layout, layout.xPosition, layout.yPosition);
+                if (!Laptop.getSystem().hasContext() || !(Laptop.getSystem().getContext() instanceof LayoutStartMenu)) {
+                    Laptop.getSystem().openContext(layout, this.posX, this.posY);
                 } else {
                     Laptop.getSystem().closeContext();
                 }

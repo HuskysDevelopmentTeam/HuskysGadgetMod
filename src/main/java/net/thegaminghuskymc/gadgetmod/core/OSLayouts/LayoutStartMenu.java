@@ -13,7 +13,7 @@ import java.awt.*;
 public class LayoutStartMenu extends Layout {
 
     public LayoutStartMenu() {
-        super(18, 15, 80, 100);
+        super(0, 18, 80, 100);
     }
 
     @Override
