@@ -102,6 +102,7 @@ public class Laptop extends GuiScreen implements System {
     private int blinkTimer = 0;
     private int lastCode = Keyboard.KEY_DOWN;
     private int konamiProgress = 0;
+    private LayoutDesktop desktop;
 
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
@@ -115,6 +116,7 @@ public class Laptop extends GuiScreen implements System {
         }
         Laptop.system = this;
         Laptop.pos = laptop.getPos();
+        this.desktop = new LayoutDesktop();
     }
 
     @Nullable
@@ -276,8 +278,7 @@ public class Laptop extends GuiScreen implements System {
             Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
         } else if (this.bootMode != null) {
             /* Wallpaper */
-            LayoutDesktop layoutDesktop = new LayoutDesktop();
-            layoutDesktop.init();
+        	this.desktop.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
 
             if (this.bootMode == BootMode.NOTHING) {
                 boolean insideContext = false;
@@ -738,6 +739,11 @@ public class Laptop extends GuiScreen implements System {
     public boolean hasContext() {
         return context != null;
     }
+    
+    @Override
+	public Layout getContext() {
+		return this.context;
+	}
 
     @Override
     public void closeContext() {

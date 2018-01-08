@@ -1,13 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import static net.thegaminghuskymc.gadgetmod.core.Laptop.*;
 
@@ -18,23 +15,16 @@ public class LayoutDesktop extends Layout {
     }
 
     @Override
-    public void init() {
+    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+        mc.getTextureManager().bindTexture(Laptop.WALLPAPERS.get(Laptop.currentWallpaper));
+        RenderUtil.drawRectWithFullTexture(x, y, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT);
 
-        int posX = (width - DEVICE_WIDTH) / 2;
-        int posY = (height - DEVICE_HEIGHT) / 2;
-
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.WALLPAPERS.get(Laptop.currentWallpaper));
-        RenderUtil.drawRectWithFullTexture(posX - 204, posY - 99, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT);
-
-        int startY = 40;
-
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 15);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 30);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 45);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 60);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 75);
-
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 20);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 35);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 50);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 65);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 80);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), x + 5, y + 95);
     }
 
 }
