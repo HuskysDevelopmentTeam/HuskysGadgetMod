@@ -30,7 +30,7 @@ public class TaskBar {
 
     private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
     public static final int BAR_HEIGHT = 18;
-    private static final int APPS_DISPLAYED = 18;
+    private static final int APPS_DISPLAYED = 15;
     private Button btnLeft;
     private Button btnRight;
     private Button btnStartButton;
@@ -101,112 +101,6 @@ public class TaskBar {
 
     public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks) {
 
-        /*if(TaskBarPlacement.getTaskbarPlacement() == TaskBarPlacement.BOTTOM) {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-            GlStateManager.enableBlend();
-            mc.getTextureManager().bindTexture(APP_BAR_GUI);
-            gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
-            int trayItemsWidth = trayItems.size() * 14;
-            RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
-            RenderUtil.drawRectWithTexture(x + Laptop.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
-            GlStateManager.disableBlend();
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-            //btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-
-            for(int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++)
-            {
-                AppInfo info = applications.get(i + offset).getInfo();
-                RenderUtil.drawApplicationIcon(info, x + 18 + i * 16, y + 2);
-                if(gui.isApplicationRunning(info.getFormattedId()))
-                {
-                    mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                    gui.drawTexturedModalRect(x + 17 + i * 16, y + 1, 35, 0, 16, 16);
-                }
-            }
-
-            mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 334, y + 5, Color.WHITE.getRGB(), true);
-
-            *//* Settings App *//*
-            int startX = x + 317;
-            for(int i = 0; i < trayItems.size(); i++)
-            {
-                int posX = startX - (trayItems.size() - 1 - i) * 14;
-                if(isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15))
-                {
-                    Gui.drawRect(posX, y + 2, posX + 14, y + 16, new Color(1.0F, 1.0F, 1.0F, 0.1F).getRGB());
-                }
-                trayItems.get(i).getIcon().draw(mc, posX + 2, y + 4);
-            }
-
-            mc.getTextureManager().bindTexture(APP_BAR_GUI);
-
-            *//* Other Apps *//*
-            if(isMouseInside(mouseX, mouseY, x + 18, y + 1, x + 236, y + 16))
-            {
-                int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
-                if(appIndex < offset + APPS_DISPLAYED && appIndex < applications.size())
-                {
-                    gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 17, y + 1, 35, 0, 16, 16);
-                    gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
-                }
-            }
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderHelper.disableStandardItemLighting();
-        }
-
-        if(TaskBarPlacement.getTaskbarPlacement() == TaskBarPlacement.TOP) {
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
-            GlStateManager.enableBlend();
-            mc.getTextureManager().bindTexture(APP_BAR_GUI);
-            gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
-            int trayItemsWidth = trayItems.size() * 14;
-            RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
-            RenderUtil.drawRectWithTexture(x + Laptop.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
-            GlStateManager.disableBlend();
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-            btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-            btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
-
-            for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
-                AppInfo info = applications.get(i + offset).getInfo();
-                RenderUtil.drawApplicationIcon(info, x + 35 + i * 16, y + 2);
-                if (gui.isApplicationRunning(info.getFormattedId())) {
-                    mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                    gui.drawTexturedModalRect(x + 35 + i * 16, y + 1, 35, 0, 16, 16);
-                }
-            }
-
-            mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 414, y + 5, Color.WHITE.getRGB(), true);
-
-            int startX = x + 397;
-            for (int i = 0; i < trayItems.size(); i++) {
-                int posX = startX - (trayItems.size() - 1 - i) * 14;
-                if (isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15)) {
-                    Gui.drawRect(posX, y + 2, posX + 14, y + 16, new Color(1.0F, 1.0F, 1.0F, 0.1F).getRGB());
-                }
-                trayItems.get(i).getIcon().draw(mc, posX + 2, y + 4);
-            }
-
-            mc.getTextureManager().bindTexture(APP_BAR_GUI);
-
-            *//* Other Apps *//*
-            if (isMouseInside(mouseX, mouseY, x + 35, y + 1, x + 236, y + 16)) {
-                int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
-                if (appIndex < offset + APPS_DISPLAYED && appIndex < applications.size()) {
-                    gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 34, y + 1, 35, 0, 16, 16);
-                    gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
-                }
-            }
-
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderHelper.disableStandardItemLighting();
-        }*/
-
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
@@ -223,10 +117,10 @@ public class TaskBar {
 
         for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
             AppInfo info = applications.get(i + offset).getInfo();
-            RenderUtil.drawApplicationIcon(info, x + 30 + i * 16, y + 2);
+            RenderUtil.drawApplicationIcon(info, x + 35 + i * 16, y + 2);
             if (gui.isApplicationRunning(info.getFormattedId())) {
                 mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                gui.drawTexturedModalRect(x + 30 + i * 16, y + 1, 35, 0, 16, 16);
+                gui.drawTexturedModalRect(x + 35 + i * 16, y + 1, 35, 0, 16, 16);
             }
         }
 
@@ -244,10 +138,10 @@ public class TaskBar {
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
         /* Other Apps */
-        if (isMouseInside(mouseX, mouseY, x + 30, y + 1, x + 236, y + 16)) {
+        if (isMouseInside(mouseX, mouseY, x + 25, y + 1, x + 246, y + 16)) {
             int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
             if (appIndex < offset + APPS_DISPLAYED && appIndex < applications.size()) {
-                gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 29, y + 1, 35, 0, 16, 16);
+                gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 24, y + 1, 35, 0, 16, 16);
                 gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
             }
         }
@@ -262,7 +156,7 @@ public class TaskBar {
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
 
-        if (isMouseInside(mouseX, mouseY, x + 30, y + 1, x + Laptop.SCREEN_WIDTH, y + 16)) {
+        if (isMouseInside(mouseX, mouseY, x + 15, y + 1, x + Laptop.SCREEN_WIDTH, y + 16)) {
             int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
             if (appIndex <= offset + APPS_DISPLAYED && appIndex < applications.size()) {
                 laptop.open(applications.get(appIndex));

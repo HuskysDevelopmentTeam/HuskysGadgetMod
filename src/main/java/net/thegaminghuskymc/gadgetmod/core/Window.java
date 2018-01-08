@@ -79,7 +79,7 @@ public class Window<T extends Wrappable> {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(WINDOW_GUI);
-        GlStateManager.color(new Color(0x535861).getRed(), new Color(0x535861).getGreen(), new Color(0x535861).getBlue());
+        GlStateManager.color(new Color(COLOUR_WINDOW_DARK).getRed(), new Color(COLOUR_WINDOW_DARK).getGreen(), new Color(COLOUR_WINDOW_DARK).getBlue());
 
         /* Corners */
         gui.drawTexturedModalRect(x + offsetX, y + offsetY, 0, 0, 1, 13);

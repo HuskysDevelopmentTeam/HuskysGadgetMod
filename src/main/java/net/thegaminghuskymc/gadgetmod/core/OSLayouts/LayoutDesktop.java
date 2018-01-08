@@ -26,12 +26,14 @@ public class LayoutDesktop extends Layout {
         Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.WALLPAPERS.get(Laptop.currentWallpaper));
         RenderUtil.drawRectWithFullTexture(posX - 204, posY - 99, 0, 0, SCREEN_WIDTH , SCREEN_HEIGHT);
 
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 50);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 65);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 80);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 95);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 110);
-        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, 125);
+        int startY = 40;
+
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 15);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 30);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 45);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 60);
+        RenderUtil.drawApplicationIcon(ApplicationManager.getApplication("hgm:icons"), 30, startY + 75);
 
     }
 
