@@ -110,9 +110,9 @@ public class Laptop extends GuiScreen implements System {
         this.windows = new Window[5];
         this.settings = Settings.fromTag(systemData.getCompoundTag("Settings"));
         this.bar = new TaskBar(APPLICATIONS);
-        this.currentWallpaper = systemData.getInteger("CurrentWallpaper");
+        currentWallpaper = systemData.getInteger("CurrentWallpaper");
         if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
-            this.currentWallpaper = 0;
+            currentWallpaper = 0;
         }
         Laptop.system = this;
         Laptop.pos = laptop.getPos();
@@ -501,7 +501,11 @@ public class Laptop extends GuiScreen implements System {
 
     @Override
     public void drawHoveringText(List<String> textLines, int x, int y) {
-        super.drawHoveringText(textLines, x, y);
+        int guiLeft = (this.width - DEVICE_WIDTH) / 2;
+        int guiTop = (this.height - DEVICE_HEIGHT) / 2;
+        x = Mouse.getEventX() * width / mc.displayWidth;
+        y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+        drawHoveringText(textLines, x-guiLeft, y-guiTop, mc.fontRenderer);
     }
 
     public void open(Application app) {
