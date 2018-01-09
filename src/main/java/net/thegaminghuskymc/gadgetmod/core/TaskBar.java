@@ -227,10 +227,10 @@ public class TaskBar {
 
         for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
             AppInfo info = applications.get(i + offset).getInfo();
-            RenderUtil.drawApplicationIcon(info, x + 30 + i * 16, y + 2);
+            RenderUtil.drawApplicationIcon(info, x + 33 + i * 16, y + 2);
             if (gui.isApplicationRunning(info.getFormattedId())) {
                 mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                gui.drawTexturedModalRect(x + 30 + i * 16, y + 1, 35, 0, 16, 16);
+                gui.drawTexturedModalRect(x + 32 + i * 16, y + 1, 35, 0, 16, 16);
             }
         }
 
@@ -248,12 +248,13 @@ public class TaskBar {
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
         /* Other Apps */
-        if (isMouseInside(mouseX, mouseY, x + 30, y + 1, x + 236, y + 16)) {
-            int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
-            if (appIndex < offset + APPS_DISPLAYED && appIndex < applications.size()) {
-                gui.drawTexturedModalRect(x + (appIndex - offset) * 16 + 29, y + 1, 35, 0, 16, 16);
-                gui.drawHoveringText(Collections.singletonList(applications.get(appIndex).getInfo().getName()), mouseX, mouseY);
-            }
+        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 236, y + 16)) {
+        	for(int i = 0; i < APPS_DISPLAYED; i++) {
+        		if(RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i*16, y + 1, x + 32 + (i+1)*16 - 2, y+14) && i + offset < applications.size()) {
+        			gui.drawTexturedModalRect(x + 32 + i*16, y + 1, 35, 0, 16, 16);
+                    gui.drawHoveringText(Collections.singletonList(applications.get(i + offset).getInfo().getName()), mouseX, mouseY);
+        		}
+        	}
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -266,12 +267,13 @@ public class TaskBar {
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
 
-        if (isMouseInside(mouseX, mouseY, x + 30, y + 1, x + Laptop.SCREEN_WIDTH, y + 16)) {
-            int appIndex = (mouseX - x - 1) / 16 - 1 + offset;
-            if (appIndex <= offset + APPS_DISPLAYED && appIndex < applications.size()) {
-                laptop.open(applications.get(appIndex));
-                return;
-            }
+        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 236, y + 16)) {
+        	for(int i = 0; i < APPS_DISPLAYED; i++) {
+        		if(RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i*16, y + 1, x + 32 + (i+1)*16 - 2, y+14) && i + offset < applications.size()) {
+        			laptop.open(applications.get(i + offset));
+                    return;
+        		}
+        	}
         }
 
         int startX = x + 397;
