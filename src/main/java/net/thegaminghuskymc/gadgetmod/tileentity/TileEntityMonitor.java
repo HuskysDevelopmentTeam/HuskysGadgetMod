@@ -7,64 +7,53 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
-/**
- * Author: MrCrayfish
- */
-public class TileEntityMonitor extends TileEntitySync implements ITickable, Colorable {
+public class TileEntityMonitor extends TileEntityDevice {
 
+    @SideOnly(Side.CLIENT)
+    public float rotation;
+    private String name = "Monitor";
+    private boolean powered = false;
     private EnumDyeColor color = EnumDyeColor.RED;
-
-    private Monitor router;
+    @SideOnly(Side.CLIENT)
+    private float prevRotation;
 
     @SideOnly(Side.CLIENT)
-    private int debugTimer;
+    private boolean hasComputerConnected;
 
-    public Monitor getMonitor() {
-        if (router == null) {
-            router = new Monitor(pos);
-            markDirty();
-        }
-        return router;
-    }
-
-    public void update() {
-        if (!world.isRemote) {
-            getMonitor().update(world);
-        } else if (debugTimer > 0) {
-            debugTimer--;
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean isDebug() {
-        return debugTimer > 0;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setDebug() {
-        if (debugTimer <= 0) {
-            debugTimer = 1200;
-        } else {
-            debugTimer = 0;
-        }
+    @Override
+    public String getDeviceName() {
+        return name;
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setTag("monitor", getMonitor().toTag(false));
-        compound.setByte("color", (byte) color.getDyeDamage());
-        return compound;
+    public void update() {
+        if (world.isRemote) {
+            prevRotation = rotation;
+            if (!powered) {
+                if (rotation > 0) {
+                    rotation -= 10F;
+                }
+            } else {
+                if (rotation < 110) {
+                    rotation += 10F;
+                }
+            }
+        }
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if (compound.hasKey("monitor", Constants.NBT.TAG_COMPOUND)) {
-            router = Monitor.fromTag(pos, compound.getCompoundTag("monitor"));
+        if (compound.hasKey("powered")) {
+            this.powered = compound.getBoolean("powered");
+        }
+        if (compound.hasKey("device_name", Constants.NBT.TAG_STRING)) {
+            this.name = compound.getString("device_name");
+        }
+        if (compound.hasKey("has_computer_connected")) {
+            this.hasComputerConnected = compound.getBoolean("has_computer_connected");
         }
         if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
             this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
@@ -72,15 +61,23 @@ public class TileEntityMonitor extends TileEntitySync implements ITickable, Colo
     }
 
     @Override
-    public NBTTagCompound writeSyncTag() {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setByte("color", (byte) color.getDyeDamage());
-        return tag;
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setBoolean("powered", powered);
+        compound.setString("device_name", name);
+        compound.setByte("color", (byte) color.getDyeDamage());
+
+        return compound;
     }
 
-    public void syncDevicesToClient() {
-        pipeline.setTag("monitor", getMonitor().toTag(true));
-        sync();
+    @Override
+    public NBTTagCompound writeSyncTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setBoolean("powered", powered);
+        tag.setString("device_name", name);
+        tag.setBoolean("has_computer_connected", hasComputerConnected);
+        tag.setByte("color", (byte) color.getDyeDamage());
+        return tag;
     }
 
     @Override
@@ -94,14 +91,18 @@ public class TileEntityMonitor extends TileEntitySync implements ITickable, Colo
         return INFINITE_EXTENT_AABB;
     }
 
-    @Override
-    public EnumDyeColor getColor() {
-        return color;
+    public void powerUnpower() {
+        powered = !powered;
+        pipeline.setBoolean("powered", powered);
+        sync();
     }
 
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
+    public boolean isPowered() {
+        return powered;
+    }
+
+    public boolean isComputerConnected() {
+        return hasComputerConnected;
     }
 
 }

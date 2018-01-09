@@ -13,7 +13,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -26,10 +25,8 @@ import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
 
 public class ApplicationSettings extends SystemApplication {
 
@@ -39,14 +36,18 @@ public class ApplicationSettings extends SystemApplication {
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
     private Layout layoutMain;
+    private Layout layoutInformationApps;
 
     private Button buttonColourSchemeApply;
 
     private Layout layoutInformation;
 
-    private int lastClick;
+    private long lastClick = 0;
 
     private Stack<Layout> predecessor = new Stack<>();
+
+    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
+    private static final Color ITEM_SELECTED = Color.decode("0x757575");
 
     public ApplicationSettings() {
         this.setDefaultWidth(330);
@@ -98,7 +99,7 @@ public class ApplicationSettings extends SystemApplication {
         Layout layoutInformationComputer = new Menu("Computer Information");
         layoutInformationComputer.addComponent(buttonPrevious);
 
-        Layout layoutInformationApps = new Menu("App Information");
+        layoutInformationApps = new Menu("App Information");
         layoutInformationApps.addComponent(buttonPrevious);
 
         Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
@@ -172,7 +173,7 @@ public class ApplicationSettings extends SystemApplication {
             @Override
             public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
-                gui.drawString(mc.fontRenderer, "Monitor", x + 16, y + 4, Color.WHITE.getRGB());
+                gui.drawString(mc.fontRenderer, "Router", x + 16, y + 4, Color.WHITE.getRGB());
 
                 BlockPos laptopPos = Laptop.getPos();
                 double distance = Math.sqrt(blockPos.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
@@ -234,44 +235,15 @@ public class ApplicationSettings extends SystemApplication {
 
         Button reload = new Button(230, 27, Icons.RELOAD);
         reload.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
+            if (mouseButton == 0) {
 
             }
         });
         layoutWallpapers.addComponent(reload);
 
-        Button renderEntityWolf = new Button(230, 27, Icons.RELOAD);
-        renderEntityWolf.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
-
-            }
-        });
-        layoutWallpapers.addComponent(renderEntityWolf);
-
         Button buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
-
-        /*ComboBox.Custom<Integer> comboBoxTextColour = createColourPicker(26);
-        layoutColourScheme.addComponent(comboBoxTextColour);
-
-        ComboBox.Custom<Integer> comboBoxTextSecondaryColour = createColourPicker(44);
-        layoutColourScheme.addComponent(comboBoxTextSecondaryColour);
-
-        ComboBox.Custom<Integer> comboBoxHeaderColour = createColourPicker(62);
-        layoutColourScheme.addComponent(comboBoxHeaderColour);
-
-        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(80);
-        layoutColourScheme.addComponent(comboBoxBackgroundColour);
-
-        ComboBox.Custom<Integer> comboBoxBackgroundSecondaryColour = createColourPicker(98);
-        layoutColourScheme.addComponent(comboBoxBackgroundSecondaryColour);
-
-        ComboBox.Custom<Integer> comboBoxItemBackgroundColour = createColourPicker(116);
-        layoutColourScheme.addComponent(comboBoxItemBackgroundColour);
-
-        ComboBox.Custom<Integer> comboBoxItemHighlightColour = createColourPicker(134);
-        layoutColourScheme.addComponent(comboBoxItemHighlightColour);*/
 
         ComboBox.Custom<Integer> comboBoxApplicationBarColour = createColourPicker(26);
         layoutColourScheme.addComponent(comboBoxApplicationBarColour);
@@ -293,20 +265,31 @@ public class ApplicationSettings extends SystemApplication {
         layoutColourScheme.addComponent(buttonColourSchemeApply);
 
         ItemList<AppInfo> itemListApps = new ItemList<>(10, 30, 310, 5, true);
-        itemListApps.setItems(new ArrayList<>(ApplicationManager.getAvailableApps()));
-        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(20) {
+        itemListApps.setItems(new ArrayList<>(ApplicationManager.getAvailableApplications()));
+        itemListApps.sortBy(Comparator.comparing(AppInfo::getName));
+        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(18)
+        {
             @Override
-            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                GlStateManager.color(1.0f, 1.0f, 1.0f);
-                RenderUtil.drawApplicationIcon(info, x + 3, y + 3);
-                RenderUtil.drawStringClipped(info.getName() + TextFormatting.DARK_GRAY + " : " + TextFormatting.GRAY + info.getDescription(), x + 20, y + 5, itemListApps.getWidth() - 10, Color.WHITE.getRGB(), true);
+            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
+            {
+                Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
+
+                GlStateManager.color(1.0F, 1.0F, 1.0F);
+                RenderUtil.drawApplicationIcon(info, x + 2, y + 2);
+                RenderUtil.drawStringClipped(info.getName() + TextFormatting.GRAY + " - " + TextFormatting.DARK_GRAY + info.getDescription(), x + 20, y + 5, itemListApps.getWidth() - 22, Color.WHITE.getRGB(), false);
             }
         });
-        itemListApps.setItemClickListener((appInfo, index, mouseButton) -> {
-            if (mouseButton == 1) {
-
-                if (System.currentTimeMillis() - this.lastClick <= 200) {
-                    openApplication(appInfo);
+        itemListApps.setItemClickListener((info, index, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                if(System.currentTimeMillis() - this.lastClick <= 200)
+                {
+                    openApplication(info);
+                }
+                else
+                {
+                    this.lastClick = System.currentTimeMillis();
                 }
             }
         });
@@ -381,11 +364,10 @@ public class ApplicationSettings extends SystemApplication {
 
     private void openApplication(AppInfo info) {
         Layout layout = new LayoutAppPage(info);
-        Button btnPreviuos = new Button(5, 5, Icons.ARROW_LEFT);
-        btnPreviuos.setClickListener((mouseX, mouseY, mouseButton) -> {
-            setCurrentLayout(layoutMain);
-        });
-        layout.addComponent(btnPreviuos);
+        setCurrentLayout(layout);
+        Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
+        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> setCurrentLayout(layoutInformationApps));
+        layout.addComponent(btnPrevious);
     }
 
     private ComboBox.Custom<Integer> createColourPicker(int top) {

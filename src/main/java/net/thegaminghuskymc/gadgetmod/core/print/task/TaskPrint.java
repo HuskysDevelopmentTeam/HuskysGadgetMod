@@ -7,49 +7,73 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
+import net.thegaminghuskymc.gadgetmod.core.network.Router;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
+
+import java.util.UUID;
 
 /**
  * Author: MrCrayfish
  */
-public class TaskPrint extends Task {
-    private BlockPos pos;
+public class TaskPrint extends Task
+{
+    private BlockPos devicePos;
+    private UUID printerId;
     private IPrint print;
 
-    private TaskPrint() {
+    private TaskPrint()
+    {
         super("print");
     }
 
-    public TaskPrint(BlockPos pos, IPrint print) {
+    public TaskPrint(BlockPos devicePos, NetworkDevice printer, IPrint print)
+    {
         this();
-        this.pos = pos;
+        this.devicePos = devicePos;
+        this.printerId = printer.getId();
         this.print = print;
     }
 
     @Override
-    public void prepareRequest(NBTTagCompound nbt) {
-        nbt.setLong("pos", pos.toLong());
+    public void prepareRequest(NBTTagCompound nbt)
+    {
+        nbt.setLong("devicePos", devicePos.toLong());
+        nbt.setUniqueId("printerId", printerId);
         nbt.setTag("print", IPrint.writeToTag(print));
     }
 
     @Override
-    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
-        TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("pos")));
-        if (tileEntity instanceof TileEntityPrinter) {
-            TileEntityPrinter printer = (TileEntityPrinter) tileEntity;
-            IPrint print = IPrint.loadFromTag(nbt.getCompoundTag("print"));
-            printer.addToQueue(print);
-            this.setSuccessful();
+    public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player)
+    {
+        TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("devicePos")));
+        if(tileEntity instanceof TileEntityNetworkDevice)
+        {
+            TileEntityNetworkDevice device = (TileEntityNetworkDevice) tileEntity;
+            Router router = device.getRouter();
+            if(router != null)
+            {
+                TileEntityNetworkDevice printer = router.getDevice(world, nbt.getUniqueId("printerId"));
+                if(printer != null && printer instanceof TileEntityPrinter)
+                {
+                    IPrint print = IPrint.loadFromTag(nbt.getCompoundTag("print"));
+                    ((TileEntityPrinter) printer).addToQueue(print);
+                    this.setSuccessful();
+                }
+            }
         }
     }
 
     @Override
-    public void prepareResponse(NBTTagCompound nbt) {
+    public void prepareResponse(NBTTagCompound nbt)
+    {
 
     }
 
     @Override
-    public void processResponse(NBTTagCompound nbt) {
+    public void processResponse(NBTTagCompound nbt)
+    {
 
     }
 }

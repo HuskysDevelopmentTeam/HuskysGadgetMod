@@ -14,7 +14,7 @@ import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import java.util.List;
 
-public class TileEntityDesktop extends TileEntityDevice implements ITickable, Colorable {
+public class TileEntityDesktop extends TileEntityDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
@@ -37,7 +37,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
 
     @Override
     public void update() {
-        super.update();
         if (world.isRemote) {
             prevRotation = rotation;
             if (rotation > 0) {
@@ -61,9 +60,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
         }
         if (compound.hasKey("application_data", Constants.NBT.TAG_COMPOUND)) {
             this.applicationData = compound.getCompoundTag("application_data");
-        }
-        if (compound.hasKey("file_system")) {
-            this.fileSystem = new FileSystem(this, compound.getCompoundTag("file_system"));
         }
         if (compound.hasKey("has_external_drive")) {
             this.hasExternalDrive = compound.getBoolean("has_external_drive");
@@ -120,7 +116,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("device_name", name);
-        tag.setBoolean("has_external_drive", getFileSystem().getAttachedDrive() != null);
         tag.setByte("color", (byte) color.getDyeDamage());
         tag.setBoolean("powered", powered);
         tag.setBoolean("online", powered);
@@ -205,13 +200,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
         TileEntityUtil.markBlockForUpdate(world, pos);
     }
 
-    public FileSystem getFileSystem() {
-        if (fileSystem == null) {
-            fileSystem = new FileSystem(this, new NBTTagCompound());
-        }
-        return fileSystem;
-    }
-
     public void setApplicationData(String appId, NBTTagCompound applicationData) {
         this.applicationData = applicationData;
         markDirty();
@@ -220,16 +208,6 @@ public class TileEntityDesktop extends TileEntityDevice implements ITickable, Co
 
     public boolean isExternalDriveAttached() {
         return hasExternalDrive;
-    }
-
-    @Override
-    public EnumDyeColor getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
     }
 
 }

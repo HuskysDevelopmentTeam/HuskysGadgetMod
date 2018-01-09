@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
-public class TileEntityExternalHarddrive extends TileEntityDevice implements ITickable, Colorable {
+public class TileEntityExternalHarddrive extends TileEntityDevice{
 
     @SideOnly(Side.CLIENT)
     public float rotation;
@@ -24,7 +24,6 @@ public class TileEntityExternalHarddrive extends TileEntityDevice implements ITi
 
     @Override
     public void update() {
-        super.update();
         if (world.isRemote) {
             prevRotation = rotation;
             if (rotation > 0) {
@@ -116,16 +115,6 @@ public class TileEntityExternalHarddrive extends TileEntityDevice implements ITi
 
     public boolean isConnected() {
         return connected;
-    }
-
-    @Override
-    public EnumDyeColor getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
 /**
@@ -41,10 +41,10 @@ public class TaskConnect extends Task {
             Router router = tileEntityRouter.getRouter();
 
             TileEntity tileEntity1 = world.getTileEntity(BlockPos.fromLong(nbt.getLong("devicePos")));
-            if (tileEntity1 instanceof TileEntityDevice) {
-                TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity1;
-                if (router.addDevice(tileEntityDevice)) {
-                    tileEntityDevice.connect(router);
+            if (tileEntity1 instanceof TileEntityNetworkDevice) {
+                TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity1;
+                if (router.addDevice(TileEntityNetworkDevice)) {
+                    TileEntityNetworkDevice.connect(router);
                     this.setSuccessful();
                 }
             }

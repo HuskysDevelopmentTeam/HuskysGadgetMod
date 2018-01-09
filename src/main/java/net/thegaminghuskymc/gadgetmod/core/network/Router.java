@@ -7,7 +7,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class Router {
         return true;
     }
 
-    public boolean addDevice(TileEntityDevice device) {
+    public boolean addDevice(TileEntityNetworkDevice device) {
         if (NETWORK_DEVICES.size() >= DeviceConfig.getMaxDevices()) {
             return NETWORK_DEVICES.containsKey(device.getId());
         }
@@ -71,16 +72,16 @@ public class Router {
         return true;
     }
 
-    public boolean hasDevice(TileEntityDevice device) {
+    public boolean hasDevice(TileEntityNetworkDevice device) {
         return NETWORK_DEVICES.containsKey(device.getId());
     }
 
-    public void removeDevice(TileEntityDevice device) {
+    public void removeDevice(TileEntityNetworkDevice device) {
         NETWORK_DEVICES.remove(device.getId());
     }
 
     @Nullable
-    public TileEntityDevice getDevice(World world, UUID id) {
+    public TileEntityNetworkDevice getDevice(World world, UUID id) {
         return NETWORK_DEVICES.containsKey(id) ? NETWORK_DEVICES.get(id).getDevice(world) : null;
     }
 
@@ -93,14 +94,14 @@ public class Router {
         return NETWORK_DEVICES.values().stream().filter(networkDevice -> networkDevice.getPos() != null).collect(Collectors.toList());
     }
 
-    public Collection<NetworkDevice> getConnectedDevices(final World world, Class<? extends TileEntityDevice> type) {
+    public Collection<NetworkDevice> getConnectedDevices(final World world, Class<? extends TileEntityNetworkDevice> type) {
         final Predicate<NetworkDevice> DEVICE_TYPE = networkDevice ->
         {
             if (networkDevice.getPos() == null)
                 return false;
 
             TileEntity tileEntity = world.getTileEntity(networkDevice.getPos());
-            if (tileEntity instanceof TileEntityDevice) {
+            if (tileEntity instanceof TileEntityNetworkDevice) {
                 return tileEntity.getClass().isAssignableFrom(type);
             }
             return false;
@@ -119,14 +120,14 @@ public class Router {
                 for (int x = -range; x < range + 1; x++) {
                     BlockPos currentPos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
                     TileEntity tileEntity = world.getTileEntity(currentPos);
-                    if (tileEntity instanceof TileEntityDevice) {
-                        TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-                        if (!NETWORK_DEVICES.containsKey(tileEntityDevice.getId()))
+                    if (tileEntity instanceof TileEntityNetworkDevice) {
+                        TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity;
+                        if (!NETWORK_DEVICES.containsKey(TileEntityNetworkDevice.getId()))
                             continue;
-                        if (tileEntityDevice.receiveBeacon(this)) {
-                            NETWORK_DEVICES.get(tileEntityDevice.getId()).setPos(currentPos);
+                        if (TileEntityNetworkDevice.receiveBeacon(this)) {
+                            NETWORK_DEVICES.get(TileEntityNetworkDevice.getId()).setPos(currentPos);
                         } else {
-                            NETWORK_DEVICES.remove(tileEntityDevice.getId());
+                            NETWORK_DEVICES.remove(TileEntityNetworkDevice.getId());
                         }
                     }
                 }

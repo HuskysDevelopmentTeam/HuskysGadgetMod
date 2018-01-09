@@ -9,13 +9,13 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 import java.util.Collection;
 
 public class TaskGetDevices extends Task {
     private BlockPos devicePos;
-    private Class<? extends TileEntityDevice> targetDeviceClass;
+    private Class<? extends TileEntityNetworkDevice> targetDeviceClass;
 
     private Collection<NetworkDevice> foundDevices;
 
@@ -28,7 +28,7 @@ public class TaskGetDevices extends Task {
         this.devicePos = devicePos;
     }
 
-    public TaskGetDevices(BlockPos devicePos, Class<? extends TileEntityDevice> targetDeviceClass) {
+    public TaskGetDevices(BlockPos devicePos, Class<? extends TileEntityNetworkDevice> targetDeviceClass) {
         this();
         this.devicePos = devicePos;
         this.targetDeviceClass = targetDeviceClass;
@@ -48,7 +48,7 @@ public class TaskGetDevices extends Task {
         Class targetDeviceClass = null;
         try {
             Class targetClass = Class.forName(nbt.getString("targetClass"));
-            if (TileEntityDevice.class.isAssignableFrom(targetClass)) {
+            if (TileEntityNetworkDevice.class.isAssignableFrom(targetClass)) {
                 targetDeviceClass = targetClass;
             }
         } catch (ClassNotFoundException e) {
@@ -56,10 +56,10 @@ public class TaskGetDevices extends Task {
         }
 
         TileEntity tileEntity = world.getTileEntity(devicePos);
-        if (tileEntity instanceof TileEntityDevice) {
-            TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if (tileEntityDevice.isConnected()) {
-                Router router = tileEntityDevice.getRouter();
+        if (tileEntity instanceof TileEntityNetworkDevice) {
+            TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity;
+            if (TileEntityNetworkDevice.isConnected()) {
+                Router router = TileEntityNetworkDevice.getRouter();
                 if (router != null) {
                     if (targetDeviceClass != null) {
                         foundDevices = router.getConnectedDevices(world, targetDeviceClass);

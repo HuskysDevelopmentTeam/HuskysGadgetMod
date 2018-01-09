@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 
 public class TaskBar {
 
-    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
     public static final int BAR_HEIGHT = 18;
+    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
     private static final int APPS_DISPLAYED = 18;
     private Button btnLeft;
     private Button btnRight;
@@ -39,7 +39,7 @@ public class TaskBar {
 
     private List<Application> applications;
     private List<TrayItem> trayItems = new ArrayList<>();
-    
+
     private int posX, posY;
 
     public TaskBar(List<Application> applications) {
@@ -59,8 +59,8 @@ public class TaskBar {
     }
 
     public void init(int posX, int posY) {
-    	this.posX = posX;
-    	this.posY = posY;
+        this.posX = posX;
+        this.posY = posY;
         btnLeft = new Button(0, 0, Icons.CHEVRON_LEFT);
         btnLeft.setPadding(1);
         btnLeft.xPosition = posX + 20;
@@ -249,12 +249,12 @@ public class TaskBar {
 
         /* Other Apps */
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 236, y + 16)) {
-        	for(int i = 0; i < APPS_DISPLAYED; i++) {
-        		if(RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i*16, y + 1, x + 32 + (i+1)*16 - 2, y+14) && i + offset < applications.size()) {
-        			gui.drawTexturedModalRect(x + 32 + i*16, y + 1, 35, 0, 16, 16);
+            for (int i = 0; i < APPS_DISPLAYED; i++) {
+                if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
+                    gui.drawTexturedModalRect(x + 32 + i * 16, y + 1, 35, 0, 16, 16);
                     gui.drawHoveringText(Collections.singletonList(applications.get(i + offset).getInfo().getName()), mouseX, mouseY);
-        		}
-        	}
+                }
+            }
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -268,12 +268,12 @@ public class TaskBar {
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
 
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 236, y + 16)) {
-        	for(int i = 0; i < APPS_DISPLAYED; i++) {
-        		if(RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i*16, y + 1, x + 32 + (i+1)*16 - 2, y+14) && i + offset < applications.size()) {
-        			laptop.open(applications.get(i + offset));
+            for (int i = 0; i < APPS_DISPLAYED; i++) {
+                if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
+                    laptop.open(applications.get(i + offset));
                     return;
-        		}
-        	}
+                }
+            }
         }
 
         int startX = x + 397;

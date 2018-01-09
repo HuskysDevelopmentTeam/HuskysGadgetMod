@@ -177,7 +177,7 @@ public class ColourScheme {
         buttonHoveredColour = Color.decode("0x535861").getRGB();
         buttonDisabledColour = Color.decode("0x535861").getRGB();
         taskBarColour = Color.decode("0x9E9E9E").getRGB();
-        applicationBarColour = Color.decode("0x770077").getRGB();
+        applicationBarColour = Color.decode("0x4D5A5B").getRGB();
     }
 
     public NBTTagCompound toTag() {

@@ -5,16 +5,16 @@ import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 public class AppStoreAppCategories {
 
     public static String[] categories = {
-            "Games",
-            "Tools",
             "Education",
             "Entertainment",
-            "Sports",
-            "VR",
             "Finance",
+            "Games",
             "Multiplayer",
             "Shopping",
-            "Social"
+            "Social",
+            "Sports",
+            "Tools",
+            "VR"
     };
 
     public static int getSize() {

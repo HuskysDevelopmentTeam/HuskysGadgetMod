@@ -19,6 +19,7 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
 public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> {
+
     private Minecraft mc = Minecraft.getMinecraft();
 
     private EntityItem entityItem = new EntityItem(Minecraft.getMinecraft().world, 0D, 0D, 0D);
@@ -33,74 +34,29 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
         {
             GlStateManager.translate(x, y, z);
 
-            if (te.isExternalDriveAttached()) {
-                if (Minecraft.getMinecraft().player.getHeldItemMainhand() == new ItemStack(GadgetItems.flash_drive)) {
-                    GlStateManager.pushMatrix();
-                    {
-                        GlStateManager.translate(0.5, 0, 0.2);
-                        GlStateManager.rotate(te.getBlockMetadata() * -100F - 90F, 0, 1, 0);
-                        GlStateManager.translate(-0.5, 0, -0.5);
-                        GlStateManager.translate(0.6, -0.1, -0.005);
-                        entityItem.hoverStart = 0.0F;
-                        entityItem.setItem(new ItemStack(GadgetItems.flash_drive));
-                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-                        GlStateManager.translate(0.1, 0, 0);
-                    }
-                    GlStateManager.popMatrix();
+            if(te.isExternalDriveAttached())
+            {
+                GlStateManager.pushMatrix();
+                {
+                    GlStateManager.translate(0.5, 0, 0.5);
+                    GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
+                    GlStateManager.translate(-0.5, 0, -0.5);
+                    GlStateManager.translate(0.595, -0.2075, -0.005);
+                    entityItem.hoverStart = 0.0F;
+                    entityItem.setItem(new ItemStack(GadgetItems.flash_drive, 1, te.getExternalDriveColor().getMetadata()));
+                    Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
+                    GlStateManager.translate(0.1, 0, 0);
                 }
-                /*if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_watch)) {
-                    GlStateManager.pushMatrix();
-                    {
-                        GlStateManager.translate(0.5, 0, 0.2);
-                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-                        GlStateManager.translate(-0.5, 0, -0.5);
-                        GlStateManager.translate(0.6, -0.1, -0.005);
-                        entityItem.hoverStart = 0.0F;
-                        entityItem.setItem(new ItemStack(GadgetItems.pixel_watch));
-                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-                        GlStateManager.translate(0.1, 0, 0);
-                    }
-                    GlStateManager.popMatrix();
-                }
-                if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_pad)) {
-                    GlStateManager.pushMatrix();
-                    {
-                        GlStateManager.translate(0.5, 0, 0.2);
-                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-                        GlStateManager.translate(-0.5, 0, -0.5);
-                        GlStateManager.translate(0.6, -0.1, -0.005);
-                        entityItem.hoverStart = 0.0F;
-                        entityItem.setItem(new ItemStack(GadgetItems.pixel_pad));
-                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-                        GlStateManager.translate(0.1, 0, 0);
-                    }
-                    GlStateManager.popMatrix();
-                }
-                if (Minecraft.getMinecraft().player.getActiveItemStack() == new ItemStack(GadgetItems.pixel_phone)) {
-                    GlStateManager.pushMatrix();
-                    {
-                        GlStateManager.translate(0.5, 0, 0.2);
-                        GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
-                        GlStateManager.translate(-0.5, 0, -0.5);
-                        GlStateManager.translate(0.6, -0.1, -0.005);
-                        entityItem.hoverStart = 0.0F;
-                        entityItem.setItem(new ItemStack(GadgetItems.pixel_phone));
-                        Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
-                        GlStateManager.translate(0.1, 0, 0);
-                    }
-                    GlStateManager.popMatrix();
-                }*/
+                GlStateManager.popMatrix();
             }
 
             GlStateManager.pushMatrix();
             {
                 GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate(te.getBlockMetadata() * -90F + 180F, 0, 1, 0);
-                GlStateManager.translate(-0.5, 0.1, -0.45);
-
-                GlStateManager.translate(0, -0.04, 0.2);
-                float f = te.prevRotation + (te.rotation - te.prevRotation) * partialTicks + 20F;
-                GlStateManager.rotate(-f, 1, 0, 0);
+                GlStateManager.translate(-0.5, 0, -0.5);
+                GlStateManager.translate(0, 0.0625, 0.25);
+                GlStateManager.rotate(te.getScreenAngle(partialTicks), 1, 0, 0);
 
                 GlStateManager.disableLighting();
                 Tessellator tessellator = Tessellator.getInstance();

@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class NetworkDevice {
     private NetworkDevice() {
     }
 
-    public NetworkDevice(TileEntityDevice device, Router router) {
+    public NetworkDevice(TileEntityNetworkDevice device, Router router) {
         this.router = router;
         this.id = device.getId();
         update(device);
@@ -66,29 +66,29 @@ public class NetworkDevice {
             return false;
 
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityDevice) {
-            TileEntityDevice device = (TileEntityDevice) tileEntity;
+        if (tileEntity instanceof TileEntityNetworkDevice) {
+            TileEntityNetworkDevice device = (TileEntityNetworkDevice) tileEntity;
             Router router = device.getRouter();
             return router != null && router.getId().equals(router.getId());
         }
         return false;
     }
 
-    public void update(TileEntityDevice device) {
+    public void update(TileEntityNetworkDevice device) {
         name = device.getDeviceName();
         pos = device.getPos();
     }
 
     @Nullable
-    public TileEntityDevice getDevice(World world) {
+    public TileEntityNetworkDevice getDevice(World world) {
         if (pos == null)
             return null;
 
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityDevice) {
-            TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if (tileEntityDevice.getId().equals(getId())) {
-                return tileEntityDevice;
+        if (tileEntity instanceof TileEntityNetworkDevice) {
+            TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity;
+            if (TileEntityNetworkDevice.getId().equals(getId())) {
+                return TileEntityNetworkDevice;
             }
         }
         return null;

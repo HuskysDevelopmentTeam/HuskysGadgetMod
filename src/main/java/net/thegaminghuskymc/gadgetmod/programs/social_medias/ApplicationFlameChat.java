@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs.social_medias;
 
-import codechicken.lib.colour.ColourRGBA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,6 +9,8 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+
+import java.awt.*;
 
 public class ApplicationFlameChat extends Application {
 
@@ -69,9 +70,9 @@ public class ApplicationFlameChat extends Application {
         Layout layoutMain = new Layout(270, 140);
 
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
-            Gui.drawRect(x, y, x + width, y + height, new ColourRGBA(22, 23, 25, 255).argb());
+            Gui.drawRect(x, y, x + width, y + height, new Color(22, 23, 25, 255).getRGB());
 
-            Gui.drawRect(x + 60, y, x + width, y + height, new ColourRGBA(32, 34, 37, 255).argb());
+            Gui.drawRect(x + 60, y, x + width, y + height, new Color(32, 34, 37, 255).getRGB());
         });
 
         Button DMButton = new Button(20, 6, Icons.COMMUNITY);

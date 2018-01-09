@@ -1,13 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.DeviceConfig;
-import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
-import net.thegaminghuskymc.gadgetmod.core.network.Connection;
-import net.thegaminghuskymc.gadgetmod.core.network.Router;
+import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -15,69 +15,11 @@ import java.util.UUID;
 /**
  * Author: MrCrayfish
  */
-public abstract class TileEntityDevice extends TileEntitySync implements ITickable {
-    private int counter;
+public abstract class TileEntityDevice extends TileEntitySync implements ITickable, Colorable {
+
+    private EnumDyeColor color = EnumDyeColor.RED;
     private UUID deviceId;
-    private Connection connection;
-    private net.thegaminghuskymc.gadgetmod.core.images.Connection connectionMonitor;
-
-    @Override
-    public void update() {
-        if (world.isRemote)
-            return;
-
-        if (connection != null && connection.getRouterPos() != null) {
-            if (++counter >= DeviceConfig.getBeaconInterval() * 2) {
-                connection.setRouterPos(null);
-            }
-        }
-    }
-
-    public void connect(Router router) {
-        if (router == null) {
-            if (connection != null) {
-                Router connectedRouter = connection.getRouter(world);
-                if (connectedRouter != null) {
-                    connectedRouter.removeDevice(this);
-                }
-            }
-            connection = null;
-            return;
-        }
-        connection = new Connection(router);
-        counter = 0;
-        this.markDirty();
-    }
-
-    public void connect(Monitor monitor) {
-        if (monitor == null) {
-            if (connection != null) {
-                Monitor connectedRouter = connectionMonitor.getRouter(world);
-                if (connectedRouter != null) {
-                    connectedRouter.removeDevice(this);
-                }
-            }
-            connection = null;
-            return;
-        }
-        connectionMonitor = new net.thegaminghuskymc.gadgetmod.core.images.Connection(monitor);
-        counter = 0;
-        this.markDirty();
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    @Nullable
-    public Router getRouter() {
-        return connection != null ? connection.getRouter(world) : null;
-    }
-
-    @Nullable
-    public Monitor getMonitor() {
-        return connectionMonitor != null ? connectionMonitor.getRouter(world) : null;
-    }
+    private String name;
 
     public final UUID getId() {
         if (deviceId == null) {
@@ -88,57 +30,32 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
 
     public abstract String getDeviceName();
 
-    public boolean isConnected() {
-        return connection != null && connection.isConnected() && connectionMonitor != null && connectionMonitor.isConnected();
+    public String getCustomName() {
+        return hasCustomName() ? name : getDeviceName();
     }
 
-    public boolean receiveBeacon(Router router) {
-        if (connection.getRouterId().equals(router.getId())) {
-            connection.setRouterPos(router.getPos());
-            counter = 0;
-            return true;
-        }
-        return false;
+    public void setCustomName(String name) {
+        this.name = name;
     }
 
-    public int getRouterSignalStrength() {
-        BlockPos routerPos = connection.getRouterPos();
-        if (routerPos != null) {
-            double distance = Math.sqrt(pos.distanceSqToCenter(routerPos.getX() + 0.5, routerPos.getY() + 0.5, routerPos.getZ() + 0.5));
-            double level = DeviceConfig.getSignalRange() / 3.0;
-            return distance > level * 2 ? 2 : distance > level ? 1 : 0;
-        }
-        return -1;
+    public boolean hasCustomName() {
+        return !StringUtils.isEmpty(name);
     }
 
-    public boolean receiveBeacon(Monitor monitor) {
-        if (connection.getRouterId().equals(monitor.getId())) {
-            connection.setRouterPos(monitor.getPos());
-            counter = 0;
-            return true;
-        }
-        return false;
-    }
-
-    public int getSignalStrength() {
-        BlockPos routerPos = connection.getRouterPos();
-        if (routerPos != null) {
-            double distance = Math.sqrt(pos.distanceSqToCenter(routerPos.getX() + 0.5, routerPos.getY() + 0.5, routerPos.getZ() + 0.5));
-            double level = DeviceConfig.getSignalRange() / 3.0;
-            return distance > level * 2 ? 2 : distance > level ? 1 : 0;
-        }
-        return -1;
+    @Nullable
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TextComponentString(getCustomName());
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setString("deviceId", getId().toString());
-
-        if (connection != null) {
-            compound.setTag("connection", connection.toTag());
+        if (hasCustomName()) {
+            compound.setString("name", name);
         }
-
+        compound.setByte("color", (byte) color.getMetadata());
         return compound;
     }
 
@@ -148,8 +65,29 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
         if (compound.hasKey("deviceId", Constants.NBT.TAG_STRING)) {
             deviceId = UUID.fromString(compound.getString("deviceId"));
         }
-        if (compound.hasKey("connection", Constants.NBT.TAG_COMPOUND)) {
-            connection = Connection.fromTag(this, compound.getCompoundTag("connection"));
+        if (compound.hasKey("name", Constants.NBT.TAG_STRING)) {
+            name = compound.getString("name");
         }
+        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
+            this.color = EnumDyeColor.byMetadata(compound.getByte("color"));
+        }
+    }
+
+    @Override
+    public NBTTagCompound writeSyncTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        if (hasCustomName()) {
+            tag.setString("name", name);
+        }
+        tag.setByte("color", (byte) color.getMetadata());
+        return tag;
+    }
+
+    public final EnumDyeColor getColor() {
+        return color;
+    }
+
+    public final void setColor(EnumDyeColor color) {
+        this.color = color;
     }
 }

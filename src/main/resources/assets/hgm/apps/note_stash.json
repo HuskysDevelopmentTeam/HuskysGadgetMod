@@ -1,18 +1,14 @@
 {
-  "app_name": "PixelTube",
+  "app_name": "Note Stash",
   "app_creator": "TheGamingHuskyMC",
   "app_description": "${desc}",
   "app_version": "1.0",
-  "app_icon": "hgm:textures/app/icon/pixel_tube.png",
+  "app_icon": "hgm:textures/app/icon/note_stash.png",
+  "app_banner": "hgm:textures/app/banner/banner_default.png",
   "app_screenshots": [
-    {
-      "location_type": "local",
-      "screenshot_source": ""
-    },
-    {
-      "location_type": "local",
-      "screenshot_source": ""
-    }
+    "https://i.imgur.com/7CzbiA7.png",
+    "https://i.imgur.com/4AiXzf8.jpg",
+    "https://i.imgur.com/C7k2UDw.jpg"
   ],
   "creator_support": {
     "paypal": "<link>",

@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
-import codechicken.lib.colour.ColourRGBA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,6 +29,7 @@ public class Layout extends Component {
     public int height;
 
     private String title;
+    private boolean initialized = false;
 
     private InitListener initListener;
     private Background background;
@@ -82,8 +82,7 @@ public class Layout extends Component {
      * trigger on initialization listener if set.
      * See {@link #setInitListener(InitListener)}
      */
-    public void init() {
-    }
+    public void init() {}
 
     /**
      * Adds a component to this layout and initializes it.
@@ -98,17 +97,28 @@ public class Layout extends Component {
     }
 
     @Override
-    public void init(Layout layout) {
-    }
+    public void init(Layout layout) {}
 
     @Override
     protected void handleOnLoad() {
+        if(!initialized) {
+            this.init();
+            initialized = true;
+        }
         if (initListener != null) {
             initListener.onInit();
         }
         for (Component c : components) {
             c.handleOnLoad();
         }
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized() {
+        this.initialized = initialized;
     }
 
     @Override
@@ -139,8 +149,6 @@ public class Layout extends Component {
             background.render(laptop, mc, x, y, width, height, mouseX, mouseY, windowActive);
         }
 
-        ColourRGBA color = new ColourRGBA(153, 146, 146, 127);
-        color.glColour();
         for (Component c : components) {
             GlStateManager.disableDepth();
             c.render(laptop, mc, c.xPosition, c.yPosition, mouseX, mouseY, windowActive, partialTicks);

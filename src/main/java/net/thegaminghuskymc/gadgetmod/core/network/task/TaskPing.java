@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 /**
  * Author: MrCrayfish
@@ -32,10 +32,10 @@ public class TaskPing extends Task {
     @Override
     public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("sourceDevicePos")));
-        if (tileEntity instanceof TileEntityDevice) {
-            TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if (tileEntityDevice.isConnected()) {
-                this.strength = tileEntityDevice.getRouterSignalStrength();
+        if (tileEntity instanceof TileEntityNetworkDevice) {
+            TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity;
+            if (TileEntityNetworkDevice.isConnected()) {
+                this.strength = TileEntityNetworkDevice.getSignalStrength();
                 this.setSuccessful();
             }
         }

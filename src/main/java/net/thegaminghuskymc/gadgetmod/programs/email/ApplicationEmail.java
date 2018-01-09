@@ -175,7 +175,7 @@ public class ApplicationEmail extends Application {
                         currentName = fieldEmail.getText();
                         setCurrentLayout(layoutInbox);
                     } else {
-                        fieldEmail.setTextColour(Color.RED);
+                        fieldEmail.setTextColor(Color.RED);
                     }
                 });
                 TaskManager.sendTask(taskRegisterAccount);

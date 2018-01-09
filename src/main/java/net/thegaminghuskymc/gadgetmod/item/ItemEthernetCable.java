@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
 import javax.annotation.Nullable;
@@ -34,6 +34,7 @@ import java.util.List;
  * Author: MrCrayfish
  */
 public class ItemEthernetCable extends Item {
+    
     public ItemEthernetCable() {
         this.setUnlocalizedName("ethernet_cable");
         this.setRegistryName("ethernet_cable");
@@ -64,11 +65,11 @@ public class ItemEthernetCable extends Item {
                 BlockPos devicePos = BlockPos.fromLong(tag.getLong("pos"));
 
                 TileEntity tileEntity1 = world.getTileEntity(devicePos);
-                if (tileEntity1 instanceof TileEntityDevice) {
-                    TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity1;
-                    if (!router.hasDevice(tileEntityDevice)) {
-                        if (router.addDevice(tileEntityDevice)) {
-                            tileEntityDevice.connect(router);
+                if (tileEntity1 instanceof TileEntityNetworkDevice) {
+                    TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity1;
+                    if (!router.hasDevice(TileEntityNetworkDevice)) {
+                        if (router.addDevice(TileEntityNetworkDevice)) {
+                            TileEntityNetworkDevice.connect(router);
                             heldItem.shrink(1);
                             if (getDistance(tileEntity1.getPos(), tileEntityRouter.getPos()) > DeviceConfig.getSignalRange()) {
                                 sendGameInfoMessage(player, "message.successful_registered");
@@ -92,15 +93,15 @@ public class ItemEthernetCable extends Item {
                 return EnumActionResult.SUCCESS;
             }
 
-            if (tileEntity instanceof TileEntityDevice) {
-                TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
+            if (tileEntity instanceof TileEntityNetworkDevice) {
+                TileEntityNetworkDevice TileEntityNetworkDevice = (TileEntityNetworkDevice) tileEntity;
                 if (!heldItem.hasTagCompound()) {
                     heldItem.setTagCompound(new NBTTagCompound());
                 }
                 NBTTagCompound tag = heldItem.getTagCompound();
-                tag.setUniqueId("id", tileEntityDevice.getId());
-                tag.setString("name", tileEntityDevice.getDeviceName());
-                tag.setLong("pos", tileEntityDevice.getPos().toLong());
+                tag.setUniqueId("id", TileEntityNetworkDevice.getId());
+                tag.setString("name", TileEntityNetworkDevice.getDeviceName());
+                tag.setLong("pos", TileEntityNetworkDevice.getPos().toLong());
                 heldItem.setStackDisplayName(TextFormatting.GRAY.toString() + TextFormatting.BOLD.toString() + I18n.format("item.ethernet_cable.name"));
 
                 sendGameInfoMessage(player, "message.select_router");

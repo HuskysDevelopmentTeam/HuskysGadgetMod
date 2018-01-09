@@ -8,15 +8,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.*;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
-import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ItemClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
@@ -49,9 +47,9 @@ import java.util.stream.Collectors;
  * Created by Casey on 20-Jun-17.
  */
 public class FileBrowser extends Component {
-    private static final ResourceLocation ASSETS = new ResourceLocation(Reference.MOD_ID, "textures/gui/file_browser.png");
+    private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
 
-    private static final Color HEADER_BACKGROUND = Color.decode("0x616161");
+    private static final Color HEADER_BACKGROUND = Color.decode("0x535861");
     private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
     private static final Color ITEM_SELECTED = Color.decode("0x757575");
     private static final Color PROTECTED_FILE = new Color(155, 237, 242);
@@ -81,16 +79,16 @@ public class FileBrowser extends Component {
 
     private Layout layoutMain;
     private ItemList<File> fileList;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnPreviousFolder;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnNewFolder;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnRename;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnCopy;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnCut;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnPaste;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Button btnDelete;
+    private Button btnPreviousFolder;
+    private Button btnNewFolder;
+    private Button btnRename;
+    private Button btnCopy;
+    private Button btnCut;
+    private Button btnPaste;
+    private Button btnDelete;
 
     private ComboBox.List<Drive> comboBoxDrive;
-    private net.thegaminghuskymc.gadgetmod.api.app.component.Label labelPath;
+    private Label labelPath;
 
     private Layout layoutLoading;
     private Spinner spinnerLoading;
@@ -140,7 +138,7 @@ public class FileBrowser extends Component {
             Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
         });
 
-        btnPreviousFolder = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 2, Icons.ARROW_LEFT);
+        btnPreviousFolder = new Button(5, 2, Icons.ARROW_LEFT);
         btnPreviousFolder.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -153,7 +151,7 @@ public class FileBrowser extends Component {
 
         int btnIndex = 0;
 
-        btnNewFolder = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.NEW_FOLDER);
+        btnNewFolder = new Button(5, 25 + btnIndex * 20, Icons.NEW_FOLDER);
         btnNewFolder.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -165,7 +163,7 @@ public class FileBrowser extends Component {
 
         btnIndex++;
 
-        btnRename = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.RENAME);
+        btnRename = new Button(5, 25 + btnIndex * 20, Icons.RENAME);
         btnRename.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -179,7 +177,7 @@ public class FileBrowser extends Component {
         if (mode == Mode.FULL) {
             btnIndex++;
 
-            btnCopy = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.COPY);
+            btnCopy = new Button(5, 25 + btnIndex * 20, Icons.COPY);
             btnCopy.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
@@ -192,7 +190,7 @@ public class FileBrowser extends Component {
 
             btnIndex++;
 
-            btnCut = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.CUT);
+            btnCut = new Button(5, 25 + btnIndex * 20, Icons.CUT);
             btnCut.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
@@ -205,7 +203,7 @@ public class FileBrowser extends Component {
 
             btnIndex++;
 
-            btnPaste = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.CLIPBOARD);
+            btnPaste = new Button(5, 25 + btnIndex * 20, Icons.CLIPBOARD);
             btnPaste.setClickListener((mouseX, mouseY, mouseButton) ->
             {
                 if (mouseButton == 0) {
@@ -219,7 +217,7 @@ public class FileBrowser extends Component {
 
         btnIndex++;
 
-        btnDelete = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 25 + btnIndex * 20, Icons.TRASH);
+        btnDelete = new Button(5, 25 + btnIndex * 20, Icons.TRASH);
         btnDelete.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -311,7 +309,7 @@ public class FileBrowser extends Component {
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
         layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + height, new Color(Laptop.getSystem().getSettings().getColourScheme().getApplicationBarColour()).getRGB());
+            Gui.drawRect(x, y, x + width, y + height, Window.COLOUR_WINDOW_DARK);
         });
         layoutLoading.setVisible(false);
 
@@ -555,7 +553,7 @@ public class FileBrowser extends Component {
             dialog.setMessageText(builder.toString());
             dialog.setTitle("Delete");
             dialog.setPositiveText("Yes");
-            dialog.setPositiveListener((mouseX, mouseY, mouseButton1) ->
+            dialog.setPositiveListener((mouseX, mouseY, mouseButton) ->
             {
                 removeFile(fileList.getSelectedIndex());
                 btnRename.setEnabled(false);

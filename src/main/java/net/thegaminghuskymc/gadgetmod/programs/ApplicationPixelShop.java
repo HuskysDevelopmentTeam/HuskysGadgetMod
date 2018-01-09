@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
-import codechicken.lib.colour.ColourRGBA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -231,11 +230,11 @@ public class ApplicationPixelShop extends Application {
         RadioGroup toolGroup = new RadioGroup();
 
         Layout layoutTools = new Layout(25, 164);
-        layoutTools.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
+        layoutTools.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new Color(153, 146, 146, 255).getRGB()));
         layoutDraw.addComponent(layoutTools);
 
         Layout layoutColours = new Layout(100, 164);
-        layoutColours.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new ColourRGBA(153, 146, 146, 255).argb()));
+        layoutColours.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, new Color(153, 146, 146, 255).getRGB()));
         layoutColours.left = 180;
         layoutDraw.addComponent(layoutColours);
 

@@ -1,21 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -24,12 +8,11 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -48,25 +31,28 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.LaptopRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.OfficeChairRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.PaperRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.PrinterRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.RouterRenderer;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.ScreenRenderer;
+import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
+import net.thegaminghuskymc.gadgetmod.tileentity.*;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 
-public class ClientProxy extends CommonProxy {
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
     public static boolean rendering = false;
     public static Entity renderEntity = null;
@@ -155,9 +141,13 @@ public class ClientProxy extends CommonProxy {
 
         index++;
 
-        for (AppInfo info : ApplicationManager.getAvailableApps()) {
+        for (AppInfo info : ApplicationManager.getAllApplications()) {
+            if (info.getIcon() == null)
+                continue;
+
             ResourceLocation identifier = info.getId();
-            String path = "/assets/" + identifier.getResourceDomain() + "/textures/app/icon/" + identifier.getResourcePath() + ".png";
+            ResourceLocation iconResource = new ResourceLocation(info.getIcon());
+            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
             try {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
                 if (input != null) {
@@ -172,7 +162,7 @@ public class ClientProxy extends CommonProxy {
                     updateIcon(info, iconU, iconV);
                     index++;
                 } else {
-                    HuskyGadgetMod.getLogger().error("Missing icon for " + identifier.toString());
+                    HuskyGadgetMod.getLogger().error("Icon for application '" + identifier.toString() + "' could not be found at '" + path + "'");
                 }
             } catch (Exception e) {
                 HuskyGadgetMod.getLogger().error("Unable to load icon for " + identifier.toString());
@@ -188,7 +178,7 @@ public class ClientProxy extends CommonProxy {
         final int BANNER_HEIGHT = 40;
         int index = 0;
 
-        BufferedImage atlas = new BufferedImage(BANNER_WIDTH, BANNER_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage atlas = new BufferedImage(BANNER_WIDTH * 16, BANNER_HEIGHT * 16, BufferedImage.TYPE_INT_ARGB);
         Graphics g = atlas.createGraphics();
 
         try {
@@ -200,24 +190,28 @@ public class ClientProxy extends CommonProxy {
 
         index++;
 
-        for (AppInfo info : ApplicationManager.getAvailableApps()) {
+        for (AppInfo info : ApplicationManager.getAllApplications()) {
+            if (info.getBanner() == null)
+                continue;
+
             ResourceLocation identifier = info.getId();
-            String path = "/assets/" + identifier.getResourceDomain() + "/textures/app/banner/" + "banner_" + identifier.getResourcePath() + ".png";
+            ResourceLocation iconResource = new ResourceLocation(info.getBanner());
+            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
             try {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
                 if (input != null) {
-                    BufferedImage icon = TextureUtil.readBufferedImage(input);
-                    if (icon.getWidth() != BANNER_WIDTH || icon.getHeight() != BANNER_HEIGHT) {
+                    BufferedImage banner = TextureUtil.readBufferedImage(input);
+                    if (banner.getWidth() != BANNER_WIDTH || banner.getHeight() != BANNER_HEIGHT) {
                         HuskyGadgetMod.getLogger().error("Incorrect banner size for " + identifier.toString() + " (Must be 250 by 40 pixels)");
                         continue;
                     }
-                    int bannerU = BANNER_HEIGHT;
-                    int bannerV = BANNER_WIDTH;
-                    g.drawImage(icon, bannerU, bannerV, BANNER_WIDTH, BANNER_HEIGHT, null);
+                    int bannerU = (index % 16) * BANNER_WIDTH;
+                    int bannerV = (index / 16) * BANNER_HEIGHT;
+                    g.drawImage(banner, bannerU, bannerV, BANNER_WIDTH, BANNER_HEIGHT, null);
                     updateBanner(info, bannerU, bannerV);
                     index++;
                 } else {
-                    HuskyGadgetMod.getLogger().error("Missing banner for " + identifier.toString());
+                    HuskyGadgetMod.getLogger().error("Banner for application '" + identifier.toString() + "' could not be found at '" + path + "'");
                 }
             } catch (Exception e) {
                 HuskyGadgetMod.getLogger().error("Unable to load banner for " + identifier.toString());
@@ -234,8 +228,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void updateBanner(AppInfo info, int bannerU, int bannerV) {
-        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "iconU");
-        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "iconV");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "bannerU");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "bannerV");
     }
 
     @Nullable
@@ -250,8 +244,6 @@ public class ClientProxy extends CommonProxy {
             java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
             APPS.add(application);
 
-            AppInfo info = new AppInfo(identifier);
-
             Field field = Application.class.getDeclaredField("info");
             field.setAccessible(true);
 
@@ -259,38 +251,7 @@ public class ClientProxy extends CommonProxy {
             modifiers.setAccessible(true);
             modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
-            field.set(application, info);
-
-            return application;
-        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public Application removeApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
-        if ("minecraft".equals(identifier.getResourceDomain())) {
-            throw new IllegalArgumentException("Invalid identifier domain");
-        }
-
-        try {
-            Application application = clazz.newInstance();
-            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
-            APPS.add(application);
-
-            AppInfo info = new AppInfo(identifier);
-
-            Field field = Application.class.getDeclaredField("info");
-            field.setAccessible(true);
-
-            Field modifiers = Field.class.getDeclaredField("modifiers");
-            modifiers.setAccessible(true);
-            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-            field.set(application, info);
+            field.set(application, generateAppInfo(identifier, clazz));
 
             return application;
         } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
@@ -301,28 +262,51 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
-        try {
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
+    {
+        try
+        {
             Constructor<? extends IPrint> constructor = classPrint.getConstructor();
             IPrint print = constructor.newInstance();
             Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
-            try {
+            try
+            {
                 IPrint.Renderer renderer = classRenderer.newInstance();
                 Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
-                if (idToRenderer == null) {
+                if(idToRenderer == null)
+                {
                     idToRenderer = new HashMap<>();
                     ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
                 }
                 idToRenderer.put(identifier.toString(), renderer);
-            } catch (InstantiationException e) {
+            }
+            catch(InstantiationException e)
+            {
                 HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
                 return false;
             }
             return true;
-        } catch (Exception e) {
+        }
+        catch(Exception e)
+        {
             HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
         }
         return false;
+    }
+
+    @Nullable
+    private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
+        AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
+        info.reload();
+        return info;
+    }
+
+    @Override
+    public void onResourceManagerReload(IResourceManager resourceManager) {
+        if (ApplicationManager.getAllApplications().size() > 0) {
+            ApplicationManager.getAllApplications().forEach(AppInfo::reload);
+            generateIconAtlas();
+        }
     }
 
     @SubscribeEvent

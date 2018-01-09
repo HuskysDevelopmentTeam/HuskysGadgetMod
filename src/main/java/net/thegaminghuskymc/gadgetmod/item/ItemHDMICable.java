@@ -24,7 +24,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.core.images.Monitor;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 
 import javax.annotation.Nullable;
@@ -46,7 +45,7 @@ public class ItemHDMICable extends Item {
         return Math.sqrt(source.distanceSqToCenter(target.getX() + 0.5, target.getY() + 0.5, target.getZ() + 0.5));
     }
 
-    @Override
+    /*@Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (!world.isRemote) {
             ItemStack heldItem = player.getHeldItem(hand);
@@ -109,7 +108,7 @@ public class ItemHDMICable extends Item {
             }
         }
         return EnumActionResult.SUCCESS;
-    }
+    }*/
 
     private void sendGameInfoMessage(EntityPlayer player, String message) {
         if (player instanceof EntityPlayerMP) {

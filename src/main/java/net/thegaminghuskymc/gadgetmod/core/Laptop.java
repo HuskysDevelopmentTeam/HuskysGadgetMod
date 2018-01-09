@@ -50,13 +50,13 @@ public class Laptop extends GuiScreen implements System {
     public static final int ID = 1;
     public static final ResourceLocation ICON_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_icons.png");
     public static final ResourceLocation BANNER_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/app_banners.png");
-    private static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
     public static final FontRenderer fontRenderer = new LaptopFontRenderer(Minecraft.getMinecraft());
     public static final int DEVICE_WIDTH = 464;
     public static final int DEVICE_HEIGHT = 246;
+    public static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
+    private static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
-    public static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
     private static final int BORDER = 10;
     public static final int SCREEN_WIDTH = DEVICE_WIDTH - BORDER * 2;
     public static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
@@ -75,9 +75,12 @@ public class Laptop extends GuiScreen implements System {
             Keyboard.KEY_A
     };
     private static final HashMap<Integer, String> codeToName = new HashMap<>();
+    public static int currentWallpaper;
     private static System system;
     private static BlockPos pos;
     private static Drive mainDrive;
+
+    private static Laptop instance;
 
     // Populate the list above
     static {
@@ -94,7 +97,6 @@ public class Laptop extends GuiScreen implements System {
     private Window[] windows;
     private Layout context = null;
     private NBTTagCompound appData;
-    public static int currentWallpaper;
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
     private int bootTimer = BOOT_ON_TIME;
@@ -278,7 +280,7 @@ public class Laptop extends GuiScreen implements System {
             Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
         } else if (this.bootMode != null) {
             /* Wallpaper */
-        	this.desktop.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
+            this.desktop.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
 
             if (this.bootMode == BootMode.NOTHING) {
                 boolean insideContext = false;
@@ -357,7 +359,7 @@ public class Laptop extends GuiScreen implements System {
             for (int i = 0; i < windows.length; i++) {
                 Window<Application> window = windows[i];
                 if (window != null) {
-                    Window<net.thegaminghuskymc.gadgetmod.api.app.Dialog> dialogWindow = window.getContent().getActiveDialog();
+                    Window dialogWindow = window.getContent().getActiveDialog();
                     if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
                         windows[i] = null;
                         updateWindowStack();
@@ -505,7 +507,7 @@ public class Laptop extends GuiScreen implements System {
         int guiTop = (this.height - DEVICE_HEIGHT) / 2;
         x = Mouse.getEventX() * width / mc.displayWidth;
         y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-        drawHoveringText(textLines, x-guiLeft, y-guiTop, mc.fontRenderer);
+        drawHoveringText(textLines, x - guiLeft, y - guiTop, mc.fontRenderer);
     }
 
     public void open(Application app) {
@@ -739,15 +741,16 @@ public class Laptop extends GuiScreen implements System {
     public boolean hasContext() {
         return context != null;
     }
-    
+
     @Override
-	public Layout getContext() {
-		return this.context;
-	}
+    public Layout getContext() {
+        return this.context;
+    }
 
     @Override
     public void closeContext() {
         context = null;
+        dragging = false;
     }
 
     private boolean isMouseInHusky(int mouseX, int mouseY) {
@@ -795,6 +798,10 @@ public class Laptop extends GuiScreen implements System {
             RenderHelper.enableGUIStandardItemLighting();
             return delta >= 5000L ? IToast.Visibility.HIDE : IToast.Visibility.SHOW;
         }
+    }
+
+    public static Laptop getInstance() {
+        return instance;
     }
 
 }

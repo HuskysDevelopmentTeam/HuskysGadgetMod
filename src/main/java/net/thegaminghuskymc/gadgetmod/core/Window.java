@@ -21,16 +21,16 @@ public class Window<T extends Wrappable> {
 
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
-    private ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
+    private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
 
-    public final int COLOUR_WINDOW_DARK = new Color(colourScheme.getApplicationBarColour()).getRGB();
-    protected GuiButton btnClose, btnMinimize, btnFullscreen;
+    public static final int COLOUR_WINDOW_DARK = colourScheme.getApplicationBarColour();
     T content;
     int width, height;
     int offsetX, offsetY;
     Laptop laptop;
     Window<Dialog> dialogWindow = null;
     Window<? extends Wrappable> parent = null;
+    private GuiButton btnClose, btnMinimize, btnFullscreen;
 
     public Window(T wrappable, Laptop laptop) {
         this.content = wrappable;

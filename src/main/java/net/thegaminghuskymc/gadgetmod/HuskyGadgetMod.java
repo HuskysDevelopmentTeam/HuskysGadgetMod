@@ -39,7 +39,6 @@ import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreCategories;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
@@ -154,8 +153,8 @@ public class HuskyGadgetMod {
         TaskManager.registerTask(TaskGetDevices.class);
 
         //Bank
-        TaskManager.registerTask(ApplicationBank.TaskDeposit.class);
-        TaskManager.registerTask(ApplicationBank.TaskWithdraw.class);
+//        TaskManager.registerTask(ApplicationBank.TaskDeposit.class);
+//        TaskManager.registerTask(ApplicationBank.TaskWithdraw.class);
         TaskManager.registerTask(TaskGetBalance.class);
         TaskManager.registerTask(TaskPay.class);
         TaskManager.registerTask(TaskAdd.class);

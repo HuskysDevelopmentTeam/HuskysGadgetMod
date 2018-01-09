@@ -20,6 +20,7 @@ import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
 public class CommonProxy {
 
     List<AppInfo> allowedApps;
+    int hashCode = -1;
 
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
@@ -46,20 +48,13 @@ public class CommonProxy {
     }
 
     @Nullable
-    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
-        if (allowedApps == null) {
+    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz)
+    {
+        if(allowedApps == null)
+        {
             allowedApps = new ArrayList<>();
         }
-        allowedApps.add(new AppInfo(identifier));
-        return null;
-    }
-
-    @Nullable
-    public Application removeApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
-        if (allowedApps != null) {
-            allowedApps = null;
-        }
-        allowedApps.remove(new AppInfo(identifier));
+        allowedApps.add(new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz)));
         return null;
     }
 

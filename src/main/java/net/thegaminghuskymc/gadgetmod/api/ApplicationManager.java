@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ApplicationManager {
 
     public static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
-    private static AppInfo appInfo;
 
     /**
      * Registers an application into the application list
@@ -35,23 +35,21 @@ public class ApplicationManager {
         return null;
     }
 
-    @Nullable
-    public static Application removeApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
-        Application application = HuskyGadgetMod.proxy.removeApplication(identifier, clazz);
-        if (application != null) {
-            APP_INFO.remove(identifier, application.getInfo());
-            return application;
-        }
-        return null;
-    }
-
     /**
      * Get all applications that are registered. Please note
      * that this list is read only and cannot be modified.
      *
      * @return the application list
      */
-    public static Collection<AppInfo> getAvailableApps() {
+    public static Collection<AppInfo> getAvailableApplications() {
+        return APP_INFO.values().stream().filter(info -> !info.isSystemApp()).collect(Collectors.toList());
+    }
+
+    public static Collection<AppInfo> getSystemApplications() {
+        return APP_INFO.values().stream().filter(AppInfo::isSystemApp).collect(Collectors.toList());
+    }
+
+    public static Collection<AppInfo> getAllApplications() {
         return APP_INFO.values();
     }
 
@@ -59,4 +57,5 @@ public class ApplicationManager {
     public static AppInfo getApplication(String appId) {
         return APP_INFO.get(new ResourceLocation(appId.replace(".", ":")));
     }
+
 }
