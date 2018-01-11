@@ -48,17 +48,17 @@ public class GadgetItems {
 
     public static void register() {
         register(flash_drive);
-        register(internal_harddrive);
-        register(pixel_watch);
+//        register(internal_harddrive);
+//        register(pixel_watch);
         register(pixel_pad);
         register(pixel_phone);
         register(cpu);
-        register(motherBoard);
+//        register(motherBoard);
         register(ramSticks);
         register(videoCard);
-        register(soundCard);
-        register(wifiCard);
-        register(serverKey);
+//        register(soundCard);
+//        register(wifiCard);
+//        register(serverKey);
         register(ethernet_cable);
         register(hdmi_cable);
         register(usb_cable);

@@ -1,0 +1,12 @@
+{
+  "theme_name": "Test Theme",
+  "theme_creator": "TheGamingHuskyMC",
+  "theme_description": "${desc}",
+  "theme_version": "1.0",
+  "theme_preview": "hgm:textures/theme/preview/test_preview.png",
+  "theme_wallpapers": [
+    "https://i.imgur.com/7CzbiA7.png",
+    "https://i.imgur.com/4AiXzf8.jpg",
+    "https://i.imgur.com/C7k2UDw.jpg"
+  ]
+}

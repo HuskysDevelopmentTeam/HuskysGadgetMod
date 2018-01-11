@@ -96,6 +96,7 @@ public class TileEntityLaptop extends TileEntityNetworkDevice {
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = super.writeSyncTag();
         tag.setBoolean("open", open);
+        tag.setTag("system_data", getSystemData());
 
         if (getFileSystem().getAttachedDrive() != null) {
             tag.setByte("external_drive_color", (byte) getFileSystem().getAttachedDriveColor().getMetadata());

@@ -35,7 +35,6 @@ public class ApplicationSettings extends SystemApplication {
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
-    private Layout layoutMain;
     private Layout layoutInformationApps;
 
     private Button buttonColourSchemeApply;
@@ -70,7 +69,7 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
 
-        layoutMain = new Menu("Home");
+        Layout layoutMain = new Menu("Home");
         layoutMain.addComponent(buttonPrevious);
 
         layoutColourScheme = new Menu("Colour Scheme");
@@ -101,6 +100,18 @@ public class ApplicationSettings extends SystemApplication {
 
         layoutInformationApps = new Menu("App Information");
         layoutInformationApps.addComponent(buttonPrevious);
+
+        Layout layoutThemes = new Menu("Themes");
+        layoutThemes.addComponent(buttonPrevious);
+
+        Button btnThemes = new Button(5, 33, "Themes", Icons.PICTURE);
+        btnThemes.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if (mouseButton == 0) {
+                showMenu(layoutThemes);
+            }
+        });
+        layoutMain.addComponent(btnThemes);
 
         Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
         buttonInformationApps.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -233,7 +244,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
-        Button reload = new Button(230, 27, Icons.RELOAD);
+        Button reload = new Button(250, 27, Icons.RELOAD);
         reload.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (mouseButton == 0) {
 

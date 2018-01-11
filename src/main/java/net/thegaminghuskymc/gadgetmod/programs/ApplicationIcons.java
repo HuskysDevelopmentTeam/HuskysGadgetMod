@@ -1,66 +1,138 @@
 package net.thegaminghuskymc.gadgetmod.programs;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
-import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.minecraft.util.text.TextFormatting;
+import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
+import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
-import java.awt.*;
+public class ApplicationIcons extends Application
+{
+    private int offset;
 
-public class ApplicationIcons extends Application {
+    private StandardLayout layoutMain;
+    private Layout layoutContainer;
+    private ComboBox.List<IconSet> iconSetComboBox;
 
-    public ApplicationIcons() {
-        this.setDefaultWidth(278);
-        this.setDefaultHeight(230);
+    public ApplicationIcons()
+    {
+        this.setDefaultWidth(332);
+        this.setDefaultHeight(150);
     }
 
     @Override
-    public void init() {
-        /*for (Icons icon : Icons.values()) {
-            int posX = (icon.ordinal() % 15) * 18;
-            int posY = (icon.ordinal() / 15) * 18;
-            Button button = new Button(5 + posX, 5 + posY, icon);
-            button.setToolTip("Icon", icon.name());
-            super.addComponent(button);
-        }*/
+    public void init()
+    {
+        layoutMain = new StandardLayout(TextFormatting.BOLD + "Icons", 330, 153, this, null);
+        layoutMain.setIcon(Icons.HOME);
 
-        ItemList<Icons> itemListIcons = new ItemList<>(5, 5, 200, 6, true);
+        layoutContainer = new Layout(330, 153);
+        layoutMain.addComponent(layoutContainer);
 
-        for (Icons icon : Icons.values()) {
-            itemListIcons.addItem(icon);
-        }
+        IconSet[] iconSets = new IconSet[] { new IconSet("Standard Icons", Icons.values()), new IconSet("Alphabet", Alphabet.values()), new IconSet("Emojies", EmojiesMRC.values()) };
+        iconSetComboBox = new ComboBox.List<>(191, 3, 100, iconSets);
+        iconSetComboBox.setChangeListener((oldValue, newValue) ->
+        {
+            offset = 0;
+            updateIcons();
+        });
+        layoutMain.addComponent(iconSetComboBox);
 
-        itemListIcons.setListItemRenderer(new ListItemRenderer<Icons>(20) {
-            @Override
-            public void render(Icons icons, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                GlStateManager.color(1.0F, 1.0F, 1.0F);
-                mc.getTextureManager().bindTexture(icons.getIconAsset());
-                int size = icons.getIconSize();
-                int assetWidth = icons.getGridWidth() * size;
-                int assetHeight = icons.getGridHeight() * size;
-                RenderUtil.drawRectWithTexture(x + 5, y + 5, icons.getU(), icons.getV(), size, size, size, size, assetWidth, assetHeight);
-                RenderUtil.drawStringClipped(I18n.format(icons.toString().replace("_", " ")), x + 20, y + 6, itemListIcons.getWidth(), Color.WHITE.getRGB(), true);
+        Button btnPrevPage = new Button(297, 3, Icons.ARROW_LEFT);
+        btnPrevPage.setToolTip("Previous Page", "Go to previous page of this icon set");
+        btnPrevPage.setSize(14, 14);
+        btnPrevPage.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                if(offset > 0) offset--;
+                updateIcons();
             }
         });
+        layoutMain.addComponent(btnPrevPage);
 
-        super.addComponent(itemListIcons);
+        Button btnNextPage = new Button(313, 3, Icons.ARROW_RIGHT);
+        btnNextPage.setToolTip("Next Page", "Go to next page of this icon set");
+        btnNextPage.setSize(14, 14);
+        btnNextPage.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if(mouseButton == 0)
+            {
+                if(offset < (iconSetComboBox.getSelectedItem().getIcons().length / 126)) offset++;
+                updateIcons();
+            }
+        });
+        layoutMain.addComponent(btnNextPage);
+
+        this.updateIcons();
+        this.setCurrentLayout(layoutMain);
+    }
+
+    private void updateIcons()
+    {
+        layoutContainer.clear();
+        IconSet set = iconSetComboBox.getSelectedItem();
+        for(int i = 0; i < 126 && i < set.getIcons().length - (offset * 126); i++)
+        {
+            Enum<? extends IIcon> anEnum = set.getIcons()[i + (offset * 126)];
+            IIcon icon = (IIcon) anEnum;
+            int posX = (i % 18) * 18 - 1;
+            int posY = (i / 18) * 18 + 20;
+            Button button = new Button(5 + posX, 5 + posY, icon);
+            button.setToolTip("Icon", anEnum.name());
+            layoutContainer.addComponent(button);
+        }
+        layoutContainer.updateComponents(layoutContainer.xPosition, layoutContainer.yPosition);
+    }
+
+    @Override
+    public void onClose()
+    {
+        super.onClose();
+        offset = 0;
+        layoutMain = null;
+        layoutContainer = null;
+        iconSetComboBox = null;
+    }
+
+    @Override
+    public void load(NBTTagCompound tagCompound)
+    {
 
     }
 
     @Override
-    public void load(NBTTagCompound tagCompound) {
+    public void save(NBTTagCompound tagCompound)
+    {
 
     }
 
-    @Override
-    public void save(NBTTagCompound tagCompound) {
+    public static class IconSet
+    {
+        private String name;
+        private Enum<? extends IIcon>[] icons;
 
+        public IconSet(String name, Enum<? extends IIcon>[] icons)
+        {
+            this.name = name;
+            this.icons = icons;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public Enum<? extends IIcon>[] getIcons()
+        {
+            return icons;
+        }
+
+        @Override
+        public String toString()
+        {
+            return name;
+        }
     }
-
 }

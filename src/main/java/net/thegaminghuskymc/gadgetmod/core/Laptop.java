@@ -347,7 +347,6 @@ public class Laptop extends GuiScreen implements System {
                 int dropdownY = context.yPosition;
                 if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
                     this.context.handleMouseClick(mouseX, mouseY, mouseButton);
-                    this.dragging = true;
                     return;
                 } else {
                     this.context = null;
@@ -449,32 +448,43 @@ public class Laptop extends GuiScreen implements System {
             int posX = (width - SCREEN_WIDTH) / 2;
             int posY = (height - SCREEN_HEIGHT) / 2;
 
-            if (this.context != null) {
-                if (dragging) {
-                    int dropdownX = context.xPosition;
-                    int dropdownY = context.yPosition;
-                    if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
-                        this.context.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
-                    }
+            if(this.context != null)
+            {
+                int dropdownX = context.xPosition;
+                int dropdownY = context.yPosition;
+                if(GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height))
+                {
+                    this.context.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
                 }
                 return;
             }
 
-            if (windows[0] != null) {
+            if(windows[0] != null)
+            {
                 Window<Application> window = windows[0];
                 Window<Dialog> dialogWindow = window.getContent().getActiveDialog();
-                if (dragging) {
-                    if (isMouseOnScreen(mouseX, mouseY)) {
-                        if (dialogWindow == null) {
+                if(dragging)
+                {
+                    if(isMouseOnScreen(mouseX, mouseY))
+                    {
+                        if(dialogWindow == null)
+                        {
                             window.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
-                        } else {
+                        }
+                        else
+                        {
                             dialogWindow.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
                         }
-                    } else {
+                    }
+                    else
+                    {
                         dragging = false;
                     }
-                } else {
-                    if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
+                }
+                else
+                {
+                    if(isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow))
+                    {
                         window.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
                     }
                 }

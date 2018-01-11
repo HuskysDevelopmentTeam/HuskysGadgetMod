@@ -8,6 +8,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ItemClickListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
@@ -160,7 +161,7 @@ public class ItemList<E> extends Component implements Iterable<E>
                 else
                 {
                     drawRect(xPosition + 1, yPosition + (i * 14) + 1, xPosition + width - 1, yPosition + 13 + (i * 14) + 1, (i + offset) != selected ? backgroundColor : Color.DARK_GRAY.getRGB());
-                    drawString(mc.fontRenderer, item.toString(), xPosition + 3, yPosition + 3 + (i * 14), textColor);
+                    RenderUtil.drawStringClipped(item.toString(), xPosition + 3, yPosition + 3 + (i * 14), width - 6,textColor, true);
                 }
             }
 

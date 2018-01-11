@@ -23,7 +23,7 @@ public class Window<T extends Wrappable> {
 
     private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
 
-    public static final int COLOUR_WINDOW_DARK = colourScheme.getApplicationBarColour();
+    public static final int COLOUR_WINDOW_DARK = new Color(colourScheme.getApplicationBarColour()).getRGB();
     T content;
     int width, height;
     int offsetX, offsetY;

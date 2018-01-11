@@ -3,10 +3,8 @@ package net.thegaminghuskymc.gadgetmod.api.app;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 
-/**
- * Author: MrCrayfish
- */
 public enum Icons implements IIcon {
+
     ARROW_RIGHT,
     ARROW_DOWN,
     ARROW_UP,
@@ -131,18 +129,24 @@ public enum Icons implements IIcon {
     HEART_ON,
     MAP,
     BRIGHTNESS,
-    BLACK_CHEVRON_RIGHT,
-    BLACK_CHEVRON_DOWN,
-    BLACK_CHEVRON_UP,
-    BLACK_CHEVRON_LEFT,
-    DARK_GRAY_CHEVRON_RIGHT,
-    DARK_GRAY_CHEVRON_DOWN,
-    DARK_GRAY_CHEVRON_UP,
-    DARK_GRAY_CHEVRON_LEFT,
-    LIGHT_GRAY_CHEVRON_RIGHT,
-    LIGHT_GRAY_CHEVRON_DOWN,
-    LIGHT_GRAY_CHEVRON_UP,
-    LIGHT_GRAY_CHEVRON_LEFT;
+    GIFT_RED,
+    GIFT_CYAN,
+    GIFT_GREEN,
+    GIFT_BLUE,
+    CREDIT_CARD,
+    PIN,
+    VISIBILITY_OFF,
+    VISIBILITY_ON,
+    HOURGLASS,
+    OFFLINE,
+    LIVE,
+    ONLINE,
+    CONNECTING,
+    MICROPHONE,
+    MICROPHONE_MUTE,
+    HEADPHONES_MUTE,
+    ZOOM_IN,
+    ZOOM_OUT;
 
     private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icons.png");
 

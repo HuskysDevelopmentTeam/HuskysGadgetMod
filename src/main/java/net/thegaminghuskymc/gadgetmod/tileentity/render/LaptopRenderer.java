@@ -39,7 +39,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
                 GlStateManager.pushMatrix();
                 {
                     GlStateManager.translate(0.5, 0, 0.5);
-                    GlStateManager.rotate(te.getBlockMetadata() * -90F - 90F, 0, 1, 0);
+                    GlStateManager.rotate(te.getBlockMetadata() * -100F - 90F, 0, 1, 0);
                     GlStateManager.translate(-0.5, 0, -0.5);
                     GlStateManager.translate(0.595, -0.2075, -0.005);
                     entityItem.hoverStart = 0.0F;
