@@ -13,7 +13,18 @@ public enum EmojiesMRC implements IIcon{
     DOG,
     CAT,
     ANGER,
-    KAWAII;
+    KAWAII,
+    EXPLANATION_MARK_RED,
+    EXPLANATION_MARK_BLUE,
+    EGGPLANT,
+    THUMBS_UP,
+    THUMBS_DOWN,
+    GIRL,
+    BOY,
+    MAGIC_8_BALL,
+    LANDSCAPE,
+    SMILING_SUN,
+    SKY;
 
     private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/emojies.png");
 

@@ -56,7 +56,6 @@ public class HuskyGadgetMod {
     public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
-    public static File modDataDir;
     public static Gson gson;
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
@@ -82,38 +81,6 @@ public class HuskyGadgetMod {
         RegistrationHandler.init();
 
         proxy.preInit(event);
-
-//        stuff();
-
-//        if (!modDataDir.exists()) modDataDir.mkdirs();
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void stuff() {
-        try {
-            gson = new GsonBuilder()
-                    .serializeNulls()
-                    .setPrettyPrinting()
-                    .create();
-            ArrayList<AppStoreAppInfo> list = HuskyGadgetMod.gson.fromJson("[\n" +
-                    "  {\n" +
-                    "    \"name\": \"Pixel Browser\",\n" +
-                    "    \"shortDescription\": \"A web browser in mc!\",\n" +
-                    "    \"description\": \"\",\n" +
-                    "    \"category\": \"TOOLS\",\n" +
-                    "    \"urls\": []\n" +
-                    "  }\n" +
-                    "]", new TypeToken<List<AppStoreAppInfo>>() {
-            }.getType());
-            System.out.println(list.get(0));
-
-            ArrayList<AppStoreAppInfo> info = new ArrayList<>();
-            info.add(new AppStoreAppInfo("Pixel Browser", "A web browser in mc!", "", AppStoreCategories.TOOLS, new ArrayList<>(), new ArrayList<>()));
-            System.out.println(gson.toJson(info));
-            new ApplicationAppStore().init();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
     }
 
     @EventHandler
