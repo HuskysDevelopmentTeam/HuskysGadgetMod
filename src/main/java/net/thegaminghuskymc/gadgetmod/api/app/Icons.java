@@ -148,7 +148,7 @@ public enum Icons implements IIcon {
     ZOOM_IN,
     ZOOM_OUT;
 
-    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icons.png");
+    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/icons.png");
 
     private static final int ICON_SIZE = 10;
     private static final int GRID_SIZE = 20;

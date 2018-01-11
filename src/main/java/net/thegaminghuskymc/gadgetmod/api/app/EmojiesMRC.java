@@ -26,7 +26,7 @@ public enum EmojiesMRC implements IIcon{
     SMILING_SUN,
     SKY;
 
-    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/emojies.png");
+    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/emojies.png");
 
     private static final int ICON_SIZE = 10;
     private static final int GRID_SIZE = 20;

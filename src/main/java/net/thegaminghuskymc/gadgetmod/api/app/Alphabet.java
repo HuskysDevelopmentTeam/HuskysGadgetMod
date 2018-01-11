@@ -78,7 +78,7 @@ public enum Alphabet implements IIcon {
     RIGHT_CURLY_BRACKET,
     TILDE;
 
-    private static final ResourceLocation ALPHABET_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/alphabet.png");
+    private static final ResourceLocation ALPHABET_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/alphabet.png");
     
     private static final int ICON_SIZE = 10;
     private static final int GRID_SIZE = 20;
