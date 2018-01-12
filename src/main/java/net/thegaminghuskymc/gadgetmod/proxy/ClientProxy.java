@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -31,6 +32,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
@@ -350,6 +352,13 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
             Minecraft.getMinecraft().getRenderManager().renderViewEntity = backupEntity;
             renderEntity = null;
         }
+    }
+
+    @Override
+    public void showNotification(NBTTagCompound tag)
+    {
+        ClientNotification notification = ClientNotification.loadFromTag(tag);
+        notification.push();
     }
 
 }

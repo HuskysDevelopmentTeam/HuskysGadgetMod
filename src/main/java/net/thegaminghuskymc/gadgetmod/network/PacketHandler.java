@@ -16,5 +16,6 @@ public class PacketHandler {
         INSTANCE.registerMessage(MessageSyncConfig.class, MessageSyncConfig.class, 4, Side.CLIENT);
         INSTANCE.registerMessage(MessageSyncBlock.class, MessageSyncBlock.class, 5, Side.SERVER);
         INSTANCE.registerMessage(MessageUnlockAdvancement.class, MessageUnlockAdvancement.class, 6, Side.SERVER);
+        INSTANCE.registerMessage(MessageNotification.class, MessageNotification.class, 6, Side.CLIENT);
     }
 }
