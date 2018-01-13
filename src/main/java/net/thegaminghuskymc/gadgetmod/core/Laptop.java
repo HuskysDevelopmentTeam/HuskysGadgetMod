@@ -199,7 +199,7 @@ public class Laptop extends GuiScreen implements System {
 
             FileBrowser.refreshList = false;
         } else if (this.bootMode != null) {
-            //this.bootTimer = Math.max(this.bootTimer - 1, 0);
+            this.bootTimer = Math.max(this.bootTimer - 1, 0);
             this.blinkTimer = Math.max(this.blinkTimer - 1, 0);
             if (this.bootTimer == 0) {
                 if (this.bootMode == BootMode.BOOTING) {
