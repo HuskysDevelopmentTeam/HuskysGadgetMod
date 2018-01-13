@@ -39,7 +39,7 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 public class ApplicationEmail extends Application {
-    private static final ResourceLocation ENDER_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/ender_mail.png");
+    private static final ResourceLocation ENDER_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/pixel_mail.png");
 
     private static final Pattern EMAIL = Pattern.compile("^([a-zA-Z0-9]{1,10})@pixelmail\\.com$");
     private final Color COLOR_EMAIL_CONTENT_BACKGROUND = new Color(160, 160, 160);
@@ -137,9 +137,7 @@ public class ApplicationEmail extends Application {
         });
         layoutRegisterAccount.addComponent(btnRegister);
 
-
         /* Inbox Layout */
-
         layoutInbox = new Layout(300, 148);
         layoutInbox.setInitListener(() -> {
             TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
@@ -246,9 +244,24 @@ public class ApplicationEmail extends Application {
             TaskManager.sendTask(taskUpdateInbox);
         });
 
+        class Reloading extends TimerTask {
+            public void run() {
+
+                TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
+                taskUpdateInbox.setCallback((nbt, success) ->
+                {
+                    listEmails.removeAll();
+                    for (Email email : EmailManager.INSTANCE.getInbox()) {
+                        listEmails.addItem(email);
+                    }
+                });
+                TaskManager.sendTask(taskUpdateInbox);
+
+            }
+        }
+
         Timer timer = new Timer();
         timer.schedule(new Reloading(), 0, 5000);
-
 
         btnRefresh.setToolTip("Refresh Inbox", "Checks for any new emails");
         layoutInbox.addComponent(btnRefresh);
@@ -427,6 +440,7 @@ public class ApplicationEmail extends Application {
             }
         });
         TaskManager.sendTask(taskCheckAccount);
+
     }
 
     private void resetAttachedFile() {
@@ -460,22 +474,6 @@ public class ApplicationEmail extends Application {
     public void onClose() {
         super.onClose();
         attachedFile = null;
-    }
-
-    class Reloading extends TimerTask {
-        public void run() {
-
-            TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
-            taskUpdateInbox.setCallback((nbt, success) ->
-            {
-                listEmails.removeAll();
-                for (Email email : EmailManager.INSTANCE.getInbox()) {
-                    listEmails.addItem(email);
-                }
-            });
-            TaskManager.sendTask(taskUpdateInbox);
-
-        }
     }
 
 }

@@ -18,7 +18,6 @@ public class GadgetItems {
     public static final ItemSoundCard soundCard;
     public static final ItemWiFiCard wifiCard;
 
-    public static final ItemServerKey serverKey;
     public static final Item ethernet_cable;
     public static final Item hdmi_cable;
     public static final Item usb_cable;
@@ -38,7 +37,6 @@ public class GadgetItems {
         videoCard = new ItemVideoCard();
         soundCard = new ItemSoundCard();
         wifiCard = new ItemWiFiCard();
-        serverKey = new ItemServerKey();
         ethernet_cable = new ItemEthernetCable();
         hdmi_cable = new ItemHDMICable();
         usb_cable = new ItemUSBCable();
@@ -58,7 +56,6 @@ public class GadgetItems {
         register(videoCard);
 //        register(soundCard);
 //        register(wifiCard);
-//        register(serverKey);
         register(ethernet_cable);
         register(hdmi_cable);
         register(usb_cable);

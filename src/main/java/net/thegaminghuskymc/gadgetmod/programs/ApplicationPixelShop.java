@@ -66,9 +66,11 @@ public class ApplicationPixelShop extends Application {
 
         /* Main Menu */
         layoutMainMenu = new Layout(150, 150);
-
-        Image logo = new Image(40, 5, 68, 68, info.getIconU(), info.getIconV(), 14, 14, Laptop.ICON_TEXTURES);
-        layoutMainMenu.addComponent(logo);
+        layoutMainMenu.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        {
+            mc.getTextureManager().bindTexture(Laptop.ICON_TEXTURES);
+            RenderUtil.drawRectWithTexture(x + 36, y + 4, info.getIconU(), info.getIconV(), 68, 68, 14, 14, 224, 224);
+        });
 
         Label labelLogo = new Label("Huskydobe PixelShop", 19, 85);
         layoutMainMenu.addComponent(labelLogo);
@@ -85,7 +87,6 @@ public class ApplicationPixelShop extends Application {
 
 
         /* New Picture */
-
         layoutNewPicture = new Layout(180, 65);
 
         Label labelName = new Label("Name", 5, 5);

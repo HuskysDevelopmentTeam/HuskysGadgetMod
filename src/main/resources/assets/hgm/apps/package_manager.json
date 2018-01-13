@@ -1,10 +1,10 @@
 {
-  "app_name": "Cackler",
+  "app_name": "Package Manager",
   "app_creator": "TheGamingHuskyMC",
   "app_description": "${desc}",
   "app_version": "1.0",
-  "app_icon": "hgm:textures/app/icon/cackler.png",
-  "app_banner": "hgm:textures/app/banner/banner_cackler.png",
+  "app_icon": "hgm:textures/app/icon/package_manager.png",
+  "app_banner": "hgm:textures/app/banner/banner_package_manager.png",
   "app_screenshots": [
     "https://i.imgur.com/7CzbiA7.png",
     "https://i.imgur.com/4AiXzf8.jpg",

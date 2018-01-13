@@ -70,11 +70,11 @@ public class GadgetBlocks {
         registerBlock(DESKTOP, new ItemDevice(DESKTOP));
 //        registerBlock(SERVER, new ItemDevice(SERVER));
 //        registerBlock(SERVER_TERMINAL, new ItemDevice(SERVER_TERMINAL));
-//        registerBlock(ROBOT, new ItemDevice(ROBOT));
+        registerBlock(ROBOT, new ItemDevice(ROBOT));
         registerBlock(ETHERNET_WALL_OUTLET, new ItemColorable(ETHERNET_WALL_OUTLET));
         registerBlock(OFFICE_CHAIR, new ItemColorable(OFFICE_CHAIR));
         registerBlock(GAMING_DESK, new ItemColorable(GAMING_DESK));
-//        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
+        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
 //        registerBlock(BENCHMARK_STATION, new ItemDevice(BENCHMARK_STATION));
 //        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
 //        registerBlock(RGB_LIGHTS);
