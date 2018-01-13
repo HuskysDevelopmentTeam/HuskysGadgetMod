@@ -1,23 +1,32 @@
 package net.thegaminghuskymc.gadgetmod.programs.email;
 
+import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
+
+import java.awt.Color;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
@@ -25,19 +34,13 @@ import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.email.object.Contact;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskCheckEmailAccount;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskDeleteEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskRegisterEmailAccount;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskSendEmail;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskUpdateInbox;
+import net.thegaminghuskymc.gadgetmod.programs.email.task.TaskViewEmail;
 
 public class ApplicationEmail extends Application {
     private static final ResourceLocation ENDER_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/ender_mail.png");
@@ -177,7 +180,7 @@ public class ApplicationEmail extends Application {
             TaskManager.sendTask(taskUpdateInbox);
         });
 
-        ItemList listEmails = new ItemList<>(5, 25, 275, 4);
+        ItemList<Email> listEmails = new ItemList<>(5, 25, 275, 4);
         listEmails.setListItemRenderer(new ListItemRenderer<Email>(28) {
             @Override
             public void render(Email e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
@@ -221,7 +224,7 @@ public class ApplicationEmail extends Application {
                 setCurrentLayout(layoutViewEmail);
             }
         });
-        Button btnViewEmail.setToolTip("View", "Opens the currently selected email");
+        btnViewEmail.setToolTip("View", "Opens the currently selected email");
         layoutInbox.addComponent(btnViewEmail);
 
         Button btnNewEmail = new Button(25, 5, ENDER_MAIL_ICONS, 0, 0, 10, 10);

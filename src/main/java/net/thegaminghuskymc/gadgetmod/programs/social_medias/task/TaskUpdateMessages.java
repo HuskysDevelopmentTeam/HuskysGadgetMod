@@ -1,14 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.programs.social_medias.task;
 
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
-
-import java.util.List;
+import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 public class TaskUpdateMessages extends Task {
     private List<Email> emails;
