@@ -1,5 +1,17 @@
 package net.thegaminghuskymc.gadgetmod.programs.email;
 
+import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
+
+import java.awt.Color;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -7,12 +19,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
@@ -22,17 +37,6 @@ import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
 
 public class ApplicationEmail extends Application {
     private static final ResourceLocation ENDER_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/ender_mail.png");
@@ -149,7 +153,7 @@ public class ApplicationEmail extends Application {
             TaskManager.sendTask(taskUpdateInbox);
         });
 
-        listEmails = new ItemList<>(5, 25, 275, 4);
+        ItemList<Email> listEmails = new ItemList<>(5, 25, 275, 4);
         listEmails.setListItemRenderer(new ListItemRenderer<Email>(28) {
             @Override
             public void render(Email e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {

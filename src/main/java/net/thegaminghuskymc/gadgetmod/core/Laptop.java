@@ -254,9 +254,9 @@ public class Laptop extends GuiScreen implements System {
             int cY = posY + DEVICE_HEIGHT / 2;
 
             /* Husky and NeonOs logos */
-            this.drawTexturedModalRect(cX - 34, cY - 80, 0, 0, 68, 90);
-            if ((this.blinkTimer % 5) > 2) {
-                this.drawTexturedModalRect(cX - 24, cY - 52, 68, 16, 38, 12);
+            this.drawTexturedModalRect(cX - 35, cY - 80, 0, 0, 70, 90);
+            if ((this.blinkTimer % 10) > 5) {
+                this.drawTexturedModalRect(cX + 1, cY - 48, 70, 15, 24, 22);
             }
             this.drawTexturedModalRect(cX - 64, cY + 15, 2, 94, 128, 30);
 
@@ -271,14 +271,14 @@ public class Laptop extends GuiScreen implements System {
             GL11.glScissor((cX - 70) * scale, (height - (cY + 74)) * scale, 140 * scale, 13 * scale);
             if (this.bootTimer <= BOOT_ON_TIME - 20) {
                 int xAdd = (BOOT_ON_TIME - (this.bootTimer + 20)) * 4;
-                this.drawTexturedModalRect(cX - 87 + xAdd % 184, cY + 61, 76, 1, 17, 13);
+                this.drawTexturedModalRect(cX - 87 + xAdd % 184, cY + 61, 78, 1, 17, 13);
             }
             //this.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
             /* Loading bar outline */
-            this.drawTexturedModalRect(cX - 70, cY + 60, 68, 0, 3, 15);
-            this.drawTexturedModalRect(cX + 67, cY + 60, 72, 0, 3, 15);
+            this.drawTexturedModalRect(cX - 70, cY + 60, 70, 0, 3, 15);
+            this.drawTexturedModalRect(cX + 67, cY + 60, 74, 0, 3, 15);
             int color = 0xFF000000 + (value << 16) + (value << 8) + value;
             Gui.drawRect(cX - 67, cY + 60, cX + 67, cY + 61, color);
             Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
@@ -385,7 +385,7 @@ public class Laptop extends GuiScreen implements System {
             }
         } else if (this.bootMode == BootMode.BOOTING) {
             if (isMouseInHusky(mouseX, mouseY)) {
-                this.blinkTimer = 10;
+                this.blinkTimer = 20;
             }
         }
 
