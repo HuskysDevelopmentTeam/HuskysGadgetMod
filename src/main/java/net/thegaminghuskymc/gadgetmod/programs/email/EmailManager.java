@@ -9,14 +9,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Notification;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 import java.util.*;
 
-public class EmailManager
-{
+public class EmailManager {
     public static final EmailManager INSTANCE = new EmailManager();
 
     @SideOnly(Side.CLIENT)
@@ -25,10 +24,8 @@ public class EmailManager
     private HashBiMap<UUID, String> uuidToName = HashBiMap.create();
     private Map<String, List<Email>> nameToInbox = new HashMap<>();
 
-    public boolean addEmailToInbox(Email email, String to)
-    {
-        if (nameToInbox.containsKey(to))
-        {
+    public boolean addEmailToInbox(Email email, String to) {
+        if (nameToInbox.containsKey(to)) {
             nameToInbox.get(to).add(0, email);
             sendNotification(to, email);
             return true;
@@ -37,30 +34,23 @@ public class EmailManager
     }
 
     @SideOnly(Side.CLIENT)
-    public List<Email> getInbox()
-    {
-        if(inbox == null)
-        {
+    public List<Email> getInbox() {
+        if (inbox == null) {
             inbox = new ArrayList<>();
         }
         return inbox;
     }
 
-    public List<Email> getEmailsForAccount(EntityPlayer player)
-    {
-        if (uuidToName.containsKey(player.getUniqueID()))
-        {
+    public List<Email> getEmailsForAccount(EntityPlayer player) {
+        if (uuidToName.containsKey(player.getUniqueID())) {
             return nameToInbox.get(uuidToName.get(player.getUniqueID()));
         }
         return new ArrayList<Email>();
     }
 
-    public boolean addAccount(EntityPlayer player, String name)
-    {
-        if (!uuidToName.containsKey(player.getUniqueID()))
-        {
-            if (!uuidToName.containsValue(name))
-            {
+    public boolean addAccount(EntityPlayer player, String name) {
+        if (!uuidToName.containsKey(player.getUniqueID())) {
+            if (!uuidToName.containsValue(name)) {
                 uuidToName.put(player.getUniqueID(), name);
                 nameToInbox.put(name, new ArrayList<Email>());
                 return true;
@@ -69,30 +59,25 @@ public class EmailManager
         return false;
     }
 
-    public boolean hasAccount(UUID uuid)
-    {
+    public boolean hasAccount(UUID uuid) {
         return uuidToName.containsKey(uuid);
     }
 
-    public String getName(EntityPlayer player)
-    {
+    public String getName(EntityPlayer player) {
         return uuidToName.get(player.getUniqueID());
     }
 
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         nameToInbox.clear();
 
         NBTTagList inboxes = (NBTTagList) nbt.getTag("Inboxes");
-        for (int i = 0; i < inboxes.tagCount(); i++)
-        {
+        for (int i = 0; i < inboxes.tagCount(); i++) {
             NBTTagCompound inbox = inboxes.getCompoundTagAt(i);
             String name = inbox.getString("Name");
 
             List<Email> emails = new ArrayList<Email>();
             NBTTagList emailTagList = (NBTTagList) inbox.getTag("Emails");
-            for (int j = 0; j < emailTagList.tagCount(); j++)
-            {
+            for (int j = 0; j < emailTagList.tagCount(); j++) {
                 NBTTagCompound emailTag = emailTagList.getCompoundTagAt(j);
                 Email email = Email.readFromNBT(emailTag);
                 emails.add(email);
@@ -103,8 +88,7 @@ public class EmailManager
         uuidToName.clear();
 
         NBTTagList accounts = (NBTTagList) nbt.getTag("Accounts");
-        for (int i = 0; i < accounts.tagCount(); i++)
-        {
+        for (int i = 0; i < accounts.tagCount(); i++) {
             NBTTagCompound account = accounts.getCompoundTagAt(i);
             UUID uuid = UUID.fromString(account.getString("UUID"));
             String name = account.getString("Name");
@@ -112,18 +96,15 @@ public class EmailManager
         }
     }
 
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         NBTTagList inboxes = new NBTTagList();
-        for (String key : nameToInbox.keySet())
-        {
+        for (String key : nameToInbox.keySet()) {
             NBTTagCompound inbox = new NBTTagCompound();
             inbox.setString("Name", key);
 
             NBTTagList emailTagList = new NBTTagList();
             List<Email> emails = nameToInbox.get(key);
-            for (Email email : emails)
-            {
+            for (Email email : emails) {
                 NBTTagCompound emailTag = new NBTTagCompound();
                 email.writeToNBT(emailTag);
                 emailTagList.appendTag(emailTag);
@@ -134,8 +115,7 @@ public class EmailManager
         nbt.setTag("Inboxes", inboxes);
 
         NBTTagList accounts = new NBTTagList();
-        for (UUID key : uuidToName.keySet())
-        {
+        for (UUID key : uuidToName.keySet()) {
             NBTTagCompound account = new NBTTagCompound();
             account.setString("UUID", key.toString());
             account.setString("Name", uuidToName.get(key));
@@ -144,22 +124,18 @@ public class EmailManager
         nbt.setTag("Accounts", accounts);
     }
 
-    public void clear()
-    {
+    public void clear() {
         nameToInbox.clear();
         uuidToName.clear();
         inbox.clear();
     }
 
-    private void sendNotification(String name, Email email)
-    {
+    private void sendNotification(String name, Email email) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         UUID id = uuidToName.inverse().get(name);
-        if(id != null)
-        {
+        if (id != null) {
             EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(id);
-            if(player != null)
-            {
+            if (player != null) {
                 Notification notification = new Notification(Icons.MAIL, "New Email!", "from " + email.getAuthor());
                 notification.pushTo(player);
             }

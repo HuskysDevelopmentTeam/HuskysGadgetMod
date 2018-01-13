@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 
 public interface IIcon {
+
     ResourceLocation getIconAsset();
 
     int getIconSize();

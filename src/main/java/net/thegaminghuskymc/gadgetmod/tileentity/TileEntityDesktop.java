@@ -3,13 +3,11 @@ package net.thegaminghuskymc.gadgetmod.tileentity;
 import com.google.common.collect.Lists;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import java.util.List;

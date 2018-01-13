@@ -1,7 +1,8 @@
-package net.thegaminghuskymc.gadgetmod.api.app;
+package net.thegaminghuskymc.gadgetmod.api.app.emojie_packs;
 
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 
 public enum Icons implements IIcon {
 

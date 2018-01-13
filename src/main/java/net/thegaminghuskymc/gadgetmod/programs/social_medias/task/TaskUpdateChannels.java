@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 import java.util.List;
 

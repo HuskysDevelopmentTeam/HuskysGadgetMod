@@ -49,10 +49,8 @@ public class CommonProxy {
     }
 
     @Nullable
-    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz)
-    {
-        if(allowedApps == null)
-        {
+    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+        if (allowedApps == null) {
             allowedApps = new ArrayList<>();
         }
         allowedApps.add(new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz)));
@@ -88,6 +86,7 @@ public class CommonProxy {
         }
     }
 
-    public void showNotification(NBTTagCompound tag) {}
+    public void showNotification(NBTTagCompound tag) {
+    }
 
 }

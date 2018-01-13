@@ -8,13 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
+import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
@@ -23,6 +24,7 @@ import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
+import net.thegaminghuskymc.gadgetmod.proxy.ClientProxy;
 
 import java.awt.*;
 import java.util.*;
@@ -30,23 +32,17 @@ import java.util.List;
 
 public class ApplicationSettings extends SystemApplication {
 
+    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
+    private static final Color ITEM_SELECTED = Color.decode("0x757575");
     private Button buttonPrevious;
-
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
     private Layout layoutInformationApps;
-
     private Button buttonColourSchemeApply;
-
     private Layout layoutInformation;
-
     private long lastClick = 0;
-
     private Stack<Layout> predecessor = new Stack<>();
-
-    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
-    private static final Color ITEM_SELECTED = Color.decode("0x757575");
 
     public ApplicationSettings() {
         this.setDefaultWidth(330);
@@ -247,7 +243,7 @@ public class ApplicationSettings extends SystemApplication {
         Button reload = new Button(250, 27, Icons.RELOAD);
         reload.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (mouseButton == 0) {
-
+                ClientProxy.cache.values().iterator().next();
             }
         });
         layoutWallpapers.addComponent(reload);
@@ -278,11 +274,9 @@ public class ApplicationSettings extends SystemApplication {
         ItemList<AppInfo> itemListApps = new ItemList<>(10, 30, 310, 5, true);
         itemListApps.setItems(new ArrayList<>(ApplicationManager.getAvailableApplications()));
         itemListApps.sortBy(Comparator.comparing(AppInfo::getName));
-        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(18)
-        {
+        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
             @Override
-            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
 
                 GlStateManager.color(1.0F, 1.0F, 1.0F);
@@ -292,14 +286,10 @@ public class ApplicationSettings extends SystemApplication {
         });
         itemListApps.setItemClickListener((info, index, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                if(System.currentTimeMillis() - this.lastClick <= 200)
-                {
+            if (mouseButton == 0) {
+                if (System.currentTimeMillis() - this.lastClick <= 200) {
                     openApplication(info);
-                }
-                else
-                {
+                } else {
                     this.lastClick = System.currentTimeMillis();
                 }
             }

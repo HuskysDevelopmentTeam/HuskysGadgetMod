@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 
 import net.minecraft.client.Minecraft;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;

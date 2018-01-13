@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.object;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;

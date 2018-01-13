@@ -6,13 +6,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.Email;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 import java.util.List;
 
 public class TaskUpdateInbox extends Task {
-    private List<ApplicationEmail.Email> emails;
+    private List<Email> emails;
 
     public TaskUpdateInbox() {
         super("update_inbox");
@@ -31,7 +31,7 @@ public class TaskUpdateInbox extends Task {
     public void prepareResponse(NBTTagCompound nbt) {
         NBTTagList tagList = new NBTTagList();
         if (emails != null) {
-            for (ApplicationEmail.Email email : emails) {
+            for (Email email : emails) {
                 NBTTagCompound emailTag = new NBTTagCompound();
                 email.writeToNBT(emailTag);
                 tagList.appendTag(emailTag);

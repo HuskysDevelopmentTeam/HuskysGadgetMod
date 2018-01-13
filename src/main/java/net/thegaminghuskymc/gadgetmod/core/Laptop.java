@@ -147,6 +147,10 @@ public class Laptop extends GuiScreen implements System {
         }
     }
 
+    public static Laptop getInstance() {
+        return instance;
+    }
+
     @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
@@ -448,43 +452,30 @@ public class Laptop extends GuiScreen implements System {
             int posX = (width - SCREEN_WIDTH) / 2;
             int posY = (height - SCREEN_HEIGHT) / 2;
 
-            if(this.context != null)
-            {
+            if (this.context != null) {
                 int dropdownX = context.xPosition;
                 int dropdownY = context.yPosition;
-                if(GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height))
-                {
+                if (GuiHelper.isMouseInside(mouseX, mouseY, dropdownX, dropdownY, dropdownX + context.width, dropdownY + context.height)) {
                     this.context.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
                 }
                 return;
             }
 
-            if(windows[0] != null)
-            {
+            if (windows[0] != null) {
                 Window<Application> window = windows[0];
                 Window<Dialog> dialogWindow = window.getContent().getActiveDialog();
-                if(dragging)
-                {
-                    if(isMouseOnScreen(mouseX, mouseY))
-                    {
-                        if(dialogWindow == null)
-                        {
+                if (dragging) {
+                    if (isMouseOnScreen(mouseX, mouseY)) {
+                        if (dialogWindow == null) {
                             window.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
-                        }
-                        else
-                        {
+                        } else {
                             dialogWindow.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         dragging = false;
                     }
-                }
-                else
-                {
-                    if(isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow))
-                    {
+                } else {
+                    if (isMouseWithinWindow(mouseX, mouseY, window) || isMouseWithinWindow(mouseX, mouseY, dialogWindow)) {
                         window.handleMouseDrag(mouseX, mouseY, clickedMouseButton);
                     }
                 }
@@ -808,10 +799,6 @@ public class Laptop extends GuiScreen implements System {
             RenderHelper.enableGUIStandardItemLighting();
             return delta >= 5000L ? IToast.Visibility.HIDE : IToast.Visibility.SHOW;
         }
-    }
-
-    public static Laptop getInstance() {
-        return instance;
     }
 
 }

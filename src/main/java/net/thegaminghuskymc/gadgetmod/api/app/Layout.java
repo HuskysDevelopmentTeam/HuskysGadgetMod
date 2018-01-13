@@ -82,7 +82,8 @@ public class Layout extends Component {
      * trigger on initialization listener if set.
      * See {@link #setInitListener(InitListener)}
      */
-    public void init() {}
+    public void init() {
+    }
 
     /**
      * Adds a component to this layout and initializes it.
@@ -97,11 +98,12 @@ public class Layout extends Component {
     }
 
     @Override
-    public void init(Layout layout) {}
+    public void init(Layout layout) {
+    }
 
     @Override
     protected void handleOnLoad() {
-        if(!initialized) {
+        if (!initialized) {
             this.init();
             initialized = true;
         }

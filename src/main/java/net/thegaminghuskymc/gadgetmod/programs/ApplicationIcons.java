@@ -5,32 +5,32 @@ import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.app.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Alphabet;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.EmojiesMRC;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
-public class ApplicationIcons extends Application
-{
+public class ApplicationIcons extends Application {
     private int offset;
 
     private StandardLayout layoutMain;
     private Layout layoutContainer;
     private ComboBox.List<IconSet> iconSetComboBox;
 
-    public ApplicationIcons()
-    {
+    public ApplicationIcons() {
         this.setDefaultWidth(332);
         this.setDefaultHeight(150);
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         layoutMain = new StandardLayout(TextFormatting.BOLD + "Icons", 330, 153, this, null);
         layoutMain.setIcon(Icons.HOME);
 
         layoutContainer = new Layout(330, 153);
         layoutMain.addComponent(layoutContainer);
 
-        IconSet[] iconSets = new IconSet[] { new IconSet("Standard Icons", Icons.values()), new IconSet("Alphabet", Alphabet.values()), new IconSet("Emojies", EmojiesMRC.values()) };
+        IconSet[] iconSets = new IconSet[]{new IconSet("Standard Icons", Icons.values()), new IconSet("Alphabet", Alphabet.values()), new IconSet("Emojies", EmojiesMRC.values())};
         iconSetComboBox = new ComboBox.List<>(191, 3, 100, iconSets);
         iconSetComboBox.setChangeListener((oldValue, newValue) ->
         {
@@ -44,9 +44,8 @@ public class ApplicationIcons extends Application
         btnPrevPage.setSize(14, 14);
         btnPrevPage.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                if(offset > 0) offset--;
+            if (mouseButton == 0) {
+                if (offset > 0) offset--;
                 updateIcons();
             }
         });
@@ -57,9 +56,8 @@ public class ApplicationIcons extends Application
         btnNextPage.setSize(14, 14);
         btnNextPage.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                if(offset < (iconSetComboBox.getSelectedItem().getIcons().length / 126)) offset++;
+            if (mouseButton == 0) {
+                if (offset < (iconSetComboBox.getSelectedItem().getIcons().length / 126)) offset++;
                 updateIcons();
             }
         });
@@ -69,12 +67,10 @@ public class ApplicationIcons extends Application
         this.setCurrentLayout(layoutMain);
     }
 
-    private void updateIcons()
-    {
+    private void updateIcons() {
         layoutContainer.clear();
         IconSet set = iconSetComboBox.getSelectedItem();
-        for(int i = 0; i < 126 && i < set.getIcons().length - (offset * 126); i++)
-        {
+        for (int i = 0; i < 126 && i < set.getIcons().length - (offset * 126); i++) {
             Enum<? extends IIcon> anEnum = set.getIcons()[i + (offset * 126)];
             IIcon icon = (IIcon) anEnum;
             int posX = (i % 18) * 18 - 1;
@@ -87,8 +83,7 @@ public class ApplicationIcons extends Application
     }
 
     @Override
-    public void onClose()
-    {
+    public void onClose() {
         super.onClose();
         offset = 0;
         layoutMain = null;
@@ -97,41 +92,34 @@ public class ApplicationIcons extends Application
     }
 
     @Override
-    public void load(NBTTagCompound tagCompound)
-    {
+    public void load(NBTTagCompound tagCompound) {
 
     }
 
     @Override
-    public void save(NBTTagCompound tagCompound)
-    {
+    public void save(NBTTagCompound tagCompound) {
 
     }
 
-    public static class IconSet
-    {
+    public static class IconSet {
         private String name;
         private Enum<? extends IIcon>[] icons;
 
-        public IconSet(String name, Enum<? extends IIcon>[] icons)
-        {
+        public IconSet(String name, Enum<? extends IIcon>[] icons) {
             this.name = name;
             this.icons = icons;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public Enum<? extends IIcon>[] getIcons()
-        {
+        public Enum<? extends IIcon>[] getIcons() {
             return icons;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return name;
         }
     }

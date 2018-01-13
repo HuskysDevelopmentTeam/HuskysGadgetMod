@@ -1,8 +1,9 @@
-package net.thegaminghuskymc.gadgetmod.api.app;
+package net.thegaminghuskymc.gadgetmod.api.app.emojie_packs;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -79,48 +80,41 @@ public enum Alphabet implements IIcon {
     TILDE;
 
     private static final ResourceLocation ALPHABET_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/alphabet.png");
-    
+
     private static final int ICON_SIZE = 10;
     private static final int GRID_SIZE = 20;
-    
+
     @Override
-    public ResourceLocation getIconAsset()
-    {
+    public ResourceLocation getIconAsset() {
         return ALPHABET_ASSET;
     }
 
     @Override
-    public int getIconSize()
-    {
+    public int getIconSize() {
         return ICON_SIZE;
     }
 
     @Override
-    public int getGridWidth()
-    {
+    public int getGridWidth() {
         return GRID_SIZE;
     }
 
     @Override
-    public int getGridHeight()
-    {
+    public int getGridHeight() {
         return GRID_SIZE;
     }
 
     @Override
-    public int getU()
-    {
+    public int getU() {
         return (ordinal() % GRID_SIZE) * ICON_SIZE;
     }
 
     @Override
-    public int getV()
-    {
+    public int getV() {
         return (ordinal() / GRID_SIZE) * ICON_SIZE;
     }
 
-    public void draw(Minecraft mc, int x, int y, int color)
-    {
+    public void draw(Minecraft mc, int x, int y, int color) {
         Color temp = new Color(color);
         float[] hsb = Color.RGBtoHSB(temp.getRed(), temp.getGreen(), temp.getBlue(), null);
         Color iconColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));

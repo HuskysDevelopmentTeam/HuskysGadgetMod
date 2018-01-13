@@ -3,13 +3,8 @@ package net.thegaminghuskymc.gadgetmod.programs.email;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.*;
@@ -20,20 +15,20 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.email.object.Contact;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,40 +40,23 @@ public class ApplicationEmail extends Application {
     private static final Pattern EMAIL = Pattern.compile("^([a-zA-Z0-9]{1,10})@pixelmail\\.com$");
     private final Color COLOR_EMAIL_CONTENT_BACKGROUND = new Color(160, 160, 160);
 
-    /* Loading Layout */
-    private Layout layoutInit;
-    private Spinner spinnerInit;
-    private Label labelLoading;
-
     /* Main Menu Layout */
     private Layout layoutMainMenu;
-    private Label logo;
-    private Label labelLogo;
     private Button btnRegisterAccount;
 
     /* Register Account Layout */
     private Layout layoutRegisterAccount;
-    private Label labelEmail;
     private TextField fieldEmail;
-    private Label labelDomain;
-    private Button btnRegister;
 
     /* Inbox Layout */
     private Layout layoutInbox;
     private ItemList<Email> listEmails;
-    private Button btnViewEmail;
-    private Button btnNewEmail;
-    private Button btnReplyEmail;
-    private Button btnDeleteEmail;
-    private Button btnRefresh;
 
     /* New Email Layout */
     private Layout layoutNewEmail;
     private TextField fieldRecipient;
     private TextField fieldSubject;
     private TextArea textAreaMessage;
-    private Button btnSendEmail;
-    private Button btnCancelEmail;
     private Button btnAttachedFile;
     private Button btnRemoveAttachedFile;
     private Label labelAttachedFile;
@@ -86,12 +64,8 @@ public class ApplicationEmail extends Application {
     /* View Email Layout */
     private Layout layoutViewEmail;
     private Label labelViewSubject;
-    private Label labelSender;
     private Label labelFrom;
-    private Label labelViewSubjectContent;
-    private Label labelViewMessage;
     private Text textMessage;
-    private Button btnCancelViewEmail;
     private Button btnSaveAttachment;
     private Label labelAttachmentName;
 
@@ -109,10 +83,8 @@ public class ApplicationEmail extends Application {
         Label labelLoading = new Label("Loading...", 2, 26);
         layoutInit.addComponent(labelLoading);
 
-
         /* Main Menu Layout */
-
-        Layout layoutMainMenu = new Layout(100, 75);
+        layoutMainMenu = new Layout(100, 75);
 
         Label logo = new Label(35, 5, Icons.MAIL);
         layoutMainMenu.addComponent(logo);
@@ -121,7 +93,7 @@ public class ApplicationEmail extends Application {
         labelLogo.setAlignment(ALIGN_CENTER);
         layoutMainMenu.addComponent(labelLogo);
 
-        Button btnRegisterAccount = new Button(5, 50, "Register");
+        btnRegisterAccount = new Button(5, 50, "Register");
         btnRegisterAccount.setSize(90, 20);
         btnRegisterAccount.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutRegisterAccount));
         btnRegisterAccount.setVisible(false);
@@ -130,12 +102,12 @@ public class ApplicationEmail extends Application {
 
         /* Register Account Layout */
 
-        Layout layoutRegisterAccount = new Layout(167, 60);
+        layoutRegisterAccount = new Layout(167, 60);
 
         Label labelEmail = new Label("Email", 5, 5);
         layoutRegisterAccount.addComponent(labelEmail);
 
-        TextField fieldEmail = new TextField(5, 15, 80);
+        fieldEmail = new TextField(5, 15, 80);
         layoutRegisterAccount.addComponent(fieldEmail);
 
         Label labelDomain = new Label("@pixelmail.com", 88, 18);
@@ -164,7 +136,7 @@ public class ApplicationEmail extends Application {
 
         /* Inbox Layout */
 
-        Layout layoutInbox = new Layout(300, 148);
+        layoutInbox = new Layout(300, 148);
         layoutInbox.setInitListener(() -> {
             TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
             taskUpdateInbox.setCallback((nbt, success) ->
@@ -177,7 +149,7 @@ public class ApplicationEmail extends Application {
             TaskManager.sendTask(taskUpdateInbox);
         });
 
-        ItemList listEmails = new ItemList<>(5, 25, 275, 4);
+        listEmails = new ItemList<>(5, 25, 275, 4);
         listEmails.setListItemRenderer(new ListItemRenderer<Email>(28) {
             @Override
             public void render(Email e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
@@ -208,10 +180,10 @@ public class ApplicationEmail extends Application {
             if (index != -1) {
                 TaskManager.sendTask(new TaskViewEmail(index));
                 Email email = listEmails.getSelectedItem();
-                email.setRead(true);
+                Objects.requireNonNull(email).setRead(true);
                 textMessage.setText(email.getMessage());
                 labelViewSubject.setText(email.getSubject());
-                labelFrom.setText(email.getAuthor() + "@ppixelmail.com");
+                labelFrom.setText(email.getAuthor() + "@pixelmail.com");
                 attachedFile = email.getAttachment();
                 if (attachedFile != null) {
                     btnSaveAttachment.setVisible(true);
@@ -221,7 +193,7 @@ public class ApplicationEmail extends Application {
                 setCurrentLayout(layoutViewEmail);
             }
         });
-        Button btnViewEmail.setToolTip("View", "Opens the currently selected email");
+        btnViewEmail.setToolTip("View", "Opens the currently selected email");
         layoutInbox.addComponent(btnViewEmail);
 
         Button btnNewEmail = new Button(25, 5, ENDER_MAIL_ICONS, 0, 0, 10, 10);
@@ -241,7 +213,7 @@ public class ApplicationEmail extends Application {
         btnReplyEmail.setToolTip("Reply", "Reply to the currently selected email");
         layoutInbox.addComponent(btnReplyEmail);
 
-        btnDeleteEmail = new Button(65, 5, ENDER_MAIL_ICONS, 10, 0, 10, 10);
+        Button btnDeleteEmail = new Button(65, 5, ENDER_MAIL_ICONS, 10, 0, 10, 10);
         btnDeleteEmail.setClickListener((mouseX, mouseY, mouseButton) -> {
             final int index = listEmails.getSelectedIndex();
             if (index != -1) {
@@ -257,7 +229,7 @@ public class ApplicationEmail extends Application {
         btnDeleteEmail.setToolTip("Trash Email", "Deletes the currently select email");
         layoutInbox.addComponent(btnDeleteEmail);
 
-        btnRefresh = new Button(85, 5, ENDER_MAIL_ICONS, 20, 0, 10, 10);
+        Button btnRefresh = new Button(85, 5, ENDER_MAIL_ICONS, 20, 0, 10, 10);
         btnRefresh.setClickListener((mouseX, mouseY, mouseButton) -> {
             TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
             taskUpdateInbox.setCallback((nbt, success) ->
@@ -269,22 +241,6 @@ public class ApplicationEmail extends Application {
             });
             TaskManager.sendTask(taskUpdateInbox);
         });
-
-        class Reloading extends TimerTask {
-            public void run() {
-
-                TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
-                taskUpdateInbox.setCallback((nbt, success) ->
-                {
-                    listEmails.removeAll();
-                    for (Email email : EmailManager.INSTANCE.getInbox()) {
-                        listEmails.addItem(email);
-                    }
-                });
-                TaskManager.sendTask(taskUpdateInbox);
-
-            }
-        }
 
         Timer timer = new Timer();
         timer.schedule(new Reloading(), 0, 5000);
@@ -300,7 +256,7 @@ public class ApplicationEmail extends Application {
         layoutNewEmail.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             if (attachedFile != null) {
-                AppInfo info = ApplicationManager.getApplication(attachedFile.getOpeningApp());
+                AppInfo info = ApplicationManager.getApplication(Objects.requireNonNull(attachedFile.getOpeningApp()));
                 RenderUtil.drawApplicationIcon(info, x + 46, y + 130);
             }
         });
@@ -317,7 +273,7 @@ public class ApplicationEmail extends Application {
         textAreaMessage.setPlaceholder("Message");
         layoutNewEmail.addComponent(textAreaMessage);
 
-        btnSendEmail = new Button(5, 5, ENDER_MAIL_ICONS, 50, 0, 10, 10);
+        Button btnSendEmail = new Button(5, 5, ENDER_MAIL_ICONS, 50, 0, 10, 10);
         btnSendEmail.setClickListener((mouseX, mouseY, mouseButton) -> {
             Matcher matcher = EMAIL.matcher(fieldRecipient.getText());
             if (!matcher.matches()) return;
@@ -339,7 +295,7 @@ public class ApplicationEmail extends Application {
         btnSendEmail.setToolTip("Send", "Send email to recipient");
         layoutNewEmail.addComponent(btnSendEmail);
 
-        btnCancelEmail = new Button(5, 25, ENDER_MAIL_ICONS, 40, 0, 10, 10);
+        Button btnCancelEmail = new Button(5, 25, ENDER_MAIL_ICONS, 40, 0, 10, 10);
         btnCancelEmail.setClickListener((mouseX, mouseY, mouseButton) -> {
             setCurrentLayout(layoutInbox);
             textAreaMessage.clear();
@@ -403,7 +359,7 @@ public class ApplicationEmail extends Application {
 
             if (attachedFile != null) {
                 GlStateManager.color(1.0F, 1.0F, 1.0F);
-                AppInfo info = ApplicationManager.getApplication(attachedFile.getOpeningApp());
+                AppInfo info = ApplicationManager.getApplication(Objects.requireNonNull(attachedFile.getOpeningApp()));
                 RenderUtil.drawApplicationIcon(info, x + 204, y + 4);
             }
         });
@@ -414,7 +370,7 @@ public class ApplicationEmail extends Application {
         labelFrom = new Label("From", 5, 38);
         layoutViewEmail.addComponent(labelFrom);
 
-        btnCancelViewEmail = new Button(5, 3, ENDER_MAIL_ICONS, 40, 0, 10, 10);
+        Button btnCancelViewEmail = new Button(5, 3, ENDER_MAIL_ICONS, 40, 0, 10, 10);
         btnCancelViewEmail.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -455,7 +411,7 @@ public class ApplicationEmail extends Application {
         taskCheckAccount.setCallback((nbt, success) ->
         {
             if (success) {
-                currentName = nbt.getString("Name");
+                currentName = Objects.requireNonNull(nbt).getString("Name");
                 listEmails.removeAll();
                 for (Email email : EmailManager.INSTANCE.getInbox()) {
                     listEmails.addItem(email);
@@ -492,16 +448,30 @@ public class ApplicationEmail extends Application {
 
     @Override
     public String getWindowTitle() {
-        if (getCurrentLayout() == layoutInbox) {
-            return "Inbox: " + currentName + "@pixelmail.com";
-        }
-        return info.getName();
+        if (getCurrentLayout() == layoutInbox) return "Inbox: " + currentName + "@pixelmail.com";
+        return null;
     }
 
     @Override
     public void onClose() {
         super.onClose();
         attachedFile = null;
+    }
+
+    class Reloading extends TimerTask {
+        public void run() {
+
+            TaskUpdateInbox taskUpdateInbox = new TaskUpdateInbox();
+            taskUpdateInbox.setCallback((nbt, success) ->
+            {
+                listEmails.removeAll();
+                for (Email email : EmailManager.INSTANCE.getInbox()) {
+                    listEmails.addItem(email);
+                }
+            });
+            TaskManager.sendTask(taskUpdateInbox);
+
+        }
     }
 
 }

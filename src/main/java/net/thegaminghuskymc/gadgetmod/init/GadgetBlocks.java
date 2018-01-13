@@ -79,8 +79,6 @@ public class GadgetBlocks {
 //        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
 //        registerBlock(RGB_LIGHTS);
         registerBlock(ROOF_LIGHTS);
-//        registerBlock(SECURITY_CAMERA);
-//        registerBlock(SOUNDWOOFERS);
         registerBlock(PLAYSTATION_4_PRO, new ItemDevice(PLAYSTATION_4_PRO));
         registerBlock(EXTERNAL_HARDDRIVE, new ItemDevice(EXTERNAL_HARDDRIVE));
         registerBlock(EASTER_EGG);

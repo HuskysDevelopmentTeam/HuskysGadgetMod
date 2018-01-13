@@ -6,10 +6,8 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationIcons;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationMachineReader;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelBrowser;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
+import net.thegaminghuskymc.gadgetmod.api.registries.AppRegistry;
+import net.thegaminghuskymc.gadgetmod.programs.*;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
 import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
@@ -41,6 +39,7 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cackler"), ApplicationCackler.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
+//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "emojie_viewer"), EmojiViewerApplication.class);
 
         if (Loader.isModLoaded("futopia")) {
             ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);

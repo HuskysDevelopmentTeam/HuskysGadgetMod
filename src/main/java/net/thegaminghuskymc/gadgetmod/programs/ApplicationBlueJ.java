@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.programs;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.io.File;

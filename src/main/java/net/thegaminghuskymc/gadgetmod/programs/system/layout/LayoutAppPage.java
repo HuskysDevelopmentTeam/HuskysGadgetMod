@@ -5,14 +5,17 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -21,15 +24,13 @@ public class LayoutAppPage extends Layout {
 
     private AppInfo info;
 
-    public LayoutAppPage(AppInfo info)
-    {
+    public LayoutAppPage(AppInfo info) {
         super(250, 150);
         this.info = info;
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         this.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getHeaderColour());
@@ -54,24 +55,18 @@ public class LayoutAppPage extends Layout {
         this.addComponent(textDescription);
 
         SlideShow slideShow = new SlideShow(5, 67, 120, 78);
-        if(info.getScreenshots() != null)
-        {
-            for(String image : info.getScreenshots())
-            {
-                if(image.startsWith("http://") || image.startsWith("https://"))
-                {
+        if (info.getScreenshots() != null) {
+            for (String image : info.getScreenshots()) {
+                if (image.startsWith("http://") || image.startsWith("https://")) {
                     slideShow.addImage(image);
-                }
-                else
-                {
+                } else {
                     slideShow.addImage(new ResourceLocation(info.getId().getResourceDomain(), image));
                 }
             }
         }
         this.addComponent(slideShow);
 
-        if(info.getSupport() != null)
-        {
+        if (info.getSupport() != null) {
             Button btnDonate = new Button(174, 44, Icons.COIN);
             btnDonate.setToolTip("Donate", "Opens a link to donate to author of the application");
             btnDonate.setSize(14, 14);
@@ -86,28 +81,22 @@ public class LayoutAppPage extends Layout {
     }
 
     @Override
-    public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
-    {
+    public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
         GlStateManager.color(1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.ICON_TEXTURES);
         RenderUtil.drawRectWithTexture(xPosition + 5, yPosition + 26, info.getIconU(), info.getIconV(), 28, 28, 14, 14, 224, 224);
         super.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
     }
 
-    private void loadScreenshots()
-    {
+    private void loadScreenshots() {
         String screenshots = "assets/" + info.getId().getResourceDomain() + "/textures/app/screenshots/" + info.getId().getResourcePath();
         URL url = LayoutAppPage.class.getResource(screenshots);
-        try
-        {
-            if(url != null)
-            {
+        try {
+            if (url != null) {
                 File file = new File(url.toURI());
                 HuskyGadgetMod.getLogger().info(file.exists() + " is true");
             }
-        }
-        catch(URISyntaxException e)
-        {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

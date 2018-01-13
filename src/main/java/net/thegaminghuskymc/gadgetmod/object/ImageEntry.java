@@ -2,41 +2,34 @@ package net.thegaminghuskymc.gadgetmod.object;
 
 import net.minecraft.util.ResourceLocation;
 
-public class ImageEntry
-{
+public class ImageEntry {
     private Type type;
     private ResourceLocation resource;
     private String url;
 
-    public ImageEntry(ResourceLocation resource)
-    {
+    public ImageEntry(ResourceLocation resource) {
         this.type = Type.LOCAL;
         this.resource = resource;
     }
 
-    public ImageEntry(String url)
-    {
+    public ImageEntry(String url) {
         this.type = Type.REMOTE;
         this.url = url;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public ResourceLocation getResource()
-    {
+    public ResourceLocation getResource() {
         return resource;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public enum Type
-    {
+    public enum Type {
         LOCAL, REMOTE;
     }
 }

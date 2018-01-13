@@ -34,8 +34,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
         {
             GlStateManager.translate(x, y, z);
 
-            if(te.isExternalDriveAttached())
-            {
+            if (te.isExternalDriveAttached()) {
                 GlStateManager.pushMatrix();
                 {
                     GlStateManager.translate(0.5, 0, 0.5);

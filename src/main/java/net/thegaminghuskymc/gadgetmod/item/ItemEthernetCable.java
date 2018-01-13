@@ -34,7 +34,7 @@ import java.util.List;
  * Author: MrCrayfish
  */
 public class ItemEthernetCable extends Item {
-    
+
     public ItemEthernetCable() {
         this.setUnlocalizedName("ethernet_cable");
         this.setRegistryName("ethernet_cable");

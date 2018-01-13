@@ -117,7 +117,7 @@ public class Themes {
     public static class Deserializer implements JsonDeserializer<Themes> {
 
         private static final Pattern LANG = Pattern.compile("\\$\\{[a-z]+}");
-        
+
         private Themes themes;
 
         public Deserializer(Themes themes) {

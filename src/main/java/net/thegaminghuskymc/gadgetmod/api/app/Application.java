@@ -3,7 +3,9 @@ package net.thegaminghuskymc.gadgetmod.api.app;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.Window;
@@ -378,4 +380,5 @@ public abstract class Application extends Wrappable {
         Application app = (Application) obj;
         return app.info.getFormattedId().equals(this.info.getFormattedId());
     }
+
 }

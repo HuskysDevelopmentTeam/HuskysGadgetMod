@@ -4,7 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -14,13 +15,11 @@ import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 import javax.annotation.Nullable;
 import java.awt.*;
 
-public class HomePageLayout extends Layout
-{
+public class HomePageLayout extends Layout {
     protected Application app;
     private Layout previous;
 
-    public HomePageLayout(int width, int height, Application app, @Nullable Layout previous)
-    {
+    public HomePageLayout(int width, int height, Application app, @Nullable Layout previous) {
         super(width, height);
         this.app = app;
         this.previous = previous;
@@ -28,18 +27,19 @@ public class HomePageLayout extends Layout
 
     @Override
     public void init() {
-        if(previous != null)
-        {
+        if (previous != null) {
             Button btnBack = new Button(2, 2, Icons.ARROW_LEFT);
             btnBack.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if(mouseButton == 0)
-                {
+                if (mouseButton == 0) {
                     app.setCurrentLayout(previous);
                 }
             });
             this.addComponent(btnBack);
         }
+
+        Image imageBanner = new Image(0, 0, 270, 44, "https://i.imgur.com/VAGCpKY.jpg");
+        this.addComponent(imageBanner);
 
         Label labelBanner = new Label(RenderHelper.unlocaliseName(ApplicationManager.getApplication("hgm:app_store").getName()), 10, 36);
         labelBanner.setScale(2);

@@ -1,12 +1,9 @@
 package net.thegaminghuskymc.gadgetmod;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -16,8 +13,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.io.task.*;
@@ -39,16 +34,9 @@ import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreCategories;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
 public class HuskyGadgetMod {
@@ -100,14 +88,36 @@ public class HuskyGadgetMod {
 
         GadgetOreDictionary.init();
 
-        proxy.init(event);
+        /*ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, Minecraft.getMinecraft(), new EmojiFontRenderer(Minecraft.getMinecraft()), "fontRenderer");
+        EmojiPackManager.addPack("Yellow Emojis", YellowEmojis.class);
+        EmojiPackManager.addPack("White Emojis", WhiteEmojis.class);
+        EmojiPackManager.addPack("Brown Emojis", BrownEmojis.class);
+        EmojiPackManager.addPack("Faces", Faces.class);
+        EmojiPackManager.addPack("Other Emojis", OtherEmojis.class);
+        EmojiPackManager.addPack("Food", Food.class);
+        EmojiPackManager.addPack("Animated", AnimatedEmojis.class);
+        EmojiPackManager.addPack("Logos", Logos.class);
+        EmojiPackManager.addPack("CrayIcons", CrayfishIcons.class);*/
 
         registerTasks();
+
+        proxy.init(event);
 
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        /*Thread animatedEmojiThread = new Thread(() -> {
+            while (true) {
+                EmojiManager.getAnimatedEmojis().forEach(IAnimatedEmoji::checkNextFrame);
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        animatedEmojiThread.start();*/
         proxy.postInit(event);
     }
 

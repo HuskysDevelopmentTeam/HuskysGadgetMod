@@ -18,6 +18,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -69,6 +70,7 @@ public class ApplicationBank extends SystemApplication {
 
     @Override
     public void init() {
+
         layoutStart = new Layout();
         layoutStart.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
@@ -92,6 +94,20 @@ public class ApplicationBank extends SystemApplication {
             RenderUtil.drawRectWithTexture(x + 46, y + 19, 0, 0, 146, 52, 146, 52);
         });
 
+        Button buttonPrevious = new Button(5, 5, Icons.ARROW_LEFT);
+        buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
+        {
+            if (mouseButton == 0) {
+                setCurrentLayout(layoutStart);
+            }
+        });
+
+        Layout layoutAccount = new Layout(200, 140);
+        layoutAccount.addComponent(buttonPrevious);
+
+        Label labelMoney = new Label("You have: " + InventoryUtil.getItemAmount(Minecraft.getMinecraft().player, Items.EMERALD) + " emeralds", 25, 10);
+        layoutAccount.addComponent(labelMoney);
+
         labelTeller = new Label(TextFormatting.YELLOW + "Casey The Teller", 60, 7);
         layoutStart.addComponent(labelTeller);
 
@@ -101,7 +117,9 @@ public class ApplicationBank extends SystemApplication {
         btnDepositWithdraw = new Button(54, 74, "View Account");
         btnDepositWithdraw.setSize(76, 20);
         btnDepositWithdraw.setClickListener((mouseX, mouseY, mouseButton) -> {
-
+            if(mouseButton == 0) {
+                setCurrentLayout(layoutAccount);
+            }
         });
         btnDepositWithdraw.setToolTip("View Account", "Shows your balance");
         layoutStart.addComponent(btnDepositWithdraw);

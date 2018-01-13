@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
-import net.thegaminghuskymc.gadgetmod.api.app.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;

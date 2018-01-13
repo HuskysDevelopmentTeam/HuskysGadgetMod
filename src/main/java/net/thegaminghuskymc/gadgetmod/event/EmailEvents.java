@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail.EmailManager;
+import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
 
 import java.io.File;
 import java.io.IOException;

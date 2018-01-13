@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

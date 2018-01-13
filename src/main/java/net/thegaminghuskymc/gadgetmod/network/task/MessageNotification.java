@@ -9,32 +9,28 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.api.app.Notification;
 
-public class MessageNotification implements IMessage, IMessageHandler<MessageNotification, IMessage>
-{
+public class MessageNotification implements IMessage, IMessageHandler<MessageNotification, IMessage> {
     private NBTTagCompound notificationTag;
 
-    public MessageNotification() {}
+    public MessageNotification() {
+    }
 
-    public MessageNotification(Notification notification)
-    {
+    public MessageNotification(Notification notification) {
         this.notificationTag = notification.toTag();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeTag(buf, notificationTag);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         notificationTag = ByteBufUtils.readTag(buf);
     }
 
     @Override
-    public IMessage onMessage(MessageNotification message, MessageContext ctx)
-    {
+    public IMessage onMessage(MessageNotification message, MessageContext ctx) {
         HuskyGadgetMod.proxy.showNotification(message.notificationTag);
         return null;
     }

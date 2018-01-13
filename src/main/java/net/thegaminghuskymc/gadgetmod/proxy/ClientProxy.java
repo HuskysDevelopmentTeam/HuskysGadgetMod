@@ -42,6 +42,7 @@ import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -56,9 +57,7 @@ import java.util.Map;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
-    public static boolean rendering = false;
-    public static Entity renderEntity = null;
-    public static Entity backupEntity = null;
+    public static volatile Map cache = new HashMap();
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -98,6 +97,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 try {
                     if (!f.exists()) f.createNewFile();
                     img = ImageIO.read(f);
+                    cache.put(files, folder.list());
                 } catch (IOException e) {
 
                 }
@@ -264,33 +264,25 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
     }
 
     @Override
-    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
-    {
-        try
-        {
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
+        try {
             Constructor<? extends IPrint> constructor = classPrint.getConstructor();
             IPrint print = constructor.newInstance();
             Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
-            try
-            {
+            try {
                 IPrint.Renderer renderer = classRenderer.newInstance();
                 Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
-                if(idToRenderer == null)
-                {
+                if (idToRenderer == null) {
                     idToRenderer = new HashMap<>();
                     ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
                 }
                 idToRenderer.put(identifier.toString(), renderer);
-            }
-            catch(InstantiationException e)
-            {
+            } catch (InstantiationException e) {
                 HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
                 return false;
             }
             return true;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
         }
         return false;
@@ -317,46 +309,8 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         DeviceConfig.restore();
     }
 
-    @SubscribeEvent
-    public void onClientWorldLoad(WorldEvent.Load event) {
-        if (event.getWorld() instanceof WorldClient) {
-
-        }
-    }
-
-    @SubscribeEvent
-    public void onClientWorldUnload(WorldEvent.Unload event) {
-        if (event.getWorld() instanceof WorldClient) {
-
-        }
-    }
-
-
-    @SubscribeEvent
-    public void onPrePlayerRender(RenderPlayerEvent.Pre event) {
-        if (!rendering)
-            return;
-
-        if (event.getEntityPlayer() == renderEntity) {
-            this.backupEntity = Minecraft.getMinecraft().getRenderManager().renderViewEntity;
-            Minecraft.getMinecraft().getRenderManager().renderViewEntity = renderEntity;
-        }
-    }
-
-    @SubscribeEvent
-    public void onPostPlayerRender(RenderPlayerEvent.Post event) {
-        if (!rendering)
-            return;
-
-        if (event.getEntityPlayer() == renderEntity) {
-            Minecraft.getMinecraft().getRenderManager().renderViewEntity = backupEntity;
-            renderEntity = null;
-        }
-    }
-
     @Override
-    public void showNotification(NBTTagCompound tag)
-    {
+    public void showNotification(NBTTagCompound tag) {
         ClientNotification notification = ClientNotification.loadFromTag(tag);
         notification.push();
     }

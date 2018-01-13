@@ -17,6 +17,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
@@ -253,7 +254,7 @@ public class ApplicationPixelShop extends Application {
         btnEraser.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnEraser);
 
-        ButtonToggle btnBlur = new ButtonToggle(5, 62, PIXEL_PAINTER_ICONS, 30, 0, 10, 10);
+        /*ButtonToggle btnBlur = new ButtonToggle(5, 62, PIXEL_PAINTER_ICONS, 30, 0, 10, 10);
         btnBlur.setClickListener((mouseX, mouseY, mouseButton) -> canvas.setCurrentTool(Canvas.BLUR));
         btnBlur.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnBlur);
@@ -276,9 +277,9 @@ public class ApplicationPixelShop extends Application {
         ButtonToggle btnSmudge = new ButtonToggle(5, 138, PIXEL_PAINTER_ICONS, 70, 0, 10, 10);
         btnSmudge.setClickListener((mouseX, mouseY, mouseButton) -> canvas.setCurrentTool(Canvas.SMUDGE));
         btnSmudge.setRadioGroup(toolGroup);
-        layoutTools.addComponent(btnSmudge);
+        layoutTools.addComponent(btnSmudge);*/
 
-        ButtonToggle btnEyeDropper = new ButtonToggle(5, 157, Icons.EYE_DROPPER);
+        ButtonToggle btnEyeDropper = new ButtonToggle(5, 62, Icons.EYE_DROPPER);
         btnEyeDropper.setClickListener((mouseX, mouseY, mouseButton) -> {
             canvas.setCurrentTool(Canvas.EYE_DROPPER);
             Color color = new Color(canvas.getCurrentColour());
@@ -287,7 +288,7 @@ public class ApplicationPixelShop extends Application {
         btnEyeDropper.setRadioGroup(toolGroup);
         layoutTools.addComponent(btnEyeDropper);
 
-        Button btnCancel = new Button(5, 176, Icons.CROSS);
+        Button btnCancel = new Button(5, 81, Icons.CROSS);
         btnCancel.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (canvas.isExistingImage())
                 setCurrentLayout(layoutLoadPicture);
@@ -297,7 +298,7 @@ public class ApplicationPixelShop extends Application {
         });
         layoutTools.addComponent(btnCancel);
 
-        Button btnSave = new Button(5, 195, Icons.SAVE);
+        Button btnSave = new Button(162, 5, Icons.SAVE);
         btnSave.setClickListener((mouseX, mouseY, mouseButton) -> {
             canvas.picture.pixels = canvas.copyPixels();
 
@@ -329,9 +330,9 @@ public class ApplicationPixelShop extends Application {
                 openDialog(dialog);
             }
         });
-        layoutTools.addComponent(btnSave);
+        layoutDraw.addComponent(btnSave);
 
-        Button button = new Button(162, 31, Icons.PRINTER);
+        Button button = new Button(162, 22, Icons.PRINTER);
         button.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -401,7 +402,7 @@ public class ApplicationPixelShop extends Application {
         private int resolution;
         private boolean cut;
 
-        PicturePrint(String name, int[] pixels, int resolution) {
+        public PicturePrint(String name, int[] pixels, int resolution) {
             this.name = name;
             this.pixels = pixels;
             this.resolution = resolution;

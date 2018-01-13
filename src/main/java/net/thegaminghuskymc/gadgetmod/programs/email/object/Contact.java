@@ -1,29 +1,24 @@
 package net.thegaminghuskymc.gadgetmod.programs.email.object;
 
-public class Contact
-{
+public class Contact {
     private String nickname;
     private String email;
 
-    public Contact(String nickname, String email)
-    {
+    public Contact(String nickname, String email) {
         this.nickname = nickname;
         this.email = email;
     }
 
-    public String getNickname()
-    {
+    public String getNickname() {
         return nickname;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return nickname;
     }
 }
