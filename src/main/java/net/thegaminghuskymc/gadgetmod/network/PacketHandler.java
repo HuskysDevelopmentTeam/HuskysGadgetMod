@@ -1,21 +1,36 @@
 package net.thegaminghuskymc.gadgetmod.network;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.network.task.*;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageNotification;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageRequest;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageResponse;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncBlock;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
+import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
 
 public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 
+    private static int ID = 1;
+    
     public static void init() {
-        INSTANCE.registerMessage(MessageRequest.class, MessageRequest.class, 1, Side.SERVER);
-        INSTANCE.registerMessage(MessageResponse.class, MessageResponse.class, 2, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSyncApplications.class, MessageSyncApplications.class, 3, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSyncConfig.class, MessageSyncConfig.class, 4, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSyncBlock.class, MessageSyncBlock.class, 5, Side.SERVER);
-        INSTANCE.registerMessage(MessageUnlockAdvancement.class, MessageUnlockAdvancement.class, 6, Side.SERVER);
-        INSTANCE.registerMessage(MessageNotification.class, MessageNotification.class, 6, Side.CLIENT);
+        registerMessage(MessageRequest.class, MessageRequest.class, Side.SERVER);
+        registerMessage(MessageResponse.class, MessageResponse.class, Side.CLIENT);
+        registerMessage(MessageSyncApplications.class, MessageSyncApplications.class, Side.CLIENT);
+        registerMessage(MessageSyncConfig.class, MessageSyncConfig.class, Side.CLIENT);
+        registerMessage(MessageSyncBlock.class, MessageSyncBlock.class, Side.SERVER);
+        registerMessage(MessageUnlockAdvancement.class, MessageUnlockAdvancement.class, Side.SERVER);
+        registerMessage(MessageNotification.class, MessageNotification.class, Side.CLIENT);
+    }
+    
+    public static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(Class<? extends IMessageHandler<REQ, REPLY>> handlerClazz, Class<REQ> messageClazz, Side side) {
+    	INSTANCE.registerMessage(handlerClazz, messageClazz, ID, side);
+    	ID++;
     }
 }
