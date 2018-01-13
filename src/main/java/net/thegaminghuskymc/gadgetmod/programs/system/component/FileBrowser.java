@@ -132,6 +132,7 @@ public class FileBrowser extends Component {
 
     @Override
     public void init(Layout layout) {
+    	System.out.println("init");
         layoutMain = new Layout(mode.getWidth(), mode.getHeight());
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
@@ -321,6 +322,7 @@ public class FileBrowser extends Component {
 
     @Override
     public void handleOnLoad() {
+    	System.out.println("handleOnLoad");
         if (!loadedStructure) {
             setLoading(true);
             Task task = new TaskSetupFileBrowser(Laptop.getPos(), Laptop.getMainDrive() == null);

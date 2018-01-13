@@ -485,6 +485,7 @@ public abstract class Dialog extends Wrappable {
                 }
             });
             main.addComponent(browser);
+            browser.handleOnLoad();
 
             int positiveWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(positiveText);
             buttonPositive = new Button(172, 106, positiveText);
@@ -607,6 +608,7 @@ public abstract class Dialog extends Wrappable {
             browser.setFilter(file -> filter == null || filter.test(file) || file.isFolder());
             browser.openFolder(path);
             main.addComponent(browser);
+            browser.handleOnLoad();
 
             buttonPositive = new Button(172, 125, positiveText);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->

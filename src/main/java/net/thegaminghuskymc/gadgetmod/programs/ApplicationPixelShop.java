@@ -402,6 +402,8 @@ public class ApplicationPixelShop extends Application {
         private int resolution;
         private boolean cut;
 
+        public PicturePrint() { }
+        
         public PicturePrint(String name, int[] pixels, int resolution) {
             this.name = name;
             this.pixels = pixels;
