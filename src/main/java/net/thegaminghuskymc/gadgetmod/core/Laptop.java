@@ -131,7 +131,6 @@ public class Laptop extends GuiScreen implements System {
         }
         
         if(this.bootMode == null) {
-    		java.lang.System.out.println("lol");
     		this.bootMode = BootMode.BOOTING;
     		this.bootTimer = BOOT_ON_TIME;
     	}
