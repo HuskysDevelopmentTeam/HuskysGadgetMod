@@ -8,14 +8,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
-import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
@@ -24,7 +23,6 @@ import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
-import net.thegaminghuskymc.gadgetmod.proxy.ClientProxy;
 
 import java.awt.*;
 import java.util.*;
@@ -242,9 +240,7 @@ public class ApplicationSettings extends SystemApplication {
 
         Button reload = new Button(250, 27, Icons.RELOAD);
         reload.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if (mouseButton == 0) {
-                ClientProxy.cache.values().iterator().next();
-            }
+
         });
         layoutWallpapers.addComponent(reload);
 
@@ -252,7 +248,7 @@ public class ApplicationSettings extends SystemApplication {
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        ComboBox.Custom<Integer> comboBoxApplicationBarColour = createColourPicker(26);
+        ComboBox.Custom<Integer> comboBoxApplicationBarColour = createColourPicker();
         layoutColourScheme.addComponent(comboBoxApplicationBarColour);
 
         Label applicationBarColour = new Label("Application Bar Colour", 200, 29);
@@ -371,8 +367,8 @@ public class ApplicationSettings extends SystemApplication {
         layout.addComponent(btnPrevious);
     }
 
-    private ComboBox.Custom<Integer> createColourPicker(int top) {
-        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(145, top, 50, 100, 100);
+    private ComboBox.Custom<Integer> createColourPicker() {
+        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(145, 26, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
         colourPicker.setItemRenderer(new ItemRenderer<Integer>() {
             @Override

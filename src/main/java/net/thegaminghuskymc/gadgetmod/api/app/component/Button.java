@@ -18,24 +18,24 @@ import java.util.Arrays;
 
 public class Button extends Component {
 
-    protected static final int TOOLTIP_DELAY = 10;
+    private static final int TOOLTIP_DELAY = 10;
 
     protected String text;
-    protected String toolTip, toolTipTitle;
-    protected int toolTipTick;
-    protected boolean hovered;
+    private String toolTip, toolTipTitle;
+    private int toolTipTick;
+    private boolean hovered;
 
-    protected int padding = 5;
+    private int padding = 5;
     protected int width, height;
-    protected boolean explicitSize = false;
+    private boolean explicitSize = false;
 
-    protected ResourceLocation iconResource;
-    protected int iconU, iconV;
-    protected int iconWidth, iconHeight;
-    protected int iconSourceWidth;
-    protected int iconSourceHeight;
+    private ResourceLocation iconResource;
+    private int iconU, iconV;
+    private int iconWidth, iconHeight;
+    private int iconSourceWidth;
+    private int iconSourceHeight;
 
-    protected ClickListener clickListener = null;
+    ClickListener clickListener = null;
 
     /**
      * Alternate button constructor
@@ -99,7 +99,7 @@ public class Button extends Component {
      *
      * @param left how many pixels from the left
      * @param top  how many pixels from the top
-     * @param icon
+     * @param icon an icon that you choose
      */
     public Button(int left, int top, String text, IIcon icon) {
         this(left, top, text);
@@ -111,7 +111,7 @@ public class Button extends Component {
      *
      * @param left how many pixels from the left
      * @param top  how many pixels from the top
-     * @param icon
+     * @param icon an icon that you choose
      */
     public Button(int left, int top, int buttonWidth, int buttonHeight, String text, IIcon icon) {
         super(left, top);
@@ -266,7 +266,7 @@ public class Button extends Component {
         this.clickListener = clickListener;
     }
 
-    protected int getHoverState(boolean mouseOver) {
+    private int getHoverState(boolean mouseOver) {
         int i = 1;
 
         if (!this.enabled) {
@@ -278,7 +278,7 @@ public class Button extends Component {
         return i;
     }
 
-    protected void playClickSound(SoundHandler handler) {
+    void playClickSound(SoundHandler handler) {
         handler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 
@@ -316,7 +316,7 @@ public class Button extends Component {
         updateSize();
     }
 
-    public void setIcon(ResourceLocation iconResource, int iconU, int iconV, int iconWidth, int iconHeight) {
+    private void setIcon(ResourceLocation iconResource, int iconU, int iconV, int iconWidth, int iconHeight) {
         this.iconU = iconU;
         this.iconV = iconV;
         this.iconResource = iconResource;
@@ -335,11 +335,6 @@ public class Button extends Component {
         this.iconHeight = icon.getIconSize();
         this.iconSourceWidth = icon.getGridWidth() * icon.getIconSize();
         this.iconSourceHeight = icon.getGridHeight() * icon.getIconSize();
-        updateSize();
-    }
-
-    public void removeIcon() {
-        this.iconResource = null;
         updateSize();
     }
 

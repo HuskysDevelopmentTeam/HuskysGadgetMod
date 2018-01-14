@@ -11,16 +11,17 @@ import java.awt.*;
 
 
 public class CheckBox extends Component implements RadioGroup.Item {
+
     protected String name;
-    protected boolean checked = false;
+    private boolean checked = false;
     protected RadioGroup group = null;
 
     protected ClickListener listener = null;
 
-    protected int textColour = Color.WHITE.getRGB();
-    protected int backgroundColour = Color.GRAY.getRGB();
-    protected int borderColour = Color.BLACK.getRGB();
-    protected int checkedColour = Color.DARK_GRAY.getRGB();
+    private int textColour = Color.WHITE.getRGB();
+    private int backgroundColour = Color.GRAY.getRGB();
+    private int borderColour = Color.BLACK.getRGB();
+    private int checkedColour = Color.DARK_GRAY.getRGB();
 
     /**
      * Default check box constructor
@@ -98,39 +99,4 @@ public class CheckBox extends Component implements RadioGroup.Item {
         this.checked = enabled;
     }
 
-    /**
-     * Sets the text colour for this component
-     *
-     * @param color the text colour
-     */
-    public void setTextColour(Color color) {
-        this.textColour = color.getRGB();
-    }
-
-    /**
-     * Sets the background colour for this component
-     *
-     * @param color the background colour
-     */
-    public void setBackgroundColour(Color color) {
-        this.backgroundColour = color.getRGB();
-    }
-
-    /**
-     * Sets the border colour for this component
-     *
-     * @param color the border colour
-     */
-    public void setBorderColour(Color color) {
-        this.borderColour = color.getRGB();
-    }
-
-    /**
-     * Sets the checked colour for this component
-     *
-     * @param color the checked colour
-     */
-    public void setCheckedColour(Color color) {
-        this.checkedColour = color.getRGB();
-    }
 }

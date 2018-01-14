@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 
 public class ButtonToggle extends Button implements RadioGroup.Item {
+
     protected boolean toggle = false;
     protected RadioGroup group = null;
 
@@ -13,18 +14,7 @@ public class ButtonToggle extends Button implements RadioGroup.Item {
      *
      * @param left how many pixels from the left
      * @param top  how many pixels from the top
-     * @param text text to be displayed in the button
-     */
-    public ButtonToggle(int left, int top, String text) {
-        super(left, top, text);
-    }
-
-    /**
-     * Alternate button constructor
-     *
-     * @param left how many pixels from the left
-     * @param top  how many pixels from the top
-     * @param icon
+     * @param icon an icon that you choose
      */
     public ButtonToggle(int left, int top, IIcon icon) {
         super(left, top, icon);
@@ -35,30 +25,9 @@ public class ButtonToggle extends Button implements RadioGroup.Item {
      *
      * @param left how many pixels from the left
      * @param top  how many pixels from the top
-     * @param icon
-     */
-    public ButtonToggle(int left, int top, String text, IIcon icon) {
-        super(left, top, text, icon);
-    }
-
-    /**
-     * Alternate button constructor
-     *
-     * @param left how many pixels from the left
-     * @param top  how many pixels from the top
      */
     public ButtonToggle(int left, int top, ResourceLocation iconResource, int iconU, int iconV, int iconWidth, int iconHeight) {
         super(left, top, iconResource, iconU, iconV, iconWidth, iconHeight);
-    }
-
-    /**
-     * Alternate button constructor
-     *
-     * @param left how many pixels from the left
-     * @param top  how many pixels from the top
-     */
-    public ButtonToggle(int left, int top, String text, ResourceLocation iconResource, int iconU, int iconV, int iconWidth, int iconHeight) {
-        super(left, top, text, iconResource, iconU, iconV, iconWidth, iconHeight);
     }
 
     /**

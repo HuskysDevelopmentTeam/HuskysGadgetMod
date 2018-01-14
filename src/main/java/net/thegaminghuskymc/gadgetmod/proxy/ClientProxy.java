@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
@@ -10,13 +9,10 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -41,8 +37,8 @@ import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -54,10 +50,9 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
-
-    public static volatile Map cache = new HashMap();
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -86,32 +81,27 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
         File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
 
                 BufferedImage img = null;
                 try {
-                    if (!f.exists()) f.createNewFile();
                     img = ImageIO.read(f);
-                    cache.put(files, folder.list());
-                } catch (IOException e) {
+                } catch (IOException ignored) {
 
                 }
-                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
             }
         }
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
-        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
+        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? Objects.requireNonNull(stack.getTagCompound()).getInteger("color" + tintIndex) : 0xFFFFFF;
         itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
 
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
         IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
-            TileEntity te = worldIn.getTileEntity(pos);
+            TileEntity te = Objects.requireNonNull(worldIn).getTileEntity(Objects.requireNonNull(pos));
             if (te != null && te instanceof TileEntityEasterEgg) {
                 return ((TileEntityEasterEgg) te).getColor(tintIndex);
             }
@@ -288,7 +278,6 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         return false;
     }
 
-    @Nullable
     private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
         AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
         info.reload();
@@ -296,6 +285,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onResourceManagerReload(IResourceManager resourceManager) {
         if (ApplicationManager.getAllApplications().size() > 0) {
             ApplicationManager.getAllApplications().forEach(AppInfo::reload);

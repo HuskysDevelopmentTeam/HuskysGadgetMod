@@ -31,7 +31,6 @@ import java.util.List;
 public class CommonProxy {
 
     List<AppInfo> allowedApps;
-    int hashCode = -1;
 
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);

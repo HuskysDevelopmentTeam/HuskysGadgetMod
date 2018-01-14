@@ -6,13 +6,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageNotification;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageRequest;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageResponse;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncBlock;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
-import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
+import net.thegaminghuskymc.gadgetmod.network.task.*;
 
 public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);

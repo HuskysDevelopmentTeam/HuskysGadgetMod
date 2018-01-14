@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class ApplicationManager {
 
-    public static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
+    private static final Map<ResourceLocation, AppInfo> APP_INFO = new HashMap<>();
 
     /**
      * Registers an application into the application list
@@ -21,18 +21,15 @@ public class ApplicationManager {
      * The identifier parameter is simply just an id for the application.
      * <p>
      * Example: {@code new ResourceLocation("modid:appid");}
-     *
-     * @param identifier the
+     *  @param identifier the
      * @param clazz
      */
     @Nullable
-    public static Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+    public static void registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
         Application application = HuskyGadgetMod.proxy.registerApplication(identifier, clazz);
         if (application != null) {
             APP_INFO.put(identifier, application.getInfo());
-            return application;
         }
-        return null;
     }
 
     /**
