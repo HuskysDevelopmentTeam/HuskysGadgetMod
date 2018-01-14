@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.core.Server;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServer;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
@@ -29,6 +30,7 @@ import net.thegaminghuskymc.gadgetmod.util.Colorable;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class BlockServer extends BlockDevice implements ITileEntityProvider {
 
@@ -84,7 +86,27 @@ public class BlockServer extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityServer) {
+            TileEntityServer server = (TileEntityServer) tileEntity;
+
+            if (playerIn.isSneaking()) {
+                if (!worldIn.isRemote) {
+                    server.poweredUnpowered();
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return null;
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityServer) {
             TileEntityServer router = (TileEntityServer) tileEntity;
@@ -107,7 +129,6 @@ public class BlockServer extends BlockDevice implements ITileEntityProvider {
 
             world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
         }
-        return super.removedByPlayer(state, world, pos, player, willHarvest);
     }
 
     @Override

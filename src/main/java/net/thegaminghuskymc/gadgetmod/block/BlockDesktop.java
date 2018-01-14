@@ -17,13 +17,16 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
 import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
@@ -71,28 +74,22 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityDesktop) {
+            TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
 
-        if (worldIn.isRemote) {
-
-            if (playerIn.isSneaking() && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                TileEntity tileEntity = worldIn.getTileEntity(pos);
-                if (tileEntity instanceof TileEntityDesktop) {
-                    TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
-
-                    NBTTagCompound tileEntityTag = new NBTTagCompound();
-                    desktop.writeToNBT(tileEntityTag);
-                    tileEntityTag.setBoolean("doorOpen", true);
+            if (playerIn.isSneaking()) {
+                if (!worldIn.isRemote) {
+                    desktop.powerUnpower();
+                }
+            } else {
+                if (desktop.isPowered() && worldIn.isRemote) {
+                    playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
                 }
             }
-
-            if (COMPONENTS.contains(playerIn.getHeldItem(hand).getItem())) {
-
-            }
-
         }
-
-        return false;
+        return true;
     }
 
     @Override

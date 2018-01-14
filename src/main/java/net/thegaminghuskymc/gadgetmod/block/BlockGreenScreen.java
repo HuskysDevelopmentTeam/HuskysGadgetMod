@@ -18,7 +18,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 
 import java.util.Random;
 
-public class BlockGreenScreen extends BlockHorizontal /*implements ITileEntityProvider*/ {
+public class BlockGreenScreen extends BlockHorizontal{
 
     public BlockGreenScreen() {
         super(Material.ANVIL);
@@ -65,7 +65,7 @@ public class BlockGreenScreen extends BlockHorizontal /*implements ITileEntityPr
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override

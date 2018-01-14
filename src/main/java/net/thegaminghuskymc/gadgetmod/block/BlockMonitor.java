@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,6 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitor;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
@@ -87,6 +89,27 @@ public class BlockMonitor extends BlockDevice implements ITileEntityProvider {
     @Override
     public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
         return layer == BlockRenderLayer.CUTOUT_MIPPED || layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT;
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityMonitor) {
+            TileEntityMonitor monitor = (TileEntityMonitor) tileEntity;
+
+            if (playerIn.isSneaking()) {
+                if (!worldIn.isRemote) {
+                    monitor.powerUnpower();
+                }
+            } else {
+                if (monitor.isPowered() && worldIn.isRemote) {
+                    if(monitor.isComputerConnected()) {
+                        playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     @Override

@@ -319,7 +319,7 @@ public class ApplicationSettings extends SystemApplication {
         Label OS = new Label("NeonOS 3 Professional", 40, 54);
         layoutInformationComputer.addComponent(OS);
 
-        Label copyright = new Label("© 2017 HextCraft  Corporation. With sole rights", 40, 69);
+        Label copyright = new Label("© 2017 HextCraft Corporation. With sole rights", 40, 69);
         layoutInformationComputer.addComponent(copyright);
 
         Label system = new Label("System", 40, 83);
@@ -337,6 +337,11 @@ public class ApplicationSettings extends SystemApplication {
 
         Label systemType = new Label("System Type: 64-bit-OS, x64-based-processor", 40, 135);
         layoutInformationComputer.addComponent(systemType);
+
+        Layout menuCredits = new Menu("Credits");
+
+        Label labelCredits = new Label("Credits", 80, 10);
+        menuCredits.addComponent(labelCredits);
 
         setCurrentLayout(layoutMain);
     }
