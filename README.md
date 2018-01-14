@@ -2,5 +2,6 @@
 
 
 Totally 'not' a Meme of a mod!
+umm i know it isnt a meme mod.
 
 This is a mod that adds different gadgets to minecraft like laptops, desktop computers and a lot more
