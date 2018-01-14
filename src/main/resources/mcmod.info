@@ -5,7 +5,7 @@
   "description": "Adds working electronic devices into Minecraft!",
   "version": "$version",
   "mcversion": "$mcversion",
-  "authorList": ["TheGamingHuskyMC"],
+  "authorList": ["TheGamingHuskyMC, MRC, Dbrown55, King of Creepers, Absolem Jackdaw, Igrek"],
   "credit": "Thanks to King of Creepers for the amazing models"
 }
 ]
