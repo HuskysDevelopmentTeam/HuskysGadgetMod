@@ -6,6 +6,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.thegaminghuskymc.gadgetmod.core.Laptop.BootMode;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
@@ -47,6 +48,18 @@ public class TileEntityLaptop extends TileEntityNetworkDevice {
                     rotation += 10F;
                 }
             }
+        }
+        
+        if(this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
+        	BootMode bootmode = BootMode.getBootMode(this.systemData.getInteger("bootmode"));
+        	if(bootmode != null && bootmode != BootMode.NOTHING) {
+        		int boottimer = Math.max(this.systemData.getInteger("boottimer") - 1, 0);
+        		if(boottimer == 0) {
+        			bootmode = bootmode == BootMode.BOOTING ? BootMode.NOTHING : null;
+        			this.systemData.setInteger("bootmode", BootMode.ordinal(bootmode));
+        		}
+            	this.systemData.setInteger("boottimer", boottimer);
+        	}
         }
     }
 

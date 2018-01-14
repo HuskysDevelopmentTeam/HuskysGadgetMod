@@ -62,6 +62,14 @@ public class Laptop extends GuiScreen implements System {
     public static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
     private static final int BOOT_ON_TIME = 200;
     private static final int BOOT_OFF_TIME = 100;
+
+    public static int currentWallpaper;
+    private static System system;
+    private static BlockPos pos;
+    private static Drive mainDrive;
+
+    private static Laptop instance;
+
     private static final int[] konamiCodes = new int[]{
             Keyboard.KEY_UP,
             Keyboard.KEY_UP,
@@ -74,14 +82,8 @@ public class Laptop extends GuiScreen implements System {
             Keyboard.KEY_B,
             Keyboard.KEY_A
     };
+    
     private static final HashMap<Integer, String> codeToName = new HashMap<>();
-    public static int currentWallpaper;
-    private static System system;
-    private static BlockPos pos;
-    private static Drive mainDrive;
-
-    private static Laptop instance;
-
     // Populate the list above
     static {
         codeToName.put(Keyboard.KEY_UP, "up");
@@ -99,7 +101,7 @@ public class Laptop extends GuiScreen implements System {
     private NBTTagCompound appData;
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
-    private int bootTimer = BOOT_ON_TIME;
+    private int bootTimer = 0;
     private BootMode bootMode = BootMode.BOOTING;
     private int blinkTimer = 0;
     private int lastCode = Keyboard.KEY_DOWN;
@@ -119,6 +121,21 @@ public class Laptop extends GuiScreen implements System {
         Laptop.system = this;
         Laptop.pos = laptop.getPos();
         this.desktop = new LayoutDesktop();
+        
+        if(systemData.hasKey("bootmode")) {
+        	this.bootMode = BootMode.getBootMode(systemData.getInteger("bootmode"));
+        }
+        
+        if(systemData.hasKey("boottimer")) {
+        	this.bootTimer = systemData.getInteger("boottimer");
+        }
+        
+        if(this.bootMode == null) {
+    		java.lang.System.out.println("lol");
+    		this.bootMode = BootMode.BOOTING;
+    		this.bootTimer = BOOT_ON_TIME;
+    	}
+        
     }
 
     @Nullable
@@ -173,8 +190,10 @@ public class Laptop extends GuiScreen implements System {
         NBTTagCompound systemData = new NBTTagCompound();
         systemData.setInteger("CurrentWallpaper", currentWallpaper);
         systemData.setTag("Settings", settings.toTag());
+        systemData.setInteger("bootmode", BootMode.ordinal(this.bootMode));
+        systemData.setInteger("boottimer", this.bootTimer);
         TaskManager.sendTask(new TaskUpdateSystemData(pos, systemData));
-
+        
         Laptop.pos = null;
         Laptop.system = null;
         Laptop.mainDrive = null;
@@ -774,6 +793,14 @@ public class Laptop extends GuiScreen implements System {
         BOOTING,
         NOTHING,
         SHUTTING_DOWN;
+    	
+    	public static BootMode getBootMode(int i) {
+    		return (i >= 0 && i < values().length) ? values()[i] : null;
+    	}
+    	
+    	public static int ordinal(BootMode bm) {
+    		return bm != null ? bm.ordinal() : -1;
+    	}
     }
 
     public static class EasterEggToast implements IToast {
