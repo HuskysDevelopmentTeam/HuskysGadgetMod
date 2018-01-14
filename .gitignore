@@ -25,3 +25,9 @@ libs
 src/main/java/com/*
 classes/*
 src/main/resources/assets/extraons/*
+config/*
+saves/*
+resourcepacks/*
+logs/*
+*.txt
+*.json
