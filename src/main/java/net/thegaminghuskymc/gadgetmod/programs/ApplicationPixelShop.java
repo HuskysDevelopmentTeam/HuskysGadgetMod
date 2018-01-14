@@ -56,7 +56,7 @@ public class ApplicationPixelShop extends Application {
 
     /* Drawing */
     private Layout layoutDraw;
-    private Canvas canvas;
+    private static Canvas canvas;
     private CheckBox displayGrid;
 
     private ComboBox.Custom<Integer> colourPicker;
@@ -353,10 +353,7 @@ public class ApplicationPixelShop extends Application {
                 }
             }
         });
-        colourPicker.setChangeListener((oldValue, newValue) ->
-        {
-            canvas.setColour(colourPicker.getValue());
-        });
+        colourPicker.setChangeListener((Integer oldValue, Integer newValue) -> canvas.setColour(colourPicker.getValue()));
 
         Layout layout = colourPicker.getLayout();
 
@@ -365,11 +362,11 @@ public class ApplicationPixelShop extends Application {
 
         layoutColours.addComponent(colourPicker);
 
-        Component colourDisplay = new Component(58, 15) {
+        Component colourDisplay = new Component(5, 25) {
             @Override
             public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-                drawRect(xPosition, yPosition, xPosition + 50, yPosition + 20, Color.DARK_GRAY.getRGB());
-                drawRect(xPosition + 1, yPosition + 1, xPosition + 49, yPosition + 19, canvas.getCurrentColour());
+                drawRect(xPosition, yPosition, xPosition + 50, yPosition + 15, Color.DARK_GRAY.getRGB());
+                drawRect(xPosition + 1, yPosition + 1, xPosition + 49, yPosition + 1, canvas.getCurrentColour());
             }
         };
         layoutColours.addComponent(colourDisplay);
@@ -403,7 +400,8 @@ public class ApplicationPixelShop extends Application {
         private int resolution;
         private boolean cut;
 
-        public PicturePrint() { }
+        public PicturePrint() {
+        }
         
         public PicturePrint(String name, int[] pixels, int resolution) {
             this.name = name;

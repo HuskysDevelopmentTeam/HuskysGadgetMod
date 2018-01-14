@@ -19,7 +19,7 @@ configFile.withReader {
 
 version = "${config.major_version}.${config.minor_version}.${config.build_number}"
 group= "net.thegaminghuskymc.gadgetmod"
-archivesBaseName = config.mod_name
+archivesBaseName = config.mod_name + "[" + project.minecraft.version + "]"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -27,9 +27,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.1.2584"
+    version = "1.12.2-14.23.1.2589"
     runDir = "run"
-    mappings = "snapshot_20180105"
+    mappings = "snapshot_20180113"
 }
 
 repositories {
@@ -41,16 +41,11 @@ repositories {
         name = "JEI Maven"
         url = "http://dvs1.progwml6.com/files/maven"
     }
-    maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven"
-    }
 }
 
 dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:+"
     deobfCompile "mezz.jei:jei_1.12.2:4.7.+"
-    compile "codechicken:CodeChickenLib:1.12-${config.ccl_version}:deobf"
 }
 
 processResources {
@@ -63,4 +58,23 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    classifier = 'universal'
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task srcJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives deobfJar
+    archives srcJar
 }

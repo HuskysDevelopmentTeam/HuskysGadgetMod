@@ -37,48 +37,25 @@ import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import java.awt.*;
 import java.lang.System;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Stack;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/**
- * Created by Casey on 20-Jun-17.
- */
+
 public class FileBrowser extends Component {
+
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
 
-    private static final Color HEADER_BACKGROUND = Color.decode("0x535861");
     private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
     private static final Color ITEM_SELECTED = Color.decode("0x757575");
     private static final Color PROTECTED_FILE = new Color(155, 237, 242);
-
-    private static final ListItemRenderer<File> ITEM_RENDERER = new ListItemRenderer<File>(18) {
-        @Override
-        public void render(File file, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-            Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
-
-            GlStateManager.color(1.0F, 1.0F, 1.0F);
-            Minecraft.getMinecraft().getTextureManager().bindTexture(ASSETS);
-            if (file.isFolder()) {
-                RenderUtil.drawRectWithTexture(x + 3, y + 2, 0, 0, 14, 14, 14, 14);
-            } else {
-                AppInfo info = ApplicationManager.getApplication(file.getOpeningApp());
-                RenderUtil.drawApplicationIcon(info, x + 3, y + 2);
-            }
-            Color color = file.isProtected() ? PROTECTED_FILE : Color.WHITE;
-            gui.drawString(Minecraft.getMinecraft().fontRenderer, file.getName(), x + 22, y + 5, color.getRGB());
-        }
-    };
 
     public static boolean refreshList = false;
 
     private final Wrappable wrappable;
     private final Mode mode;
 
-    private Layout layoutMain;
     private ItemList<File> fileList;
     private Button btnPreviousFolder;
     private Button btnNewFolder;
@@ -92,13 +69,11 @@ public class FileBrowser extends Component {
     private Label labelPath;
 
     private Layout layoutLoading;
-    private Spinner spinnerLoading;
 
     private Stack<Folder> predecessor = new Stack<>();
     private Drive currentDrive;
     private Folder currentFolder;
 
-    private Drive clipboardDrive;
     private Folder clipboardDir;
     private File clipboardFile;
 
@@ -111,19 +86,6 @@ public class FileBrowser extends Component {
 
     private Predicate<File> filter;
 
-    /**
-     * The default constructor for a component. For your component to
-     * be laid out correctly, make sure you use the x and y parameters
-     * from {@link Application#init()} and pass them into the
-     * x and y arguments of this constructor.
-     * <p>
-     * Laying out the components is a simple relative positioning. So for left (x position),
-     * specific how many pixels from the left of the application window you want
-     * it to be positioned at. The top is the same, but obviously from the top (y position).
-     *
-     * @param left how many pixels from the left
-     * @param top  how many pixels from the top
-     */
     public FileBrowser(int left, int top, Wrappable wrappable, Mode mode) {
         super(left, top);
         this.wrappable = wrappable;
@@ -133,7 +95,7 @@ public class FileBrowser extends Component {
     @Override
     public void init(Layout layout) {
     	System.out.println("init");
-        layoutMain = new Layout(mode.getWidth(), mode.getHeight());
+        Layout layoutMain = new Layout(mode.getWidth(), mode.getHeight());
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
             Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
@@ -231,7 +193,23 @@ public class FileBrowser extends Component {
         layoutMain.addComponent(btnDelete);
 
         fileList = new ItemList<>(mode.getOffset(), 25, 180, mode.getVisibleItems());
-        fileList.setListItemRenderer(ITEM_RENDERER);
+        fileList.setListItemRenderer(new ListItemRenderer<File>(18) {
+            @Override
+            public void render(File file, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
+                Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
+
+                GlStateManager.color(1.0F, 1.0F, 1.0F);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(ASSETS);
+                if (file.isFolder()) {
+                    RenderUtil.drawRectWithTexture(x + 3, y + 2, 0, 0, 14, 14, 14, 14);
+                } else {
+                    AppInfo info = ApplicationManager.getApplication(Objects.requireNonNull(file.getOpeningApp()));
+                    RenderUtil.drawApplicationIcon(info, x + 3, y + 2);
+                }
+                Color color = file.isProtected() ? PROTECTED_FILE : Color.WHITE;
+                gui.drawString(Minecraft.getMinecraft().fontRenderer, file.getName(), x + 22, y + 5, color.getRGB());
+            }
+        });
         fileList.sortBy(File.SORT_BY_NAME);
         fileList.setItemClickListener((file, index, mouseButton) ->
         {
@@ -315,7 +293,7 @@ public class FileBrowser extends Component {
         });
         layoutLoading.setVisible(false);
 
-        spinnerLoading = new Spinner((layoutLoading.width - 12) / 2, (layoutLoading.height - 12) / 2);
+        Spinner spinnerLoading = new Spinner((layoutLoading.width - 12) / 2, (layoutLoading.height - 12) / 2);
         layoutLoading.addComponent(spinnerLoading);
         layout.addComponent(layoutLoading);
     }
@@ -631,13 +609,12 @@ public class FileBrowser extends Component {
     private void cutSelectedFile() {
         if (fileList.getSelectedIndex() != -1) {
             File file = fileList.getSelectedItem();
-            if (file.isProtected()) {
+            if (Objects.requireNonNull(file).isProtected()) {
                 String message = "This " + (file.isFolder() ? "folder" : "file") + " is protected and can not be cut.";
                 Dialog.Message dialog = new Dialog.Message(message);
                 wrappable.openDialog(dialog);
                 return;
             }
-            clipboardDrive = comboBoxDrive.getValue();
             clipboardDir = currentFolder;
             clipboardFile = file;
             btnPaste.setEnabled(true);
@@ -672,7 +649,7 @@ public class FileBrowser extends Component {
             setLoading(true);
             clipboardFile.moveTo(currentFolder, override, (response, success) ->
             {
-                if (response.getStatus() == FileSystem.Status.SUCCESSFUL) {
+                if (Objects.requireNonNull(response).getStatus() == FileSystem.Status.SUCCESSFUL) {
                     resetClipboard();
                 } else {
                     createErrorDialog(response.getMessage());
@@ -683,7 +660,7 @@ public class FileBrowser extends Component {
             setLoading(true);
             clipboardFile.copyTo(currentFolder, override, (response, success) ->
             {
-                if (response.getStatus() == FileSystem.Status.SUCCESSFUL) {
+                if (Objects.requireNonNull(response).getStatus() == FileSystem.Status.SUCCESSFUL) {
                     resetClipboard();
                 } else {
                     createErrorDialog(response.getMessage());

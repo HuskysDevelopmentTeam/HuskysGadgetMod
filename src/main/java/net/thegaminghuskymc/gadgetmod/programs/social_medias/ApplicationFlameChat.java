@@ -26,39 +26,33 @@ public class ApplicationFlameChat extends Application {
     private Icons[] stacks = new Icons[]{
             Icons.GAME_CONTROLLER,
             Icons.PICTURE,
-            Icons.MUSIC,
-            Icons.VIDEO_CAMERA,
-            Icons.COMPUTER
+            Icons.COMPUTER,
+            Icons.BOOK_OPEN
     };
     private String[] names = new String[]{
             "Gaming Channel",
             "Photography Channel",
-            "Music Channel",
-            "Movie Channel",
-            "Tech Server"
+            "Tech Server",
+            "Book Channel"
     };
     private String[] tooltips = new String[]{
             "We are gamers from the whole world!",
             "This server is for people that like to take photos!",
-            "We are all music lovers!",
-            "We play TV-Shows the whole time",
-            "We love tech and can help you with whatever you need help with"
+            "We love tech and can help you with whatever you need help with",
+            "We are a server with people that like to read books and book writers"
     };
 
     private Icons[] stacks2 = new Icons[]{
-            Icons.BOOK_OPEN,
             Icons.EDIT,
             Icons.DATABASE,
             Icons.HELP
     };
     private String[] names2 = new String[]{
-            "Book Channel",
             "Art Channel",
             "Flame Chat Developers",
             "Flame Chat Help"
     };
     private String[] tooltips2 = new String[]{
-            "We are a server with people that like to read books and book writers",
             "We are a community that loves to make art both traditional and digital",
             "In this server you can meet the developers of Flame Chat and you can also talk to them",
             "Here you can get help with Flame Chat if you have anything that you need help with"
@@ -85,7 +79,7 @@ public class ApplicationFlameChat extends Application {
             servers[i].addComponent(serversButtons[i]);
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             servers[i] = layoutMain;
             serversButtons[i] = new Button(28, 27 + (i * 24), 23, 23, stacks2[i]);
             serversButtons[i].setToolTip(names2[i], tooltips2[i]);
@@ -101,11 +95,8 @@ public class ApplicationFlameChat extends Application {
         layoutMain.addComponent(joinServer);
 
         Button menuButton = new Button(15, 123, Icons.CHECK);
-        menuButton.setClickListener(new ClickListener() {
-            @Override
-            public void onClick(int mouseX, int mouseY, int mouseButton) {
+        menuButton.setClickListener((mouseX, mouseY, mouseButton) -> {
 
-            }
         });
 
         this.setCurrentLayout(layoutMain);

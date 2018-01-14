@@ -7,8 +7,6 @@ import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 
 public class ApplicationFileBrowser extends SystemApplication {
 
-    private FileBrowser browser;
-
     public ApplicationFileBrowser() {
         this.setDefaultWidth(225);
         this.setDefaultHeight(145);
@@ -16,7 +14,7 @@ public class ApplicationFileBrowser extends SystemApplication {
 
     @Override
     public void init() {
-        browser = new FileBrowser(0, 0, this, FileBrowser.Mode.FULL);
+        FileBrowser browser = new FileBrowser(0, 0, this, FileBrowser.Mode.FULL);
         browser.openFolder(FileSystem.DIR_HOME);
         this.addComponent(browser);
     }

@@ -4,7 +4,7 @@
   "app_description": "${desc}",
   "app_version": "1.0",
   "app_icon": "hgm:textures/app/icon/pixel_browser.png",
-  "app_banner": "hgm:textures/app/banner/banner_default.png",
+  "app_banner": "hgm:textures/app/banner/banner_pixel_browser.png",
   "app_screenshots": [
     "https://i.imgur.com/7CzbiA7.png",
     "https://i.imgur.com/4AiXzf8.jpg",

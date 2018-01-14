@@ -170,7 +170,7 @@ public class ApplicationBank extends SystemApplication {
         amountField.setEditable(false);
         layoutMain.addComponent(amountField);
 
-		/*for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			int posX = 5 + (i % 3) * 19;
 			int posY = 65 + (i / 3) * 19;
@@ -178,9 +178,7 @@ public class ApplicationBank extends SystemApplication {
 			button.setSize(16, 16);
 			addNumberClickListener(button, amountField, i + 1);
 			layoutMain.addComponent(button);
-		}*/
-        NumberPad numberPad = new NumberPad(10, 10);
-        layoutMain.addComponent(numberPad);
+		}
 
         btnZero = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 122, "0");
         btnZero.setSize(16, 16);
