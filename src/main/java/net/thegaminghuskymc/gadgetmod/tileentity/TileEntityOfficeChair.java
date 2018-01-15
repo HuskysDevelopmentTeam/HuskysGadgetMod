@@ -8,14 +8,11 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
-public class TileEntityOfficeChair extends TileEntitySync implements Colorable {
+public class TileEntityOfficeChair extends TileEntitySync implements IColored {
     private EnumDyeColor color = EnumDyeColor.RED;
 
     @Override

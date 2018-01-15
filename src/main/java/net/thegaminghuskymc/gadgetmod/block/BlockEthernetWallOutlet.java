@@ -22,13 +22,13 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEthernetWallOutlet;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockEthernetWallOutlet extends BlockDevice implements ITileEntityProvider {
+public class BlockEthernetWallOutlet extends BlockDevice.Colored {
 
     private static final Bounds BODY_BOUNDS = new Bounds(0.0, 0.0, 0.0, 1.0, 1.0, 2.0);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -52,43 +52,8 @@ public class BlockEthernetWallOutlet extends BlockDevice implements ITileEntityP
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
-    }
-
-    @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
-    }
-
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityEthernetWallOutlet) {
-            TileEntityEthernetWallOutlet externalHarddrive = (TileEntityEthernetWallOutlet) tileEntity;
-
-            NBTTagCompound tileEntityTag = new NBTTagCompound();
-            externalHarddrive.writeToNBT(tileEntityTag);
-            tileEntityTag.removeTag("x");
-            tileEntityTag.removeTag("y");
-            tileEntityTag.removeTag("z");
-            tileEntityTag.removeTag("id");
-            tileEntityTag.removeTag("color");
-
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setTag("BlockEntityTag", tileEntityTag);
-
-            ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
-            drop.setTagCompound(compound);
-
-            worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
-        }
-        super.breakBlock(worldIn, pos, state);
     }
 
     @Override
@@ -105,7 +70,7 @@ public class BlockEthernetWallOutlet extends BlockDevice implements ITileEntityP
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityEthernetWallOutlet();
     }
 

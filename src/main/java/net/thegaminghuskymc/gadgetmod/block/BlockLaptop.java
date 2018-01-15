@@ -29,14 +29,14 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockLaptop extends BlockDevice implements ITileEntityProvider {
+public class BlockLaptop extends BlockDevice.Colored {
 
     public static final PropertyEnum TYPE = PropertyEnum.create("type", Type.class);
 
@@ -172,23 +172,14 @@ public class BlockLaptop extends BlockDevice implements ITileEntityProvider {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state.withProperty(TYPE, Type.BASE);
-    }
-
-    @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
+    @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityLaptop();
     }
 

@@ -27,13 +27,13 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitor;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMonitor extends BlockDevice implements ITileEntityProvider {
+public class BlockMonitor extends BlockDevice.Colored {
 
     private static final Bounds FEET_BOUNDS = new Bounds(5 * 0.0625, 0.0, 1 * 0.0625, 14 * 0.0625, 5 * 0.0625, 15 * 0.0625);
     private static final AxisAlignedBB FEET_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, FEET_BOUNDS);
@@ -60,7 +60,7 @@ public class BlockMonitor extends BlockDevice implements ITileEntityProvider {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityMonitor();
     }
 
@@ -150,16 +150,6 @@ public class BlockMonitor extends BlockDevice implements ITileEntityProvider {
             worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
         }
         super.breakBlock(worldIn, pos, state);
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override

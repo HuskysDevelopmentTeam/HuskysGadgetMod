@@ -10,6 +10,7 @@ import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
  * Author: MrCrayfish
  */
 public abstract class TileEntitySync extends TileEntity {
+
     protected NBTTagCompound pipeline = new NBTTagCompound();
 
     public void sync() {

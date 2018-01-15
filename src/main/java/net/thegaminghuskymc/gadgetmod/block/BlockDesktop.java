@@ -17,7 +17,6 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
@@ -25,15 +24,13 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
-import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
-import org.lwjgl.input.Keyboard;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.Set;
 
-public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
+public class BlockDesktop extends BlockDevice.Colored {
 
     private static final Set<Item> COMPONENTS = Sets.newHashSet();
 
@@ -61,16 +58,6 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
     @Override
     public boolean isFullCube(IBlockState state) {
         return false;
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override
@@ -103,39 +90,9 @@ public class BlockDesktop extends BlockDevice implements ITileEntityProvider {
         return null;
     }
 
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityDesktop) {
-            TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
-
-            NBTTagCompound tileEntityTag = new NBTTagCompound();
-            desktop.writeToNBT(tileEntityTag);
-            tileEntityTag.removeTag("x");
-            tileEntityTag.removeTag("y");
-            tileEntityTag.removeTag("z");
-            tileEntityTag.removeTag("id");
-            byte color = tileEntityTag.getByte("color");
-            tileEntityTag.removeTag("color");
-            tileEntityTag.removeTag("powered");
-            tileEntityTag.removeTag("online");
-            tileEntityTag.removeTag("connected");
-
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setTag("BlockEntityTag", tileEntityTag);
-
-            ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
-            drop.setItemDamage(15 - color);
-            drop.setTagCompound(compound);
-
-            worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
-        }
-        super.breakBlock(worldIn, pos, state);
-    }
-
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityDesktop();
     }
 

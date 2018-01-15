@@ -57,8 +57,8 @@ public class ApplicationPixelBay extends Application {
     private NumberSelector selectorSeconds;
 
     public ApplicationPixelBay() {
-        this.setDefaultWidth(330);
-        this.setDefaultHeight(140);
+        this.setDefaultWidth(270);
+        this.setDefaultHeight(180);
     }
 
     @Override
@@ -89,31 +89,31 @@ public class ApplicationPixelBay extends Application {
         });
         super.addComponent(btnViewItem);
 
-        Label labelBalance = new Label("Balance", 295, 3);
+        Label labelBalance = new Label("Balance", 265, 3);
         labelBalance.setAlignment(Label.ALIGN_RIGHT);
         super.addComponent(labelBalance);
 
-        Label labelMoney = new Label("$" + EMERALD.getCount(), 295, 13);
+        Label labelMoney = new Label("$" + EMERALD.getCount(), 265, 13);
         labelMoney.setAlignment(Label.ALIGN_RIGHT);
         labelMoney.setScale(1);
         labelMoney.setShadow(false);
         super.addComponent(labelMoney);
 
-        Label labelCategories = new Label("Categories", 5, 29);
+        Label labelCategories = new Label("Categories", 4, 29);
         labelCategories.setShadow(false);
         super.addComponent(labelCategories);
 
-        ItemList<String> categories = new ItemList<>(5, 40, 70, 7);
+        ItemList<String> categories = new ItemList<>(4, 40, 70, 7);
         for (String category : this.categories) {
             categories.addItem(category);
         }
         super.addComponent(categories);
 
-        Label labelItems = new Label("Items", 100, 29);
+        Label labelItems = new Label("Items", 85, 29);
         labelItems.setShadow(false);
         super.addComponent(labelItems);
 
-        items = new ItemList<>(100, 40, 180, 4);
+        items = new ItemList<>(85, 40, 180, 4);
         items.setListItemRenderer(new ListItemRenderer<AuctionItem>(20) {
             @Override
             public void render(AuctionItem e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
@@ -140,7 +140,7 @@ public class ApplicationPixelBay extends Application {
         });
         super.addComponent(items);
 
-        Button btnBuy = new Button(100, 127, "Buy");
+        Button btnBuy = new Button(85, 127, "Buy");
         btnBuy.setSize(50, 15);
         btnBuy.setClickListener((mouseX, mouseY, mouseButton) -> {
             final Dialog.Confirmation dialog = new Dialog.Confirmation();
@@ -365,10 +365,10 @@ public class ApplicationPixelBay extends Application {
 
     @Override
     public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
-        Gui.drawRect(x, y, x + this.getWidth(), y + 15, Color.GRAY.getRGB());
+        Gui.drawRect(x, y, x + this.getWidth(), y + 25, Color.GRAY.getRGB());
         Gui.drawRect(x, y + 24, x + this.getWidth(), y + 25, Color.DARK_GRAY.getRGB());
-        Gui.drawRect(x, y + 25, x + 95, y + this.getHeight(), Color.LIGHT_GRAY.getRGB());
-        Gui.drawRect(x + 94, y + 25, x + 95, y + this.getHeight(), Color.GRAY.getRGB());
+        Gui.drawRect(x, y + 25, x + 78, y + this.getHeight() - 36, Color.LIGHT_GRAY.getRGB());
+        Gui.drawRect(x + 77, y + 25, x + 78, y + this.getHeight() - 36, Color.GRAY.getRGB());
 
         mc.getTextureManager().bindTexture(MINEBAY_ASSESTS);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

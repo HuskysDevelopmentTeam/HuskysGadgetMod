@@ -28,7 +28,7 @@ import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncBlock;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -37,7 +37,8 @@ import java.util.Random;
 /**
  * Author: MrCrayfish
  */
-public class BlockRouter extends BlockDevice implements ITileEntityProvider {
+public class BlockRouter extends BlockDevice.Colored {
+
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
     private static final AxisAlignedBB[] BODY_BOUNDING_BOX = new Bounds(4, 0, 2, 12, 2, 14).getRotatedBounds();
@@ -93,8 +94,8 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider {
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
+        if (tileEntity instanceof IColored) {
+            IColored colorable = (IColored) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
         return state;
@@ -168,7 +169,7 @@ public class BlockRouter extends BlockDevice implements ITileEntityProvider {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityRouter();
     }
 

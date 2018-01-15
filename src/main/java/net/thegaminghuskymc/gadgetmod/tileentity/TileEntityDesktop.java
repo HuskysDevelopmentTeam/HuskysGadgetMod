@@ -12,13 +12,12 @@ import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import java.util.List;
 
-public class TileEntityDesktop extends TileEntityDevice {
+public class TileEntityDesktop extends TileEntityDevice.Colored {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
     @SideOnly(Side.CLIENT)
     public float prevRotation;
-    public EnumDyeColor color = EnumDyeColor.RED;
     private String name = "Desktop";
     private boolean powered = false, online = false, connected = false, monitorConnected = false, doorOpen = false;
     private List<String> components;
@@ -62,9 +61,6 @@ public class TileEntityDesktop extends TileEntityDevice {
         if (compound.hasKey("has_external_drive")) {
             this.hasExternalDrive = compound.getBoolean("has_external_drive");
         }
-        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
-            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
-        }
         if (compound.hasKey("powered")) {
             this.powered = compound.getBoolean("powered");
         }
@@ -89,7 +85,6 @@ public class TileEntityDesktop extends TileEntityDevice {
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setString("device_name", name);
-        compound.setByte("color", (byte) color.getDyeDamage());
 
         if (systemData != null) {
             compound.setTag("system_data", systemData);
@@ -114,7 +109,6 @@ public class TileEntityDesktop extends TileEntityDevice {
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setString("device_name", name);
-        tag.setByte("color", (byte) color.getDyeDamage());
         tag.setBoolean("powered", powered);
         tag.setBoolean("online", powered);
         tag.setBoolean("connected", powered);

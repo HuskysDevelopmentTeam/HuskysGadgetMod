@@ -7,13 +7,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityMonitor extends TileEntityDevice {
+public class TileEntityMonitor extends TileEntityDevice.Colored {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
     private String name = "Monitor";
     private boolean powered = false;
-    private EnumDyeColor color = EnumDyeColor.RED;
     @SideOnly(Side.CLIENT)
     private float prevRotation;
 
@@ -53,9 +52,6 @@ public class TileEntityMonitor extends TileEntityDevice {
         if (compound.hasKey("has_computer_connected")) {
             this.hasComputerConnected = compound.getBoolean("has_computer_connected");
         }
-        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
-            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
-        }
     }
 
     @Override
@@ -63,7 +59,6 @@ public class TileEntityMonitor extends TileEntityDevice {
         super.writeToNBT(compound);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
-        compound.setByte("color", (byte) color.getDyeDamage());
 
         return compound;
     }
@@ -74,7 +69,6 @@ public class TileEntityMonitor extends TileEntityDevice {
         tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
         tag.setBoolean("has_computer_connected", hasComputerConnected);
-        tag.setByte("color", (byte) color.getDyeDamage());
         return tag;
     }
 

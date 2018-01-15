@@ -24,10 +24,7 @@ import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
-public class BlockPrinter extends BlockDevice implements ITileEntityProvider {
+public class BlockPrinter extends BlockDevice.Colored {
 
     private static final Bounds BODY_BOUNDS = new Bounds(5 * 0.0625, 0.0, 1 * 0.0625, 14 * 0.0625, 5 * 0.0625, 15 * 0.0625);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -102,7 +99,7 @@ public class BlockPrinter extends BlockDevice implements ITileEntityProvider {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityPrinter();
     }
 }

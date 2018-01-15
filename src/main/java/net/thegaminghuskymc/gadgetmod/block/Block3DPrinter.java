@@ -15,11 +15,11 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntity3DPrinter;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 
-public class Block3DPrinter extends BlockDevice implements ITileEntityProvider {
+public class Block3DPrinter extends BlockDevice.Colored {
 
     public Block3DPrinter() {
         super(Material.ANVIL);
@@ -30,7 +30,7 @@ public class Block3DPrinter extends BlockDevice implements ITileEntityProvider {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntity3DPrinter();
     }
 
@@ -38,16 +38,6 @@ public class Block3DPrinter extends BlockDevice implements ITileEntityProvider {
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override

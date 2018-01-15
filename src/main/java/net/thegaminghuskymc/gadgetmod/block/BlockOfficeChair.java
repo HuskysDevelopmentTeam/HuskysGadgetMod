@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 /**
  * Author: MrCrayfish
  */
-public class BlockOfficeChair extends BlockColorable {
+public class BlockOfficeChair extends BlockDevice.Colored {
     public static final PropertyEnum<Type> TYPE = PropertyEnum.create("type", Type.class);
 
     public BlockOfficeChair() {

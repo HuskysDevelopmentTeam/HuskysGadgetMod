@@ -7,14 +7,13 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityExternalHarddrive extends TileEntityDevice {
+public class TileEntityExternalHarddrive extends TileEntityDevice.Colored {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
     @SideOnly(Side.CLIENT)
     public float prevRotation;
     private String name = "External Harddrive";
-    private EnumDyeColor color = EnumDyeColor.RED;
     private boolean
             connected = false,
             online = false,
@@ -47,7 +46,6 @@ public class TileEntityExternalHarddrive extends TileEntityDevice {
         if (compound.hasKey("device_name", Constants.NBT.TAG_STRING)) {
             this.name = compound.getString("device_name");
         }
-        compound.setByte("color", (byte) color.getDyeDamage());
         return compound;
     }
 
@@ -58,9 +56,6 @@ public class TileEntityExternalHarddrive extends TileEntityDevice {
         compound.setBoolean("online", online);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
-        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
-            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
-        }
     }
 
     @Override
@@ -70,7 +65,6 @@ public class TileEntityExternalHarddrive extends TileEntityDevice {
         tag.setBoolean("online", online);
         tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
-        tag.setByte("color", (byte) color.getDyeDamage());
         return tag;
     }
 

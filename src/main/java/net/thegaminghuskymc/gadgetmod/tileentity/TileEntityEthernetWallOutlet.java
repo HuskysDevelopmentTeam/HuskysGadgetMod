@@ -6,31 +6,31 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
-public class TileEntityEthernetWallOutlet extends TileEntitySync implements Colorable {
+public class TileEntityEthernetWallOutlet extends TileEntitySync implements IColored {
 
-    private EnumDyeColor color = EnumDyeColor.RED;
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setByte("color", (byte) color.getDyeDamage());
-        return compound;
-    }
+    private EnumDyeColor color = EnumDyeColor.WHITE;
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
-            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
+        if (compound.hasKey("color", Constants.NBT.TAG_INT)) {
+            this.color = EnumDyeColor.byDyeDamage(compound.getInteger("color"));
         }
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setInteger("color", 15 - color.getMetadata());
+        return compound;
     }
 
     @Override
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setByte("color", (byte) color.getDyeDamage());
+        tag.setInteger("color", 15 - color.getMetadata());
         return tag;
     }
 

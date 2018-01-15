@@ -3,11 +3,11 @@ package net.thegaminghuskymc.gadgetmod.tileentity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
-public class TileEntityServerTerminal extends TileEntitySync implements Colorable {
+public class TileEntityServerTerminal extends TileEntitySync implements IColored {
 
-    private EnumDyeColor color = EnumDyeColor.RED;
+    private EnumDyeColor color = EnumDyeColor.WHITE;
 
     private byte rotation;
 

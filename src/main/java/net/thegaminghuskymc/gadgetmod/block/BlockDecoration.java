@@ -13,14 +13,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import java.util.Random;
 
 /**
  * Author: MrCrayfish
  */
-public abstract class BlockDecoration extends BlockColorable {
+public abstract class BlockDecoration extends BlockDevice.Colored {
 
     BlockDecoration(Material materialIn) {
         super(materialIn);
@@ -48,33 +48,6 @@ public abstract class BlockDecoration extends BlockColorable {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-    }
-
-    @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        if (!world.isRemote && !player.capabilities.isCreativeMode) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof Colorable) {
-                Colorable colorable = (Colorable) tileEntity;
-
-                NBTTagCompound tileEntityTag = new NBTTagCompound();
-                tileEntity.writeToNBT(tileEntityTag);
-                tileEntityTag.removeTag("x");
-                tileEntityTag.removeTag("y");
-                tileEntityTag.removeTag("z");
-                tileEntityTag.removeTag("id");
-                tileEntityTag.removeTag("color");
-
-                NBTTagCompound compound = new NBTTagCompound();
-                compound.setTag("BlockEntityTag", tileEntityTag);
-
-                ItemStack drop = new ItemStack(Item.getItemFromBlock(this), 1, colorable.getColor().getMetadata());
-                drop.setTagCompound(compound);
-
-                world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
-            }
-        }
-        return super.removedByPlayer(state, world, pos, player, willHarvest);
     }
 
 }

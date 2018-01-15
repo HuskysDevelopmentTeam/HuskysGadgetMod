@@ -10,7 +10,7 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop.BootMode;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
-public class TileEntityLaptop extends TileEntityNetworkDevice {
+public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
 
     private static final int OPENED_ANGLE = 102;
 
@@ -49,8 +49,8 @@ public class TileEntityLaptop extends TileEntityNetworkDevice {
                 }
             }
         }
-        
-        if(this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
+
+        if(this.systemData != null && this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
         	BootMode bootmode = BootMode.getBootMode(this.systemData.getInteger("bootmode"));
         	if(bootmode != null && bootmode != BootMode.NOTHING) {
         		int boottimer = Math.max(this.systemData.getInteger("boottimer") - 1, 0);

@@ -4,13 +4,13 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 
-public class TileEntityScreen extends TileEntitySync implements Colorable {
+public class TileEntityScreen extends TileEntitySync implements IColored {
 
-    private EnumDyeColor color = EnumDyeColor.RED;
+    private EnumDyeColor color = EnumDyeColor.WHITE;
 
     private IPrint print;
     private byte rotation;

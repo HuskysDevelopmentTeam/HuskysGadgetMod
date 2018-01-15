@@ -6,11 +6,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
-public class TileEntityRobot extends TileEntitySync implements Colorable {
+public class TileEntityRobot extends TileEntitySync implements IColored {
 
-    private EnumDyeColor color = EnumDyeColor.RED;
+    private EnumDyeColor color = EnumDyeColor.WHITE;
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {

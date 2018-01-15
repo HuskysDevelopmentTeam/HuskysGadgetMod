@@ -8,14 +8,14 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 /**
  * Author: MrCrayfish
  */
-public class TileEntityRouter extends TileEntitySync implements ITickable, Colorable {
+public class TileEntityRouter extends TileEntitySync implements ITickable, IColored {
 
-    private EnumDyeColor color = EnumDyeColor.RED;
+    private EnumDyeColor color = EnumDyeColor.WHITE;
 
     private Router router;
 

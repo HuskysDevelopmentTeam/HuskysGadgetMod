@@ -24,13 +24,13 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPlaystation4Pro;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockPlaystation4Pro extends BlockDevice implements ITileEntityProvider {
+public class BlockPlaystation4Pro extends BlockDevice.Colored {
 
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
@@ -48,7 +48,7 @@ public class BlockPlaystation4Pro extends BlockDevice implements ITileEntityProv
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityPlaystation4Pro();
     }
 
@@ -123,16 +123,6 @@ public class BlockPlaystation4Pro extends BlockDevice implements ITileEntityProv
     @Override
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
         return side != EnumFacing.DOWN;
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override

@@ -20,7 +20,7 @@ import java.util.Deque;
 
 import static net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter.State.*;
 
-public class TileEntityPrinter extends TileEntityNetworkDevice {
+public class TileEntityPrinter extends TileEntityNetworkDevice.Colored {
     private State state = IDLE;
 
     private Deque<IPrint> printQueue = new ArrayDeque<>();

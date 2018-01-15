@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
 import com.google.common.collect.ImmutableList;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
@@ -453,7 +454,6 @@ public class Laptop extends GuiScreen implements System {
             if (windows[0] != null) {
                 windows[0].handleKeyTyped(pressed, code);
             }
-
             super.keyTyped(pressed, code);
         } else {
             if (windows[0] != null) {
@@ -515,12 +515,11 @@ public class Laptop extends GuiScreen implements System {
                     windows[0].handleMouseScroll(mouseX, mouseY, scroll >= 0);
                 }
             }
-        } else {
-
         }
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void drawHoveringText(List<String> textLines, int x, int y) {
         int guiLeft = (this.width - DEVICE_WIDTH) / 2;
         int guiTop = (this.height - DEVICE_HEIGHT) / 2;
@@ -736,10 +735,6 @@ public class Laptop extends GuiScreen implements System {
         return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
     }
 
-    public List<Application> getApplications() {
-        return APPLICATIONS;
-    }
-
     public Settings getSettings() {
         return settings;
     }
@@ -788,7 +783,7 @@ public class Laptop extends GuiScreen implements System {
         this.bootMode = BootMode.SHUTTING_DOWN;
     }
 
-    public static enum BootMode {
+    public enum BootMode {
         BOOTING,
         NOTHING,
         SHUTTING_DOWN;
@@ -807,6 +802,8 @@ public class Laptop extends GuiScreen implements System {
         private boolean hasPlayedSound = false;
 
         @Override
+        @MethodsReturnNonnullByDefault
+        @ParametersAreNonnullByDefault
         public Visibility draw(GuiToast toastGui, long delta) {
             toastGui.getMinecraft().getTextureManager().bindTexture(TEXTURE_TOASTS);
             GlStateManager.color(1.0F, 1.0F, 1.0F);

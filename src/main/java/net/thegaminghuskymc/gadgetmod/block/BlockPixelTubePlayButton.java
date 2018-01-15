@@ -39,8 +39,8 @@ public class BlockPixelTubePlayButton extends BlockHorizontal/* implements ITile
     /*@Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
+        if (tileEntity instanceof IColored) {
+            IColored colorable = (IColored) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
         return state;

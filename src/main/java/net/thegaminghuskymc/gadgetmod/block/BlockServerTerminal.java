@@ -15,11 +15,11 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServerTerminal;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 
-public class BlockServerTerminal extends BlockDevice implements ITileEntityProvider {
+public class BlockServerTerminal extends BlockDevice {
 
     public BlockServerTerminal() {
         super(Material.ANVIL);
@@ -30,7 +30,7 @@ public class BlockServerTerminal extends BlockDevice implements ITileEntityProvi
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityServerTerminal();
     }
 
@@ -41,17 +41,19 @@ public class BlockServerTerminal extends BlockDevice implements ITileEntityProvi
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
+    public int getMetaFromState(IBlockState state)
+    {
+        return state.getValue(FACING).getHorizontalIndex();
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING);
     }
 }

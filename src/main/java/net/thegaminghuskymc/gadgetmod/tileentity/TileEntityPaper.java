@@ -9,10 +9,8 @@ import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 
 import javax.annotation.Nullable;
 
-/**
- * Author: MrCrayfish
- */
 public class TileEntityPaper extends TileEntitySync {
+
     private IPrint print;
     private byte rotation;
 

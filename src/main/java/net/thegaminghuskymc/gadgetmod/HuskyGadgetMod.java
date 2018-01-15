@@ -86,18 +86,7 @@ public class HuskyGadgetMod {
         MinecraftForge.EVENT_BUS.register(new EmailEvents());
         MinecraftForge.EVENT_BUS.register(new BankEvents());
 
-        GadgetOreDictionary.init();
-
-        /*ObfuscationReflectionHelper.setPrivateValue(Minecraft.class, Minecraft.getMinecraft(), new EmojiFontRenderer(Minecraft.getMinecraft()), "fontRenderer");
-        EmojiPackManager.addPack("Yellow Emojis", YellowEmojis.class);
-        EmojiPackManager.addPack("White Emojis", WhiteEmojis.class);
-        EmojiPackManager.addPack("Brown Emojis", BrownEmojis.class);
-        EmojiPackManager.addPack("Faces", Faces.class);
-        EmojiPackManager.addPack("Other Emojis", OtherEmojis.class);
-        EmojiPackManager.addPack("Food", Food.class);
-        EmojiPackManager.addPack("Animated", AnimatedEmojis.class);
-        EmojiPackManager.addPack("Logos", Logos.class);
-        EmojiPackManager.addPack("CrayIcons", CrayfishIcons.class);*/
+//        GadgetOreDictionary.init();
 
         registerTasks();
 

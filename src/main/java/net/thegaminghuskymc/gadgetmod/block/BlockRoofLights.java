@@ -19,12 +19,12 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRoofLights;
-import net.thegaminghuskymc.gadgetmod.util.Colorable;
+import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockRoofLights extends BlockColorable implements ITileEntityProvider {
+public class BlockRoofLights extends BlockDevice.Colored {
 
     public BlockRoofLights() {
         super(Material.ANVIL);
@@ -45,7 +45,7 @@ public class BlockRoofLights extends BlockColorable implements ITileEntityProvid
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileEntityRoofLights();
     }
 
@@ -89,8 +89,8 @@ public class BlockRoofLights extends BlockColorable implements ITileEntityProvid
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof Colorable) {
-            Colorable colorable = (Colorable) tileEntity;
+        if (tileEntity instanceof IColored) {
+            IColored colorable = (IColored) tileEntity;
             state = state.withProperty(BlockColored.COLOR, colorable.getColor());
         }
         return state;

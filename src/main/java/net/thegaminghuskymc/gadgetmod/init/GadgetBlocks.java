@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.thegaminghuskymc.gadgetmod.block.*;
-import net.thegaminghuskymc.gadgetmod.item.ItemColorable;
+import net.thegaminghuskymc.gadgetmod.item.ItemColoredDevice;
 import net.thegaminghuskymc.gadgetmod.item.ItemDevice;
 import net.thegaminghuskymc.gadgetmod.item.ItemPaper;
 
@@ -61,26 +61,26 @@ public class GadgetBlocks {
 
     public static void register() {
 
-        registerBlock(LAPTOP, new ItemDevice(LAPTOP));
-        registerBlock(ROUTER, new ItemDevice(ROUTER));
-        registerBlock(PRINTER, new ItemDevice(PRINTER));
+        registerBlock(LAPTOP, new ItemColoredDevice(LAPTOP));
+        registerBlock(ROUTER, new ItemColoredDevice(ROUTER));
+        registerBlock(PRINTER, new ItemColoredDevice(PRINTER));
         registerBlock(PAPER, new ItemPaper(PAPER));
-        registerBlock(SCREEN, new ItemDevice(SCREEN));
-        registerBlock(MONITOR, new ItemDevice(MONITOR));
-        registerBlock(DESKTOP, new ItemDevice(DESKTOP));
+        registerBlock(SCREEN, new ItemColoredDevice(SCREEN));
+        registerBlock(MONITOR, new ItemColoredDevice(MONITOR));
+        registerBlock(DESKTOP, new ItemColoredDevice(DESKTOP));
         registerBlock(SERVER, new ItemDevice(SERVER));
         registerBlock(SERVER_TERMINAL, new ItemDevice(SERVER_TERMINAL));
         registerBlock(ROBOT, new ItemDevice(ROBOT));
-        registerBlock(ETHERNET_WALL_OUTLET, new ItemColorable(ETHERNET_WALL_OUTLET));
-        registerBlock(OFFICE_CHAIR, new ItemColorable(OFFICE_CHAIR));
-        registerBlock(GAMING_DESK, new ItemColorable(GAMING_DESK));
-        registerBlock(THREEDE_PRINTER, new ItemDevice(THREEDE_PRINTER));
-        registerBlock(BENCHMARK_STATION, new ItemDevice(BENCHMARK_STATION));
-        registerBlock(DRAWING_TABLET, new ItemDevice(DRAWING_TABLET));
+        registerBlock(ETHERNET_WALL_OUTLET, new ItemColoredDevice(ETHERNET_WALL_OUTLET));
+        registerBlock(OFFICE_CHAIR, new ItemColoredDevice(OFFICE_CHAIR));
+        registerBlock(GAMING_DESK, new ItemColoredDevice(GAMING_DESK));
+        registerBlock(THREEDE_PRINTER, new ItemColoredDevice(THREEDE_PRINTER));
+        registerBlock(BENCHMARK_STATION, new ItemColoredDevice(BENCHMARK_STATION));
+        registerBlock(DRAWING_TABLET, new ItemColoredDevice(DRAWING_TABLET));
         registerBlock(RGB_LIGHTS);
         registerBlock(ROOF_LIGHTS);
-        registerBlock(PLAYSTATION_4_PRO, new ItemDevice(PLAYSTATION_4_PRO));
-        registerBlock(EXTERNAL_HARDDRIVE, new ItemDevice(EXTERNAL_HARDDRIVE));
+        registerBlock(PLAYSTATION_4_PRO, new ItemColoredDevice(PLAYSTATION_4_PRO));
+        registerBlock(EXTERNAL_HARDDRIVE, new ItemColoredDevice(EXTERNAL_HARDDRIVE));
         registerBlock(EASTER_EGG);
     }
 
