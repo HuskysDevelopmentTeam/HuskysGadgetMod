@@ -30,7 +30,11 @@ public enum EmojiesMRC implements IIcon {
     NIGHT_SKY,
     BED,
     ANGRY_FACE,
-    CRYING;
+    CRYING,
+    X_MAS_TREE,
+    X_MAS_HAT,
+    ZE_BLACK_HOLE;
+
 
     private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/emojies.png");
 
