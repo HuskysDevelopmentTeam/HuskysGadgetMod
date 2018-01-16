@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
@@ -12,12 +11,7 @@ public class TileEntityMonitor extends TileEntityDevice.Colored {
     @SideOnly(Side.CLIENT)
     public float rotation;
     private String name = "Monitor";
-    private boolean powered = false;
-    @SideOnly(Side.CLIENT)
-    private float prevRotation;
-
-    @SideOnly(Side.CLIENT)
-    private boolean hasComputerConnected;
+    private boolean powered = false, hasComputerConnected = false;
 
     @Override
     public String getDeviceName() {
@@ -27,7 +21,6 @@ public class TileEntityMonitor extends TileEntityDevice.Colored {
     @Override
     public void update() {
         if (world.isRemote) {
-            prevRotation = rotation;
             if (!powered) {
                 if (rotation > 0) {
                     rotation -= 10F;
@@ -59,6 +52,7 @@ public class TileEntityMonitor extends TileEntityDevice.Colored {
         super.writeToNBT(compound);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
+        compound.setBoolean("has_computer_connected", hasComputerConnected);
 
         return compound;
     }

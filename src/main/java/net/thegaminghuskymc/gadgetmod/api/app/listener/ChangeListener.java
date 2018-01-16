@@ -4,7 +4,6 @@ package net.thegaminghuskymc.gadgetmod.api.app.listener;
  * The change listener interface. Used for handling value
  * changing in components
  *
- * @author MrCrayfish
  */
 public interface ChangeListener<T> {
     /**

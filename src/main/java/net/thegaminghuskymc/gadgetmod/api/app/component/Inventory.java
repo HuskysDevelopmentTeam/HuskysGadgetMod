@@ -24,7 +24,6 @@ import static scala.actors.threadpool.Arrays.asList;
  * you'll have to sendTask the selected item slot to the server and process it there.
  * You can use a {@link Task} to perform this.
  *
- * @author MrCrayfish
  */
 public class Inventory extends Component {
 

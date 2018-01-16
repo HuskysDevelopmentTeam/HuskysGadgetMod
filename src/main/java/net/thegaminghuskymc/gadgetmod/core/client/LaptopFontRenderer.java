@@ -4,9 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Author: MrCrayfish
- */
 public class LaptopFontRenderer extends FontRenderer {
     private boolean debug = false;
 

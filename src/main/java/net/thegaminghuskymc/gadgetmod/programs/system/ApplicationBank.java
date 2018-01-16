@@ -25,9 +25,12 @@ import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskDeposit;
+import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskWithdraw;
 import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class ApplicationBank extends SystemApplication {
 
@@ -95,8 +98,7 @@ public class ApplicationBank extends SystemApplication {
         });
 
         Button buttonPrevious = new Button(5, 5, Icons.ARROW_LEFT);
-        buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
-        {
+        buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (mouseButton == 0) {
                 setCurrentLayout(layoutStart);
             }
@@ -124,7 +126,7 @@ public class ApplicationBank extends SystemApplication {
         btnDepositWithdraw.setToolTip("View Account", "Shows your balance");
         layoutStart.addComponent(btnDepositWithdraw);
 
-        btnTransfer = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(133, 74, "Transfer");
+        btnTransfer = new Button(133, 74, "Transfer");
         btnTransfer.setSize(58, 20);
         btnTransfer.setToolTip("Transfer", "Withdraw and deposit emeralds");
         btnTransfer.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -141,7 +143,7 @@ public class ApplicationBank extends SystemApplication {
             @Override
             public void handleTick() {
                 super.handleTick();
-                int amount = InventoryUtil.getItemAmount(Minecraft.getMinecraft().player, Items.EMERALD);
+                int amount = InventoryUtil.getItemAmount(Minecraft.getMinecraft().player, EMERALD.getItem());
                 labelEmeraldAmount.setText("x " + Integer.toString(amount));
             }
         };
@@ -155,17 +157,17 @@ public class ApplicationBank extends SystemApplication {
             RenderUtil.renderItem(x + 65, y + 118, EMERALD, false);
         });
 
-        labelBalance = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Balance", 60, 5);
-        labelBalance.setAlignment(net.thegaminghuskymc.gadgetmod.api.app.component.Label.ALIGN_CENTER);
+        labelBalance = new Label("Balance", 60, 5);
+        labelBalance.setAlignment(Label.ALIGN_CENTER);
         labelBalance.setShadow(false);
         layoutMain.addComponent(labelBalance);
 
-        labelAmount = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Loading balance...", 60, 18);
-        labelAmount.setAlignment(net.thegaminghuskymc.gadgetmod.api.app.component.Label.ALIGN_CENTER);
+        labelAmount = new Label("Loading balance...", 60, 18);
+        labelAmount.setAlignment(Label.ALIGN_CENTER);
         labelAmount.setScale(2);
         layoutMain.addComponent(labelAmount);
 
-        amountField = new net.thegaminghuskymc.gadgetmod.api.app.component.TextField(5, 45, 110);
+        amountField = new TextField(5, 45, 110);
         amountField.setText("0");
         amountField.setEditable(false);
         layoutMain.addComponent(amountField);
@@ -180,12 +182,12 @@ public class ApplicationBank extends SystemApplication {
 			layoutMain.addComponent(button);
 		}
 
-        btnZero = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(5, 122, "0");
+        btnZero = new Button(5, 122, "0");
         btnZero.setSize(16, 16);
         addNumberClickListener(btnZero, amountField, 0);
         layoutMain.addComponent(btnZero);
 
-        btnClear = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(24, 122, "Clr");
+        btnClear = new Button(24, 122, "Clr");
         btnClear.setSize(35, 16);
         btnClear.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -195,7 +197,7 @@ public class ApplicationBank extends SystemApplication {
         });
         layoutMain.addComponent(btnClear);
 
-        buttonDeposit = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(62, 65, "Deposit");
+        buttonDeposit = new Button(62, 65, "Deposit");
         buttonDeposit.setSize(53, 16);
         buttonDeposit.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -208,7 +210,7 @@ public class ApplicationBank extends SystemApplication {
                 deposit(amount, (nbt, success) ->
                 {
                     if (success) {
-                        int balance = nbt.getInteger("balance");
+                        int balance = Objects.requireNonNull(nbt).getInteger("balance");
                         labelAmount.setText("$" + balance);
                         amountField.setText("0");
                     }
@@ -217,7 +219,7 @@ public class ApplicationBank extends SystemApplication {
         });
         layoutMain.addComponent(buttonDeposit);
 
-        buttonWithdraw = new net.thegaminghuskymc.gadgetmod.api.app.component.Button(62, 84, "Withdraw");
+        buttonWithdraw = new Button(62, 84, "Withdraw");
         buttonWithdraw.setSize(53, 16);
         buttonWithdraw.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -229,7 +231,7 @@ public class ApplicationBank extends SystemApplication {
                 withdraw(Integer.parseInt(amountField.getText()), (nbt, success) ->
                 {
                     if (success) {
-                        int balance = nbt.getInteger("balance");
+                        int balance = Objects.requireNonNull(nbt).getInteger("balance");
                         labelAmount.setText("$" + balance);
                         amountField.setText("0");
                     }
@@ -238,23 +240,23 @@ public class ApplicationBank extends SystemApplication {
         });
         layoutMain.addComponent(buttonWithdraw);
 
-        labelEmeraldAmount = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("x 0", 83, 123);
+        labelEmeraldAmount = new Label("x 0", 83, 123);
         layoutMain.addComponent(labelEmeraldAmount);
 
-        labelInventory = new net.thegaminghuskymc.gadgetmod.api.app.component.Label("Wallet", 74, 105);
+        labelInventory = new Label("Wallet", 74, 105);
         labelInventory.setShadow(false);
         layoutMain.addComponent(labelInventory);
 
         BankUtil.getBalance((nbt, success) ->
         {
             if (success) {
-                int balance = nbt.getInteger("balance");
+                int balance = Objects.requireNonNull(nbt).getInteger("balance");
                 labelAmount.setText("$" + balance);
             }
         });
     }
 
-    public void addNumberClickListener(net.thegaminghuskymc.gadgetmod.api.app.component.Button btn, final TextField field, final int number) {
+    private void addNumberClickListener(Button btn, final TextField field, final int number) {
         btn.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -283,92 +285,6 @@ public class ApplicationBank extends SystemApplication {
     @Override
     public void save(NBTTagCompound tagCompound) {
 
-    }
-
-    public static class TaskDeposit extends Task {
-        private int amount;
-
-        private TaskDeposit() {
-            super("bank_deposit");
-        }
-
-        private TaskDeposit(int amount) {
-            this();
-            this.amount = amount;
-        }
-
-        @Override
-        public void prepareRequest(NBTTagCompound nbt) {
-            nbt.setInteger("amount", this.amount);
-        }
-
-        @Override
-        public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
-            int amount = nbt.getInteger("amount");
-            if (InventoryUtil.removeItemWithAmount(player, Items.EMERALD, amount)) {
-                Account account = BankUtil.INSTANCE.getAccount(player);
-                if (account.deposit(amount)) {
-                    this.amount = account.getBalance();
-                    this.setSuccessful();
-                }
-            }
-        }
-
-        @Override
-        public void prepareResponse(NBTTagCompound nbt) {
-            nbt.setInteger("balance", this.amount);
-        }
-
-        @Override
-        public void processResponse(NBTTagCompound nbt) {
-        }
-    }
-
-    public static class TaskWithdraw extends Task {
-        private int amount;
-
-        private TaskWithdraw() {
-            super("bank_withdraw");
-        }
-
-        private TaskWithdraw(int amount) {
-            this();
-            this.amount = amount;
-        }
-
-        @Override
-        public void prepareRequest(NBTTagCompound nbt) {
-            nbt.setInteger("amount", this.amount);
-        }
-
-        @Override
-        public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
-            int amount = nbt.getInteger("amount");
-            Account account = BankUtil.INSTANCE.getAccount(player);
-            if (account.withdraw(amount)) {
-                int stacks = amount / 64;
-                for (int i = 0; i < stacks; i++) {
-                    world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(Items.EMERALD, 64)));
-                }
-
-                int remaining = amount % 64;
-                if (remaining > 0) {
-                    world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, new ItemStack(Items.EMERALD, remaining)));
-                }
-
-                this.amount = account.getBalance();
-                this.setSuccessful();
-            }
-        }
-
-        @Override
-        public void prepareResponse(NBTTagCompound nbt) {
-            nbt.setInteger("balance", this.amount);
-        }
-
-        @Override
-        public void processResponse(NBTTagCompound nbt) {
-        }
     }
 
 }

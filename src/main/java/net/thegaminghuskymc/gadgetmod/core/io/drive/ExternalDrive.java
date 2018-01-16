@@ -8,9 +8,6 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-/**
- * Author: MrCrayfish
- */
 public final class ExternalDrive extends AbstractDrive {
     private static final Predicate<NBTTagCompound> PREDICATE_DRIVE_TAG = tag ->
             tag.hasKey("name", Constants.NBT.TAG_STRING)

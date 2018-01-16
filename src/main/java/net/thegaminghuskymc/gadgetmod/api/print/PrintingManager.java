@@ -10,9 +10,6 @@ import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-/**
- * Author: MrCrayfish
- */
 public class PrintingManager {
     private static HashBiMap<String, Class<? extends IPrint>> registeredPrints = HashBiMap.create();
 

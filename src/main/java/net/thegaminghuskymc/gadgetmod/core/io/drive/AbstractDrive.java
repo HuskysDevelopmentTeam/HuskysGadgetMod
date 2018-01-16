@@ -13,9 +13,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public abstract class AbstractDrive {
     protected String name;
     protected UUID uuid;

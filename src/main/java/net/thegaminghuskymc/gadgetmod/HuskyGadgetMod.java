@@ -120,8 +120,8 @@ public class HuskyGadgetMod {
         TaskManager.registerTask(TaskGetDevices.class);
 
         //Bank
-//        TaskManager.registerTask(ApplicationBank.TaskDeposit.class);
-//        TaskManager.registerTask(ApplicationBank.TaskWithdraw.class);
+        TaskManager.registerTask(TaskDeposit.class);
+        TaskManager.registerTask(TaskWithdraw.class);
         TaskManager.registerTask(TaskGetBalance.class);
         TaskManager.registerTask(TaskPay.class);
         TaskManager.registerTask(TaskAdd.class);

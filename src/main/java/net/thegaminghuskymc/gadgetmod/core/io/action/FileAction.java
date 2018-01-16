@@ -4,9 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 
-/**
- * Author: MrCrayfish
- */
 public class FileAction {
     private Type type;
     private NBTTagCompound data;

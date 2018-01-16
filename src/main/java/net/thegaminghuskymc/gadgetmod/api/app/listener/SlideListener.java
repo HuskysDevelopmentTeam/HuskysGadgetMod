@@ -7,7 +7,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Slider;
  * the percentage value on a {@link Slider} every
  * time it is moved.
  *
- * @author MrCrayfish
  */
 public interface SlideListener {
     /**

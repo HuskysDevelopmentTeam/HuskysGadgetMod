@@ -2,9 +2,6 @@ package net.thegaminghuskymc.gadgetmod.api.app;
 
 import net.thegaminghuskymc.gadgetmod.core.Settings;
 
-/**
- * Author: MrCrayfish
- */
 public interface System {
     /**
      * Open a context on the screen

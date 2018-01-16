@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Image extends Component {
+
     private static final Map<String, CachedImage> CACHE = new ImageCache(10);
     protected ImageLoader loader;
     protected CachedImage image;

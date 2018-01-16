@@ -29,6 +29,7 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Author: MrCrayfish
@@ -99,7 +100,7 @@ public class ItemEthernetCable extends Item {
                     heldItem.setTagCompound(new NBTTagCompound());
                 }
                 NBTTagCompound tag = heldItem.getTagCompound();
-                tag.setUniqueId("id", TileEntityNetworkDevice.getId());
+                Objects.requireNonNull(tag).setUniqueId("id", TileEntityNetworkDevice.getId());
                 tag.setString("name", TileEntityNetworkDevice.getDeviceName());
                 tag.setLong("pos", TileEntityNetworkDevice.getPos().toLong());
                 heldItem.setStackDisplayName(TextFormatting.GRAY.toString() + TextFormatting.BOLD.toString() + I18n.format("item.ethernet_cable.name"));

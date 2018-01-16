@@ -8,9 +8,6 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 
 import javax.annotation.Nullable;
 
-/**
- * Author: MrCrayfish
- */
 public interface IPrint {
     static NBTTagCompound writeToTag(IPrint print) {
         NBTTagCompound tag = new NBTTagCompound();

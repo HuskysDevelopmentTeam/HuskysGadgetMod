@@ -12,6 +12,7 @@ import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
+import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import org.lwjgl.opengl.GL11;
 
@@ -31,6 +32,8 @@ public class Window<T extends Wrappable> {
     Window<Dialog> dialogWindow = null;
     Window<? extends Wrappable> parent = null;
     private GuiButton btnClose, btnMinimize, btnFullscreen;
+
+    AppInfo appInfo;
 
     public Window(T wrappable, Laptop laptop) {
         this.content = wrappable;
@@ -88,14 +91,14 @@ public class Window<T extends Wrappable> {
 
         /* Edges */
         RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
-        RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
-        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + height - 1, 1, 14, width - 2, 1, 13, 1);
-        RenderUtil.drawRectWithTexture(x + offsetX, y + offsetY + 13, 0, 13, 1, height - 14, 1, 1);
+//        RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
+//        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + height - 1, 1, 14, width - 2, 1, 13, 1);
+//        RenderUtil.drawRectWithTexture(x + offsetX, y + offsetY + 13, 0, 13, 1, height - 14, 1, 1);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
 
         /* Center */
-        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
+//        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
 
         mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
 
@@ -107,6 +110,8 @@ public class Window<T extends Wrappable> {
 
         /* Render content */
         content.render(gui, mc, x + offsetX + 1, y + offsetY + 13, mouseX, mouseY, active && dialogWindow == null, partialTicks);
+
+        RenderUtil.drawApplicationIcon(appInfo, x +  offsetX + content.getWindowTitle().length() + 35, y + offsetY);
 
         if (dialogWindow != null) {
             Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, new Color(1.0f, 1.0f, 1.0f, 0.0f).getAlpha());

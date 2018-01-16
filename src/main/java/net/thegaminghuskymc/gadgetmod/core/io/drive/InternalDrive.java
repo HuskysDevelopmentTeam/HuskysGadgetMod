@@ -6,9 +6,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.ServerFolder;
 
 import javax.annotation.Nullable;
 
-/**
- * Author: MrCrayfish
- */
 public final class InternalDrive extends AbstractDrive {
     public InternalDrive(String name) {
         super(name);

@@ -16,9 +16,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
 
-/**
- * Created by Casey on 06-Aug-17.
- */
 public abstract class ComboBox<T> extends Component {
     protected T value;
     protected boolean hovered;

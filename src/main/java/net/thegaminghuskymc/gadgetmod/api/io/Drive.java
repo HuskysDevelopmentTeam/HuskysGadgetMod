@@ -6,9 +6,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class Drive {
     private String name;
     private UUID uuid;

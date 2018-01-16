@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,6 +21,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.ExternalDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.InternalDrive;
+import net.thegaminghuskymc.gadgetmod.core.io.drive.NetworkDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
@@ -47,6 +49,7 @@ public class FileSystem {
     private AbstractDrive mainDrive = null;
     private Map<UUID, AbstractDrive> additionalDrives = new HashMap<>();
     private AbstractDrive attachedDrive = null;
+    private AbstractDrive connectedDrive = null;
     private EnumDyeColor attachedDriveColor = EnumDyeColor.RED;
 
     private TileEntityLaptop tileEntity;
@@ -161,6 +164,10 @@ public class FileSystem {
             attachedDriveColor = EnumDyeColor.byMetadata(fileSystemTag.getByte("external_drive_color"));
         }
 
+        if (fileSystemTag.hasKey("network_drive", Constants.NBT.TAG_COMPOUND)) {
+            connectedDrive = NetworkDrive.fromTag(fileSystemTag.getCompoundTag("network_drive"));
+        }
+
         setupDefault();
     }
 
@@ -171,8 +178,10 @@ public class FileSystem {
         if (mainDrive == null) {
             AbstractDrive drive = new InternalDrive(LAPTOP_DRIVE_NAME);
             ServerFolder root = drive.getRoot(tileEntity.getWorld());
-            root.add(createProtectedFolder("Home"), false);
-            root.add(createProtectedFolder("Application Data"), false);
+            root.add(createProtectedFolder("Users"), false);
+            root.add(createProtectedFolder("Programfiles"), false);
+            root.add(createProtectedFolder("Programfiles (x86)"), false);
+            root.add(createProtectedFolder("NeonOS"), false);
             mainDrive = drive;
             tileEntity.markDirty();
         }
@@ -250,7 +259,7 @@ public class FileSystem {
     @Nullable
     public ItemStack removeAttachedDrive() {
         if (attachedDrive != null) {
-            ItemStack stack = new ItemStack(GadgetItems.flash_drive, 1, getAttachedDriveColor().getMetadata());
+            ItemStack stack = new ItemStack(Minecraft.getMinecraft().player.getActiveItemStack().getItem(), 1, getAttachedDriveColor().getMetadata());
             stack.setStackDisplayName(attachedDrive.getName());
             stack.getTagCompound().setTag("drive", attachedDrive.toTag());
             attachedDrive = null;

@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * It runs in the background so it doesn't freeze the user interface of your application.
  * All requests are returned with a string, use how you please!
  *
- * @author MrCrayfish
  */
 public class OnlineRequest {
     private static OnlineRequest instance = null;

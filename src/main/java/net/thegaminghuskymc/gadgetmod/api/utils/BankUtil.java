@@ -24,7 +24,6 @@ import java.util.UUID;
  * from their account into emeralds. Be nice, and don't abuse this system. Check out
  * the example applications to learn how you use this currency system.</p>
  *
- * @author MrCrayfish
  */
 public class BankUtil {
     public static final BankUtil INSTANCE = new BankUtil();
