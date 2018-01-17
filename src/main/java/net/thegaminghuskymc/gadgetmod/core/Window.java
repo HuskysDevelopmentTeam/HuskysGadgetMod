@@ -25,7 +25,7 @@ public class Window<T extends Wrappable> {
     private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
 
     public static final int COLOUR_WINDOW_DARK_1 = 0xFF9E9E9E;
-    private static final int COLOUR_WINDOW_DARK_2 = 0xFF535861;
+    private static final int COLOUR_WINDOW_DARK_2 = 0xCC535861;
     T content;
     int width, height;
     int offsetX, offsetY;
@@ -130,8 +130,8 @@ public class Window<T extends Wrappable> {
         } else {
             this.offsetX = Laptop.SCREEN_WIDTH - width;
         }
-
         if (newY >= 0 && newY <= Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height) {
+        
             this.offsetY = newY;
         } else if (newY < 0) {
             this.offsetY = 0;
