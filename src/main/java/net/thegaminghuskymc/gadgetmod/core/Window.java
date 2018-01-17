@@ -130,13 +130,13 @@ public class Window<T extends Wrappable> {
         } else {
             this.offsetX = Laptop.SCREEN_WIDTH - width;
         }
-        if (newY >= 0 && newY <= Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height) {
         
+        if (newY >= TaskBar.BAR_HEIGHT && newY <= Laptop.SCREEN_HEIGHT - height) {
             this.offsetY = newY;
-        } else if (newY < 0) {
-            this.offsetY = 0;
+        } else if (newY < TaskBar.BAR_HEIGHT) {
+            this.offsetY = TaskBar.BAR_HEIGHT;
         } else {
-            this.offsetY = Laptop.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height;
+            this.offsetY = Laptop.SCREEN_HEIGHT - height;
         }
 
         updateComponents(screenStartX, screenStartY);
