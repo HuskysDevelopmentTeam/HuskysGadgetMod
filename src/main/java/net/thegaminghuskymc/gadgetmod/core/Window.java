@@ -8,13 +8,10 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -24,14 +21,14 @@ public class Window<T extends Wrappable> {
 
     private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
 
-    public static final int COLOUR_WINDOW_DARK_1 = 0xFF9E9E9E;
-    private static final int COLOUR_WINDOW_DARK_2 = 0xCC535861;
+    public static final int COLOUR_WINDOW_DARK_1 = colourScheme.getApplicationBarColour();
+    private static final int COLOUR_WINDOW_DARK_2 = colourScheme.getApplicationBarColour();
     T content;
     int width, height;
     int offsetX, offsetY;
     private Laptop laptop;
-    private Window<Dialog> dialogWindow = null;
-    private Window<? extends Wrappable> parent = null;
+    private Window dialogWindow = null;
+    private Window parent = null;
     private GuiButton btnClose, btnMinimize, btnFullscreen;
 
     public Window(T wrappable, Laptop laptop) {
@@ -142,7 +139,7 @@ public class Window<T extends Wrappable> {
         updateComponents(screenStartX, screenStartY);
     }
 
-    void handleMouseClick(Laptop gui, int x, int y, int mouseX, int mouseY, int mouseButton) {
+    void handleMouseClick(Laptop gui, int mouseX, int mouseY, int mouseButton) {
         if (btnClose.isMouseOver()) {
             if (content instanceof Application) {
                 gui.close((Application) content);
@@ -169,7 +166,7 @@ public class Window<T extends Wrappable> {
         }
 
         if (dialogWindow != null) {
-            dialogWindow.handleMouseClick(gui, x, y, mouseX, mouseY, mouseButton);
+            dialogWindow.handleMouseClick(gui, mouseX, mouseY, mouseButton);
             return;
         }
 
@@ -208,10 +205,6 @@ public class Window<T extends Wrappable> {
         content.onMinimize();
     }
 
-    public void handleFullscreen() {
-        content.onFullscreen();
-    }
-
     private void updateComponents(int x, int y) {
         content.updateComponents(x + offsetX + 1, y + offsetY + 13);
         btnClose.x = x + offsetX + width - 12;
@@ -228,20 +221,20 @@ public class Window<T extends Wrappable> {
         if (dialogWindow != null) {
             dialogWindow.openDialog(dialog);
         } else {
-            dialogWindow = new Window(dialog, laptop);
+            dialogWindow = new Window<>(dialog, laptop);
             dialogWindow.init(0, 0);
             dialogWindow.setParent(this);
         }
     }
 
-    public void closeDialog() {
+    private void closeDialog() {
         if (dialogWindow != null) {
             dialogWindow.handleClose();
             dialogWindow = null;
         }
     }
 
-    public Window<Dialog> getDialogWindow() {
+    public Window getDialogWindow() {
         return dialogWindow;
     }
 
@@ -255,17 +248,9 @@ public class Window<T extends Wrappable> {
         }
     }
 
-    public void minimize() {
-        if (content instanceof Application) {
-            laptop.minimize((Application) content);
-            return;
-        }
-    }
-
     public void fullscreen() {
         if (content instanceof Application) {
             laptop.fullscreen((Application) content);
-            return;
         }
     }
 

@@ -5,23 +5,20 @@ import net.minecraftforge.common.util.Constants;
 
 import java.awt.*;
 
-/**
- * Author: MrCrayfish
- */
 public class ColourScheme {
 
-    public int textColour;
-    public int textSecondaryColour;
-    public int headerColour;
-    public int backgroundColour;
-    public int backgroundSecondaryColour;
-    public int itemBackgroundColour;
-    public int itemHighlightColour;
-    public int buttonNormalColour;
-    public int buttonHoveredColour;
-    public int buttonDisabledColour;
-    public int taskBarColour;
-    public int applicationBarColour;
+    private int textColour;
+    private int textSecondaryColour;
+    private int headerColour;
+    private int backgroundColour;
+    private int backgroundSecondaryColour;
+    private int itemBackgroundColour;
+    private int itemHighlightColour;
+    private int buttonNormalColour;
+    private int buttonHoveredColour;
+    private int buttonDisabledColour;
+    private int taskBarColour;
+    private int applicationBarColour;
 
     public ColourScheme() {
         resetDefault();
@@ -73,88 +70,20 @@ public class ColourScheme {
         return textColour;
     }
 
-    public void setTextColour(int textColour) {
-        this.textColour = textColour;
-    }
-
-    public int getTextSecondaryColour() {
-        return textSecondaryColour;
-    }
-
-    public void setTextSecondaryColour(int textSecondaryColour) {
-        this.textSecondaryColour = textSecondaryColour;
-    }
-
     public int getHeaderColour() {
         return headerColour;
-    }
-
-    public void setHeaderColour(int headerColour) {
-        this.headerColour = headerColour;
     }
 
     public int getBackgroundColour() {
         return backgroundColour;
     }
 
-    public void setBackgroundColour(int backgroundColour) {
-        this.backgroundColour = backgroundColour;
-    }
-
-    public int getBackgroundSecondaryColour() {
-        return backgroundSecondaryColour;
-    }
-
-    public void setBackgroundSecondaryColour(int backgroundSecondaryColour) {
-        this.backgroundSecondaryColour = backgroundSecondaryColour;
-    }
-
     public int getItemBackgroundColour() {
         return itemBackgroundColour;
     }
 
-    public void setItemBackgroundColour(int itemBackgroundColour) {
-        this.itemBackgroundColour = itemBackgroundColour;
-    }
-
     public int getItemHighlightColour() {
         return itemHighlightColour;
-    }
-
-    public void setItemHighlightColour(int itemHighlightColour) {
-        this.itemHighlightColour = itemHighlightColour;
-    }
-
-    public int getButtonNormalColour() {
-        return buttonNormalColour;
-    }
-
-    public void setButtonNormalColour(int buttonNormalColour) {
-        this.buttonNormalColour = buttonNormalColour;
-    }
-
-    public int getButtonHoveredColour() {
-        return buttonHoveredColour;
-    }
-
-    public void setButtonHoveredColour(int buttonHoveredColour) {
-        this.buttonHoveredColour = buttonHoveredColour;
-    }
-
-    public int getButtonDisabledColour() {
-        return buttonDisabledColour;
-    }
-
-    public void setButtonDisabledColour(int buttonDisabledColour) {
-        this.buttonDisabledColour = buttonDisabledColour;
-    }
-
-    public int getTaskBarColour() {
-        return taskBarColour;
-    }
-
-    public void setTaskBarColour(int taskBarColour) {
-        this.taskBarColour = taskBarColour;
     }
 
     public int getApplicationBarColour() {
@@ -165,7 +94,7 @@ public class ColourScheme {
         this.applicationBarColour = applicationBarColour;
     }
 
-    public void resetDefault() {
+    private void resetDefault() {
         textColour = Color.decode("0xFFFFFF").getRGB();
         textSecondaryColour = Color.decode("0x9BEDF2").getRGB();
         headerColour = Color.decode("0x535861").getRGB();

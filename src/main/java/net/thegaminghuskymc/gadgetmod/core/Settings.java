@@ -3,9 +3,6 @@ package net.thegaminghuskymc.gadgetmod.core;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
-/**
- * Author: MrCrayfish
- */
 public class Settings {
 
     private static boolean showAllApps = false;
@@ -14,10 +11,6 @@ public class Settings {
 
     public static boolean isShowAllApps() {
         return Settings.showAllApps;
-    }
-
-    public static void setShowAllApps(boolean showAllApps) {
-        Settings.showAllApps = showAllApps;
     }
 
     public static Settings fromTag(NBTTagCompound tag) {

@@ -53,9 +53,8 @@ public class TaskBar {
 
     private void setupApplications(List<Application> applications) {
         final Predicate<Application> VALID_APPS = (Application app) ->
-                app instanceof SystemApplication || !HuskyGadgetMod.proxy.hasAllowedApplications() || HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo()) && (Settings.isShowAllApps());
+                app instanceof SystemApplication || !HuskyGadgetMod.proxy.hasAllowedApplications() || HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo());
         this.applications = applications.stream().filter(VALID_APPS).collect(Collectors.toList());
-
     }
 
     public void init(int posX, int posY) {

@@ -387,7 +387,7 @@ public class Laptop extends GuiScreen implements System {
                         updateWindowStack();
                         windows[0] = window;
 
-                        windows[0].handleMouseClick(this, posX, posY, mouseX, mouseY, mouseButton);
+                        windows[0].handleMouseClick(this, mouseX, mouseY, mouseButton);
 
                         if (isMouseWithinWindowBar(mouseX, mouseY, dialogWindow)) {
                             this.dragging = true;
