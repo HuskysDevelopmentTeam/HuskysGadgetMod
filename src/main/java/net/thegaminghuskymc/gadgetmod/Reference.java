@@ -5,7 +5,6 @@ public class Reference {
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
     public static final String NAME = "Husky's Gadget Mod";
     public static final String VERSION = "0.0.3";
-    public static final String OS = "NeonOS 3";
     public static final String CLIENT_PROXY_CLASS = "net.thegaminghuskymc.gadgetmod.proxy.ClientProxy";
     public static final String COMMON_PROXY_CLASS = "net.thegaminghuskymc.gadgetmod.proxy.CommonProxy";
     public static final String GUI_FACTORY_CLASS = "net.thegaminghuskymc.gadgetmod.gui.GuiFactory";

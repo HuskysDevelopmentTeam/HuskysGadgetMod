@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.core;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 
 public abstract class Wrappable {
 

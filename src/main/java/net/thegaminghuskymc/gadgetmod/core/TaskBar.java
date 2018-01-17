@@ -11,7 +11,9 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
+import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutOSSelect;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutStartMenu;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
@@ -34,6 +36,7 @@ public class TaskBar {
     private Button btnLeft;
     private Button btnRight;
     private Button btnStartButton;
+    private Button btnOSSelect;
 
     private int offset = 0;
 
@@ -95,6 +98,23 @@ public class TaskBar {
             }
         });
 
+        btnOSSelect = new Button(0, 0, Icons.COMPUTER);
+        btnOSSelect.setToolTip("Select OS", "This will let you select the OS you want to use");
+        btnOSSelect.setPadding(1);
+        btnOSSelect.xPosition = posX + 30 + 14 * APPS_DISPLAYED + 58;
+        btnOSSelect.yPosition = posY + 3;
+        btnOSSelect.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if (mouseButton == 0) {
+                Layout layout = new LayoutOSSelect();
+                layout.init();
+                if (!Laptop.getSystem().hasContext() || !(Laptop.getSystem().getContext() instanceof LayoutOSSelect)) {
+                    Laptop.getSystem().openContext(layout, this.posX, this.posY);
+                } else {
+                    Laptop.getSystem().closeContext();
+                }
+            }
+        });
+
         trayItems.forEach(TrayItem::init);
     }
 
@@ -117,6 +137,7 @@ public class TaskBar {
         btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
         btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
         btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
+        btnOSSelect.render(gui, mc, btnOSSelect.xPosition, btnOSSelect.yPosition, mouseX, mouseY, true, partialTicks);
 
         for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
             AppInfo info = applications.get(i + offset).getInfo();
@@ -159,6 +180,7 @@ public class TaskBar {
         btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
+        btnOSSelect.handleMouseClick(mouseX, mouseY, mouseButton);
 
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 286, y + 16)) {
             for (int i = 0; i < APPS_DISPLAYED; i++) {
@@ -184,7 +206,7 @@ public class TaskBar {
         return mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2;
     }
 
-    private String timeToString(long time) {
+    public String timeToString(long time) {
         int hours = (int) ((Math.floor(time / 1000.0) + 7) % 24);
         int minutes = (int) Math.floor((time % 1000) / 1000.0 * 60);
         return String.format("%02d:%02d", hours, minutes);

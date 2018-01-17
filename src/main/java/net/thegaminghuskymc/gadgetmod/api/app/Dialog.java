@@ -38,6 +38,7 @@ import java.awt.*;
 import java.util.function.Predicate;
 
 public abstract class Dialog extends Wrappable {
+
     protected final Layout defaultLayout;
     private String title = "Message";
     private int width;
@@ -182,6 +183,7 @@ public abstract class Dialog extends Wrappable {
     }
 
     public static class Message extends Dialog {
+
         private String messageText = "";
 
         private ClickListener positiveListener;

@@ -567,6 +567,11 @@ public class Laptop extends GuiScreen implements System {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 
+    public List<Application> getApplications()
+    {
+        return APPLICATIONS;
+    }
+
     public void close(Application app) {
         for (int i = 0; i < windows.length; i++) {
             Window<Application> window = windows[i];
@@ -786,7 +791,11 @@ public class Laptop extends GuiScreen implements System {
     public enum BootMode {
         BOOTING,
         NOTHING,
-        SHUTTING_DOWN;
+        SHUTTING_DOWN,
+        BIOS,
+        RESTARTING,
+        SLEEPING,
+        BIOS_SETTINGS;
     	
     	public static BootMode getBootMode(int i) {
     		return (i >= 0 && i < values().length) ? values()[i] : null;

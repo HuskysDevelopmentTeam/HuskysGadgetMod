@@ -46,8 +46,8 @@ public class GadgetItems {
 
     public static void register() {
         register(flash_drive);
-        register(internal_harddrive);
-        register(pixel_watch);
+//        register(internal_harddrive);
+//        register(pixel_watch);
         register(pixel_pad);
         register(pixel_phone);
         register(cpu);

@@ -23,6 +23,7 @@ eclipse
 run
 libs
 src/main/java/com/*
+src/main/java/javazoom/*
 classes/*
 src/main/resources/assets/extraons/*
 config/*

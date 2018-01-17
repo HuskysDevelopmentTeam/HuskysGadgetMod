@@ -29,6 +29,7 @@ public class Layout extends Component {
     public int height;
 
     private String title;
+    private String icon;
     private boolean initialized = false;
 
     private InitListener initListener;
@@ -267,6 +268,18 @@ public class Layout extends Component {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean hasIcon() {
+        return icon != null;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     /**

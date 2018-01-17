@@ -19,10 +19,8 @@ public class Window<T extends Wrappable> {
 
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
-    private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-
-    public static final int COLOUR_WINDOW_DARK_1 = colourScheme.getApplicationBarColour();
-    private static final int COLOUR_WINDOW_DARK_2 = colourScheme.getApplicationBarColour();
+    public static final int COLOUR_WINDOW_DARK_1 = 0xFF9E9E9E;
+    private static final int COLOUR_WINDOW_DARK_2 = 0xFF3D4147;
     T content;
     int width, height;
     int offsetX, offsetY;
@@ -51,7 +49,7 @@ public class Window<T extends Wrappable> {
         }
     }
 
-    void init(int x, int y) {
+    public void init(int x, int y) {
         btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 1);
         btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 12, y + offsetY + 1);
         btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 12, y + offsetY + 1);
@@ -139,7 +137,7 @@ public class Window<T extends Wrappable> {
         updateComponents(screenStartX, screenStartY);
     }
 
-    void handleMouseClick(Laptop gui, int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseClick(Laptop gui, int mouseX, int mouseY, int mouseButton) {
         if (btnClose.isMouseOver()) {
             if (content instanceof Application) {
                 gui.close((Application) content);
@@ -173,7 +171,7 @@ public class Window<T extends Wrappable> {
         content.handleMouseClick(mouseX, mouseY, mouseButton);
     }
 
-    void handleMouseDrag(int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseDrag(int mouseX, int mouseY, int mouseButton) {
         if (dialogWindow != null) {
             dialogWindow.handleMouseDrag(mouseX, mouseY, mouseButton);
             return;
@@ -181,7 +179,7 @@ public class Window<T extends Wrappable> {
         content.handleMouseDrag(mouseX, mouseY, mouseButton);
     }
 
-    void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
         if (dialogWindow != null) {
             dialogWindow.handleMouseRelease(mouseX, mouseY, mouseButton);
             return;
@@ -189,7 +187,7 @@ public class Window<T extends Wrappable> {
         content.handleMouseRelease(mouseX, mouseY, mouseButton);
     }
 
-    void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
+    public void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
         if (dialogWindow != null) {
             dialogWindow.handleMouseScroll(mouseX, mouseY, direction);
             return;
