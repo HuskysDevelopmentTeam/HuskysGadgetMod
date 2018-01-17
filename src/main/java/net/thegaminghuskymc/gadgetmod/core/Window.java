@@ -24,16 +24,15 @@ public class Window<T extends Wrappable> {
 
     private static ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
 
-    public static final int COLOUR_WINDOW_DARK = new Color(colourScheme.getApplicationBarColour()).getRGB();
+    public static final int COLOUR_WINDOW_DARK_1 = 0xFF9E9E9E;
+    private static final int COLOUR_WINDOW_DARK_2 = 0xFF535861;
     T content;
     int width, height;
     int offsetX, offsetY;
-    Laptop laptop;
-    Window<Dialog> dialogWindow = null;
-    Window<? extends Wrappable> parent = null;
+    private Laptop laptop;
+    private Window<Dialog> dialogWindow = null;
+    private Window<? extends Wrappable> parent = null;
     private GuiButton btnClose, btnMinimize, btnFullscreen;
-
-    AppInfo appInfo;
 
     public Window(T wrappable, Laptop laptop) {
         this.content = wrappable;
@@ -80,25 +79,12 @@ public class Window<T extends Wrappable> {
         }
 
         GlStateManager.enableBlend();
-        mc.getTextureManager().bindTexture(WINDOW_GUI);
-        GlStateManager.color(new Color(COLOUR_WINDOW_DARK).getRed(), new Color(COLOUR_WINDOW_DARK).getGreen(), new Color(COLOUR_WINDOW_DARK).getBlue());
-
-        /* Corners */
-        gui.drawTexturedModalRect(x + offsetX, y + offsetY, 0, 0, 1, 13);
-        gui.drawTexturedModalRect(x + offsetX + width - 13, y + offsetY, 2, 0, 13, 13);
-        gui.drawTexturedModalRect(x + offsetX + width - 1, y + offsetY + height - 1, 14, 14, 1, 1);
-        gui.drawTexturedModalRect(x + offsetX, y + offsetY + height - 1, 0, 14, 1, 1);
 
         /* Edges */
-        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY, 1, 0, width - 14, 13, 1, 13);
-//        RenderUtil.drawRectWithTexture(x + offsetX + width - 1, y + offsetY + 13, 14, 13, 1, height - 14, 1, 1);
-//        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + height - 1, 1, 14, width - 2, 1, 13, 1);
-//        RenderUtil.drawRectWithTexture(x + offsetX, y + offsetY + 13, 0, 13, 1, height - 14, 1, 1);
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.9F);
+        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, COLOUR_WINDOW_DARK_1);
 
         /* Center */
-//        RenderUtil.drawRectWithTexture(x + offsetX + 1, y + offsetY + 13, 1, 13, width - 2, height - 14, 13, 1);
+        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, COLOUR_WINDOW_DARK_2);
 
         mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
 
@@ -110,8 +96,6 @@ public class Window<T extends Wrappable> {
 
         /* Render content */
         content.render(gui, mc, x + offsetX + 1, y + offsetY + 13, mouseX, mouseY, active && dialogWindow == null, partialTicks);
-
-        RenderUtil.drawApplicationIcon(appInfo, x +  offsetX + content.getWindowTitle().length() + 35, y + offsetY);
 
         if (dialogWindow != null) {
             Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, new Color(1.0f, 1.0f, 1.0f, 0.0f).getAlpha());
