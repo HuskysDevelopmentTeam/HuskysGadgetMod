@@ -47,8 +47,8 @@ public class FileBrowser extends Component {
 
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
 
-    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
-    private static final Color ITEM_SELECTED = Color.decode("0x757575");
+    private static final Color ITEM_BACKGROUND = new Color(158, 158, 158);
+    private static final Color ITEM_SELECTED = new Color(117, 117, 117);
     private static final Color PROTECTED_FILE = new Color(155, 237, 242);
 
     public static boolean refreshList = false;
@@ -98,8 +98,8 @@ public class FileBrowser extends Component {
         Layout layoutMain = new Layout(mode.getWidth(), mode.getHeight());
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
+            Gui.drawRect(x - 2, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
+            Gui.drawRect(x - 2, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
         });
 
         btnPreviousFolder = new Button(5, 2, Icons.ARROW_LEFT);
@@ -289,7 +289,7 @@ public class FileBrowser extends Component {
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
         layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + height, Window.COLOUR_WINDOW_DARK);
+            Gui.drawRect(x, y, x + width, y + height, Window.COLOUR_WINDOW_DARK_1);
         });
         layoutLoading.setVisible(false);
 
