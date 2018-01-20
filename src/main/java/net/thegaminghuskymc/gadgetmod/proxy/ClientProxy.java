@@ -1,7 +1,22 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+
+import net.minecraft.block.BlockColored;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
@@ -10,13 +25,10 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -31,29 +43,26 @@ import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
+import net.thegaminghuskymc.gadgetmod.block.BlockDevice;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
-import net.thegaminghuskymc.gadgetmod.tileentity.*;
-import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.LaptopRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.OfficeChairRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PaperRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.PrinterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.RouterRenderer;
+import net.thegaminghuskymc.gadgetmod.tileentity.render.ScreenRenderer;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
@@ -118,6 +127,9 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
             return 0xFFFFFF;
         };
         blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
+        
+        IBlockColor coloredDevice = (state, worldIn, pos, tintIndex) -> tintIndex == 1 && state.getBlock() instanceof BlockDevice.Colored ? state.getValue(BlockColored.COLOR).getColorValue() : 0xFFFFFF;
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.LAPTOP);
     }
 
     @Override
