@@ -2,9 +2,32 @@ package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.thegaminghuskymc.gadgetmod.block.*;
+import net.thegaminghuskymc.gadgetmod.block.Block3DPrinter;
+import net.thegaminghuskymc.gadgetmod.block.BlockBenchmarkStation;
+import net.thegaminghuskymc.gadgetmod.block.BlockDesktop;
+import net.thegaminghuskymc.gadgetmod.block.BlockDrawingTablet;
+import net.thegaminghuskymc.gadgetmod.block.BlockEasterEgg;
+import net.thegaminghuskymc.gadgetmod.block.BlockEthernetWallOutlet;
+import net.thegaminghuskymc.gadgetmod.block.BlockExternalHarddrive;
+import net.thegaminghuskymc.gadgetmod.block.BlockGamingDesk;
+import net.thegaminghuskymc.gadgetmod.block.BlockLaptop;
+import net.thegaminghuskymc.gadgetmod.block.BlockMonitor;
+import net.thegaminghuskymc.gadgetmod.block.BlockOfficeChair;
+import net.thegaminghuskymc.gadgetmod.block.BlockPaper;
+import net.thegaminghuskymc.gadgetmod.block.BlockPlaystation4Pro;
+import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
+import net.thegaminghuskymc.gadgetmod.block.BlockRGBLights;
+import net.thegaminghuskymc.gadgetmod.block.BlockRobot;
+import net.thegaminghuskymc.gadgetmod.block.BlockRoofLights;
+import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
+import net.thegaminghuskymc.gadgetmod.block.BlockScreen;
+import net.thegaminghuskymc.gadgetmod.block.BlockSecurityCamera;
+import net.thegaminghuskymc.gadgetmod.block.BlockServer;
+import net.thegaminghuskymc.gadgetmod.block.BlockServerTerminal;
+import net.thegaminghuskymc.gadgetmod.block.BlockSoundwoofers;
 import net.thegaminghuskymc.gadgetmod.item.ItemColoredDevice;
 import net.thegaminghuskymc.gadgetmod.item.ItemDevice;
+import net.thegaminghuskymc.gadgetmod.item.ItemLaptop;
 import net.thegaminghuskymc.gadgetmod.item.ItemPaper;
 
 public class GadgetBlocks {
@@ -60,7 +83,7 @@ public class GadgetBlocks {
     }
 
     public static void register() {
-        registerBlock(LAPTOP, new ItemColoredDevice(LAPTOP));
+        registerBlock(LAPTOP, new ItemLaptop(LAPTOP));
         registerBlock(ROUTER, new ItemColoredDevice(ROUTER));
         registerBlock(PRINTER, new ItemColoredDevice(PRINTER));
         registerBlock(PAPER, new ItemPaper(PAPER));
