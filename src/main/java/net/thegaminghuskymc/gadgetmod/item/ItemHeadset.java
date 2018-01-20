@@ -19,9 +19,6 @@ import org.apache.commons.lang3.text.WordUtils;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemHeadset extends Item implements SubItems {
 
     public ItemHeadset() {

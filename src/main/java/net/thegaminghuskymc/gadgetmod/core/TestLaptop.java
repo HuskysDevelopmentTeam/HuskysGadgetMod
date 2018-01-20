@@ -3,7 +3,6 @@ package net.thegaminghuskymc.gadgetmod.core;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -12,15 +11,11 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktop;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
-import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TestLaptop extends GuiScreen implements System {

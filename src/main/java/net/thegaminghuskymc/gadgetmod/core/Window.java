@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.ColorScheme;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
@@ -19,8 +20,8 @@ public class Window<T extends Wrappable> {
 
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
-    public static final int COLOUR_WINDOW_DARK_1 = 0xFF9E9E9E;
-    private static final int COLOUR_WINDOW_DARK_2 = 0xFF3D4147;
+    public static ColourScheme colourScheme = new ColourScheme();
+
     T content;
     int width, height;
     int offsetX, offsetY;
@@ -75,11 +76,22 @@ public class Window<T extends Wrappable> {
 
         GlStateManager.enableBlend();
 
-        /* Edges */
-        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, COLOUR_WINDOW_DARK_1);
+        /* Application Top Bar */
+        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, Laptop.getSystem().getSettings().getColourScheme().getMainApplicationBarColour());
+
+        /* Application Second Bar */
+//        Gui.drawRect(x + offsetX, y + offsetY + 23, x + offsetX + width, y + offsetY + 13, colourScheme.getSecondApplicationBarColour());
 
         /* Center */
-        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, COLOUR_WINDOW_DARK_2);
+        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
+
+//        mc.fontRenderer.drawString("File", x + offsetX + 3, y + offsetY + 14, 0xFFFFFF, true);
+//
+//        mc.fontRenderer.drawString("Edit", x + offsetX + 23, y + offsetY + 14, 0xFFFFFF, true);
+//
+//        mc.fontRenderer.drawString("View", x + offsetX + 43, y + offsetY + 14, 0xFFFFFF, true);
+//
+//        mc.fontRenderer.drawString("Navigate", x + offsetX + 65, y + offsetY + 14, 0xFFFFFF, true);
 
         mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
 

@@ -60,18 +60,17 @@ public class GadgetBlocks {
     }
 
     public static void register() {
-
         registerBlock(LAPTOP, new ItemColoredDevice(LAPTOP));
         registerBlock(ROUTER, new ItemColoredDevice(ROUTER));
         registerBlock(PRINTER, new ItemColoredDevice(PRINTER));
         registerBlock(PAPER, new ItemPaper(PAPER));
-//        registerBlock(SCREEN, new ItemColoredDevice(SCREEN));
+        registerBlock(SCREEN, new ItemColoredDevice(SCREEN));
         registerBlock(MONITOR, new ItemColoredDevice(MONITOR));
         registerBlock(DESKTOP, new ItemColoredDevice(DESKTOP));
 //        registerBlock(SERVER, new ItemDevice(SERVER));
 //        registerBlock(SERVER_TERMINAL, new ItemDevice(SERVER_TERMINAL));
-//        registerBlock(ROBOT, new ItemDevice(ROBOT));
-//        registerBlock(ETHERNET_WALL_OUTLET, new ItemColoredDevice(ETHERNET_WALL_OUTLET));
+        registerBlock(ROBOT, new ItemDevice(ROBOT));
+        registerBlock(ETHERNET_WALL_OUTLET, new ItemColoredDevice(ETHERNET_WALL_OUTLET));
         registerBlock(OFFICE_CHAIR, new ItemColoredDevice(OFFICE_CHAIR));
         registerBlock(GAMING_DESK, new ItemColoredDevice(GAMING_DESK));
         registerBlock(THREEDE_PRINTER, new ItemColoredDevice(THREEDE_PRINTER));

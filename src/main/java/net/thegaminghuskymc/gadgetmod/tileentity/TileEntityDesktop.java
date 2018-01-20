@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
 import com.google.common.collect.Lists;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;

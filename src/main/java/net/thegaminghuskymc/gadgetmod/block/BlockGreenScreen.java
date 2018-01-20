@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;

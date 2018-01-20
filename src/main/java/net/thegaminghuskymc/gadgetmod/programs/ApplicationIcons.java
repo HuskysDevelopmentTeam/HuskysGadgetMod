@@ -2,7 +2,9 @@ package net.thegaminghuskymc.gadgetmod.programs;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
-import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Alphabet;

@@ -19,10 +19,8 @@ import net.thegaminghuskymc.gadgetmod.item.SubItems;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class RegistrationHandler {
+
     public static void init() {
         GadgetBlocks.register();
         GadgetItems.register();

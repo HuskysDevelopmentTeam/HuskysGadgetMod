@@ -9,8 +9,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Notification;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 import java.util.*;

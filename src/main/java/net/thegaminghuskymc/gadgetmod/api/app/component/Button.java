@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +15,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Button extends Component {
@@ -193,27 +195,18 @@ public class Button extends Component {
     public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if (this.visible) {
             mc.getTextureManager().bindTexture(Component.COMPONENTS_GUI);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = isInside(mouseX, mouseY) && windowActive;
-            int i = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
 
-            /* Corners */
-            RenderUtil.drawRectWithTexture(xPosition, yPosition, 96 + i * 5, 12, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(xPosition + width - 2, yPosition, 99 + i * 5, 12, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(xPosition + width - 2, yPosition + height - 2, 99 + i * 5, 15, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(xPosition, yPosition + height - 2, 96 + i * 5, 15, 2, 2, 2, 2);
+            if(iconResource == null) {
+                Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonNormalColour());
+            }
 
-            /* Middles */
-            RenderUtil.drawRectWithTexture(xPosition + 2, yPosition, 98 + i * 5, 12, width - 4, 2, 1, 2);
-            RenderUtil.drawRectWithTexture(xPosition + width - 2, yPosition + 2, 99 + i * 5, 14, 2, height - 4, 2, 1);
-            RenderUtil.drawRectWithTexture(xPosition + 2, yPosition + height - 2, 98 + i * 5, 15, width - 4, 2, 1, 2);
-            RenderUtil.drawRectWithTexture(xPosition, yPosition + 2, 96 + i * 5, 14, 2, height - 4, 2, 1);
-
-            /* Center */
-            RenderUtil.drawRectWithTexture(xPosition + 2, yPosition + 2, 98 + i * 5, 14, width - 4, height - 4, 1, 1);
+            if(hovered) {
+                Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonHoveredColour());
+            }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -239,7 +232,7 @@ public class Button extends Component {
     @Override
     public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
         if (this.hovered && this.toolTip != null && toolTipTick >= TOOLTIP_DELAY) {
-            laptop.drawHoveringText(Arrays.asList(TextFormatting.GOLD + this.toolTipTitle, this.toolTip), mouseX, mouseY);
+            laptop.drawHoveringText(Arrays.asList(TextFormatting.GOLD + this.toolTipTitle, this.toolTip), mouseX - 10, mouseY);
         }
     }
 

@@ -2,7 +2,6 @@ package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -29,7 +28,6 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import javax.annotation.Nullable;

@@ -8,10 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutOSSelect;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutStartMenu;
@@ -162,7 +161,7 @@ public class TaskBar {
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
         /* Other Apps */
-        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 286, y + 16)) {
+        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
             for (int i = 0; i < APPS_DISPLAYED; i++) {
                 if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
                     gui.drawTexturedModalRect(x + 32 + i * 16, y + 1, 35, 0, 16, 16);
@@ -182,7 +181,7 @@ public class TaskBar {
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
         btnOSSelect.handleMouseClick(mouseX, mouseY, mouseButton);
 
-        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 286, y + 16)) {
+        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
             for (int i = 0; i < APPS_DISPLAYED; i++) {
                 if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
                     laptop.open(applications.get(i + offset));

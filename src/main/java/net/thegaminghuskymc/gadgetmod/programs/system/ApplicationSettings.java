@@ -8,17 +8,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
-import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutThemes;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
@@ -97,17 +97,14 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformationApps = new Menu("App Information");
         layoutInformationApps.addComponent(buttonPrevious);
 
-        Layout layoutThemes = new Menu("Themes");
-        layoutThemes.addComponent(buttonPrevious);
-
-        Button btnThemes = new Button(5, 33, "Themes", Icons.PICTURE);
+        Button btnThemes = new Button(5, 67, "Themes", Icons.PICTURE);
         btnThemes.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
-                showMenu(layoutThemes);
+                showMenu(new LayoutThemes());
             }
         });
-        layoutMain.addComponent(btnThemes);
+        layoutPersonalise.addComponent(btnThemes);
 
         Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
         buttonInformationApps.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -130,7 +127,7 @@ public class ApplicationSettings extends SystemApplication {
         Layout layoutWifi = new Menu("WiFi");
         layoutWifi.addComponent(buttonPrevious);
 
-        Button personalise = new Button(5, 66, "Personalise", Icons.EYE_DROPPER);
+        Button personalise = new Button(5, 25, "Personalise", Icons.EYE_DROPPER);
         personalise.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -139,7 +136,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(personalise);
 
-        Button information = new Button(5, 87, "Information", Icons.HELP);
+        Button information = new Button(5, 46, "Information", Icons.HELP);
         information.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -148,7 +145,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(information);
 
-        Button wallpapers = new Button(20, 66, "Wallpapers", Icons.PICTURE);
+        Button wallpapers = new Button(5, 25, "Wallpapers", Icons.PICTURE);
         wallpapers.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -157,7 +154,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutPersonalise.addComponent(wallpapers);
 
-        Button buttonColourScheme = new Button(40, 86, "Colour Schemes", Icons.TRASH);
+        Button buttonColourScheme = new Button(5, 46, "Colour Schemes", Icons.TRASH);
         buttonColourScheme.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
@@ -166,7 +163,7 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutPersonalise.addComponent(buttonColourScheme);
 
-        Button buttonWiFi = new Button(5, 108, "Wifi", Icons.WIFI_HIGH);
+        Button buttonWiFi = new Button(5, 67, "Wifi", Icons.WIFI_HIGH);
         buttonWiFi.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (mouseButton == 0) {
                 showMenu(layoutWifi);
@@ -252,11 +249,23 @@ public class ApplicationSettings extends SystemApplication {
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        ComboBox.Custom<Integer> comboBoxApplicationBarColour = createColourPicker(26);
-        layoutColourScheme.addComponent(comboBoxApplicationBarColour);
+        Label mainApplicationBarColour = new Label("Main Application Bar Colour", 175, 29);
+        layoutColourScheme.addComponent(mainApplicationBarColour);
 
-        Label applicationBarColour = new Label("Application Bar Colour", 200, 29);
-        layoutColourScheme.addComponent(applicationBarColour);
+        ComboBox.Custom<Integer> comboBoxMainApplicationBarColour = createColourPicker(117, 26);
+        layoutColourScheme.addComponent(comboBoxMainApplicationBarColour);
+
+        Label secondApplicationBarColour = new Label("Second Application Bar Colour", 175, 49);
+        layoutColourScheme.addComponent(secondApplicationBarColour);
+
+        ComboBox.Custom<Integer> comboBoxSecondaryApplicationBarColour = createColourPicker(117, 46);
+        layoutColourScheme.addComponent(comboBoxSecondaryApplicationBarColour);
+
+        Label backgroundColour = new Label("Background Colour", 175, 69);
+        layoutColourScheme.addComponent(backgroundColour);
+
+        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(117, 66);
+        layoutColourScheme.addComponent(comboBoxBackgroundColour);
 
         buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
         buttonColourSchemeApply.setEnabled(false);
@@ -265,7 +274,9 @@ public class ApplicationSettings extends SystemApplication {
         {
             if (mouseButton == 0) {
                 ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
-                colourScheme.setApplicationBarColour(Objects.requireNonNull(comboBoxApplicationBarColour.getValue()));
+                colourScheme.setMainApplicationBarColour(comboBoxMainApplicationBarColour.getValue());
+                colourScheme.setSecondApplicationBarColour(comboBoxSecondaryApplicationBarColour.getValue());
+                colourScheme.setBackgroundColour(comboBoxBackgroundColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
             }
         });
@@ -376,8 +387,8 @@ public class ApplicationSettings extends SystemApplication {
         layout.addComponent(btnPrevious);
     }
 
-    private ComboBox.Custom<Integer> createColourPicker(int top) {
-        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(145, top, 50, 100, 100);
+    private ComboBox.Custom<Integer> createColourPicker(int left, int top) {
+        ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(left, top, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
         colourPicker.setItemRenderer(new ItemRenderer<Integer>() {
             @Override
@@ -397,6 +408,7 @@ public class ApplicationSettings extends SystemApplication {
     }
 
     private static class Menu extends Layout {
+
         private String title;
 
         Menu(String title) {
@@ -406,8 +418,8 @@ public class ApplicationSettings extends SystemApplication {
 
         @Override
         public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-            Gui.drawRect(x, y, x + width, y + 20, Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
+            Gui.drawRect(x- 1, y, x + width + 1, y + 20, Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+            Gui.drawRect(x- 1, y + 20, x + width + 1, y + 21, Color.DARK_GRAY.getRGB());
             mc.fontRenderer.drawString(title, x + 22, y + 6, Color.WHITE.getRGB(), true);
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
         }

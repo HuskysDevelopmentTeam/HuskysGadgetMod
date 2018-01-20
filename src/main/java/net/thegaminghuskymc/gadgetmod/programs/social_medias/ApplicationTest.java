@@ -1,12 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.programs.social_medias;
 
-import java.awt.Color;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
+
+import java.awt.*;
 
 public class ApplicationTest extends Application {
 

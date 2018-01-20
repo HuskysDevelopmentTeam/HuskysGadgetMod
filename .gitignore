@@ -32,3 +32,4 @@ resourcepacks/*
 logs/*
 *.txt
 *.json
+src/main/java/net/thegaminghuskymc/gadgetmod/client/*

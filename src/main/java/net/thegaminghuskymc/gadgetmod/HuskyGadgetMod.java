@@ -25,7 +25,6 @@ import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
 import net.thegaminghuskymc.gadgetmod.handler.PlayerEvents;
-import net.thegaminghuskymc.gadgetmod.init.GadgetOreDictionary;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;

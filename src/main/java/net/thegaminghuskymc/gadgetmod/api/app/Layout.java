@@ -41,7 +41,7 @@ public class Layout extends Component {
      * set a custom width and height.
      */
     public Layout() {
-        this(200, 100);
+        this(202, 100);
     }
 
     public Layout(int width, int height) {
@@ -120,10 +120,6 @@ public class Layout extends Component {
         return initialized;
     }
 
-    public void setInitialized() {
-        this.initialized = initialized;
-    }
-
     @Override
     public void handleTick() {
         for (Component c : components) {
@@ -148,9 +144,9 @@ public class Layout extends Component {
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GLHelper.scissor(x, y, width, height);
 
-        if (background != null) {
-            background.render(laptop, mc, x, y, width, height, mouseX, mouseY, windowActive);
-        }
+        /*if (background != null) {
+            background.render(laptop, mc,  x, y, width, height, mouseX, mouseY, windowActive);
+        }*/
 
         for (Component c : components) {
             GlStateManager.disableDepth();
@@ -270,18 +266,6 @@ public class Layout extends Component {
         this.title = title;
     }
 
-    public boolean hasIcon() {
-        return icon != null;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     /**
      * The background interface
      *
@@ -302,7 +286,7 @@ public class Layout extends Component {
     }
 
     public static class Context extends Layout {
-        private boolean borderVisible = true;
+        private boolean borderVisible = false;
 
         public Context(int width, int height) {
             super(width, height);

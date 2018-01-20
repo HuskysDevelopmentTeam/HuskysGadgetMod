@@ -58,7 +58,7 @@ public class ApplicationPixelBay extends Application {
 
     public ApplicationPixelBay() {
         this.setDefaultWidth(270);
-        this.setDefaultHeight(180);
+        this.setDefaultHeight(160);
     }
 
     @Override

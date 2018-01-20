@@ -18,7 +18,6 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;

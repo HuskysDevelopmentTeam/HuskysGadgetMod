@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,14 +41,13 @@ public class FileSystem {
     public static final Pattern PATTERN_DIRECTORY = Pattern.compile("^(/)|(/[\\w'. ]{1,32})*$");
 
     public static final String DIR_ROOT = "/";
-    public static final String DIR_APPLICATION_DATA = DIR_ROOT + "Application Data";
-    public static final String DIR_HOME = DIR_ROOT + "Home";
-    public static final String LAPTOP_DRIVE_NAME = "Root";
+    public static final String DIR_APPLICATION_DATA = DIR_ROOT + "Programfiles";
+    public static final String DIR_HOME = DIR_ROOT + "NeonOS";
+    public static final String LAPTOP_DRIVE_NAME = "NeonOS (C:)";
 
     private AbstractDrive mainDrive = null;
     private Map<UUID, AbstractDrive> additionalDrives = new HashMap<>();
     private AbstractDrive attachedDrive = null;
-    private AbstractDrive connectedDrive = null;
     private EnumDyeColor attachedDriveColor = EnumDyeColor.RED;
 
     private TileEntityLaptop tileEntity;
@@ -164,10 +162,6 @@ public class FileSystem {
             attachedDriveColor = EnumDyeColor.byMetadata(fileSystemTag.getByte("external_drive_color"));
         }
 
-        if (fileSystemTag.hasKey("network_drive", Constants.NBT.TAG_COMPOUND)) {
-            connectedDrive = NetworkDrive.fromTag(fileSystemTag.getCompoundTag("network_drive"));
-        }
-
         setupDefault();
     }
 
@@ -259,7 +253,7 @@ public class FileSystem {
     @Nullable
     public ItemStack removeAttachedDrive() {
         if (attachedDrive != null) {
-            ItemStack stack = new ItemStack(Minecraft.getMinecraft().player.getActiveItemStack().getItem(), 1, getAttachedDriveColor().getMetadata());
+            ItemStack stack = new ItemStack(GadgetItems.flash_drive, 1, getAttachedDriveColor().getMetadata());
             stack.setStackDisplayName(attachedDrive.getName());
             stack.getTagCompound().setTag("drive", attachedDrive.toTag());
             attachedDrive = null;

@@ -9,9 +9,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.*;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -34,9 +35,9 @@ import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import java.awt.*;
-import java.lang.System;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
@@ -46,6 +47,8 @@ import java.util.stream.Collectors;
 public class FileBrowser extends Component {
 
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
+
+    private static ColourScheme colourScheme = new ColourScheme();
 
     private static final Color ITEM_BACKGROUND = new Color(158, 158, 158);
     private static final Color ITEM_SELECTED = new Color(117, 117, 117);
@@ -289,7 +292,7 @@ public class FileBrowser extends Component {
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
         layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + height, Window.COLOUR_WINDOW_DARK_1);
+            Gui.drawRect(x, y, x + width, y + height, colourScheme.getBackgroundColour());
         });
         layoutLoading.setVisible(false);
 

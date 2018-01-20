@@ -2,16 +2,12 @@ package net.thegaminghuskymc.gadgetmod.programs.social_medias;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ApplicationCackler extends Application {
 
@@ -22,6 +18,7 @@ public class ApplicationCackler extends Application {
 
     @Override
     public void init() {
+        
         Layout layoutMain = new Layout(270, 140);
 
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {

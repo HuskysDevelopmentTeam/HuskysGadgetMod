@@ -2,15 +2,11 @@ package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -22,7 +18,6 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEthernetWallOutlet;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
