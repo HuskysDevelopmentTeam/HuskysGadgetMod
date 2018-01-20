@@ -1,5 +1,21 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+
+import net.minecraft.block.BlockColored;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -28,6 +44,7 @@ import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
+import net.thegaminghuskymc.gadgetmod.block.BlockDevice;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
@@ -36,20 +53,6 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
@@ -115,6 +118,22 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
             return 0xFFFFFF;
         };
         blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
+        
+        IBlockColor coloredDevice = (state, worldIn, pos, tintIndex) -> tintIndex == 1 && state.getBlock() instanceof BlockDevice.Colored ? state.getValue(BlockColored.COLOR).getColorValue() : 0xFFFFFF;
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.LAPTOP);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.ROUTER);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.OFFICE_CHAIR);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.ETHERNET_WALL_OUTLET);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.EXTERNAL_HARDDRIVE);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.GAMING_DESK);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.MONITOR);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.BENCHMARK_STATION);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.PLAYSTATION_4_PRO);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.PRINTER);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.SCREEN);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.ROBOT);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.THREEDE_PRINTER);
+        blockColors.registerBlockColorHandler(coloredDevice, GadgetBlocks.DESKTOP);
     }
 
     @Override

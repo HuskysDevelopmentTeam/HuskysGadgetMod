@@ -12,86 +12,22 @@
 			"west":  { "y": 450 }
 		},
 		"color": {
-			"white": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_white"
-				}
-			},
-			"orange": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_orange"
-				}
-			},
-			"magenta": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_magenta"
-				}
-			},
-			"light_blue": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_light_blue"
-				}
-			},
-			"yellow": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_yellow"
-				}
-			},
-			"lime": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_lime"
-				}
-			},
-			"pink": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_pink"
-				}
-			},
-			"gray": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_gray"
-				}
-			},
-			"silver": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_silver"
-				}
-			},
-			"cyan": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_cyan"
-				}
-			},
-			"purple": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_purple"
-				}
-			},
-			"blue": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_blue"
-				}
-			},
-			"brown": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_brown"
-				}
-			},
-			"green": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_green"
-				}
-			},
-			"red": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_red"
-				}
-			},
-			"black": {
-				"textures": {
-					"0": "hgm:model/ethernet_wall_outlet_black"
-				}
-			}
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
 		},
 		"inventory": [{}]
 	}

@@ -12,86 +12,22 @@
 			"west":  { "y": 450 }
 		},
 		"color": {
-			"white": {
-				"textures": {
-					"0": "hgm:model/printer_white"
-				}
-			},
-			"orange": {
-				"textures": {
-					"0": "hgm:model/printer_orange"
-				}
-			},
-			"magenta": {
-				"textures": {
-					"0": "hgm:model/printer_magenta"
-				}
-			},
-			"light_blue": {
-				"textures": {
-					"0": "hgm:model/printer_light_blue"
-				}
-			},
-			"yellow": {
-				"textures": {
-					"0": "hgm:model/printer_yellow"
-				}
-			},
-			"lime": {
-				"textures": {
-					"0": "hgm:model/printer_lime"
-				}
-			},
-			"pink": {
-				"textures": {
-					"0": "hgm:model/printer_pink"
-				}
-			},
-			"gray": {
-				"textures": {
-					"0": "hgm:model/printer_gray"
-				}
-			},
-			"silver": {
-				"textures": {
-					"0": "hgm:model/printer_silver"
-				}
-			},
-			"cyan": {
-				"textures": {
-					"0": "hgm:model/printer_cyan"
-				}
-			},
-			"purple": {
-				"textures": {
-					"0": "hgm:model/printer_purple"
-				}
-			},
-			"blue": {
-				"textures": {
-					"0": "hgm:model/printer_blue"
-				}
-			},
-			"brown": {
-				"textures": {
-					"0": "hgm:model/printer_brown"
-				}
-			},
-			"green": {
-				"textures": {
-					"0": "hgm:model/printer_green"
-				}
-			},
-			"red": {
-				"textures": {
-					"0": "hgm:model/printer_red"
-				}
-			},
-			"black": {
-				"textures": {
-					"0": "hgm:model/printer_black"
-				}
-			}
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
 		},
 		"inventory": [{}]
 	}

@@ -20,86 +20,22 @@
 			"west":  { "y": 360 }
 		},
 		"color": {
-			"white": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_white"
-				}
-			},
-			"orange": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_orange"
-				}
-			},
-			"magenta": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_magenta"
-				}
-			},
-			"light_blue": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_light_blue"
-				}
-			},
-			"yellow": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_yellow"
-				}
-			},
-			"lime": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_lime"
-				}
-			},
-			"pink": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_pink"
-				}
-			},
-			"gray": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_gray"
-				}
-			},
-			"silver": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_silver"
-				}
-			},
-			"cyan": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_cyan"
-				}
-			},
-			"purple": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_purple"
-				}
-			},
-			"blue": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_blue"
-				}
-			},
-			"brown": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_brown"
-				}
-			},
-			"green": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_green"
-				}
-			},
-			"red": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_red"
-				}
-			},
-			"black": {
-				"textures": {
-					"0": "hgm:model/playstation_4_pro_black"
-				}
-			}
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
 		},
 		"inventory": [{}]
 	}

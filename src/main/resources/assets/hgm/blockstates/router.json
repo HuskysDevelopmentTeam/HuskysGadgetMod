@@ -20,86 +20,22 @@
 			"west":  { "y": 270 }
 		},
 		"color": {
-			"white": {
-				"textures": {
-					"0": "hgm:model/router_white"
-				}
-			},
-			"orange": {
-				"textures": {
-					"0": "hgm:model/router_orange"
-				}
-			},
-			"magenta": {
-				"textures": {
-					"0": "hgm:model/router_magenta"
-				}
-			},
-			"light_blue": {
-				"textures": {
-					"0": "hgm:model/router_light_blue"
-				}
-			},
-			"yellow": {
-				"textures": {
-					"0": "hgm:model/router_yellow"
-				}
-			},
-			"lime": {
-				"textures": {
-					"0": "hgm:model/router_lime"
-				}
-			},
-			"pink": {
-				"textures": {
-					"0": "hgm:model/router_pink"
-				}
-			},
-			"gray": {
-				"textures": {
-					"0": "hgm:model/router_gray"
-				}
-			},
-			"silver": {
-				"textures": {
-					"0": "hgm:model/router_silver"
-				}
-			},
-			"cyan": {
-				"textures": {
-					"0": "hgm:model/router_cyan"
-				}
-			},
-			"purple": {
-				"textures": {
-					"0": "hgm:model/router_purple"
-				}
-			},
-			"blue": {
-				"textures": {
-					"0": "hgm:model/router_blue"
-				}
-			},
-			"brown": {
-				"textures": {
-					"0": "hgm:model/router_brown"
-				}
-			},
-			"green": {
-				"textures": {
-					"0": "hgm:model/router_green"
-				}
-			},
-			"red": {
-				"textures": {
-					"0": "hgm:model/router_red"
-				}
-			},
-			"black": {
-				"textures": {
-					"0": "hgm:model/router_black"
-				}
-			}
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
 		},
 		"inventory": [{}]
 	}
