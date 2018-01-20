@@ -37,18 +37,21 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION/*, dependencies = Reference.DEPENDENCE*/)
 public class HuskyGadgetMod {
 
     public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
     public static Gson gson;
+
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
+
     public static CreativeTabs deviceBlocks = new DeviceTab("gadgetBlocks");
     public static CreativeTabs deviceItems = new DeviceTab("gadgetItems");
     public static CreativeTabs deviceDecoration = new DeviceTab("gadgetDecoration");
+
     public static boolean HUSKY_MODE;
     private static Logger logger;
 

@@ -200,9 +200,7 @@ public class Button extends Component {
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
 
-            if(this.text != null) {
-                Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonNormalColour());
-            }
+            Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonNormalColour());
 
             if(hovered) {
                 Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonHoveredColour());

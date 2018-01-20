@@ -43,16 +43,15 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-
 public class FileBrowser extends Component {
 
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
 
     private static ColourScheme colourScheme = new ColourScheme();
 
-    private static final Color ITEM_BACKGROUND = new Color(158, 158, 158);
-    private static final Color ITEM_SELECTED = new Color(117, 117, 117);
-    private static final Color PROTECTED_FILE = new Color(155, 237, 242);
+    private static final int ITEM_BACKGROUND = colourScheme.getItemBackgroundColour();
+    private static final int ITEM_SELECTED = colourScheme.getItemHighlightColour();
+    private static final int PROTECTED_FILE = colourScheme.getProtectedFileColour();
 
     public static boolean refreshList = false;
 
@@ -199,7 +198,7 @@ public class FileBrowser extends Component {
         fileList.setListItemRenderer(new ListItemRenderer<File>(18) {
             @Override
             public void render(File file, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
+                Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED : ITEM_BACKGROUND);
 
                 GlStateManager.color(1.0F, 1.0F, 1.0F);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(ASSETS);
@@ -209,8 +208,8 @@ public class FileBrowser extends Component {
                     AppInfo info = ApplicationManager.getApplication(Objects.requireNonNull(file.getOpeningApp()));
                     RenderUtil.drawApplicationIcon(info, x + 3, y + 2);
                 }
-                Color color = file.isProtected() ? PROTECTED_FILE : Color.WHITE;
-                gui.drawString(Minecraft.getMinecraft().fontRenderer, file.getName(), x + 22, y + 5, color.getRGB());
+                int color = file.isProtected() ? PROTECTED_FILE : Color.WHITE.getRGB();
+                gui.drawString(Minecraft.getMinecraft().fontRenderer, file.getName(), x + 22, y + 5, color);
             }
         });
         fileList.sortBy(File.SORT_BY_NAME);

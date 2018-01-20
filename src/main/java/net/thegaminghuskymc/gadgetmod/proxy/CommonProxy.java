@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
@@ -34,6 +35,7 @@ public class CommonProxy {
     int hashCode = -1;
 
     public void preInit(FMLPreInitializationEvent event) {
+        GadgetConfig.preInit();
         MinecraftForge.EVENT_BUS.register(this);
     }
 

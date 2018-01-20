@@ -1,10 +1,10 @@
-package net.thegaminghuskymc.gadgetmod.programs;
+package net.thegaminghuskymc.gadgetmod.programs.system;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 
-public class ApplicationUserInfo extends Application {
+public class ApplicationCalendar extends Application {
 
     @Override
     public void init() {

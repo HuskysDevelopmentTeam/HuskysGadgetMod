@@ -13,6 +13,7 @@ public class ColourScheme {
     private int backgroundColour;
     private int itemBackgroundColour;
     private int itemHighlightColour;
+    private int protectedFileColour;
     private int buttonNormalColour;
     private int buttonHoveredColour;
     private int buttonDisabledColour;
@@ -43,6 +44,9 @@ public class ColourScheme {
         }
         if (tag.hasKey("itemHighlightColour", Constants.NBT.TAG_INT)) {
             scheme.itemHighlightColour = tag.getInteger("itemHighlightColour");
+        }
+        if(tag.hasKey("protectedFileColour", Constants.NBT.TAG_INT)) {
+            scheme.protectedFileColour = tag.getInteger("protectedFileColour");
         }
         if (tag.hasKey("buttonNormalColour", Constants.NBT.TAG_INT)) {
             scheme.buttonNormalColour = tag.getInteger("buttonNormalColour");
@@ -87,6 +91,14 @@ public class ColourScheme {
 
     public int getItemHighlightColour() {
         return itemHighlightColour;
+    }
+
+    public int getProtectedFileColour() {
+        return protectedFileColour;
+    }
+
+    public void setProtectedFileColour(int protectedFileColour) {
+        this.protectedFileColour = protectedFileColour;
     }
 
     public int getMainApplicationBarColour() {
@@ -148,6 +160,7 @@ public class ColourScheme {
         backgroundColour = 0xFF3D4147;
         itemBackgroundColour = 0xFF9E9E9E;
         itemHighlightColour = 0xFF757575;
+        protectedFileColour = 0xFF9BEDF2;
         buttonNormalColour = 0xFF535861;
         buttonHoveredColour = 0xFF535861;
         buttonDisabledColour = 0xFF535861;
