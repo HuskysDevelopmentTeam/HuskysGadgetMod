@@ -142,18 +142,18 @@ public class ColourScheme {
     }
 
     private void resetDefault() {
-        textColour = Color.decode("0xFFFFFF").getRGB();
-        textSecondaryColour = Color.decode("0x9BEDF2").getRGB();
-        headerColour = Color.decode("0x535861").getRGB();
-        backgroundColour = Color.decode("0x3D4147").getRGB();
-        itemBackgroundColour = Color.decode("0x9E9E9E").getRGB();
-        itemHighlightColour = Color.decode("0x757575").getRGB();
-        buttonNormalColour = Color.decode("0x535861").getRGB();
-        buttonHoveredColour = Color.decode("0x535861").getRGB();
-        buttonDisabledColour = Color.decode("0x535861").getRGB();
-        taskBarColour = Color.decode("0x9E9E9E").getRGB();
-        mainApplicationBarColour = Color.decode("0x9E9E9E").getRGB();
-        secondApplicationBarColour = Color.decode("0x7F7F7F").getRGB();
+        textColour = 0xFFFFFFFF;
+        textSecondaryColour = 0xFF9BEDF2;
+        headerColour = 0xFF535861;
+        backgroundColour = 0xFF3D4147;
+        itemBackgroundColour = 0xFF9E9E9E;
+        itemHighlightColour = 0xFF757575;
+        buttonNormalColour = 0xFF535861;
+        buttonHoveredColour = 0xFF535861;
+        buttonDisabledColour = 0xFF535861;
+        taskBarColour = 0xFF9E9E9E;
+        mainApplicationBarColour = 0xFF9E9E9E;
+        secondApplicationBarColour = 0xFF7F7F7F;
     }
 
     public NBTTagCompound toTag() {
