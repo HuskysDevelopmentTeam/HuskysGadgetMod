@@ -1,0 +1,13 @@
+{
+  "app_name": "Snake",
+  "app_creator": "TheGamingHuskyMC",
+  "app_description": "${desc}",
+  "app_version": "1.0",
+  "app_icon": "hgm:textures/app/icon/snake.png",
+  "app_banner": "hgm:textures/app/banner/banner_snake.png",
+  "app_screenshots": [
+    "https://i.imgur.com/7CzbiA7.png",
+    "https://i.imgur.com/4AiXzf8.jpg",
+    "https://i.imgur.com/C7k2UDw.jpg"
+  ]
+}
