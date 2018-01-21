@@ -1,6 +1,0 @@
-{
-    "parent": "hgm:item/desktop",
-    "textures": {
-        "0": "hgm:model/desktop_magenta"
-    }
-}

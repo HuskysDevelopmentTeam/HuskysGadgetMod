@@ -1,6 +1,0 @@
-{
-    "parent": "hgm:item/external_harddrive",
-    "textures": {
-        "0": "hgm:model/external_harddrive_silver"
-    }
-}

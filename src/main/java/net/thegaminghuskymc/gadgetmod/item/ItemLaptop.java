@@ -19,9 +19,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemLaptop extends ItemBlock implements SubItems {
 	
     public ItemLaptop(Block block) {

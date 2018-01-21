@@ -2,7 +2,10 @@
 	"forge_marker": 1,
 	"defaults": {
 		"model": "hgm:desktop",
-      	"transform": "forge:default-block"
+      	"transform": "forge:default-block",
+        "textures": {
+          "0": "hgm:model/desktop"
+        }
 	},
 	"variants": {
 		"facing": {

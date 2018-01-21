@@ -1,6 +1,0 @@
-{
-    "parent": "hgm:item/gaming_desk",
-    "textures": {
-        "0": "hgm:model/gaming_desktop_purple"
-    }
-}

@@ -32,13 +32,13 @@ public class ApplicationCackler extends Application {
         Label labelCackler = new Label("Cackler", 15, 3);
         layoutMain.addComponent(labelCackler);
 
-        Image profilePicture = new Image(15, 25, 40, 40, "https://cdn.discordapp.com/avatars/135067990201729024/4c40251f841667308c3255bbb2bdc54b.png?size=2048");
+        Image profilePicture = new Image(15, 25, 40, 40, "https://cdn.discordapp.com/avatars/235792215736188928/445367d691b718e48bcb208e626a76a7.png?size=2048");
         layoutMain.addComponent(profilePicture);
 
-        Label labelNick = new Label("HuskyMC", 15, 69);
+        Label labelNick = new Label("MRC", 15, 69);
         layoutMain.addComponent(labelNick);
 
-        Label labelUsername = new Label("@HuskyMC", 12, 79);
+        Label labelUsername = new Label("@MRC", 12, 79);
         layoutMain.addComponent(labelUsername);
 
         Label labelBio = new Label("This is a bio", 5, 92);

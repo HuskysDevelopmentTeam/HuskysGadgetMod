@@ -1,6 +1,0 @@
-{
-    "parent": "hgm:item/server",
-    "textures": {
-        "0": "hgm:model/server_brown"
-    }
-}

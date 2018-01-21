@@ -2,7 +2,10 @@
 	"forge_marker": 1,
 	"defaults": {
 		"model": "hgm:ethernet_wall_outlet",
-      "transform": "forge:default-block"
+      	"transform": "forge:default-block",
+		"textures": {
+			"0": "hgm:model/ethernet_wall_outlet"
+		}
 	},
 	"variants": {
 		"facing": {

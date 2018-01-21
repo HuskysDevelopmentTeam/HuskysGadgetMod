@@ -111,7 +111,21 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 		itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
 		
 		IItemColor coloredItems = (stack, tintIndex) -> tintIndex == 1 ? EnumDyeColor.byMetadata(stack.getItemDamage()).getColorValue() : 0xFFFFFF;
+		itemColors.registerItemColorHandler(coloredItems, GadgetItems.flash_drive);
+		itemColors.registerItemColorHandler(coloredItems, GadgetItems.videoCard);
 		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.LAPTOP);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.THREEDE_PRINTER);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.ROUTER);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.OFFICE_CHAIR);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.ETHERNET_WALL_OUTLET);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.EXTERNAL_HARDDRIVE);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.GAMING_DESK);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.MONITOR);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.BENCHMARK_STATION);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.PLAYSTATION_4_PRO);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.PRINTER);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.SCREEN);
+		itemColors.registerItemColorHandler(coloredItems, GadgetBlocks.DESKTOP);
 
 		BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 		IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
