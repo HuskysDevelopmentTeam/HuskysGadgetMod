@@ -8,13 +8,10 @@
 	},
 	"variants": {
 		"vertical": {
-			"true": {
-				"model": "hgm:screen",
+			true: {
 				"x": -90
 			},
-			"false": {
-				"model": "hgm:screen_horizontal"
-			}
+			false: {}
 		},
 		"type": {
 			"lonely": "hgm:screen_lonely",
