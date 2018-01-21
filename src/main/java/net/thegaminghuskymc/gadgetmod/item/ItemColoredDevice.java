@@ -3,18 +3,15 @@ package net.thegaminghuskymc.gadgetmod.item;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.Reference;
-import org.apache.commons.lang3.text.WordUtils;
+import net.thegaminghuskymc.gadgetmod.util.ItemUtils;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemColoredDevice extends ItemDevice implements SubItems {
 
@@ -32,8 +29,7 @@ public class ItemColoredDevice extends ItemDevice implements SubItems {
 
     @Override
     public NonNullList<ResourceLocation> getModels() {
-        NonNullList<ResourceLocation> models = NonNullList.withSize(16, new ResourceLocation(this.block.getRegistryName().toString()));
-        return models;
+        return ItemUtils.getModels(Objects.requireNonNull(this.block.getRegistryName()));
     }
 
     @Override
@@ -47,16 +43,6 @@ public class ItemColoredDevice extends ItemDevice implements SubItems {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        EnumDyeColor color = EnumDyeColor.byMetadata(stack.getMetadata());
-        TextFormatting tf = TextFormatting.WHITE;
-        try {
-            Field f = EnumDyeColor.class.getDeclaredField("chatColor");
-            f.setAccessible(true);
-            tf = (TextFormatting) f.get(color == EnumDyeColor.MAGENTA ? EnumDyeColor.PINK : color);
-        } catch (Exception e) {
-        }
-        String colorName = color.getName().replace("_", " ");
-        colorName = WordUtils.capitalize(colorName);
-        tooltip.add("Color: " + TextFormatting.BOLD + tf.toString() + colorName);
+        ItemUtils.addInformation(stack, tooltip);
     }
 }

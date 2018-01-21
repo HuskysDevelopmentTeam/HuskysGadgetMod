@@ -16,6 +16,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemVideoCard extends Item implements SubItems {
 
@@ -44,7 +45,7 @@ public class ItemVideoCard extends Item implements SubItems {
 
     @Override
     public NonNullList<ResourceLocation> getModels() {
-        return ItemUtils.getModels(getRegistryName());
+        return ItemUtils.getModels(Objects.requireNonNull(getRegistryName()));
     }
 
 }
