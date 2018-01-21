@@ -238,11 +238,6 @@ public class ApplicationSettings extends SystemApplication {
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
         Button reload = new Button(250, 27, Icons.RELOAD);
-        reload.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if (mouseButton == 0) {
-                ClientProxy.cache.values().iterator().next();
-            }
-        });
         layoutWallpapers.addComponent(reload);
 
         Button buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);

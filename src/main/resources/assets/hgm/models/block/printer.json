@@ -725,7 +725,7 @@
 				"up": {
 					"uv": [10.6671875, 5.3328125, 16, 10.66484375],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"down": {
 					"uv": [
@@ -1182,7 +1182,7 @@
 					],
 					"texture": "#particle",
 					"rotation": 180,
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"east": {
 					"uv": [
@@ -1193,7 +1193,7 @@
 					],
 					"texture": "#particle",
 					"rotation": 180,
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"south": {
 					"uv": [
@@ -1204,7 +1204,7 @@
 					],
 					"texture": "#particle",
 					"rotation": 180,
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"west": {
 					"uv": [
@@ -1214,7 +1214,7 @@
 						12.999218749999999
 					],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"up": {
 					"uv": [
@@ -1225,7 +1225,7 @@
 					],
 					"texture": "#particle",
 					"rotation": 180,
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"down": {
 					"uv": [
@@ -1236,7 +1236,7 @@
 					],
 					"texture": "#particle",
 					"rotation": 180,
-					"tintindex": 0
+					"tintindex": 1
 				}
 			},
 			"rotation": {
@@ -1561,12 +1561,12 @@
 						3.66484375
 					],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"east": {
 					"uv": [6.66640625, 0, 11.99921875, 3.665625],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"south": {
 					"uv": [
@@ -1576,7 +1576,7 @@
 						3.33203125
 					],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"west": {
 					"uv": [
@@ -1586,12 +1586,12 @@
 						3.66484375
 					],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"up": {
 					"uv": [0, 0.3328125, 8.3328125, 5.33203125],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				},
 				"down": {
 					"uv": [
@@ -1601,7 +1601,7 @@
 						5.33203125
 					],
 					"texture": "#particle",
-					"tintindex": 0
+					"tintindex": 1
 				}
 			},
 			"type": "cube"

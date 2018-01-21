@@ -35,6 +35,7 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "cackler"), ApplicationCackler.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "snake"), Snake.class);
 //        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "emojie_viewer"), EmojiViewerApplication.class);
 
         if (Loader.isModLoaded("futopia") || Loader.isModLoaded("futopia2")) {

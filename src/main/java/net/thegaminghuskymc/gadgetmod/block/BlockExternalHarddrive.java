@@ -93,16 +93,6 @@ public class BlockExternalHarddrive extends BlockDevice.Colored {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof IColored) {
-            IColored colorable = (IColored) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
-    }
-
-    @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(FACING).getHorizontalIndex() + (state.getValue(VERTICAL) ? 4 : 0);
     }

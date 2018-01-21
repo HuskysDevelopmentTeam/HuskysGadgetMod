@@ -27,76 +27,64 @@ import net.thegaminghuskymc.gadgetmod.util.IColored;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class BlockDevice extends BlockHorizontal
-{
-    protected BlockDevice(Material materialIn)
-    {
+public abstract class BlockDevice extends BlockHorizontal {
+
+    protected BlockDevice(Material materialIn) {
         super(materialIn);
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
-    {
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
         return false;
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
-    {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-    {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {}
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-    {
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if(tileEntity instanceof TileEntityDevice)
-        {
+        if (tileEntity instanceof TileEntityDevice) {
             TileEntityDevice tileEntityDevice = (TileEntityDevice) tileEntity;
-            if(stack.hasDisplayName())
-            {
+            if (stack.hasDisplayName()) {
                 tileEntityDevice.setCustomName(stack.getDisplayName());
             }
         }
     }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-    {
-        if(!world.isRemote && player.capabilities.isCreativeMode)
-        {
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        if (!world.isRemote && player.capabilities.isCreativeMode) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof TileEntityDevice)
-            {
+            if (tileEntity instanceof TileEntityDevice) {
                 TileEntityDevice device = (TileEntityDevice) tileEntity;
 
                 NBTTagCompound tileEntityTag = new NBTTagCompound();
@@ -113,18 +101,14 @@ public abstract class BlockDevice extends BlockHorizontal
                 compound.setTag("BlockEntityTag", tileEntityTag);
 
                 ItemStack drop;
-                if(tileEntity instanceof IColored)
-                {
-                    drop = new ItemStack(Item.getItemFromBlock(this), 1, ((IColored)tileEntity).getColor().getMetadata());
-                }
-                else
-                {
+                if (tileEntity instanceof IColored) {
+                    drop = new ItemStack(Item.getItemFromBlock(this), 1, ((IColored) tileEntity).getColor().getMetadata());
+                } else {
                     drop = new ItemStack(Item.getItemFromBlock(this));
                 }
                 drop.setTagCompound(compound);
 
-                if(device.hasCustomName())
-                {
+                if (device.hasCustomName()) {
                     drop.setStackDisplayName(device.getCustomName());
                 }
 
@@ -134,11 +118,11 @@ public abstract class BlockDevice extends BlockHorizontal
         return super.removedByPlayer(state, world, pos, player, willHarvest);
     }
 
-    void removeTagsForDrop(NBTTagCompound tileEntityTag) {}
+    void removeTagsForDrop(NBTTagCompound tileEntityTag) {
+    }
 
     @Override
-    public boolean hasTileEntity(IBlockState state)
-    {
+    public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 
@@ -147,8 +131,7 @@ public abstract class BlockDevice extends BlockHorizontal
     public abstract TileEntity createTileEntity(World world, IBlockState state);
 
     @Override
-    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param)
-    {
+    public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity != null && tileentity.receiveClientEvent(id, param);
     }
@@ -156,52 +139,43 @@ public abstract class BlockDevice extends BlockHorizontal
     /**
      * Colored implementation of BlockDevice.
      */
-    public static abstract class Colored extends BlockDevice
-    {
-        protected Colored(Material materialIn)
-        {
+    public static abstract class Colored extends BlockDevice {
+
+        protected Colored(Material materialIn) {
             super(materialIn);
         }
 
         @Override
-        public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-        {
+        public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof IColored)
-            {
+            if (tileEntity instanceof IColored) {
                 drops.add(new ItemStack(Item.getItemFromBlock(this), 1, ((IColored) tileEntity).getColor().getMetadata()));
             }
         }
 
         @Override
-        public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
-        {
+        public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof IColored)
-            {
+            if (tileEntity instanceof IColored) {
                 return new ItemStack(Item.getItemFromBlock(this), 1, ((IColored) tileEntity).getColor().getMetadata());
             }
             return super.getPickBlock(state, target, world, pos, player);
         }
 
         @Override
-        public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
-        {
+        public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
             super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if(tileEntity instanceof IColored)
-            {
+            if (tileEntity instanceof IColored) {
                 IColored colored = (IColored) tileEntity;
                 colored.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
             }
         }
 
         @Override
-        public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-        {
+        public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if(tileEntity instanceof IColored)
-            {
+            if (tileEntity instanceof IColored) {
                 IColored colored = (IColored) tileEntity;
                 state = state.withProperty(BlockColored.COLOR, colored.getColor());
             }
@@ -209,13 +183,10 @@ public abstract class BlockDevice extends BlockHorizontal
         }
 
         @Override
-        public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
-        {
-            if(!world.isRemote && !player.capabilities.isCreativeMode)
-            {
+        public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+            if (!world.isRemote && !player.capabilities.isCreativeMode) {
                 TileEntity tileEntity = world.getTileEntity(pos);
-                if(tileEntity instanceof IColored)
-                {
+                if (tileEntity instanceof IColored) {
                     IColored colored = (IColored) tileEntity;
 
                     NBTTagCompound tileEntityTag = new NBTTagCompound();
@@ -231,14 +202,12 @@ public abstract class BlockDevice extends BlockHorizontal
                     NBTTagCompound compound = new NBTTagCompound();
                     compound.setTag("BlockEntityTag", tileEntityTag);
 
-                    ItemStack  drop = new ItemStack(Item.getItemFromBlock(this), 1, colored.getColor().getMetadata());
+                    ItemStack drop = new ItemStack(Item.getItemFromBlock(this), 1, colored.getColor().getMetadata());
                     drop.setTagCompound(compound);
 
-                    if(tileEntity instanceof TileEntityDevice)
-                    {
+                    if (tileEntity instanceof TileEntityDevice) {
                         TileEntityDevice device = (TileEntityDevice) tileEntity;
-                        if(device.hasCustomName())
-                        {
+                        if (device.hasCustomName()) {
                             drop.setStackDisplayName(device.getCustomName());
                         }
                     }
@@ -250,20 +219,17 @@ public abstract class BlockDevice extends BlockHorizontal
         }
 
         @Override
-        public int getMetaFromState(IBlockState state)
-        {
+        public int getMetaFromState(IBlockState state) {
             return state.getValue(FACING).getHorizontalIndex();
         }
 
         @Override
-        public IBlockState getStateFromMeta(int meta)
-        {
+        public IBlockState getStateFromMeta(int meta) {
             return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
         }
 
         @Override
-        protected BlockStateContainer createBlockState()
-        {
+        protected BlockStateContainer createBlockState() {
             return new BlockStateContainer(this, FACING, BlockColored.COLOR);
         }
     }
