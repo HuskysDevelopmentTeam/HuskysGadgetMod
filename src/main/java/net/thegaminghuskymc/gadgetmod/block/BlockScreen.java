@@ -160,7 +160,16 @@ public class BlockScreen extends BlockDevice.Colored {
     }
 
     public enum Type implements IStringSerializable {
-        CORNER_TOP_LEFT, CORNER_TOP_RIGHT, CORNER_BOTTOM_LEFT, CORNER_BOTTOM_RIGHT, MIDDLE_BOTTOM, MIDDLE_TOP, MIDDLE_LEFT, MIDDLE_RIGHT, MIDDLE, LONELY;
+        CORNER_TOP_LEFT,
+        CORNER_TOP_RIGHT,
+        CORNER_BOTTOM_LEFT,
+        CORNER_BOTTOM_RIGHT,
+        MIDDLE_BOTTOM,
+        MIDDLE_TOP,
+        MIDDLE_LEFT,
+        MIDDLE_RIGHT,
+        MIDDLE,
+        LONELY;
 
         @Override
         public String getName() {

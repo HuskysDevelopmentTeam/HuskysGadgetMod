@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityGamingDesk;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 
 import javax.annotation.Nullable;
@@ -54,7 +55,7 @@ public class BlockGamingDesk extends BlockDevice.Colored {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return null;
+        return new TileEntityGamingDesk();
     }
 
     @Override

@@ -1,0 +1,58 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+      	"transform": "forge:default-block",
+		"textures": {
+			"0": "hgm:model/screen"
+		}
+	},
+	"variants": {
+		"vertical": {
+			"true": {
+				"model": "hgm:screen",
+				"x": -90
+			},
+			"false": {
+				"model": "hgm:screen_horizontal"
+			}
+		},
+		"type": {
+			"lonely": "hgm:screen_lonely",
+            "middle": "hgm:screen_middle",
+            "middle_right": "hgm:screen_middle_right",
+            "middle_left": "hgm:screen_middle_left",
+            "middle_top": "hgm:screen_middle_top",
+            "middle_bottom": "hgm:screen_middle_bottom",
+            "corner_bottom_right": "hgm:screen_corner_bottom_right",
+            "corner_bottom_left": "hgm:screen_corner_bottom_left",
+            "corner_top_right": "hgm:screen_corner_top_right",
+            "corner_top_left": "hgm:screen_corner_top_left"
+		},
+		"facing": {
+			"north": { "y": 90   },
+			"east":  { "y": 180  },
+			"south": { "y": 270 },
+			"west":  { "y": 360 }
+		},
+		"color": {
+			"white": {},
+			"orange": {},
+			"magenta": {},
+			"light_blue": {},
+			"yellow": {},
+			"lime": {},
+			"pink": {},
+			"gray": {},
+			"silver": {},
+			"cyan": {},
+			"purple": {},
+			"blue": {},
+			"brown": {},
+			"green": {},
+			"red": {},
+			"black": {}
+		},
+		"inventory": [{}]
+	}
+}
+
