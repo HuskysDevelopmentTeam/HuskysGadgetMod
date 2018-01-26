@@ -1,9 +1,15 @@
 package net.thegaminghuskymc.gadgetmod;
 
 import com.google.gson.Gson;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Style;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,8 +17,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.core.io.task.*;
@@ -35,7 +43,12 @@ import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
+import net.thegaminghuskymc.gadgetmod.util.ItemUtils;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION/*, dependencies = Reference.DEPENDENCE*/)
 public class HuskyGadgetMod {
@@ -61,6 +74,9 @@ public class HuskyGadgetMod {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
+        Keybinds.register();
+
         HUSKY_MODE = true;
 
         logger = event.getModLog();
@@ -98,17 +114,6 @@ public class HuskyGadgetMod {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        /*Thread animatedEmojiThread = new Thread(() -> {
-            while (true) {
-                EmojiManager.getAnimatedEmojis().forEach(IAnimatedEmoji::checkNextFrame);
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        animatedEmojiThread.start();*/
         proxy.postInit(event);
     }
 

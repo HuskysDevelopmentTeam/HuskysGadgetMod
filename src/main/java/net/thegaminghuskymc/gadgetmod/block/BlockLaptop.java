@@ -10,6 +10,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -94,6 +97,14 @@ public class BlockLaptop extends BlockDevice.Colored {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        if(!worldIn.isRemote && playerIn.isSneaking()) {
+            if(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) == new ItemStack(Items.DYE,1)) {
+                setDefaultState(getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byDyeDamage(new ItemStack(Items.DYE,1).getMetadata())));
+                HuskyGadgetMod.getLogger().info("You right-clicked with: " + EnumDyeColor.byDyeDamage(new ItemStack(Items.DYE,1).getMetadata()));
+            }
+        }
+
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof TileEntityLaptop) {
             TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;

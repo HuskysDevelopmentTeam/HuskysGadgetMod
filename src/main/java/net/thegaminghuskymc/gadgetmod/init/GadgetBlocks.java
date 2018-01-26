@@ -86,7 +86,7 @@ public class GadgetBlocks {
         registerBlock(ROUTER, new ItemColoredDevice(ROUTER));
         registerBlock(PRINTER, new ItemColoredDevice(PRINTER));
         registerBlock(PAPER, new ItemPaper(PAPER));
-//        registerBlock(SCREEN, new ItemColoredDevice(SCREEN));
+        registerBlock(SCREEN);
         registerBlock(MONITOR, new ItemColoredDevice(MONITOR));
         registerBlock(DESKTOP, new ItemColoredDevice(DESKTOP));
 //        registerBlock(SERVER, new ItemDevice(SERVER));

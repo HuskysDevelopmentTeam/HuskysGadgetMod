@@ -11,6 +11,7 @@ import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
@@ -34,6 +35,7 @@ public class ApplicationSettings extends SystemApplication {
 
     private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
     private static final Color ITEM_SELECTED = Color.decode("0x757575");
+
     private Button buttonPrevious;
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
@@ -76,15 +78,15 @@ public class ApplicationSettings extends SystemApplication {
 
         layoutWallpapers = new Menu("Wallpapers");
         layoutWallpapers.addComponent(buttonPrevious);
-        layoutWallpapers.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
+        layoutWallpapers.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 150, y + wallpaperY - 1 + 90, Objects.requireNonNull(getLaptop()).getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 122, y + wallpaperY - 1 + 70, getLaptop().getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
             mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
-            RenderUtil.drawRectWithTexture(x + wallpaperX, y + wallpaperY, 0, 0, 148, 88, 252, 256);
+            RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 120, 68);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
@@ -303,7 +305,6 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformationApps.addComponent(itemListApps);
 
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
-        nameOnPage.setTextColour(Color.GRAY.getRGB());
         layoutInformationComputer.addComponent(nameOnPage);
 
         layoutInformationComputer.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
@@ -319,7 +320,6 @@ public class ApplicationSettings extends SystemApplication {
         });
 
         Label NeonOSVersion = new Label("NeonOS-Version", 40, 38);
-        NeonOSVersion.setTextColour(Color.LIGHT_GRAY.getRGB());
         layoutInformationComputer.addComponent(NeonOSVersion);
 
         Label OS = new Label("NeonOS 3 Professional", 40, 54);
@@ -329,7 +329,6 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformationComputer.addComponent(copyright);
 
         Label system = new Label("System", 40, 83);
-        system.setTextColour(Color.LIGHT_GRAY.getRGB());
         layoutInformationComputer.addComponent(system);
 
         Label graphicCard = new Label("Graphic Card: Mine-Vidia Titan X 12GPB GDDR5X", 40, 97);

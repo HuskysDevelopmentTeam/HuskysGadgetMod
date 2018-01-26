@@ -6,6 +6,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.programs.*;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
+import net.thegaminghuskymc.gadgetmod.programs.debug.ApplicationTextArea;
 import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
 import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationCackler;
 import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationFlameChat;
@@ -23,12 +24,12 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "file_browser"), ApplicationFileBrowser.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "note_stash"), ApplicationNoteStash.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_shop"), ApplicationPixelShop.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_mail"), ApplicationEmail.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_mail"), ApplicationEmail.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "app_store"), ApplicationAppStore.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "package_manager"), ApplicationPackageManager.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_bay"), ApplicationPixelBay.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "icons"), ApplicationIcons.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "bluej"), ApplicationBlueJ.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "flame_chat"), ApplicationFlameChat.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_book"), ApplicationPixelBook.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_plus"), ApplicationPixelPlus.class);
@@ -36,20 +37,12 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "snake"), Snake.class);
-//        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "emojie_viewer"), EmojiViewerApplication.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "text_field"), ApplicationTextArea.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "test"), ApplicationTest.class);
 
-        if (Loader.isModLoaded("futopia") || Loader.isModLoaded("futopia2")) {
+        if (Loader.isModLoaded("futopia") || Loader.isModLoaded("futopia2") || Loader.isModLoaded("ae2") || Loader.isModLoaded("refined_storage")) {
             ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);
         }
-
-        /*for (int i = 0; i > System.nanoTime(); i++) {
-            try {
-                Class<Application> app = HuskyGadgetMod.classLoader.loadClass("http://huskysdevicemod.cba.pl/ApplicationTest.class");
-                ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "test"), app);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
 
     }
 

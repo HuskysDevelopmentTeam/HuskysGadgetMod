@@ -20,9 +20,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemInternalHarddrive extends Item implements SubItems {
 
     public ItemInternalHarddrive() {

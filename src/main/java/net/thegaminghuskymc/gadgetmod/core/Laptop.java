@@ -12,19 +12,24 @@ import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Keybinds;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutBios;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktop;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
@@ -35,6 +40,7 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplication
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
+import net.thegaminghuskymc.gadgetmod.util.StringUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -68,8 +74,6 @@ public class Laptop extends GuiScreen implements System {
     private static System system;
     private static BlockPos pos;
     private static Drive mainDrive;
-
-    private static Laptop instance;
 
     private static final int[] konamiCodes = new int[]{
             Keyboard.KEY_UP,
@@ -108,6 +112,8 @@ public class Laptop extends GuiScreen implements System {
     private int lastCode = Keyboard.KEY_DOWN;
     private int konamiProgress = 0;
     private LayoutDesktop desktop;
+
+    private static Laptop instance;
 
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
@@ -451,6 +457,20 @@ public class Laptop extends GuiScreen implements System {
                 }
             }
 
+            if(this.bootMode == BootMode.BOOTING) {
+
+                if(pressed == Keybinds.bios.getKeyCode()) {
+                    Layout bios = new LayoutBios();
+                    bios.init();
+
+                    if(pressed == Keybinds.leaveBios.getKeyCode()) {
+                        this.desktop.init();
+                    }
+
+                }
+
+            }
+
             if (windows[0] != null) {
                 windows[0].handleKeyTyped(pressed, code);
             }
@@ -789,6 +809,7 @@ public class Laptop extends GuiScreen implements System {
     }
 
     public enum BootMode {
+
         BOOTING,
         NOTHING,
         SHUTTING_DOWN,

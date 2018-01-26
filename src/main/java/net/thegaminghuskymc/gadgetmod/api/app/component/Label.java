@@ -14,80 +14,42 @@ import java.awt.*;
 public class Label extends Component {
 
     protected String text;
-    protected int width, height;
+    protected int width;
     protected boolean shadow = true;
     protected double scale = 1;
     protected int alignment = ALIGN_LEFT;
 
-    protected int padding = 5;
-    protected boolean explicitSize = false;
-
-    protected ResourceLocation iconResource;
-    protected int iconU, iconV;
-    protected int iconWidth, iconHeight;
-    protected int iconSourceWidth;
-    protected int iconSourceHeight;
-
-    protected int textColour = Color.WHITE.getRGB();
+    protected int textColor = Color.WHITE.getRGB();
 
     /**
      * Default label constructor
      *
      * @param text the text to display
      * @param left how many pixels from the left
-     * @param top  how many pixels from the top
+     * @param top how many pixels from the top
      */
-    public Label(String text, int left, int top) {
+    public Label(String text, int left, int top)
+    {
         super(left, top);
         this.text = text;
-        setTextColour(textColour);
-    }
-
-    public Label(String text, int left, int top, IIcon icon) {
-        super(left, top);
-        this.text = text;
-        setTextColour(textColour);
-        this.setIcon(icon);
-    }
-
-    public Label(int left, int top, IIcon icon) {
-        super(left, top);
-        this.setIcon(icon);
-    }
-
-    private static int getTextWidth(String text) {
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-        boolean flag = fontRenderer.getUnicodeFlag();
-        fontRenderer.setUnicodeFlag(false);
-        int width = fontRenderer.getStringWidth(text);
-        fontRenderer.setUnicodeFlag(flag);
-        return width;
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        if (this.visible) {
+    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+    {
+        if (this.visible)
+        {
             GlStateManager.pushMatrix();
             {
                 GlStateManager.translate(xPosition, yPosition, 0);
                 GlStateManager.scale(scale, scale, scale);
-                if (alignment == ALIGN_RIGHT)
-                    GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale), 0, 0);
-                if (alignment == ALIGN_CENTER)
-                    GlStateManager.translate(-(mc.fontRenderer.getStringWidth(text) * scale) / (2 * scale), 0, 0);
-                mc.fontRenderer.drawString(text, 0, 0, getTextColor(), shadow);
+                if(alignment == ALIGN_RIGHT)
+                    GlStateManager.translate((int)-(Laptop.fontRenderer.getStringWidth(text) * scale), 0, 0);
+                if(alignment == ALIGN_CENTER)
+                    GlStateManager.translate((int)(-(Laptop.fontRenderer.getStringWidth(text) * scale) / (2 * scale)), 0, 0);
+                Laptop.fontRenderer.drawString(text, 0, 0, textColor, shadow);
             }
             GlStateManager.popMatrix();
-
-            int contentWidth = (iconResource != null ? iconWidth : 0) + getTextWidth(text);
-            if (iconResource != null && text != null) contentWidth += 3;
-            int contentX = (int) Math.ceil((width - contentWidth) / 2.0);
-
-            if (iconResource != null) {
-                int iconY = (height - iconHeight) / 2;
-                mc.getTextureManager().bindTexture(iconResource);
-                RenderUtil.drawRectWithTexture(x + contentX, y + iconY, iconU, iconV, iconWidth, iconHeight, iconWidth, iconHeight, iconSourceWidth, iconSourceHeight);
-            }
         }
     }
 
@@ -96,21 +58,19 @@ public class Label extends Component {
      *
      * @param text the text
      */
-    public void setText(String text) {
+    public void setText(String text)
+    {
         this.text = text;
     }
 
     /**
-     * Sets the text colour for this component
+     * Sets the text color for this component
      *
-     * @param color the text colour
+     * @param color the text color
      */
-    public void setTextColour(int color) {
-        this.textColour = color;
-    }
-
-    public int getTextColor() {
-        return textColour;
+    public void setTextColor(Color color)
+    {
+        this.textColor = color.getRGB();
     }
 
     /**
@@ -118,7 +78,8 @@ public class Label extends Component {
      *
      * @param shadow if should render shadow
      */
-    public void setShadow(boolean shadow) {
+    public void setShadow(boolean shadow)
+    {
         this.shadow = shadow;
     }
 
@@ -128,7 +89,8 @@ public class Label extends Component {
      *
      * @param scale the text scale
      */
-    public void setScale(double scale) {
+    public void setScale(double scale)
+    {
         this.scale = scale;
     }
 
@@ -138,48 +100,8 @@ public class Label extends Component {
      *
      * @param alignment the alignment type
      */
-    public void setAlignment(int alignment) {
+    public void setAlignment(int alignment)
+    {
         this.alignment = alignment;
     }
-
-    public void setIcon(IIcon icon) {
-        this.iconU = icon.getU();
-        this.iconV = icon.getV();
-        this.iconResource = icon.getIconAsset();
-        this.iconWidth = icon.getIconSize();
-        this.iconHeight = icon.getIconSize();
-        this.iconSourceWidth = icon.getGridWidth() * icon.getIconSize();
-        this.iconSourceHeight = icon.getGridHeight() * icon.getIconSize();
-        updateSize();
-    }
-
-    public void removeIcon() {
-        this.iconResource = null;
-        updateSize();
-    }
-
-    private void updateSize() {
-        if (explicitSize) return;
-        int height = padding * 2;
-        int width = padding * 2;
-
-        if (iconResource != null) {
-            height += iconHeight;
-            width += iconWidth;
-        }
-
-        if (text != null) {
-            width += getTextWidth(text);
-            height = 16;
-        }
-
-        if (iconResource != null && text != null) {
-            width += 3;
-            height = iconHeight + padding * 2;
-        }
-
-        this.width = width;
-        this.height = height;
-    }
-
 }

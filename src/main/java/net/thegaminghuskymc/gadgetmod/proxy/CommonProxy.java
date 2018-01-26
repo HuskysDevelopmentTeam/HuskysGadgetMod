@@ -18,6 +18,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
+import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
@@ -41,6 +42,8 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         GadgetApps.init();
+
+        GadgetCrafting.register();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

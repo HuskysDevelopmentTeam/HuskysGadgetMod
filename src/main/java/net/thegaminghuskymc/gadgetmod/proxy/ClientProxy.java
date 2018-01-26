@@ -130,7 +130,6 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 GadgetBlocks.BENCHMARK_STATION,
                 GadgetBlocks.PLAYSTATION_4_PRO,
                 GadgetBlocks.PRINTER,
-                GadgetBlocks.SCREEN,
                 GadgetBlocks.DESKTOP);
         itemColors.registerItemColorHandler(coloredItems, GadgetItems.flash_drive, GadgetItems.videoCard);
 		
@@ -146,8 +145,6 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 					GadgetBlocks.BENCHMARK_STATION,
 					GadgetBlocks.PLAYSTATION_4_PRO,
 					GadgetBlocks.PRINTER,
-					GadgetBlocks.SCREEN,
-					GadgetBlocks.ROBOT,
 					GadgetBlocks.THREEDE_PRINTER,
 					GadgetBlocks.DESKTOP);
 	}

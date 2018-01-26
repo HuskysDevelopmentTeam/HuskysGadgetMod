@@ -41,7 +41,7 @@ public class BlockScreen extends BlockDevice.Colored {
 
     public BlockScreen() {
         super(Material.ANVIL);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.LONELY).withProperty(VERTICAL, true));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.LONELY));
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
         this.setUnlocalizedName("screen");
         this.setRegistryName(Reference.MOD_ID, "screen");
@@ -59,19 +59,12 @@ public class BlockScreen extends BlockDevice.Colored {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        if (state.getValue(VERTICAL)) {
-            return SELECTION_VERTICAL_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()];
-        }
         return SELECTION_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()];
     }
 
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
-        if (state.getValue(VERTICAL)) {
-            Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, BODY_VERTICAL_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()]);
-        } else {
-            Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, BODY_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()]);
-        }
+        Block.addCollisionBoxToList(pos, entityBox, collidingBoxes, BODY_BOUNDING_BOX[state.getValue(FACING).getHorizontalIndex()]);
     }
 
     @Override
@@ -87,7 +80,7 @@ public class BlockScreen extends BlockDevice.Colored {
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
-        return state.withProperty(FACING, placer.getHorizontalFacing()).withProperty(VERTICAL, facing.getHorizontalIndex() != -1);
+        return state.withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
@@ -129,7 +122,7 @@ public class BlockScreen extends BlockDevice.Colored {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return state.withProperty(TYPE, Type.LONELY).withProperty(VERTICAL, true);
+        return state.withProperty(TYPE, Type.LONELY);
     }
 
     @Nullable
@@ -140,17 +133,17 @@ public class BlockScreen extends BlockDevice.Colored {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getHorizontalIndex() + (state.getValue(VERTICAL) ? 4 : 0);
+        return state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(TYPE, Type.LONELY).withProperty(VERTICAL, meta - 4 >= 0);
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(TYPE, Type.LONELY);
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, TYPE, BlockColored.COLOR, VERTICAL);
+        return new BlockStateContainer(this, FACING, TYPE, BlockColored.COLOR);
     }
 
     @Override

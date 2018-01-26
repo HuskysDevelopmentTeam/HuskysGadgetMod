@@ -27,6 +27,7 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.object.Canvas;
 import net.thegaminghuskymc.gadgetmod.object.Picture;
+import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -41,7 +42,7 @@ public class ApplicationPixelShop extends Application {
     private static final Color AUTHOR_TEXT = new Color(114, 120, 138);
 
     /* Main Menu */
-    private Layout layoutMainMenu;
+    private StandardLayout layoutMainMenu;
 
     /* New Picture */
     private Layout layoutNewPicture;
@@ -64,27 +65,40 @@ public class ApplicationPixelShop extends Application {
     @Override
     public void init() {
 
-        /* Main Menu */
-        layoutMainMenu = new Layout(150, 150);
-        layoutMainMenu.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        layoutMainMenu = new StandardLayout("Main Menu", 201, 125, this, null);
+        layoutMainMenu.setIcon(Icons.HOME);
+
+        RenderUtil.drawApplicationIcon(info, getHeight() / 2, getHeight() / 2);
+
+        ItemList<Picture> pictureList = new ItemList<>(5, 43, 80, 4);
+        pictureList.setListItemRenderer(new ListItemRenderer<Picture>(18)
         {
-            mc.getTextureManager().bindTexture(Laptop.ICON_TEXTURES);
-            RenderUtil.drawRectWithTexture(x + 36, y + 4, info.getIconU(), info.getIconV(), 68, 68, 14, 14, 224, 224);
+            @Override
+            public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
+            {
+                RenderUtil.drawStringClipped("Henlo", x, y, 100, AUTHOR_TEXT.getRGB(), true);
+            }
         });
+        layoutMainMenu.addComponent(pictureList);
 
-        Label labelLogo = new Label("Huskydobe PixelShop", 19, 85);
-        layoutMainMenu.addComponent(labelLogo);
-
-        Button btnNewPicture = new Button(5, 100, "New");
-        btnNewPicture.setSize(140, 20);
-        btnNewPicture.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutNewPicture));
+        Button btnNewPicture = new Button(5, 25, "New", Icons.PICTURE);
+        btnNewPicture.setSize(40, 16);
+        btnNewPicture.setToolTip("New Picture", "Start a new masterpiece!");
+        btnNewPicture.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if(mouseButton == 0) {
+                setCurrentLayout(layoutNewPicture);
+            }
+        });
         layoutMainMenu.addComponent(btnNewPicture);
 
-        Button btnLoadPicture = new Button(5, 125, "Load");
-        btnLoadPicture.setSize(140, 20);
+        Button btnLoadPicture = new Button(48, 25, Icons.IMPORT);
+        btnLoadPicture.setToolTip("Load External", "Open a picture from file");
         btnLoadPicture.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(layoutLoadPicture));
         layoutMainMenu.addComponent(btnLoadPicture);
 
+        Button btnDeletePicture = new Button(67, 25, Icons.TRASH);
+        btnDeletePicture.setToolTip("Delete", "Removes the selected image");
+        layoutMainMenu.addComponent(btnDeletePicture);
 
         /* New Picture */
         layoutNewPicture = new Layout(180, 65);
@@ -143,7 +157,7 @@ public class ApplicationPixelShop extends Application {
             });
         });
 
-        listPictures = new ItemList<>(5, 5, 100, 5);
+        listPictures = new ItemList<>(5, 5, 80, 5);
         listPictures.setListItemRenderer(new ListItemRenderer<Picture>(20) {
             @Override
             public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {

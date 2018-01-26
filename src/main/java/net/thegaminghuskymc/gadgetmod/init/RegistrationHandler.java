@@ -24,7 +24,6 @@ public class RegistrationHandler {
     public static void init() {
         GadgetBlocks.register();
         GadgetItems.register();
-        GadgetCrafting.register();
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
