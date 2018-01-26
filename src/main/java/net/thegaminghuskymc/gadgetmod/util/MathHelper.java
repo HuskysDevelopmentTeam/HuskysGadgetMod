@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.util;
 
+import codechicken.lib.vec.Vector3;
 import net.minecraft.entity.Entity;
 
 public final class MathHelper {

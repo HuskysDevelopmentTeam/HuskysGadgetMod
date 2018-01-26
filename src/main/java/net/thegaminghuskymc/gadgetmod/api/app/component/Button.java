@@ -224,6 +224,8 @@ public class Button extends Component {
                 int textColour = !Button.this.enabled ? 10526880 : (Button.this.hovered ? 16777120 : 14737632);
                 drawString(mc.fontRenderer, text, x + contentX + textOffsetX, y + textY, textColour);
             }
+        } else {
+        	this.hovered = false;
         }
     }
 
@@ -274,7 +276,11 @@ public class Button extends Component {
     }
 
     protected boolean isInside(int mouseX, int mouseY) {
-        return mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+    	boolean x1 = mouseX >= this.xPosition;
+    	boolean y1 = mouseY >= this.yPosition;
+    	boolean x2 = mouseX < this.xPosition + this.width;
+    	boolean y2 = mouseY < this.yPosition + this.height;
+        return x1 && y1 && x2 && y2;
     }
 
     public void setSize(int width, int height) {

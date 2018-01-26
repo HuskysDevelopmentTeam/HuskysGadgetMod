@@ -90,7 +90,7 @@ public class ApplicationTextArea extends Application
         layout.addComponent(textArea);
 
         ButtonToggle buttonWordWrap = new ButtonToggle(5, 5, Icons.ALIGN_JUSTIFY);
-//        buttonWordWrap.setToolTip("Word Wrap", "Break the lines to fit in the view");
+        buttonWordWrap.setToolTip("Word Wrap", "Break the lines to fit in the view");
         buttonWordWrap.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -101,7 +101,7 @@ public class ApplicationTextArea extends Application
         layout.addComponent(buttonWordWrap);
 
         ButtonToggle buttonDebug = new ButtonToggle(24, 5, Icons.HELP);
-//        buttonDebug.setToolTip("Debug Mode", "Show invisible characters");
+        buttonDebug.setToolTip("Debug Mode", "Show invisible characters");
         buttonDebug.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if(mouseButton == 0)
@@ -112,7 +112,7 @@ public class ApplicationTextArea extends Application
         layout.addComponent(buttonDebug);
 
         ButtonToggle buttonHighlight = new ButtonToggle(43, 5, Icons.FONT);
-//        buttonHighlight.setToolTip("Highlight", "Set text highlighting to Java");
+        buttonHighlight.setToolTip("Highlight", "Set text highlighting to Java");
         buttonHighlight.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if(mouseButton == 0)

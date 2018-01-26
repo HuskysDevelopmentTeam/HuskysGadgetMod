@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 
 public class ButtonToggle extends Button implements RadioGroup.Item {
+	
     protected boolean toggle = false;
     protected RadioGroup group = null;
 
@@ -88,11 +89,6 @@ public class ButtonToggle extends Button implements RadioGroup.Item {
                 this.toggle = !toggle;
             }
         }
-    }
-
-    @Override
-    public boolean isInside(int mouseX, int mouseY) {
-        return super.isInside(mouseX, mouseY) || toggle;
     }
 
     @Override
