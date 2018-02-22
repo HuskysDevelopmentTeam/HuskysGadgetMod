@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 /**
  * A simple interface to handle processing responses by {@link net.thegaminghuskymc.gadgetmod.api.task.Task}.
  * Callbacks are necessary for the updating of any UI component.
- *
  */
 public interface Callback<T> {
 

@@ -11,7 +11,7 @@ import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
 import java.util.List;
 
-public class TileEntityDesktop extends TileEntityDevice.Colored {
+public class TileEntityDesktop extends TileEntityColoredDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;

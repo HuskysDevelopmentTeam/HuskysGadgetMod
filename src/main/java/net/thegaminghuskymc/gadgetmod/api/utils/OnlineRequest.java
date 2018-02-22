@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * OnlineRequest is a simple built in request system for handling URL connections.
  * It runs in the background so it doesn't freeze the user interface of your application.
  * All requests are returned with a string, use how you please!
- *
  */
 public class OnlineRequest {
     private static OnlineRequest instance = null;

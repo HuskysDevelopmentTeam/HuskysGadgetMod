@@ -1,0 +1,32 @@
+{
+  "_comment": "Generated using Husky's JSON Generator v1.",
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "type": {
+  			"legs": {
+  				"model": "hgm:office_chair_legs"
+  			},
+  			"seat": {
+  				"model": "hgm:office_chair_seat"
+  			},
+  			"full": {
+  				"model": "hgm:office_chair_full"
+  			}
+  		},
+  		"facing": {
+  			"north": { "y": 0   },
+  			"east":  { "y": 90  },
+  			"south": { "y": 180 },
+  			"west":  { "y": 270 }
+  		},
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

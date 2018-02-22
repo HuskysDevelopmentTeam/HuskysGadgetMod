@@ -2,14 +2,11 @@ package net.thegaminghuskymc.gadgetmod.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -56,7 +53,7 @@ public class RenderHelper {
     public static void renderTooltip(int x, int y, List<String> tooltipData, int color, int color2) {
         GlStateManager.pushMatrix();
         boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        if(lighting)
+        if (lighting)
             net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
         if (!tooltipData.isEmpty()) {
@@ -96,7 +93,7 @@ public class RenderHelper {
             }
             GlStateManager.enableDepth();
         }
-        if(!lighting)
+        if (!lighting)
             net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
         GlStateManager.color(1F, 1F, 1F, 1F);
         GlStateManager.popMatrix();
@@ -246,8 +243,8 @@ public class RenderHelper {
     public static String getKeyDisplayString(String keyName) {
         String key = null;
         KeyBinding[] keys = Minecraft.getMinecraft().gameSettings.keyBindings;
-        for(KeyBinding otherKey : keys)
-            if(otherKey.getKeyDescription().equals(keyName)) {
+        for (KeyBinding otherKey : keys)
+            if (otherKey.getKeyDescription().equals(keyName)) {
                 key = otherKey.getDisplayName();
                 break;
             }

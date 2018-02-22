@@ -1,12 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -15,16 +14,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRobot;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockRobot extends BlockDevice.Colored {
+public class BlockRobot extends BlockColoredDevice {
 
     private static final Bounds BODY_BOUNDS = new Bounds(5 * 0.0625, 0.0, 1 * 0.0625, 14 * 0.0625, 5 * 0.0625, 15 * 0.0625);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -35,21 +32,9 @@ public class BlockRobot extends BlockDevice.Colored {
 
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 2.0, 1.0, 1.0);
 
-    public BlockRobot() {
-        super(Material.ANVIL);
+    public BlockRobot(EnumDyeColor color) {
+        super("robot", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("robot");
-        this.setRegistryName(Reference.MOD_ID, "robot");
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof IColored) {
-            IColored colorable = (IColored) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override
@@ -71,12 +56,12 @@ public class BlockRobot extends BlockDevice.Colored {
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityRobot();
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING);
     }
 }

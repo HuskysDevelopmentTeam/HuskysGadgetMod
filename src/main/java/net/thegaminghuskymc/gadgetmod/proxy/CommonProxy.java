@@ -1,7 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -13,9 +15,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
+import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
@@ -29,6 +31,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.printers;
 
 public class CommonProxy {
 
@@ -85,7 +89,7 @@ public class CommonProxy {
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         World world = event.getWorld();
         if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() == Items.PAPER) {
-            if (world.getBlockState(event.getPos()).getBlock() == GadgetBlocks.PRINTER) {
+            if (world.getBlockState(event.getPos()).getBlock() == printers) {
                 event.setUseBlock(Event.Result.ALLOW);
             }
         }

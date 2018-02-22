@@ -5,24 +5,22 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDrawingTablet;
 
 import javax.annotation.Nullable;
 
-public class BlockDrawingTablet extends BlockDevice.Colored {
+public class BlockDrawingTablet extends BlockColoredDevice {
 
-    public BlockDrawingTablet() {
-        super(Material.ANVIL);
+    public BlockDrawingTablet(EnumDyeColor color) {
+        super("drawing_tablet", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("drawing_tablet");
-        this.setRegistryName(Reference.MOD_ID, "drawing_tablet");
     }
 
     @Nullable

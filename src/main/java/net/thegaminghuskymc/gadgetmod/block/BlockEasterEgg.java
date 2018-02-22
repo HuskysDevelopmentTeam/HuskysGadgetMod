@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,14 +14,13 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockMod;
 
-public class BlockEasterEgg extends Block implements ITileEntityProvider {
+public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
 
     public BlockEasterEgg() {
-        super(Material.CARPET);
+        super(Material.CARPET, Reference.MOD_ID, "easter_egg");
         this.setHardness(-1.0f);
-        this.setRegistryName(Reference.MOD_ID, "easter_egg");
-        this.setUnlocalizedName("easter_egg");
     }
 
     @Override

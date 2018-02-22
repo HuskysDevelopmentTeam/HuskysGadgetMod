@@ -11,7 +11,6 @@ import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
@@ -19,13 +18,11 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutThemes;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
-import net.thegaminghuskymc.gadgetmod.proxy.ClientProxy;
 
 import java.awt.*;
 import java.util.*;
@@ -98,15 +95,6 @@ public class ApplicationSettings extends SystemApplication {
 
         layoutInformationApps = new Menu("App Information");
         layoutInformationApps.addComponent(buttonPrevious);
-
-        Button btnThemes = new Button(5, 67, "Themes", Icons.PICTURE);
-        btnThemes.setClickListener((mouseX, mouseY, mouseButton) ->
-        {
-            if (mouseButton == 0) {
-                showMenu(new LayoutThemes());
-            }
-        });
-        layoutPersonalise.addComponent(btnThemes);
 
         Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
         buttonInformationApps.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -412,7 +400,7 @@ public class ApplicationSettings extends SystemApplication {
 
         @Override
         public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-            Gui.drawRect(x- 1, y, x + width + 1, y + 20, Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+            Gui.drawRect(x - 1, y, x + width + 1, y + 20, Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
             mc.fontRenderer.drawString(title, x + 22, y + 6, Color.WHITE.getRGB(), true);
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
         }

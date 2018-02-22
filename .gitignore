@@ -21,7 +21,6 @@ build
 # other
 eclipse
 run
-libs
 src/main/java/com/*
 src/main/java/javazoom/*
 classes/*

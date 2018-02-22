@@ -18,7 +18,7 @@ public class ApplicationCackler extends Application {
 
     @Override
     public void init() {
-        
+
         Layout layoutMain = new Layout(270, 140);
 
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {

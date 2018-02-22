@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.api.app.ColorScheme;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
@@ -137,7 +136,7 @@ public class Window<T extends Wrappable> {
         } else {
             this.offsetX = Laptop.SCREEN_WIDTH - width;
         }
-        
+
         if (newY >= TaskBar.BAR_HEIGHT && newY <= Laptop.SCREEN_HEIGHT - height) {
             this.offsetY = newY;
         } else if (newY < TaskBar.BAR_HEIGHT) {

@@ -1,0 +1,16 @@
+{
+  "_comment": "Generated using Husky's JSON Generator v1.",
+  "forge_marker": 1,
+  "defaults": {
+    "model": "hgm:office_chair_full",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "hgm:ethernet_cable"
+  },
+  "pattern": [
+    "PIL",
+    "GIG",
+    "LIP"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "hgm:plastic"
+    },
+    "L": {
+      "item": "minecraft:dye",
+      "data": 11
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    }
+  }
+}

@@ -18,11 +18,9 @@ public class ItemDevice extends ItemBlock {
     //This method is still bugged due to Forge.
     @Nullable
     @Override
-    public NBTTagCompound getNBTShareTag(ItemStack stack)
-    {
+    public NBTTagCompound getNBTShareTag(ItemStack stack) {
         NBTTagCompound tag = new NBTTagCompound();
-        if(stack.getTagCompound() != null && stack.getTagCompound().hasKey("display", Constants.NBT.TAG_COMPOUND))
-        {
+        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("display", Constants.NBT.TAG_COMPOUND)) {
             tag.setTag("display", stack.getTagCompound().getTag("display"));
         }
         return tag;

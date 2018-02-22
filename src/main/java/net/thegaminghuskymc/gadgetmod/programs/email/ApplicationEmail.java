@@ -12,8 +12,8 @@ import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
@@ -26,7 +26,6 @@ import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.Objects;
@@ -164,8 +163,7 @@ public class ApplicationEmail extends Application {
             Gui.drawRect(x + 125, y, x + 126, y + height, color.darker().getRGB());
 
             Email e = listEmails.getSelectedItem();
-            if(e != null)
-            {
+            if (e != null) {
                 Gui.drawRect(x + 130, y + 5, x + width - 5, y + 34, color.getRGB());
                 Gui.drawRect(x + 130, y + 34, x + width - 5, y + 35, color.darker().getRGB());
                 Gui.drawRect(x + 130, y + 35, x + width - 5, y + height - 5, new Color(1.0F, 1.0F, 1.0F, 0.25F).getRGB());
@@ -176,21 +174,17 @@ public class ApplicationEmail extends Application {
         });
 
         ItemList<Email> listEmails = new ItemList<>(5, 25, 116, 4);
-        listEmails.setListItemRenderer(new ListItemRenderer<Email>(28)
-        {
+        listEmails.setListItemRenderer(new ListItemRenderer<Email>(28) {
             @Override
-            public void render(Email e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(Email e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
 
-                if (!e.isRead())
-                {
+                if (!e.isRead()) {
                     GlStateManager.color(1.0F, 1.0F, 1.0F);
                     RenderUtil.drawApplicationIcon(info, x + width - 16, y + 2);
                 }
 
-                if(e.getAttachment() != null)
-                {
+                if (e.getAttachment() != null) {
                     GlStateManager.color(1.0F, 1.0F, 1.0F);
                     int posX = x + (!e.isRead() ? -12 : 0) + width;
                     mc.getTextureManager().bindTexture(PIXEL_MAIL_ICONS);

@@ -50,16 +50,16 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
             }
         }
 
-        if(this.systemData != null && this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
-        	BootMode bootmode = BootMode.getBootMode(this.systemData.getInteger("bootmode"));
-        	if(bootmode != null && bootmode != BootMode.NOTHING) {
-        		int boottimer = Math.max(this.systemData.getInteger("boottimer") - 1, 0);
-        		if(boottimer == 0) {
-        			bootmode = bootmode == BootMode.BOOTING ? BootMode.NOTHING : null;
-        			this.systemData.setInteger("bootmode", BootMode.ordinal(bootmode));
-        		}
-            	this.systemData.setInteger("boottimer", boottimer);
-        	}
+        if (this.systemData != null && this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
+            BootMode bootmode = BootMode.getBootMode(this.systemData.getInteger("bootmode"));
+            if (bootmode != null && bootmode != BootMode.NOTHING) {
+                int boottimer = Math.max(this.systemData.getInteger("boottimer") - 1, 0);
+                if (boottimer == 0) {
+                    bootmode = bootmode == BootMode.BOOTING ? BootMode.NOTHING : null;
+                    this.systemData.setInteger("bootmode", BootMode.ordinal(bootmode));
+                }
+                this.systemData.setInteger("boottimer", boottimer);
+            }
         }
     }
 
@@ -162,7 +162,7 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         return fileSystem;
     }
 
-    public void setApplicationData(String appId, NBTTagCompound applicationData) {
+    public void setApplicationData(String appID, NBTTagCompound applicationData) {
         this.applicationData = applicationData;
         markDirty();
         TileEntityUtil.markBlockForUpdate(world, pos);

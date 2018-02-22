@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "blocks/laptop_1",
-		"particle": "blocks/laptop_1"
-	},
+    	"0": "hgm:model/laptop",
+    	"particle": "hgm:model/laptop"
+    },
 	"elements": [
 		{
 			"name": "cube",

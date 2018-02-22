@@ -72,8 +72,7 @@ public class ApplicationBank extends SystemApplication {
         layoutStart = new Layout();
         layoutStart.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            GlStateManager.pushMatrix();
-            {
+            GlStateManager.pushMatrix(); {
                 GlStateManager.enableDepth();
                 GlStateManager.translate(x + 25, y + 33, 15);
                 GlStateManager.scale((float) -2.5, (float) -2.5, (float) -2.5);
@@ -114,7 +113,7 @@ public class ApplicationBank extends SystemApplication {
         btnDepositWithdraw = new Button(54, 74, "View Account");
         btnDepositWithdraw.setSize(76, 20);
         btnDepositWithdraw.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
+            if (mouseButton == 0) {
                 setCurrentLayout(layoutAccount);
             }
         });
@@ -167,15 +166,14 @@ public class ApplicationBank extends SystemApplication {
         amountField.setEditable(false);
         layoutMain.addComponent(amountField);
 
-		for(int i = 0; i < 9; i++)
-		{
-			int posX = 5 + (i % 3) * 19;
-			int posY = 65 + (i / 3) * 19;
-			Button button = new Button(posX, posY, Integer.toString(i + 1));
-			button.setSize(16, 16);
-			addNumberClickListener(button, amountField, i + 1);
-			layoutMain.addComponent(button);
-		}
+        for (int i = 0; i < 9; i++) {
+            int posX = 5 + (i % 3) * 19;
+            int posY = 65 + (i / 3) * 19;
+            Button button = new Button(posX, posY, Integer.toString(i + 1));
+            button.setSize(16, 16);
+            addNumberClickListener(button, amountField, i + 1);
+            layoutMain.addComponent(button);
+        }
 
         btnZero = new Button(5, 122, "0");
         btnZero.setSize(16, 16);

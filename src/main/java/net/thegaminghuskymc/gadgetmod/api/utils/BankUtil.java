@@ -23,7 +23,6 @@ import java.util.UUID;
  * <p>Please keep in mind that 1 unit equals 1 emerald. Players can withdraw currency
  * from their account into emeralds. Be nice, and don't abuse this system. Check out
  * the example applications to learn how you use this currency system.</p>
- *
  */
 public class BankUtil {
     public static final BankUtil INSTANCE = new BankUtil();

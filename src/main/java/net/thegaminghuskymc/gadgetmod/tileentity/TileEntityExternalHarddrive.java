@@ -6,7 +6,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityExternalHarddrive extends TileEntityDevice.Colored {
+public class TileEntityExternalHarddrive extends TileEntityColoredDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;

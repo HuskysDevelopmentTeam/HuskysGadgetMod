@@ -3,7 +3,6 @@ package net.thegaminghuskymc.gadgetmod.api.app.listener;
 /**
  * The click listener interface. Used for handling clicks
  * on components.
- *
  */
 public interface ClickListener {
     /**

@@ -15,7 +15,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
-import java.awt.*;
 import java.util.Arrays;
 
 public class Button extends Component {
@@ -202,7 +201,7 @@ public class Button extends Component {
 
             Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonNormalColour());
 
-            if(hovered) {
+            if (hovered) {
                 Gui.drawRect(x, y, x + width, y + height, Laptop.getSystem().getSettings().getColourScheme().getButtonHoveredColour());
             }
 
@@ -225,7 +224,7 @@ public class Button extends Component {
                 drawString(mc.fontRenderer, text, x + contentX + textOffsetX, y + textY, textColour);
             }
         } else {
-        	this.hovered = false;
+            this.hovered = false;
         }
     }
 
@@ -276,10 +275,10 @@ public class Button extends Component {
     }
 
     protected boolean isInside(int mouseX, int mouseY) {
-    	boolean x1 = mouseX >= this.xPosition;
-    	boolean y1 = mouseY >= this.yPosition;
-    	boolean x2 = mouseX < this.xPosition + this.width;
-    	boolean y2 = mouseY < this.yPosition + this.height;
+        boolean x1 = mouseX >= this.xPosition;
+        boolean y1 = mouseY >= this.yPosition;
+        boolean x2 = mouseX < this.xPosition + this.width;
+        boolean y2 = mouseY < this.yPosition + this.height;
         return x1 && y1 && x2 && y2;
     }
 

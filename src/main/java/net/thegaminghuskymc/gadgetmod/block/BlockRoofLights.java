@@ -16,20 +16,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRoofLights;
 import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockRoofLights extends BlockDevice.Colored {
+public class BlockRoofLights extends BlockDecoration {
 
     public BlockRoofLights() {
-        super(Material.ANVIL);
+        super(Material.ANVIL, "roof_lights");
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("roof_lights");
-        this.setRegistryName(Reference.MOD_ID, "roof_lights");
     }
 
     @Override

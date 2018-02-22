@@ -6,73 +6,69 @@ import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 
-public class ApplicationTest extends Application
-{
+public class ApplicationTest extends Application {
     @Override
-    public void init()
-    {
-        Button button = new Button(5, 5, Icons.PRINTER);
-        button.setClickListener((mouseX, mouseY, mouseButton) ->
+    public void init() {
+        Button confirmation = new Button(5, 5, Icons.CHECK);
+        confirmation.setToolTip("Confirmation", "This will show a fake confirmation");
+        confirmation.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 Dialog.Confirmation dialog = new Dialog.Confirmation("Test");
                 dialog.setPositiveText("Override");
                 openDialog(dialog);
             }
         });
-        super.addComponent(button);
+        super.addComponent(confirmation);
 
-        Button button1 = new Button(30, 5, Icons.PRINTER);
-        button1.setClickListener((mouseX, mouseY, mouseButton) ->
+        Button message = new Button(30, 5, Icons.CHAT);
+        message.setToolTip("Message", "This will show a message");
+        message.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 openDialog(new Dialog.Message("Test"));
             }
         });
-        super.addComponent(button1);
+        super.addComponent(message);
 
-        Button button2 = new Button(55, 5, Icons.PRINTER);
-        button2.setClickListener((mouseX, mouseY, mouseButton) ->
+        Button input = new Button(55, 5, Icons.RENAME);
+        input.setToolTip("Input", "This will let you write in a text field");
+        input.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 openDialog(new Dialog.Input("Test"));
             }
         });
-        super.addComponent(button2);
+        super.addComponent(input);
 
-        Button button3 = new Button(80, 5, Icons.PRINTER);
-        button3.setClickListener((mouseX, mouseY, mouseButton) ->
+        Button openFile = new Button(80, 5, Icons.LOAD);
+        openFile.setToolTip("Open File", "This will open a file");
+        openFile.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 openDialog(new Dialog.OpenFile(this));
             }
         });
-        super.addComponent(button3);
+        super.addComponent(openFile);
 
-        Button button4 = new Button(105, 5, Icons.PRINTER);
-        button4.setClickListener((mouseX, mouseY, mouseButton) ->
+        Button saveFile = new Button(105, 5, Icons.EXPORT);
+        saveFile.setToolTip("Save File", "This will save a custom file for this program");
+        saveFile.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 openDialog(new Dialog.SaveFile(this, new NBTTagCompound()));
             }
         });
-        super.addComponent(button4);
+        super.addComponent(saveFile);
     }
 
     @Override
-    public void load(NBTTagCompound tagCompound)
-    {
+    public void load(NBTTagCompound tagCompound) {
 
     }
 
     @Override
-    public void save(NBTTagCompound tagCompound)
-    {
+    public void save(NBTTagCompound tagCompound) {
 
     }
 }

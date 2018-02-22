@@ -1,0 +1,19 @@
+{
+    "result": {
+        "item": "hgm:wheel"
+    },
+    "pattern": [
+        "P P",
+        "PIP",
+        "P P"
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "P": {
+            "item": "hgm:plastic"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,7 +21,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.ExternalDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.InternalDrive;
-import net.thegaminghuskymc.gadgetmod.core.io.drive.NetworkDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
@@ -42,7 +42,10 @@ public class FileSystem {
 
     public static final String DIR_ROOT = "/";
     public static final String DIR_APPLICATION_DATA = DIR_ROOT + "Programfiles";
+    public static final String DIR_APPLICATION_DATA_32 = DIR_ROOT + "Programfiles (x86)";
     public static final String DIR_HOME = DIR_ROOT + "NeonOS";
+    public static final String DIR_USERS = DIR_ROOT + "Users";
+//    public static final String DIR_MAIN_USER = DIR_USERS + Minecraft.getMinecraft().player.getDisplayName();
     public static final String LAPTOP_DRIVE_NAME = "NeonOS (C:)";
 
     private AbstractDrive mainDrive = null;
@@ -172,10 +175,11 @@ public class FileSystem {
         if (mainDrive == null) {
             AbstractDrive drive = new InternalDrive(LAPTOP_DRIVE_NAME);
             ServerFolder root = drive.getRoot(tileEntity.getWorld());
-            root.add(createProtectedFolder("Users"), false);
+            root.add(createProtectedFolder(DIR_USERS), false);
             root.add(createProtectedFolder("Programfiles"), false);
             root.add(createProtectedFolder("Programfiles (x86)"), false);
             root.add(createProtectedFolder("NeonOS"), false);
+//            root.add(createProtectedFolder(DIR_MAIN_USER), false);
             mainDrive = drive;
             tileEntity.markDirty();
         }
@@ -253,7 +257,7 @@ public class FileSystem {
     @Nullable
     public ItemStack removeAttachedDrive() {
         if (attachedDrive != null) {
-            ItemStack stack = new ItemStack(GadgetItems.flash_drive, 1, getAttachedDriveColor().getMetadata());
+            ItemStack stack = new ItemStack(GadgetItems.flash_drives, 1, getAttachedDriveColor().getMetadata());
             stack.setStackDisplayName(attachedDrive.getName());
             stack.getTagCompound().setTag("drive", attachedDrive.toTag());
             attachedDrive = null;

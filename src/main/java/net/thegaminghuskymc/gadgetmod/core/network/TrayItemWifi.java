@@ -1,8 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.core.network;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
@@ -97,7 +99,7 @@ public class TrayItemWifi extends TrayItem {
                 for (int x = -range; x < range + 1; x++) {
                     BlockPos pos = new BlockPos(laptopPos.getX() + x, laptopPos.getY() + y, laptopPos.getZ() + z);
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == GadgetBlocks.ROUTER) {
+                    if (state.getBlock() == GadgetBlocks.routers) {
                         routers.add(pos);
                     }
                 }

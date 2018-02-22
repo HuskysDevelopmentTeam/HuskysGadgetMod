@@ -1,8 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -10,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,21 +21,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncBlock;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Author: MrCrayfish
- */
-public class BlockRouter extends BlockDevice.Colored {
+public class BlockRouter extends BlockColoredDevice {
 
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
@@ -45,12 +39,10 @@ public class BlockRouter extends BlockDevice.Colored {
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = new Bounds(3, 0, 1, 13, 3, 15).getRotatedBounds();
     private static final AxisAlignedBB[] SELECTION_VERTICAL_BOUNDING_BOX = new Bounds(13, 0, 1, 16, 10, 15).getRotatedBounds();
 
-    public BlockRouter() {
-        super(Material.ANVIL);
+    public BlockRouter(EnumDyeColor color) {
+        super("router", color);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(VERTICAL, false));
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("router");
-        this.setRegistryName(Reference.MOD_ID, "router");
     }
 
     @Override
@@ -88,16 +80,6 @@ public class BlockRouter extends BlockDevice.Colored {
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return this.getBoundingBox(state, worldIn, pos);
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof IColored) {
-            IColored colorable = (IColored) tileEntity;
-            state = state.withProperty(BlockColored.COLOR, colorable.getColor());
-        }
-        return state;
     }
 
     @Override
@@ -139,14 +121,11 @@ public class BlockRouter extends BlockDevice.Colored {
                 tileEntityTag.removeTag("y");
                 tileEntityTag.removeTag("z");
                 tileEntityTag.removeTag("id");
-                byte color = tileEntityTag.getByte("color");
-                tileEntityTag.removeTag("color");
 
                 NBTTagCompound compound = new NBTTagCompound();
                 compound.setTag("BlockEntityTag", tileEntityTag);
 
                 ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
-                drop.setItemDamage(15 - color);
                 drop.setTagCompound(compound);
 
                 world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
@@ -184,6 +163,6 @@ public class BlockRouter extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, VERTICAL, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING, VERTICAL);
     }
 }

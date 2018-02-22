@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,18 +17,17 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-/**
- * Author: MrCrayfish
- */
-public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
+public class BlockPaper extends BlockFacing implements ITileEntityProvider {
 
     private static final Bounds SELECTION_BOUNDS = new Bounds(15 * 0.0625, 0.0, 0.0, 16 * 0.0625, 16 * 0.0625, 16 * 0.0625);
     private static final AxisAlignedBB SELECTION_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, SELECTION_BOUNDS);
@@ -39,10 +37,7 @@ public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = {SELECTION_BOX_SOUTH, SELECTION_BOX_WEST, SELECTION_BOX_NORTH, SELECTION_BOX_EAST};
 
     public BlockPaper() {
-        super(Material.CLOTH);
-        this.setUnlocalizedName("paper");
-        this.setRegistryName("paper");
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        super(Material.CLOTH, Reference.MOD_ID, "paper");
     }
 
     @Override
@@ -67,12 +62,6 @@ public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
-        return state.withProperty(FACING, placer.getHorizontalFacing());
-    }
-
-    @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -82,11 +71,6 @@ public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
             }
         }
         return true;
-    }
-
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return null;
     }
 
     @Override
@@ -104,21 +88,6 @@ public class BlockPaper extends BlockHorizontal implements ITileEntityProvider {
     public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity != null && tileentity.receiveClientEvent(id, param);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getHorizontalIndex();
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
     }
 
     public EnumBlockRenderType getRenderType(IBlockState state) {

@@ -1,21 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
-
-import net.minecraft.block.BlockColored;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -25,7 +9,8 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -39,309 +24,341 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
-import net.thegaminghuskymc.gadgetmod.block.BlockDevice;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
+import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColored;
+import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
+
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
+import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		super.preInit(event);
-		GadgetConfig.clientPreInit();
-		MinecraftForge.EVENT_BUS.register(this);
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        super.preInit(event);
+        GadgetConfig.clientPreInit();
+        MinecraftForge.EVENT_BUS.register(this);
 //		MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
-	}
+    }
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRouter.class, new RouterRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
+    @Override
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRouter.class, new RouterRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-		Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
-		File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
-		if (!folder.exists()) {
-			folder.mkdir();
-		}
-		File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
-		if (files != null) {
-			for (File f : files) {
+        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
+        if (files != null) {
+            for (File f : files) {
 
-				BufferedImage img = null;
-				try {
-					if (!f.exists()) f.createNewFile();
-					img = ImageIO.read(f);
-				} catch (IOException e) {
+                BufferedImage img = null;
+                try {
+                    if (!f.exists()) f.createNewFile();
+                    img = ImageIO.read(f);
+                } catch (IOException e) {
 
-				}
-				Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
-			}
-		}
+                }
+                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+            }
+        }
 
-		ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
-		IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
-		itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
+        ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
+        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
+        itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
 
-		BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
-		IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
-			TileEntity te = worldIn.getTileEntity(pos);
-			if (te != null && te instanceof TileEntityEasterEgg) {
-				return ((TileEntityEasterEgg) te).getColor(tintIndex);
-			}
-			return 0xFFFFFF;
-		};
-		blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
+        BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
+        IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te != null && te instanceof TileEntityEasterEgg) {
+                return ((TileEntityEasterEgg) te).getColor(tintIndex);
+            }
+            return 0xFFFFFF;
+        };
+        blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
 
-        IItemColor coloredItems = (stack, tintIndex) -> tintIndex == 1 ? EnumDyeColor.byMetadata(stack.getItemDamage()).getColorValue() : 0xFFFFFF;
-        itemColors.registerItemColorHandler(coloredItems,
-                GadgetBlocks.LAPTOP,
-                GadgetBlocks.THREEDE_PRINTER,
-                GadgetBlocks.ROUTER,
-                GadgetBlocks.OFFICE_CHAIR,
-                GadgetBlocks.ETHERNET_WALL_OUTLET,
-                GadgetBlocks.EXTERNAL_HARDDRIVE,
-                GadgetBlocks.GAMING_DESK,
-                GadgetBlocks.MONITOR,
-                GadgetBlocks.BENCHMARK_STATION,
-                GadgetBlocks.PLAYSTATION_4_PRO,
-                GadgetBlocks.PRINTER,
-                GadgetBlocks.DESKTOP);
-        itemColors.registerItemColorHandler(coloredItems, GadgetItems.flash_drive, GadgetItems.videoCard);
-		
-		IBlockColor coloredDevice = (state, worldIn, pos, tintIndex) -> tintIndex == 1 && state.getBlock() instanceof BlockDevice.Colored ? state.getValue(BlockColored.COLOR).getColorValue() : 0xFFFFFF;
-		blockColors.registerBlockColorHandler(coloredDevice, 
-					GadgetBlocks.LAPTOP,
-					GadgetBlocks.ROUTER,
-					GadgetBlocks.OFFICE_CHAIR,
-					GadgetBlocks.ETHERNET_WALL_OUTLET,
-					GadgetBlocks.EXTERNAL_HARDDRIVE,
-					GadgetBlocks.GAMING_DESK,
-					GadgetBlocks.MONITOR,
-					GadgetBlocks.BENCHMARK_STATION,
-					GadgetBlocks.PLAYSTATION_4_PRO,
-					GadgetBlocks.PRINTER,
-					GadgetBlocks.THREEDE_PRINTER,
-					GadgetBlocks.DESKTOP);
-	}
+        ItemColors items = Minecraft.getMinecraft().getItemColors();
+        BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		super.postInit(event);
-		generateIconAtlas();
-		generateBannerAtlas();
-	}
+        IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).color.getColorValue();
+        items.registerItemColorHandler(handlerItems, flash_drives);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                gaming_chairs);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                laptops);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                monitors);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                ethernet_wall_outlets);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                robots);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                gaming_desks);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                benchmark_stations);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                external_harddrives);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                playstation_4_pros);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                threede_printers);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                desktops);
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                routers);
 
-	private void generateIconAtlas() {
-		final int ICON_SIZE = 14;
-		int index = 0;
+        IBlockColor handlerBlocks = (s, w, p, t) -> ((BlockColored) s.getBlock()).color.getColorValue();
+        blocks.registerBlockColorHandler(handlerBlocks, gaming_chairs);
+        blocks.registerBlockColorHandler(handlerBlocks, laptops);
+        blocks.registerBlockColorHandler(handlerBlocks, monitors);
+        blocks.registerBlockColorHandler(handlerBlocks, ethernet_wall_outlets);
+        blocks.registerBlockColorHandler(handlerBlocks, robots);
+        blocks.registerBlockColorHandler(handlerBlocks, gaming_desks);
+        blocks.registerBlockColorHandler(handlerBlocks, benchmark_stations);
+        blocks.registerBlockColorHandler(handlerBlocks, external_harddrives);
+        blocks.registerBlockColorHandler(handlerBlocks, playstation_4_pros);
+        blocks.registerBlockColorHandler(handlerBlocks, threede_printers);
+        blocks.registerBlockColorHandler(handlerBlocks, desktops);
+        blocks.registerBlockColorHandler(handlerBlocks, routers);
 
-		BufferedImage atlas = new BufferedImage(ICON_SIZE * 16, ICON_SIZE * 16, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = atlas.createGraphics();
+    }
 
-		try {
-			BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/icon/missing.png"));
-			g.drawImage(icon, 0, 0, ICON_SIZE, ICON_SIZE, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
+        super.postInit(event);
+        generateIconAtlas();
+        generateBannerAtlas();
+    }
 
-		index++;
+    private void generateIconAtlas() {
+        final int ICON_SIZE = 14;
+        int index = 0;
 
-		for (AppInfo info : ApplicationManager.getAllApplications()) {
-			if (info.getIcon() == null)
-				continue;
+        BufferedImage atlas = new BufferedImage(ICON_SIZE * 16, ICON_SIZE * 16, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = atlas.createGraphics();
 
-			ResourceLocation identifier = info.getId();
-			ResourceLocation iconResource = new ResourceLocation(info.getIcon());
-			String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
-			try {
-				InputStream input = ClientProxy.class.getResourceAsStream(path);
-				if (input != null) {
-					BufferedImage icon = TextureUtil.readBufferedImage(input);
-					if (icon.getWidth() != ICON_SIZE || icon.getHeight() != ICON_SIZE) {
-						HuskyGadgetMod.getLogger().error("Incorrect icon size for " + identifier.toString() + " (Must be 14 by 14 pixels)");
-						continue;
-					}
-					int iconU = (index % 16) * ICON_SIZE;
-					int iconV = (index / 16) * ICON_SIZE;
-					g.drawImage(icon, iconU, iconV, ICON_SIZE, ICON_SIZE, null);
-					updateIcon(info, iconU, iconV);
-					index++;
-				} else {
-					HuskyGadgetMod.getLogger().error("Icon for application '" + identifier.toString() + "' could not be found at '" + path + "'");
-				}
-			} catch (Exception e) {
-				HuskyGadgetMod.getLogger().error("Unable to load icon for " + identifier.toString());
-			}
-		}
+        try {
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/icon/missing.png"));
+            g.drawImage(icon, 0, 0, ICON_SIZE, ICON_SIZE, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		g.dispose();
-		Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.ICON_TEXTURES, new DynamicTexture(atlas));
-	}
+        index++;
 
-	private void generateBannerAtlas() {
-		final int BANNER_WIDTH = 250;
-		final int BANNER_HEIGHT = 40;
-		int index = 0;
+        for (AppInfo info : ApplicationManager.getAllApplications()) {
+            if (info.getIcon() == null)
+                continue;
 
-		BufferedImage atlas = new BufferedImage(BANNER_WIDTH * 16, BANNER_HEIGHT * 16, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = atlas.createGraphics();
+            ResourceLocation identifier = info.getId();
+            ResourceLocation iconResource = new ResourceLocation(info.getIcon());
+            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
+            try {
+                InputStream input = ClientProxy.class.getResourceAsStream(path);
+                if (input != null) {
+                    BufferedImage icon = TextureUtil.readBufferedImage(input);
+                    if (icon.getWidth() != ICON_SIZE || icon.getHeight() != ICON_SIZE) {
+                        HuskyGadgetMod.getLogger().error("Incorrect icon size for " + identifier.toString() + " (Must be 14 by 14 pixels)");
+                        continue;
+                    }
+                    int iconU = (index % 16) * ICON_SIZE;
+                    int iconV = (index / 16) * ICON_SIZE;
+                    g.drawImage(icon, iconU, iconV, ICON_SIZE, ICON_SIZE, null);
+                    updateIcon(info, iconU, iconV);
+                    index++;
+                } else {
+                    HuskyGadgetMod.getLogger().error("Icon for application '" + identifier.toString() + "' could not be found at '" + path + "'");
+                }
+            } catch (Exception e) {
+                HuskyGadgetMod.getLogger().error("Unable to load icon for " + identifier.toString());
+            }
+        }
 
-		try {
-			BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/banner/banner_default.png"));
-			g.drawImage(icon, 0, 0, BANNER_WIDTH, BANNER_HEIGHT, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        g.dispose();
+        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.ICON_TEXTURES, new DynamicTexture(atlas));
+    }
 
-		index++;
+    private void generateBannerAtlas() {
+        final int BANNER_WIDTH = 250;
+        final int BANNER_HEIGHT = 40;
+        int index = 0;
 
-		for (AppInfo info : ApplicationManager.getAllApplications()) {
-			if (info.getBanner() == null)
-				continue;
+        BufferedImage atlas = new BufferedImage(BANNER_WIDTH * 16, BANNER_HEIGHT * 16, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = atlas.createGraphics();
 
-			ResourceLocation identifier = info.getId();
-			ResourceLocation iconResource = new ResourceLocation(info.getBanner());
-			String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
-			try {
-				InputStream input = ClientProxy.class.getResourceAsStream(path);
-				if (input != null) {
-					BufferedImage banner = TextureUtil.readBufferedImage(input);
-					if (banner.getWidth() != BANNER_WIDTH || banner.getHeight() != BANNER_HEIGHT) {
-						HuskyGadgetMod.getLogger().error("Incorrect banner size for " + identifier.toString() + " (Must be 250 by 40 pixels)");
-						continue;
-					}
-					int bannerU = (index % 16) * BANNER_WIDTH;
-					int bannerV = (index / 16) * BANNER_HEIGHT;
-					g.drawImage(banner, bannerU, bannerV, BANNER_WIDTH, BANNER_HEIGHT, null);
-					updateBanner(info, bannerU, bannerV);
-					index++;
-				} else {
-					HuskyGadgetMod.getLogger().error("Banner for application '" + identifier.toString() + "' could not be found at '" + path + "'");
-				}
-			} catch (Exception e) {
-				HuskyGadgetMod.getLogger().error("Unable to load banner for " + identifier.toString());
-			}
-		}
+        try {
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/banner/banner_default.png"));
+            g.drawImage(icon, 0, 0, BANNER_WIDTH, BANNER_HEIGHT, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		g.dispose();
-		Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.BANNER_TEXTURES, new DynamicTexture(atlas));
-	}
+        index++;
 
-	private void updateIcon(AppInfo info, int iconU, int iconV) {
-		ReflectionHelper.setPrivateValue(AppInfo.class, info, iconU, "iconU");
-		ReflectionHelper.setPrivateValue(AppInfo.class, info, iconV, "iconV");
-	}
+        for (AppInfo info : ApplicationManager.getAllApplications()) {
+            if (info.getBanner() == null)
+                continue;
 
-	private void updateBanner(AppInfo info, int bannerU, int bannerV) {
-		ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "bannerU");
-		ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "bannerV");
-	}
+            ResourceLocation identifier = info.getId();
+            ResourceLocation iconResource = new ResourceLocation(info.getBanner());
+            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
+            try {
+                InputStream input = ClientProxy.class.getResourceAsStream(path);
+                if (input != null) {
+                    BufferedImage banner = TextureUtil.readBufferedImage(input);
+                    if (banner.getWidth() != BANNER_WIDTH || banner.getHeight() != BANNER_HEIGHT) {
+                        HuskyGadgetMod.getLogger().error("Incorrect banner size for " + identifier.toString() + " (Must be 250 by 40 pixels)");
+                        continue;
+                    }
+                    int bannerU = (index % 16) * BANNER_WIDTH;
+                    int bannerV = (index / 16) * BANNER_HEIGHT;
+                    g.drawImage(banner, bannerU, bannerV, BANNER_WIDTH, BANNER_HEIGHT, null);
+                    updateBanner(info, bannerU, bannerV);
+                    index++;
+                } else {
+                    HuskyGadgetMod.getLogger().error("Banner for application '" + identifier.toString() + "' could not be found at '" + path + "'");
+                }
+            } catch (Exception e) {
+                HuskyGadgetMod.getLogger().error("Unable to load banner for " + identifier.toString());
+            }
+        }
 
-	@Nullable
-	@Override
-	public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
-		if ("minecraft".equals(identifier.getResourceDomain())) {
-			throw new IllegalArgumentException("Invalid identifier domain");
-		}
+        g.dispose();
+        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.BANNER_TEXTURES, new DynamicTexture(atlas));
+    }
 
-		try {
-			Application application = clazz.newInstance();
-			java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
-			APPS.add(application);
+    private void updateIcon(AppInfo info, int iconU, int iconV) {
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconU, "iconU");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconV, "iconV");
+    }
 
-			Field field = Application.class.getDeclaredField("info");
-			field.setAccessible(true);
+    private void updateBanner(AppInfo info, int bannerU, int bannerV) {
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "bannerU");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "bannerV");
+    }
 
-			Field modifiers = Field.class.getDeclaredField("modifiers");
-			modifiers.setAccessible(true);
-			modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+    @Nullable
+    @Override
+    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+        if ("minecraft".equals(identifier.getResourceDomain())) {
+            throw new IllegalArgumentException("Invalid identifier domain");
+        }
 
-			field.set(application, generateAppInfo(identifier, clazz));
+        try {
+            Application application = clazz.newInstance();
+            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
+            APPS.add(application);
 
-			return application;
-		} catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-			e.printStackTrace();
-		}
+            Field field = Application.class.getDeclaredField("info");
+            field.setAccessible(true);
 
-		return null;
-	}
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
-	@Override
-	public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
-		try {
-			Constructor<? extends IPrint> constructor = classPrint.getConstructor();
-			IPrint print = constructor.newInstance();
-			Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
-			try {
-				IPrint.Renderer renderer = classRenderer.newInstance();
-				Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
-				if (idToRenderer == null) {
-					idToRenderer = new HashMap<>();
-					ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
-				}
-				idToRenderer.put(identifier.toString(), renderer);
-			} catch (InstantiationException e) {
-				HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
-				return false;
-			}
-			return true;
-		} catch (Exception e) {
-			HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
-		}
-		return false;
-	}
+            field.set(application, generateAppInfo(identifier, clazz));
 
-	@Nullable
-	private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
-		AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
-		info.reload();
-		return info;
-	}
+            return application;
+        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
 
-	@Override
-	public void onResourceManagerReload(IResourceManager resourceManager) {
-		if (ApplicationManager.getAllApplications().size() > 0) {
-			ApplicationManager.getAllApplications().forEach(AppInfo::reload);
-			generateIconAtlas();
-		}
-	}
+        return null;
+    }
 
-	@SubscribeEvent
-	public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-		allowedApps = null;
-		DeviceConfig.restore();
-	}
+    @Override
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
+        try {
+            Constructor<? extends IPrint> constructor = classPrint.getConstructor();
+            IPrint print = constructor.newInstance();
+            Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
+            try {
+                IPrint.Renderer renderer = classRenderer.newInstance();
+                Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
+                if (idToRenderer == null) {
+                    idToRenderer = new HashMap<>();
+                    ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
+                }
+                idToRenderer.put(identifier.toString(), renderer);
+            } catch (InstantiationException e) {
+                HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
+        }
+        return false;
+    }
 
-	@Override
-	public void showNotification(NBTTagCompound tag) {
-		ClientNotification notification = ClientNotification.loadFromTag(tag);
-		notification.push();
-	}
+    @Nullable
+    private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
+        AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
+        info.reload();
+        return info;
+    }
+
+    @Override
+    public void onResourceManagerReload(IResourceManager resourceManager) {
+        if (ApplicationManager.getAllApplications().size() > 0) {
+            ApplicationManager.getAllApplications().forEach(AppInfo::reload);
+            generateIconAtlas();
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        allowedApps = null;
+        DeviceConfig.restore();
+    }
+
+    @Override
+    public void showNotification(NBTTagCompound tag) {
+        ClientNotification notification = ClientNotification.loadFromTag(tag);
+        notification.push();
+    }
 
 }

@@ -1,0 +1,28 @@
+{
+    "result": {
+        "item": "hgm:wifi"
+    },
+    "pattern": [
+        " E ",
+        "IDI",
+        "RPR"
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "E": {
+            "item": "minecraft:end_rod"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "D": {
+            "item": "minecraft:ender_pearl"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "P": {
+            "item": "hgm:printed_circuit"
+        }
+    }
+}

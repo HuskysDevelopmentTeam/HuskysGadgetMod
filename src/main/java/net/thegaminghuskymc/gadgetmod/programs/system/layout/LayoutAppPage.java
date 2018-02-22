@@ -42,7 +42,7 @@ public class LayoutAppPage extends Layout {
 
         Image imageBanner = new Image(0, 0, 250, 40);
         imageBanner.setDrawFull(true);
-        if(info.getBanner() != null) {
+        if (info.getBanner() != null) {
             imageBanner.setImage(new ResourceLocation(info.getBanner()));
         } else {
             imageBanner.setImage(new ResourceLocation(Reference.MOD_ID, "textures/app/banner/banner_default"));

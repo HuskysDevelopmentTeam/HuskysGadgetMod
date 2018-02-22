@@ -1,11 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -15,23 +16,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
 import net.thegaminghuskymc.gadgetmod.util.SeatUtil;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColored;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 
-/**
- * Author: MrCrayfish
- */
-public class BlockOfficeChair extends BlockDevice.Colored {
+public class BlockOfficeChair extends BlockColoredFacing {
+
     public static final PropertyEnum<Type> TYPE = PropertyEnum.create("type", Type.class);
 
-    public BlockOfficeChair() {
-        super(Material.ROCK);
-        this.setUnlocalizedName("office_chair");
-        this.setRegistryName("office_chair");
+    public BlockOfficeChair(EnumDyeColor color) {
+        super(Reference.MOD_ID, "office_chair", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
     }
 
     @Override
@@ -76,7 +76,22 @@ public class BlockOfficeChair extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR, TYPE);
+        return new BlockStateContainer(this, FACING, TYPE);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getHorizontalIndex();
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+    }
+
+    @Override
+    public String getPrefix() {
+        return Reference.MOD_ID;
     }
 
     public enum Type implements IStringSerializable {

@@ -12,7 +12,7 @@ public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 
     private static int ID = 1;
-    
+
     public static void init() {
         registerMessage(MessageRequest.class, MessageRequest.class, Side.SERVER);
         registerMessage(MessageResponse.class, MessageResponse.class, Side.CLIENT);
@@ -22,9 +22,9 @@ public class PacketHandler {
         registerMessage(MessageUnlockAdvancement.class, MessageUnlockAdvancement.class, Side.SERVER);
         registerMessage(MessageNotification.class, MessageNotification.class, Side.CLIENT);
     }
-    
+
     public static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(Class<? extends IMessageHandler<REQ, REPLY>> handlerClazz, Class<REQ> messageClazz, Side side) {
-    	INSTANCE.registerMessage(handlerClazz, messageClazz, ID, side);
-    	ID++;
+        INSTANCE.registerMessage(handlerClazz, messageClazz, ID, side);
+        ID++;
     }
 }

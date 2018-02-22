@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 
 /**
  * The abstract base class for creating applications.
- *
  */
 public abstract class Application extends Wrappable {
 

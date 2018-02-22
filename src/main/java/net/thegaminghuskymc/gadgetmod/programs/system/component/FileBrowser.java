@@ -27,7 +27,6 @@ import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
-import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
@@ -46,15 +45,11 @@ import java.util.stream.Collectors;
 public class FileBrowser extends Component {
 
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
-
+    public static boolean refreshList = false;
     private static ColourScheme colourScheme = new ColourScheme();
-
     private static final int ITEM_BACKGROUND = colourScheme.getItemBackgroundColour();
     private static final int ITEM_SELECTED = colourScheme.getItemHighlightColour();
     private static final int PROTECTED_FILE = colourScheme.getProtectedFileColour();
-
-    public static boolean refreshList = false;
-
     private final Wrappable wrappable;
     private final Mode mode;
 
@@ -96,7 +91,7 @@ public class FileBrowser extends Component {
 
     @Override
     public void init(Layout layout) {
-    	System.out.println("init");
+        System.out.println("init");
         Layout layoutMain = new Layout(mode.getWidth(), mode.getHeight());
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
@@ -302,7 +297,7 @@ public class FileBrowser extends Component {
 
     @Override
     public void handleOnLoad() {
-    	System.out.println("handleOnLoad");
+        System.out.println("handleOnLoad");
         if (!loadedStructure) {
             setLoading(true);
             Task task = new TaskSetupFileBrowser(Laptop.getPos(), Laptop.getMainDrive() == null);

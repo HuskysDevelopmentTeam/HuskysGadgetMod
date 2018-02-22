@@ -6,14 +6,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityBenchmarkStation extends TileEntityDevice.Colored {
+public class TileEntityBenchmarkStation extends TileEntityColoredDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
     private String name = "Benchmark Station";
     private boolean powered = false;
-    @SideOnly(Side.CLIENT)
-    private float prevRotation;
 
     @Override
     public String getDeviceName() {
@@ -23,7 +21,6 @@ public class TileEntityBenchmarkStation extends TileEntityDevice.Colored {
     @Override
     public void update() {
         if (world.isRemote) {
-            prevRotation = rotation;
             if (!powered) {
                 if (rotation > 0) {
                     rotation -= 10F;

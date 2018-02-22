@@ -6,7 +6,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityMonitor extends TileEntityDevice.Colored {
+public class TileEntityMonitor extends TileEntityColoredDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;

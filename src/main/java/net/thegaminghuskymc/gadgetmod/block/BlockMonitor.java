@@ -2,13 +2,13 @@ package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitor;
@@ -31,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockMonitor extends BlockDevice.Colored {
+public class BlockMonitor extends BlockColoredDevice {
 
     private static final Bounds FEET_BOUNDS = new Bounds(5 * 0.0625, 0.0, 1 * 0.0625, 14 * 0.0625, 5 * 0.0625, 15 * 0.0625);
     private static final AxisAlignedBB FEET_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, FEET_BOUNDS);
@@ -49,11 +48,9 @@ public class BlockMonitor extends BlockDevice.Colored {
 
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
 
-    public BlockMonitor() {
-        super(Material.ANVIL);
+    public BlockMonitor(EnumDyeColor color) {
+        super("monitor", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("monitor");
-        this.setRegistryName(Reference.MOD_ID, "monitor");
     }
 
     @Nullable
@@ -101,7 +98,7 @@ public class BlockMonitor extends BlockDevice.Colored {
                 }
             } else {
                 if (monitor.isPowered() && worldIn.isRemote) {
-                    if(monitor.isComputerConnected()) {
+                    if (monitor.isComputerConnected()) {
                         playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
                     }
                 }

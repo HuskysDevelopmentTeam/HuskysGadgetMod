@@ -5,5 +5,4 @@ public interface IBootable {
     void getBootableDisk();
 
 
-
 }

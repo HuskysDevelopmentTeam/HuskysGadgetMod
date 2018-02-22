@@ -32,7 +32,9 @@ public class ApplicationIcons extends Application {
         layoutContainer = new Layout(330, 153);
         layoutMain.addComponent(layoutContainer);
 
-        IconSet[] iconSets = new IconSet[]{new IconSet("Standard Icons", Icons.values()), new IconSet("Alphabet", Alphabet.values()), new IconSet("Emojies", EmojiesMRC.values())};
+        IconSet[] iconSets = new IconSet[]{new IconSet("Standard Icons", Icons.values()),
+                new IconSet("Alphabet", Alphabet.values()),
+                new IconSet("Emojies", EmojiesMRC.values())};
         iconSetComboBox = new ComboBox.List<>(191, 3, 100, iconSets);
         iconSetComboBox.setChangeListener((oldValue, newValue) ->
         {

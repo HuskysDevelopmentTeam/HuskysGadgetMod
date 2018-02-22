@@ -5,11 +5,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
+import net.thegaminghuskymc.huskylib2.lib.blocks.tile.TileMod;
 
-/**
- * Author: MrCrayfish
- */
-public abstract class TileEntitySync extends TileEntity {
+public abstract class TileEntitySync extends TileMod {
 
     protected NBTTagCompound pipeline = new NBTTagCompound();
 

@@ -2,7 +2,6 @@ package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +25,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
@@ -37,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockLaptop extends BlockDevice.Colored {
+public class BlockLaptop extends BlockColoredDevice {
 
     public static final PropertyEnum TYPE = PropertyEnum.create("type", Type.class);
 
@@ -47,12 +45,10 @@ public class BlockLaptop extends BlockDevice.Colored {
     private static final AxisAlignedBB SELECTION_BOX_OPEN = new AxisAlignedBB(0, 0, 0, 1, 12 * 0.0625, 1);
     private static final AxisAlignedBB SELECTION_BOX_CLOSED = new AxisAlignedBB(0, 0, 0, 1, 3 * 0.0625, 1);
 
-    public BlockLaptop() {
-        super(Material.ANVIL);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.BASE));
+    public BlockLaptop(EnumDyeColor color) {
+        super("laptop", color);
+        this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("laptop");
-        this.setRegistryName(Reference.MOD_ID, "laptop");
     }
 
     @Override
@@ -98,13 +94,6 @@ public class BlockLaptop extends BlockDevice.Colored {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-        if(!worldIn.isRemote && playerIn.isSneaking()) {
-            if(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) == new ItemStack(Items.DYE,1)) {
-                setDefaultState(getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.byDyeDamage(new ItemStack(Items.DYE,1).getMetadata())));
-                HuskyGadgetMod.getLogger().info("You right-clicked with: " + EnumDyeColor.byDyeDamage(new ItemStack(Items.DYE,1).getMetadata()));
-            }
-        }
-
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof TileEntityLaptop) {
             TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;
@@ -116,7 +105,7 @@ public class BlockLaptop extends BlockDevice.Colored {
             } else {
                 if (side == state.getValue(FACING).rotateYCCW()) {
                     ItemStack heldItem = playerIn.getHeldItem(hand);
-                    if (!heldItem.isEmpty() && heldItem.getItem() == GadgetItems.flash_drive) {
+                    if (!heldItem.isEmpty() && heldItem.getItem() == GadgetItems.flash_drives) {
                         if (!worldIn.isRemote) {
                             if (laptop.getFileSystem().setAttachedDrive(heldItem.copy())) {
                                 heldItem.shrink(1);
@@ -183,6 +172,12 @@ public class BlockLaptop extends BlockDevice.Colored {
         return new TileEntityLaptop();
     }
 
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityLaptop();
+    }
+
     @Override
     public int getMetaFromState(IBlockState state) {
         return (state.getValue(FACING)).getHorizontalIndex();
@@ -197,7 +192,6 @@ public class BlockLaptop extends BlockDevice.Colored {
     protected BlockStateContainer createBlockState() {
         BlockStateContainer.Builder builder = new BlockStateContainer.Builder(this);
         builder.add(FACING, TYPE);
-        builder.add(BlockColored.COLOR);
         return builder.build();
     }
 

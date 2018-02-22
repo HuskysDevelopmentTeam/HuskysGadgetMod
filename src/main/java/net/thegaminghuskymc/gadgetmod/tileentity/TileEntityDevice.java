@@ -12,16 +12,13 @@ import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public abstract class TileEntityDevice extends TileEntitySync implements ITickable
-{
-    private EnumDyeColor color = EnumDyeColor.WHITE;
+public abstract class TileEntityDevice extends TileEntitySync implements ITickable {
+
     private UUID deviceId;
     private String name;
 
-    public final UUID getId()
-    {
-        if(deviceId == null)
-        {
+    public final UUID getId() {
+        if (deviceId == null) {
             deviceId = UUID.randomUUID();
         }
         return deviceId;
@@ -29,111 +26,52 @@ public abstract class TileEntityDevice extends TileEntitySync implements ITickab
 
     public abstract String getDeviceName();
 
-    public String getCustomName()
-    {
+    public String getCustomName() {
         return hasCustomName() ? name : getDeviceName();
     }
 
-    public void setCustomName(String name)
-    {
+    public void setCustomName(String name) {
         this.name = name;
     }
 
-    public boolean hasCustomName()
-    {
+    public boolean hasCustomName() {
         return !StringUtils.isEmpty(name);
     }
 
     @Nullable
     @Override
-    public ITextComponent getDisplayName()
-    {
+    public ITextComponent getDisplayName() {
         return new TextComponentString(getCustomName());
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setString("deviceId", getId().toString());
-        if(hasCustomName())
-        {
+        if (hasCustomName()) {
             compound.setString("name", name);
         }
-        compound.setByte("color", (byte) color.getMetadata());
         return compound;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if(compound.hasKey("deviceId", Constants.NBT.TAG_STRING))
-        {
+        if (compound.hasKey("deviceId", Constants.NBT.TAG_STRING)) {
             deviceId = UUID.fromString(compound.getString("deviceId"));
         }
-        if(compound.hasKey("name", Constants.NBT.TAG_STRING))
-        {
+        if (compound.hasKey("name", Constants.NBT.TAG_STRING)) {
             name = compound.getString("name");
-        }
-        if(compound.hasKey("color", Constants.NBT.TAG_BYTE))
-        {
-            this.color = EnumDyeColor.byMetadata(compound.getByte("color"));
         }
     }
 
     @Override
-    public NBTTagCompound writeSyncTag()
-    {
+    public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        if(hasCustomName())
-        {
+        if (hasCustomName()) {
             tag.setString("name", name);
         }
-        tag.setByte("color", (byte) color.getMetadata());
         return tag;
     }
 
-    public static abstract class Colored extends TileEntityDevice implements IColored
-    {
-        private EnumDyeColor color = EnumDyeColor.RED;
-
-        @Override
-        public void readFromNBT(NBTTagCompound compound)
-        {
-            super.readFromNBT(compound);
-            if(compound.hasKey("color", Constants.NBT.TAG_BYTE))
-            {
-                this.color = EnumDyeColor.byMetadata(compound.getByte("color"));
-            }
-        }
-
-        @Override
-        public NBTTagCompound writeToNBT(NBTTagCompound compound)
-        {
-            super.writeToNBT(compound);
-            compound.setByte("color", (byte) color.getMetadata());
-            return compound;
-        }
-
-        @Override
-        public NBTTagCompound writeSyncTag()
-        {
-            NBTTagCompound tag = super.writeSyncTag();
-            tag.setByte("color", (byte) color.getMetadata());
-            return tag;
-        }
-
-        @Override
-        public final void setColor(EnumDyeColor color)
-        {
-            this.color = color;
-        }
-
-        @Override
-        public final EnumDyeColor getColor()
-        {
-            return color;
-        }
-    }
 }

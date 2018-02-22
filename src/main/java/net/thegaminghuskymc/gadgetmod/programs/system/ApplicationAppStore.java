@@ -69,7 +69,7 @@ public class ApplicationAppStore extends Application {
 
         Layout layoutSystemApplications = new Layout(LAYOUT_WIDTH, LAYOUT_HEIGHT);
 
-        ItemList<AppInfo> itemListSystemApplications = new ItemList<>(30, 30,100, 8,true);
+        ItemList<AppInfo> itemListSystemApplications = new ItemList<>(30, 30, 100, 8, true);
         itemListSystemApplications.setItems(new ArrayList<>(ApplicationManager.getSystemApplications()));
         itemListSystemApplications.sortBy(Comparator.comparing(AppInfo::getName));
         itemListSystemApplications.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
@@ -98,7 +98,7 @@ public class ApplicationAppStore extends Application {
 
         Button btnSystemApps = new Button(194, 44, Icons.CHECK);
         btnSystemApps.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
+            if (mouseButton == 0) {
                 setCurrentLayout(layoutSystemApplications);
             }
         });

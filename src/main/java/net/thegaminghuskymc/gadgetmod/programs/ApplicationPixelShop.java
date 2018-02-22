@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
@@ -30,7 +30,6 @@ import net.thegaminghuskymc.gadgetmod.object.Picture;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
 import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class ApplicationPixelShop extends Application {
@@ -40,24 +39,20 @@ public class ApplicationPixelShop extends Application {
     private static final Color ITEM_BACKGROUND = new Color(170, 176, 194);
     private static final Color ITEM_SELECTED = new Color(200, 176, 174);
     private static final Color AUTHOR_TEXT = new Color(114, 120, 138);
-
+    private static Canvas canvas;
     /* Main Menu */
     private StandardLayout layoutMainMenu;
-
     /* New Picture */
     private Layout layoutNewPicture;
     private TextField fieldName;
     private TextField fieldAuthor;
-
     /* Load Picture */
     private Layout layoutLoadPicture;
     private ItemList<Picture> listPictures;
     private Button btnLoadSavedPicture;
     private Button btnDeleteSavedPicture;
-
     /* Drawing */
     private Layout layoutDraw;
-    private static Canvas canvas;
     private CheckBox displayGrid;
 
     private ComboBox.Custom<Integer> colourPicker;
@@ -71,11 +66,9 @@ public class ApplicationPixelShop extends Application {
         RenderUtil.drawApplicationIcon(info, getHeight() / 2, getHeight() / 2);
 
         ItemList<Picture> pictureList = new ItemList<>(5, 43, 80, 4);
-        pictureList.setListItemRenderer(new ListItemRenderer<Picture>(18)
-        {
+        pictureList.setListItemRenderer(new ListItemRenderer<Picture>(18) {
             @Override
-            public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
-            {
+            public void render(Picture picture, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 RenderUtil.drawStringClipped("Henlo", x, y, 100, AUTHOR_TEXT.getRGB(), true);
             }
         });
@@ -85,7 +78,7 @@ public class ApplicationPixelShop extends Application {
         btnNewPicture.setSize(40, 16);
         btnNewPicture.setToolTip("New Picture", "Start a new masterpiece!");
         btnNewPicture.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if(mouseButton == 0) {
+            if (mouseButton == 0) {
                 setCurrentLayout(layoutNewPicture);
             }
         });
@@ -416,11 +409,20 @@ public class ApplicationPixelShop extends Application {
 
         public PicturePrint() {
         }
-        
+
         public PicturePrint(String name, int[] pixels, int resolution) {
             this.name = name;
-            this.pixels = pixels;
+            this.setPicture(pixels);
+        }
+
+        private void setPicture(int[] pixels) {
+            int resolution = (int) Math.sqrt(pixels.length);
+            Picture.Size size = Picture.Size.getFromSize(resolution);
+            if (size == null) {
+                throw new IllegalArgumentException("Invalid pixels");
+            }
             this.resolution = resolution;
+            this.pixels = pixels;
         }
 
         @Override
@@ -452,16 +454,15 @@ public class ApplicationPixelShop extends Application {
             tag.setString("name", name);
             tag.setIntArray("pixels", pixels);
             tag.setInteger("resolution", resolution);
-            if (cut) tag.setBoolean("cut", true);
+            if (cut) tag.setBoolean("cut", cut);
             return tag;
         }
 
         @Override
         public void fromTag(NBTTagCompound tag) {
             name = tag.getString("name");
-            pixels = tag.getIntArray("pixels");
-            resolution = tag.getInteger("resolution");
             cut = tag.getBoolean("cut");
+            setPicture(tag.getIntArray("pixels"));
         }
 
         @Override
@@ -471,7 +472,7 @@ public class ApplicationPixelShop extends Application {
     }
 
     public static class PictureRenderer implements IPrint.Renderer {
-        static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
+        public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/model/paper.png");
 
         @Override
         public boolean render(NBTTagCompound data) {
@@ -496,29 +497,20 @@ public class ApplicationPixelShop extends Application {
 
                 // This creates an flipped copy of the pixel array
                 // as it otherwise would be mirrored
-                int[] pixels2 = new int[pixels.length];
+                int[] flippedPixels = new int[pixels.length];
                 for (int i = 0; i < resolution; i++) {
                     for (int j = 0; j < resolution; j++) {
-                        pixels2[resolution - i - 1 + (resolution - j - 1) * resolution] = pixels[i + j * resolution];
+                        flippedPixels[resolution - i - 1 + (resolution - j - 1) * resolution] = pixels[i + j * resolution];
                     }
                 }
 
-                // Creating a DynamicTexture to represent the picture
-                DynamicTexture texture = new DynamicTexture(resolution, resolution);
-                // This is actually more efficient than providing an BufferedImage
-                // as BIs can lead to a memory leak or similar
-                try {
-                    Field textureDataField = texture.getClass().getDeclaredField("dynamicTextureData");
-                    textureDataField.setAccessible(true);
-                    textureDataField.set(texture, pixels2);
-                    texture.updateDynamicTexture();
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                // Rendering the texture
-                GlStateManager.bindTexture(texture.getGlTextureId());
+                int textureId = TextureUtil.glGenTextures();
+                TextureUtil.allocateTexture(textureId, resolution, resolution);
+                TextureUtil.uploadTexture(textureId, flippedPixels, resolution, resolution);
+
+                GlStateManager.bindTexture(textureId);
                 RenderUtil.drawRectWithTexture(-1, 0, 0, 0, 1, 1, resolution, resolution, resolution, resolution);
-                GlStateManager.deleteTexture(texture.getGlTextureId());
+                GlStateManager.deleteTexture(textureId);
 
                 GlStateManager.disableRescaleNormal();
                 GlStateManager.disableBlend();

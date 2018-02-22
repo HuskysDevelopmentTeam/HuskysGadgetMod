@@ -11,67 +11,65 @@ import net.thegaminghuskymc.gadgetmod.api.app.interfaces.IHighlight;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 
-public class ApplicationTextArea extends Application
-{
+public class ApplicationTextArea extends Application {
     public static final IHighlight JAVA_HIGHLIGHT = text ->
     {
-        if(text.startsWith("@"))
+        if (text.startsWith("@"))
             return asArray(TextFormatting.YELLOW);
 
-        if(text.startsWith("\"") && text.endsWith("\""))
+        if (text.startsWith("\"") && text.endsWith("\""))
             return asArray(TextFormatting.AQUA);
 
-        switch(text)
-        {
-            case "abstract":	
-            case "continue":	
-            case "for":	
-            case "new":	
+        switch (text) {
+            case "abstract":
+            case "continue":
+            case "for":
+            case "new":
             case "switch":
             case "assert":
             case "default":
             case "goto":
-            case "package":	
+            case "package":
             case "synchronized":
-            case "boolean":	
-            case "do":	
-            case "if":	
-            case "private":	
+            case "boolean":
+            case "do":
+            case "if":
+            case "private":
             case "this":
-            case "break":	
-            case "double":	
-            case "implements":	
-            case "protected":	
+            case "break":
+            case "double":
+            case "implements":
+            case "protected":
             case "throw":
-            case "byte":	
-            case "else":	
-            case "import":	
-            case "public":	
+            case "byte":
+            case "else":
+            case "import":
+            case "public":
             case "throws":
-            case "case":	
-            case "enum":	
-            case "instanceof":	
-            case "return":	
+            case "case":
+            case "enum":
+            case "instanceof":
+            case "return":
             case "transient":
-            case "catch":	
-            case "extends":	
-            case "int":	
-            case "short":	
+            case "catch":
+            case "extends":
+            case "int":
+            case "short":
             case "try":
-            case "char":	
-            case "final":	
-            case "interface":	
-            case "static":	
+            case "char":
+            case "final":
+            case "interface":
+            case "static":
             case "void":
-            case "class":	
-            case "finally":	
-            case "long":	
-            case "strictfp":	
+            case "class":
+            case "finally":
+            case "long":
+            case "strictfp":
             case "volatile":
-            case "const":	
-            case "float":	
-            case "native":	
-            case "super":	
+            case "const":
+            case "float":
+            case "native":
+            case "super":
             case "while":
             case "null":
                 return asArray(TextFormatting.BLUE);
@@ -80,9 +78,12 @@ public class ApplicationTextArea extends Application
         }
     };
 
+    private static <T extends Object> T[] asArray(T... t) {
+        return t;
+    }
+
     @Override
-    public void init()
-    {
+    public void init() {
         Layout layout = new Layout(250, 150);
 
         TextArea textArea = new TextArea(5, 25, 240, 120);
@@ -93,8 +94,7 @@ public class ApplicationTextArea extends Application
         buttonWordWrap.setToolTip("Word Wrap", "Break the lines to fit in the view");
         buttonWordWrap.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
+            if (mouseButton == 0) {
                 textArea.setWrapText(!buttonWordWrap.isSelected());
             }
         });
@@ -104,9 +104,8 @@ public class ApplicationTextArea extends Application
         buttonDebug.setToolTip("Debug Mode", "Show invisible characters");
         buttonDebug.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                ((LaptopFontRenderer)Laptop.fontRenderer).setDebug(!buttonDebug.isSelected());
+            if (mouseButton == 0) {
+                ((LaptopFontRenderer) Laptop.fontRenderer).setDebug(!buttonDebug.isSelected());
             }
         });
         layout.addComponent(buttonDebug);
@@ -115,14 +114,10 @@ public class ApplicationTextArea extends Application
         buttonHighlight.setToolTip("Highlight", "Set text highlighting to Java");
         buttonHighlight.setClickListener((mouseX, mouseY, mouseButton) ->
         {
-            if(mouseButton == 0)
-            {
-                if(!buttonHighlight.isSelected())
-                {
+            if (mouseButton == 0) {
+                if (!buttonHighlight.isSelected()) {
                     textArea.setHighlight(JAVA_HIGHLIGHT);
-                }
-                else
-                {
+                } else {
                     textArea.setHighlight(null);
                 }
             }
@@ -133,19 +128,12 @@ public class ApplicationTextArea extends Application
     }
 
     @Override
-    public void load(NBTTagCompound tagCompound)
-    {
+    public void load(NBTTagCompound tagCompound) {
 
     }
 
     @Override
-    public void save(NBTTagCompound tagCompound)
-    {
+    public void save(NBTTagCompound tagCompound) {
 
-    }
-
-    private static <T extends Object> T[] asArray(T ... t)
-    {
-        return t;
     }
 }

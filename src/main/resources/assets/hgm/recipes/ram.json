@@ -1,0 +1,25 @@
+{
+    "result": {
+        "item": "hgm:ram"
+    },
+    "pattern": [
+        "BBB",
+        "RCR",
+        "GGG"
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "B": {
+            "item": "hgm:printed_circuit"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "C": {
+            "item": "minecraft:end_crystal"
+        },
+        "G": {
+            "item": "minecraft:gold_nugget"
+        }
+    }
+}

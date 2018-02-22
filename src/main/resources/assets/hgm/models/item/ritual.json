@@ -1,0 +1,28 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "hgm:blocks/ritual",
+		"particle": "Pictures/ritual"
+	},
+	"elements": [
+		{
+			"name": "cube",
+			"from": [-16, 0, -16],
+			"to": [32, 0.3, 32],
+			"faces": {
+				"up": {
+					"uv": [0, 0, 16, 16],
+					"texture": "#0",
+					"tintindex": 0
+				},
+				"down": {
+					"uv": [0, 0, 16, 16],
+					"texture": "#0",
+					"tintindex": 0
+				}
+			},
+			"type": "cube"
+		}
+	],
+	"display": {}
+}

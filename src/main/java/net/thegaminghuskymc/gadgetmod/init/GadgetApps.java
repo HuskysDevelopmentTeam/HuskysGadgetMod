@@ -5,14 +5,11 @@ import net.minecraftforge.fml.common.Loader;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.programs.*;
+import net.thegaminghuskymc.gadgetmod.programs.ApplicationTest;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
 import net.thegaminghuskymc.gadgetmod.programs.debug.ApplicationTextArea;
 import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationCackler;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationFlameChat;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelBook;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelPlus;
-import net.thegaminghuskymc.gadgetmod.programs.social_medias.ApplicationPixelTube;
+import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.*;
 
 public class GadgetApps {

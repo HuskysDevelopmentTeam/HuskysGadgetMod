@@ -22,12 +22,28 @@ public final class NetworkDrive extends AbstractDrive {
 
     private BlockPos pos;
 
-    private NetworkDrive() {}
+    private NetworkDrive() {
+    }
 
     public NetworkDrive(String name, BlockPos pos) {
         super(name);
         this.pos = pos;
         this.root = null;
+    }
+
+    @Nullable
+    public static AbstractDrive fromTag(NBTTagCompound driveTag) {
+        if (!PREDICATE_DRIVE_TAG.test(driveTag))
+            return null;
+
+        AbstractDrive drive = new NetworkDrive();
+        drive.name = driveTag.getString("name");
+        drive.uuid = UUID.fromString(driveTag.getString("uuid"));
+
+        NBTTagCompound folderTag = driveTag.getCompoundTag("root");
+        drive.root = ServerFolder.fromTag(folderTag.getString("file_name"), folderTag.getCompoundTag("data"));
+
+        return drive;
     }
 
     @Nullable
@@ -62,21 +78,6 @@ public final class NetworkDrive extends AbstractDrive {
     @Override
     public ServerFolder getFolder(String path) {
         return null;
-    }
-
-    @Nullable
-    public static AbstractDrive fromTag(NBTTagCompound driveTag) {
-        if (!PREDICATE_DRIVE_TAG.test(driveTag))
-            return null;
-
-        AbstractDrive drive = new NetworkDrive();
-        drive.name = driveTag.getString("name");
-        drive.uuid = UUID.fromString(driveTag.getString("uuid"));
-
-        NBTTagCompound folderTag = driveTag.getCompoundTag("root");
-        drive.root = ServerFolder.fromTag(folderTag.getString("file_name"), folderTag.getCompoundTag("data"));
-
-        return drive;
     }
 
     @Override

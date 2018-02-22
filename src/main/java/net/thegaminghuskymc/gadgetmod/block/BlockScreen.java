@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -22,7 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityScreen;
 
@@ -30,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockScreen extends BlockDevice.Colored {
+public class BlockScreen extends BlockDevice {
 
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
     private static final PropertyEnum TYPE = PropertyEnum.create("type", Type.class);
@@ -40,11 +38,9 @@ public class BlockScreen extends BlockDevice.Colored {
     private static final AxisAlignedBB[] SELECTION_VERTICAL_BOUNDING_BOX = new Bounds(13, 0, 1, 16, 10, 15).getRotatedBounds();
 
     public BlockScreen() {
-        super(Material.ANVIL);
+        super(Material.ANVIL, "screen");
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.LONELY));
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("screen");
-        this.setRegistryName(Reference.MOD_ID, "screen");
     }
 
     @Override
@@ -105,14 +101,11 @@ public class BlockScreen extends BlockDevice.Colored {
             tileEntityTag.removeTag("y");
             tileEntityTag.removeTag("z");
             tileEntityTag.removeTag("id");
-            byte color = tileEntityTag.getByte("color");
-            tileEntityTag.removeTag("color");
 
             NBTTagCompound compound = new NBTTagCompound();
             compound.setTag("BlockEntityTag", tileEntityTag);
 
             ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
-            drop.setItemDamage(15 - color);
             drop.setTagCompound(compound);
 
             worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
@@ -143,7 +136,7 @@ public class BlockScreen extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, TYPE, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING, TYPE);
     }
 
     @Override

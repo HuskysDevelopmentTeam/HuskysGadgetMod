@@ -23,7 +23,6 @@ import static scala.actors.threadpool.Arrays.asList;
  * is in quotes is because it's client side only. If you want to process anything,
  * you'll have to sendTask the selected item slot to the server and process it there.
  * You can use a {@link Task} to perform this.
- *
  */
 public class Inventory extends Component {
 

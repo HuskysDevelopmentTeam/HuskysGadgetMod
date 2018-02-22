@@ -1,13 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -17,16 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityExternalHarddrive;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockExternalHarddrive extends BlockDevice.Colored {
+public class BlockExternalHarddrive extends BlockColoredDevice {
 
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
@@ -35,11 +32,9 @@ public class BlockExternalHarddrive extends BlockDevice.Colored {
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = new Bounds(3, 0, 1, 13, 3, 15).getRotatedBounds();
     private static final AxisAlignedBB[] SELECTION_VERTICAL_BOUNDING_BOX = new Bounds(13, 0, 1, 16, 10, 15).getRotatedBounds();
 
-    public BlockExternalHarddrive() {
-        super(Material.ANVIL);
+    public BlockExternalHarddrive(EnumDyeColor color) {
+        super("external_hard_drive", color);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("external_harddrive");
-        this.setRegistryName(Reference.MOD_ID, "external_harddrive");
     }
 
     @Nullable
@@ -110,6 +105,6 @@ public class BlockExternalHarddrive extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, VERTICAL, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING, VERTICAL);
     }
 }

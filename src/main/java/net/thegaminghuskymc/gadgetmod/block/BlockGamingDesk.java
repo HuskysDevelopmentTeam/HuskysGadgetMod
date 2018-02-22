@@ -1,12 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -19,11 +18,12 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityGamingDesk;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockGamingDesk extends BlockDevice.Colored {
+public class BlockGamingDesk extends BlockColoredFacing {
 
     private static final Bounds BODY_BOUNDS = new Bounds(0.0, 0.0, 0.0, 1.0, 1.0, 2.0);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -39,11 +39,9 @@ public class BlockGamingDesk extends BlockDevice.Colored {
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX_WEST = CollisionHelper.getBlockBounds(EnumFacing.WEST, SELECTION_BOUNDS);
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = {SELECTION_BOUNDING_BOX_SOUTH, SELECTION_BOUNDING_BOX_WEST, SELECTION_BOUNDING_BOX_NORTH, SELECTION_BOUNDING_BOX_EAST};
 
-    public BlockGamingDesk() {
-        super(Material.ANVIL);
+    public BlockGamingDesk(EnumDyeColor color) {
+        super(Reference.MOD_ID, "gaming_desk", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("gaming_desk");
-        this.setRegistryName(Reference.MOD_ID, "gaming_desk");
     }
 
     @Override
@@ -72,7 +70,12 @@ public class BlockGamingDesk extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING);
+    }
+
+    @Override
+    public String getPrefix() {
+        return Reference.MOD_ID;
     }
 
 }

@@ -9,6 +9,7 @@ import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
 
 import java.io.File;
 import java.io.IOException;
+
 public class EmailEvents {
     @SubscribeEvent
     public void load(WorldEvent.Load event) {

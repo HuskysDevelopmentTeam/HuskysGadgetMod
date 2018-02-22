@@ -3,8 +3,6 @@ package net.thegaminghuskymc.gadgetmod.programs.system.object;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 
-import java.awt.*;
-
 public class ColourScheme {
 
     private int textColour;
@@ -45,7 +43,7 @@ public class ColourScheme {
         if (tag.hasKey("itemHighlightColour", Constants.NBT.TAG_INT)) {
             scheme.itemHighlightColour = tag.getInteger("itemHighlightColour");
         }
-        if(tag.hasKey("protectedFileColour", Constants.NBT.TAG_INT)) {
+        if (tag.hasKey("protectedFileColour", Constants.NBT.TAG_INT)) {
             scheme.protectedFileColour = tag.getInteger("protectedFileColour");
         }
         if (tag.hasKey("buttonNormalColour", Constants.NBT.TAG_INT)) {
@@ -77,6 +75,10 @@ public class ColourScheme {
         return headerColour;
     }
 
+    public void setHeaderColour(int headerColour) {
+        this.headerColour = headerColour;
+    }
+
     public int getBackgroundColour() {
         return backgroundColour;
     }
@@ -89,8 +91,16 @@ public class ColourScheme {
         return itemBackgroundColour;
     }
 
+    public void setItemBackgroundColour(int itemBackgroundColour) {
+        this.itemBackgroundColour = itemBackgroundColour;
+    }
+
     public int getItemHighlightColour() {
         return itemHighlightColour;
+    }
+
+    public void setItemHighlightColour(int itemHighlightColour) {
+        this.itemHighlightColour = itemHighlightColour;
     }
 
     public int getProtectedFileColour() {
@@ -115,18 +125,6 @@ public class ColourScheme {
 
     public void setSecondApplicationBarColour(int secondApplicationBarColour) {
         this.secondApplicationBarColour = secondApplicationBarColour;
-    }
-
-    public void setHeaderColour(int headerColour) {
-        this.headerColour = headerColour;
-    }
-
-    public void setItemBackgroundColour(int itemBackgroundColour) {
-        this.itemBackgroundColour = itemBackgroundColour;
-    }
-
-    public void setItemHighlightColour(int itemHighlightColour) {
-        this.itemHighlightColour = itemHighlightColour;
     }
 
     public int getButtonNormalColour() {

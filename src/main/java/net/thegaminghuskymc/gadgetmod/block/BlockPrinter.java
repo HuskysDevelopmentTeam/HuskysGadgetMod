@@ -1,11 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -15,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
@@ -23,7 +23,7 @@ import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockPrinter extends BlockDevice.Colored {
+public class BlockPrinter extends BlockColoredDevice {
 
     private static final Bounds BODY_BOUNDS = new Bounds(5 * 0.0625, 0.0, 1 * 0.0625, 14 * 0.0625, 5 * 0.0625, 15 * 0.0625);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -48,12 +48,10 @@ public class BlockPrinter extends BlockDevice.Colored {
 
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
 
-    public BlockPrinter() {
-        super(Material.ANVIL);
+    public BlockPrinter(EnumDyeColor color) {
+        super("printer", color);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("printer");
-        this.setRegistryName(Reference.MOD_ID, "printer");
     }
 
     @Override
@@ -81,14 +79,22 @@ public class BlockPrinter extends BlockDevice.Colored {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ItemStack heldItem = playerIn.getHeldItem(hand);
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityPrinter) {
-            if (((TileEntityPrinter) tileEntity).addPaper(heldItem, playerIn.isSneaking())) {
-                return true;
+        if (worldIn.isRemote) {
+            return true;
+        } else {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            ItemStack heldItem = playerIn.getHeldItem(hand);
+
+            if (tileentity instanceof TileEntityPrinter) {
+                playerIn.displayGUIChest((TileEntityPrinter) tileentity);
+                playerIn.addStat(StatList.FURNACE_INTERACTION);
+                if (((TileEntityPrinter) tileentity).addPaper(heldItem, playerIn.isSneaking())) {
+                    return true;
+                }
             }
+
+            return true;
         }
-        return false;
     }
 
     @Override

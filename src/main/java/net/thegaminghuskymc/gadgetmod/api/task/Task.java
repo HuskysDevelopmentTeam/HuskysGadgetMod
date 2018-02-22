@@ -16,7 +16,6 @@ import net.minecraft.world.World;
  * <p>
  * <p>Please check out the example applications to get a better understanding
  * how this could be useful to your application.</p>
- *
  */
 public abstract class Task {
     private String name;

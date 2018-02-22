@@ -41,9 +41,9 @@ public class StandardLayout extends Layout {
 
     @Override
     public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
-        Gui.drawRect(x, y, x + width, y + 20, color.getRGB());
-        Gui.drawRect(x, y + 20, x + width, y + 21, color.darker().getRGB());
+        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+        Gui.drawRect(x - 1, y, x + width + 1, y + 20, color.getRGB());
+        Gui.drawRect(x - 1, y + 20, x + width + 1, y + 21, color.darker().getRGB());
 
         if (previous == null && icon != null) {
             icon.draw(mc, x + 5, y + 5);

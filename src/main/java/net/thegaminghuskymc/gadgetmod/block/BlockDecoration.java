@@ -4,20 +4,22 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockFacing;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
-/**
- * Author: MrCrayfish
- */
-public abstract class BlockDecoration extends BlockDevice.Colored {
+public abstract class BlockDecoration extends BlockFacing {
 
-    BlockDecoration(Material materialIn) {
-        super(materialIn);
+    BlockDecoration(Material materialIn, String name) {
+        super(materialIn, Reference.MOD_ID, name);
     }
 
     @Override
@@ -42,6 +44,12 @@ public abstract class BlockDecoration extends BlockDevice.Colored {
 
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    }
+
+
+    @Override
+    public String getPrefix() {
+        return Reference.MOD_ID;
     }
 
 }

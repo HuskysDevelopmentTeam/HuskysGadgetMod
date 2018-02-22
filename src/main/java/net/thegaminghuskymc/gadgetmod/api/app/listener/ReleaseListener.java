@@ -5,7 +5,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.Component;
 /**
  * The release listener interface. Used for handling releasing
  * clicks on components.
- *
  */
 public interface ReleaseListener {
     /**

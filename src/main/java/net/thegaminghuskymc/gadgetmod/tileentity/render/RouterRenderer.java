@@ -25,7 +25,7 @@ public class RouterRenderer extends TileEntitySpecialRenderer<TileEntityRouter> 
     @Override
     public void render(TileEntityRouter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         IBlockState state = te.getWorld().getBlockState(te.getPos());
-        if (state.getBlock() != GadgetBlocks.ROUTER)
+        if (state.getBlock() != GadgetBlocks.routers)
             return;
 
         if (te.isDebug()) {

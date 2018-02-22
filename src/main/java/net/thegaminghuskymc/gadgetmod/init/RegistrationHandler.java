@@ -18,12 +18,13 @@ import net.thegaminghuskymc.gadgetmod.item.SubItems;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class RegistrationHandler {
 
     public static void init() {
-        GadgetBlocks.register();
         GadgetItems.register();
+        GadgetCrafting.register();
     }
 
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
@@ -87,7 +88,7 @@ public class RegistrationHandler {
                     ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(modelLocations.get(i), "inventory"));
                 }
             } else {
-                ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+                ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
             }
         }
     }

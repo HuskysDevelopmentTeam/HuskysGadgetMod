@@ -12,20 +12,17 @@ import net.minecraft.client.gui.toasts.GuiToast;
 import net.minecraft.client.gui.toasts.IToast;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
@@ -40,7 +37,6 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplication
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateSystemData;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
-import net.thegaminghuskymc.gadgetmod.util.StringUtil;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -69,12 +65,6 @@ public class Laptop extends GuiScreen implements System {
     public static final int SCREEN_HEIGHT = DEVICE_HEIGHT - BORDER * 2;
     private static final int BOOT_ON_TIME = 200;
     private static final int BOOT_OFF_TIME = 100;
-
-    public static int currentWallpaper;
-    private static System system;
-    private static BlockPos pos;
-    private static Drive mainDrive;
-
     private static final int[] konamiCodes = new int[]{
             Keyboard.KEY_UP,
             Keyboard.KEY_UP,
@@ -87,8 +77,13 @@ public class Laptop extends GuiScreen implements System {
             Keyboard.KEY_B,
             Keyboard.KEY_A
     };
-    
     private static final HashMap<Integer, String> codeToName = new HashMap<>();
+    public static int currentWallpaper;
+    private static System system;
+    private static BlockPos pos;
+    private static Drive mainDrive;
+    private static Laptop instance;
+
     // Populate the list above
     static {
         codeToName.put(Keyboard.KEY_UP, "up");
@@ -113,8 +108,6 @@ public class Laptop extends GuiScreen implements System {
     private int konamiProgress = 0;
     private LayoutDesktop desktop;
 
-    private static Laptop instance;
-
     public Laptop(TileEntityLaptop laptop) {
         this.appData = laptop.getApplicationData();
         NBTTagCompound systemData = laptop.getSystemData();
@@ -128,20 +121,20 @@ public class Laptop extends GuiScreen implements System {
         Laptop.system = this;
         Laptop.pos = laptop.getPos();
         this.desktop = new LayoutDesktop();
-        
-        if(systemData.hasKey("bootmode")) {
-        	this.bootMode = BootMode.getBootMode(systemData.getInteger("bootmode"));
+
+        if (systemData.hasKey("bootmode")) {
+            this.bootMode = BootMode.getBootMode(systemData.getInteger("bootmode"));
         }
-        
-        if(systemData.hasKey("boottimer")) {
-        	this.bootTimer = systemData.getInteger("boottimer");
+
+        if (systemData.hasKey("boottimer")) {
+            this.bootTimer = systemData.getInteger("boottimer");
         }
-        
-        if(this.bootMode == null) {
-    		this.bootMode = BootMode.BOOTING;
-    		this.bootTimer = BOOT_ON_TIME;
-    	}
-        
+
+        if (this.bootMode == null) {
+            this.bootMode = BootMode.BOOTING;
+            this.bootTimer = BOOT_ON_TIME;
+        }
+
     }
 
     @Nullable
@@ -199,7 +192,7 @@ public class Laptop extends GuiScreen implements System {
         systemData.setInteger("bootmode", BootMode.ordinal(this.bootMode));
         systemData.setInteger("boottimer", this.bootTimer);
         TaskManager.sendTask(new TaskUpdateSystemData(pos, systemData));
-        
+
         Laptop.pos = null;
         Laptop.system = null;
         Laptop.mainDrive = null;
@@ -457,13 +450,13 @@ public class Laptop extends GuiScreen implements System {
                 }
             }
 
-            if(this.bootMode == BootMode.BOOTING) {
+            if (this.bootMode == BootMode.BOOTING) {
 
-                if(pressed == Keybinds.bios.getKeyCode()) {
+                if (pressed == Keybinds.bios.getKeyCode()) {
                     Layout bios = new LayoutBios();
                     bios.init();
 
-                    if(pressed == Keybinds.leaveBios.getKeyCode()) {
+                    if (pressed == Keybinds.leaveBios.getKeyCode()) {
                         this.desktop.init();
                     }
 
@@ -587,8 +580,7 @@ public class Laptop extends GuiScreen implements System {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 
-    public List<Application> getApplications()
-    {
+    public List<Application> getApplications() {
         return APPLICATIONS;
     }
 
@@ -817,14 +809,14 @@ public class Laptop extends GuiScreen implements System {
         RESTARTING,
         SLEEPING,
         BIOS_SETTINGS;
-    	
-    	public static BootMode getBootMode(int i) {
-    		return (i >= 0 && i < values().length) ? values()[i] : null;
-    	}
-    	
-    	public static int ordinal(BootMode bm) {
-    		return bm != null ? bm.ordinal() : -1;
-    	}
+
+        public static BootMode getBootMode(int i) {
+            return (i >= 0 && i < values().length) ? values()[i] : null;
+        }
+
+        public static int ordinal(BootMode bm) {
+            return bm != null ? bm.ordinal() : -1;
+        }
     }
 
     public static class EasterEggToast implements IToast {

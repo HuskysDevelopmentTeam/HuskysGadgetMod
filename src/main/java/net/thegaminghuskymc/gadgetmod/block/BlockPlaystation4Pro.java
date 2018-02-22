@@ -1,14 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPlaystation4Pro;
 
@@ -28,7 +26,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockPlaystation4Pro extends BlockDevice.Colored {
+public class BlockPlaystation4Pro extends BlockColoredDevice {
 
     public static final PropertyBool VERTICAL = PropertyBool.create("vertical");
 
@@ -37,11 +35,9 @@ public class BlockPlaystation4Pro extends BlockDevice.Colored {
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = new Bounds(3, 0, 1, 13, 3, 15).getRotatedBounds();
     private static final AxisAlignedBB[] SELECTION_VERTICAL_BOUNDING_BOX = new Bounds(13, 0, 1, 16, 10, 15).getRotatedBounds();
 
-    public BlockPlaystation4Pro() {
-        super(Material.ANVIL);
+    public BlockPlaystation4Pro(EnumDyeColor color) {
+        super("minestation_4_pro", color);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("playstation_4_pro");
-        this.setRegistryName(Reference.MOD_ID, "playstation_4_pro");
     }
 
     @Nullable
@@ -94,8 +90,6 @@ public class BlockPlaystation4Pro extends BlockDevice.Colored {
             tileEntityTag.removeTag("y");
             tileEntityTag.removeTag("z");
             tileEntityTag.removeTag("id");
-            byte color = tileEntityTag.getByte("color");
-            tileEntityTag.removeTag("color");
             tileEntityTag.removeTag("powered");
             tileEntityTag.removeTag("online");
             tileEntityTag.removeTag("connected");
@@ -104,7 +98,6 @@ public class BlockPlaystation4Pro extends BlockDevice.Colored {
             compound.setTag("BlockEntityTag", tileEntityTag);
 
             ItemStack drop = new ItemStack(Item.getItemFromBlock(this));
-            drop.setItemDamage(15 - color);
             drop.setTagCompound(compound);
 
             worldIn.spawnEntity(new EntityItem(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, drop));
@@ -141,6 +134,6 @@ public class BlockPlaystation4Pro extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, VERTICAL, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING, VERTICAL);
     }
 }

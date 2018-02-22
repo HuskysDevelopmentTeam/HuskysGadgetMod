@@ -10,7 +10,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServerTerminal;
 
 import javax.annotation.Nullable;
@@ -18,10 +17,8 @@ import javax.annotation.Nullable;
 public class BlockServerTerminal extends BlockDevice {
 
     public BlockServerTerminal() {
-        super(Material.ANVIL);
+        super(Material.ANVIL, "server_terminal");
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("server_terminal");
-        this.setRegistryName(Reference.MOD_ID, "server_terminal");
     }
 
     @Nullable
@@ -37,14 +34,12 @@ public class BlockServerTerminal extends BlockDevice {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
+    public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 

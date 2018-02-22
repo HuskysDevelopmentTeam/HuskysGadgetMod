@@ -1,6 +1,9 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
-	"textures": {"particle": "hgm:model/laptop"},
+	"textures": {
+    	"0": "hgm:model/laptop",
+    	"particle": "hgm:model/laptop"
+    },
 	"elements": [
 		{
 			"name": "cube",

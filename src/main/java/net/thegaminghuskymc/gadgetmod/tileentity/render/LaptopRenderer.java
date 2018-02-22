@@ -26,7 +26,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
 
     @Override
     public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        IBlockState state = GadgetBlocks.LAPTOP.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
+        IBlockState state = GadgetBlocks.laptops.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
         BlockPos pos = te.getPos();
 
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -42,7 +42,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
                     GlStateManager.translate(-0.5, 0, -0.5);
                     GlStateManager.translate(0.595, -0.2075, -0.005);
                     entityItem.hoverStart = 0.0F;
-                    entityItem.setItem(new ItemStack(GadgetItems.flash_drive, 1, te.getExternalDriveColor().getMetadata()));
+                    entityItem.setItem(new ItemStack(GadgetItems.flash_drives, 1, te.getExternalDriveColor().getMetadata()));
                     Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
                     GlStateManager.translate(0.1, 0, 0);
                 }

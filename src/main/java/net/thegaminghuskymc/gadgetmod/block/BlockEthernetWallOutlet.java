@@ -1,11 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -14,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEthernetWallOutlet;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
@@ -23,7 +21,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockEthernetWallOutlet extends BlockDevice.Colored {
+public class BlockEthernetWallOutlet extends BlockColoredDevice {
 
     private static final Bounds BODY_BOUNDS = new Bounds(0.0, 0.0, 0.0, 1.0, 1.0, 2.0);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -39,11 +37,9 @@ public class BlockEthernetWallOutlet extends BlockDevice.Colored {
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX_WEST = CollisionHelper.getBlockBounds(EnumFacing.WEST, SELECTION_BOUNDS);
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = {SELECTION_BOUNDING_BOX_SOUTH, SELECTION_BOUNDING_BOX_WEST, SELECTION_BOUNDING_BOX_NORTH, SELECTION_BOUNDING_BOX_EAST};
 
-    public BlockEthernetWallOutlet() {
-        super(Material.ANVIL);
+    public BlockEthernetWallOutlet(EnumDyeColor color) {
+        super("ethernet_wall_outlet", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("ethernet_wall_outlet");
-        this.setRegistryName(Reference.MOD_ID, "ethernet_wall_outlet");
     }
 
     @Override
@@ -71,6 +67,6 @@ public class BlockEthernetWallOutlet extends BlockDevice.Colored {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, BlockColored.COLOR);
+        return new BlockStateContainer(this, FACING);
     }
 }
