@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
@@ -136,6 +137,11 @@ public class BlockLaptop extends BlockColoredDevice {
         return true;
     }
 
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+    	return EnumBlockRenderType.MODEL;
+    }
+    
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return null;
