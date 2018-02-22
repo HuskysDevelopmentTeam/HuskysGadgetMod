@@ -47,7 +47,7 @@ public class BlockLaptop extends BlockColoredDevice {
 
     public BlockLaptop(EnumDyeColor color) {
         super("laptop", color);
-        this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, Type.BASE));
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
     }
 
