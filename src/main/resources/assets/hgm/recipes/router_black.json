@@ -1,0 +1,32 @@
+{
+  "result": {
+    "item": "hgm:router_black"
+  },
+  "pattern": [
+    "RDR",
+    "PPP",
+    "WCB"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:dye",
+      "data": 0
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    },
+    "P": {
+      "item": "hgm:plastic_frame"
+    },
+    "W": {
+      "item": "hgm:wifi"
+    },
+    "C": {
+      "item": "hgm:printed_circuit"
+    },
+    "B": {
+      "item": "hgm:laptop_battery"
+    }
+  }
+}

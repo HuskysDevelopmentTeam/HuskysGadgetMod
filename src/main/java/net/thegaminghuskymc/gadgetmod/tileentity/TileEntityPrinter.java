@@ -3,11 +3,8 @@ package net.thegaminghuskymc.gadgetmod.tileentity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,12 +20,7 @@ import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
-import net.thegaminghuskymc.gadgetmod.client.container.ContainerPrinter;
-import net.thegaminghuskymc.gadgetmod.client.container.SlotInkCartridge;
-import net.thegaminghuskymc.gadgetmod.enums.EnumComponents;
-import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
-import net.thegaminghuskymc.gadgetmod.item.ItemComponent;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 
 import java.util.ArrayDeque;
@@ -36,11 +28,7 @@ import java.util.Deque;
 
 import static net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter.State.*;
 
-public class TileEntityPrinter extends TileEntityNetworkDevice.Colored implements ISidedInventory {
-    private static final int[] SLOTS = new int[]{0};
-    net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
-    net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
-    net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+public class TileEntityPrinter extends TileEntityNetworkDevice.Colored {
     private State state = IDLE;
     /**
      * The ItemStacks that hold the items currently being used in the furnace
@@ -361,36 +349,6 @@ public class TileEntityPrinter extends TileEntityNetworkDevice.Colored implement
     }
 
     /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot. For
-     * guis use Slot.isItemValid
-     */
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        if (index == 2) {
-            return false;
-        } else if (index != 1) {
-            return true;
-        } else {
-            ItemStack itemstack = this.printerItemStacks.get(1);
-            return SlotInkCartridge.isCartridge(stack) && itemstack.getItem() != ItemComponent.getComponentFromName("printer_cartridges");
-        }
-    }
-
-    public int[] getSlotsForFace(EnumFacing side) {
-        if (side == EnumFacing.UP) {
-            return SLOTS;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns true if automation can insert the given item in the given slot from the given side.
-     */
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return this.isItemValidForSlot(index, itemStackIn);
-    }
-
-    /**
      * Returns true if automation can extract the given item in the given slot from the given side.
      */
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
@@ -407,10 +365,6 @@ public class TileEntityPrinter extends TileEntityNetworkDevice.Colored implement
 
     public String getGuiID() {
         return "hgm:printer";
-    }
-
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-        return new ContainerPrinter(playerInventory, this);
     }
 
     public int getField(int id) {
@@ -445,20 +399,6 @@ public class TileEntityPrinter extends TileEntityNetworkDevice.Colored implement
 
     public void clear() {
         this.printerItemStacks.clear();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @javax.annotation.Nullable
-    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-        if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            if (facing == EnumFacing.DOWN)
-                return (T) handlerBottom;
-            else if (facing == EnumFacing.UP)
-                return (T) handlerTop;
-            else
-                return (T) handlerSide;
-        return super.getCapability(capability, facing);
     }
 
     public enum State {

@@ -86,8 +86,6 @@ public class BlockPrinter extends BlockColoredDevice {
             ItemStack heldItem = playerIn.getHeldItem(hand);
 
             if (tileentity instanceof TileEntityPrinter) {
-                playerIn.displayGUIChest((TileEntityPrinter) tileentity);
-                playerIn.addStat(StatList.FURNACE_INTERACTION);
                 if (((TileEntityPrinter) tileentity).addPaper(heldItem, playerIn.isSneaking())) {
                     return true;
                 }

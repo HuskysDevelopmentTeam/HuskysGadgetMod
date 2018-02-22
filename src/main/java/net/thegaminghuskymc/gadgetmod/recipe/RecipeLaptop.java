@@ -1,7 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.recipe;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,9 +14,16 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.item.ItemComponent;
 
+import java.util.Objects;
+
 public class RecipeLaptop extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
-    public RecipeLaptop() {
-        this.setRegistryName(new ResourceLocation(Reference.MOD_ID, "laptop"));
+
+    private static String color;
+    private static final String name = "laptop_" + color;
+
+    public RecipeLaptop(String color) {
+        RecipeLaptop.color = color;
+        this.setRegistryName(new ResourceLocation(Reference.MOD_ID, name));
     }
 
     @Override
@@ -58,7 +67,7 @@ public class RecipeLaptop extends net.minecraftforge.registries.IForgeRegistryEn
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
         ItemStack dye = inv.getStackInSlot(7);
-        return new ItemStack(GadgetBlocks.laptops, 1, 15 - dye.getMetadata());
+        return new ItemStack(Objects.requireNonNull(Block.getBlockFromName(name)), 1, 15 - dye.getMetadata());
     }
 
     @Override

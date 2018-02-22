@@ -61,11 +61,11 @@ public class GadgetItems {
 //        register(pixel_watch);
         register(pixel_pad);
         register(pixel_phone);
-        register(cpu);
+//        register(cpu);
         register(motherBoard);
-        register(ramSticks);
-        register(gpu);
-        register(wifiCard);
+//        register(ramSticks);
+//        register(gpu);
+//        register(wifiCard);
         register(ethernet_cable);
         register(hdmi_cable);
         register(usb_cable);
