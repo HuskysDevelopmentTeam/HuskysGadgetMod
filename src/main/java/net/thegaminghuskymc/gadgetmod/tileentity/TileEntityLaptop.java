@@ -14,7 +14,7 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
 
     private static final int OPENED_ANGLE = 102;
 
-    private boolean open = false;
+    private boolean open = false, powered = false, hasBattery = false;
 
     private NBTTagCompound applicationData;
     private NBTTagCompound systemData;
@@ -69,6 +69,12 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         if (compound.hasKey("open")) {
             this.open = compound.getBoolean("open");
         }
+        if (compound.hasKey("powered")) {
+            this.powered = compound.getBoolean("powered");
+        }
+        if (compound.hasKey("hasBattery")) {
+            this.hasBattery = compound.getBoolean("hasBattery");
+        }
         if (compound.hasKey("system_data", Constants.NBT.TAG_COMPOUND)) {
             this.systemData = compound.getCompoundTag("system_data");
         }
@@ -90,6 +96,7 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setBoolean("open", open);
+        compound.setBoolean("powered", powered);
 
         if (systemData != null) {
             compound.setTag("system_data", systemData);
@@ -109,6 +116,8 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = super.writeSyncTag();
         tag.setBoolean("open", open);
+        tag.setBoolean("powered", powered);
+        tag.setBoolean("hasBattery", hasBattery);
         tag.setTag("system_data", getSystemData());
 
         if (getFileSystem().getAttachedDrive() != null) {
@@ -137,8 +146,28 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         sync();
     }
 
+    public void powerUnpower() {
+        powered = !powered;
+        pipeline.setBoolean("powered", powered);
+        sync();
+    }
+
+    public void hasBatteryHasNotBattery() {
+        hasBattery = !hasBattery;
+        pipeline.setBoolean("hasBattery", hasBattery);
+        sync();
+    }
+
     public boolean isOpen() {
         return open;
+    }
+
+    public boolean isPowered() {
+        return powered;
+    }
+
+    public boolean hasBattery() {
+        return hasBattery;
     }
 
     public NBTTagCompound getApplicationData() {

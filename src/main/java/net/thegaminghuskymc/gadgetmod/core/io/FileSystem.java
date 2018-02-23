@@ -2,14 +2,18 @@ package net.thegaminghuskymc.gadgetmod.core.io;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
@@ -30,10 +34,7 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class FileSystem {
@@ -257,7 +258,7 @@ public class FileSystem {
     @Nullable
     public ItemStack removeAttachedDrive() {
         if (attachedDrive != null) {
-            ItemStack stack = new ItemStack(GadgetItems.flash_drives, 1, getAttachedDriveColor().getMetadata());
+            ItemStack stack = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.MOD_ID, "flash_drive_" + getAttachedDriveColor().getName()))), 1, getAttachedDriveColor().getMetadata());
             stack.setStackDisplayName(attachedDrive.getName());
             stack.getTagCompound().setTag("drive", attachedDrive.toTag());
             attachedDrive = null;

@@ -10,7 +10,8 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "B": {
-      "item": "minecraft:red_nether_brick"
+      "item": "minecraft:wool",
+      "data": 13
     },
     "R": {
       "item": "minecraft:redstone"

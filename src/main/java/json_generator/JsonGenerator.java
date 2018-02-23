@@ -13,7 +13,14 @@ public class JsonGenerator {
 
         for (EnumDyeColor type : EnumDyeColor.values()) {
 //            genBlock("hgm", "office_chair_" + type.getName(), "");
-            genBlock("hgm", "laptop_" + type.getName(), "laptop");
+//            genSpecificBlock("hgm", "laptop_" + type.getName(), "laptop", "laptop");
+//            genSpecificBlock("hgm", "router_" + type.getName(), "router", "router");
+//            genSpecificBlock("hgm", "printer_" + type.getName(), "printer", "printer");
+//            genSpecificBlock("hgm", "monitor_" + type.getName(), "monitor", "monitor");
+//            genSpecificBlock("hgm", "gaming_desk_" + type.getName(), "gaming_desk", "gaming_desk");
+//            genSpecificBlock("hgm", "desktop_" + type.getName(), "desktop", "desktop");
+//            genSpecificBlock("hgm", "external_hard_drive_" + type.getName(), "external_harddrive", "external_harddrive");
+//            genItemModel("hgm", "flash_drive_" + type.getName(), "flash_drive");
         }
 
     }
@@ -36,7 +43,7 @@ public class JsonGenerator {
             jw.name("forge_marker").value(1);
             jw.name("defaults");
             jw.beginObject();
-            jw.name("model").value(modId + ":" + "laptop");
+            jw.name("model").value(modId + ":" + blockName);
             jw.name("transform").value("forge:default-block");
             jw.endObject();
             jw.name("variants");
@@ -82,7 +89,7 @@ public class JsonGenerator {
 
             jw.beginObject();
             jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
-            jw.name("parent").value(modId + ":" + "block/" + "laptop");
+            jw.name("parent").value(modId + ":" + "block/" + blockName);
             jw.name("textures");
             jw.beginObject();
             jw.name("normal").value(modId + ":blocks/" + textureName);
@@ -108,7 +115,107 @@ public class JsonGenerator {
 
             jw.beginObject();
 
-            jw.name("parent").value("th2:block/laptop_open");
+            jw.name("parent").value(modId + ":" + blockName);
+            jw.endObject();
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void genSpecificBlock(String modId, String blockSubName, String blockName, String textureName) {
+
+        File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\blockstates\\");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        try {
+
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockSubName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+            jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
+            jw.name("forge_marker").value(1);
+            jw.name("defaults");
+            jw.beginObject();
+            jw.name("model").value(modId + ":" + blockName);
+            jw.name("transform").value("forge:default-block");
+            jw.endObject();
+            jw.name("variants");
+            jw.beginObject();
+
+            jw.name("normal");
+            jw.beginArray();
+            jw.beginObject();
+            jw.endObject();
+            jw.endArray();
+
+            jw.name("inventory");
+            jw.beginArray();
+            jw.beginObject();
+            jw.endObject();
+            jw.endArray();
+
+            jw.endObject();
+            jw.endObject();
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        genSpecificBlockModel(modId, blockSubName, blockName, textureName);
+        genSpecificBlockItemModel(modId, blockSubName, blockName);
+
+    }
+
+    private static void genSpecificBlockModel(String modId, String blockSubName, String blockName, String textureName) {
+        try {
+
+            File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\block\\");
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
+
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockSubName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+            jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
+            jw.name("parent").value(modId + ":" + "block/" + blockName);
+            jw.name("textures");
+            jw.beginObject();
+            jw.name("normal").value(modId + ":blocks/" + textureName);
+            jw.endObject();
+            jw.endObject();
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void genSpecificBlockItemModel(String modId, String blockSubName, String blockName) {
+        File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\item\\");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        try {
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockSubName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+
+            jw.name("parent").value("hgm::block/" + blockName);
             jw.endObject();
 
             writer.close();
@@ -775,11 +882,7 @@ public class JsonGenerator {
 
             jw.beginObject();
             jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
-            jw.name("parent").value("item/generated");
-            jw.name("textures");
-            jw.beginObject();
-            jw.name("layer0").value(modId + ":items/" + textureName);
-            jw.endObject();
+            jw.name("parent").value("hgm:item/flash_drive");
             jw.endObject();
 
             writer.close();

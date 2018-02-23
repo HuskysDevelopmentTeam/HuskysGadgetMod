@@ -1,8 +1,7 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"0": "Pictures/wificard",
-		"particle": "Pictures/wificard"
+		"0": "hgm:items/wifi"
 	},
 	"elements": [
 		{
@@ -245,5 +244,42 @@
 			},
 			"type": "cube"
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [0, 0, -90],
+			"translation": [4.5, 3, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [180, 0, -90],
+			"translation": [4.5, 3, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [-31, 0, -91],
+			"translation": [4.5, 3, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [142, 0, -91],
+			"translation": [4.5, 3, 0]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5],
+			"rotation": [0, 0, 0],
+			"translation": [0, 2, 0]
+		},
+		"fixed": {
+			"scale": [1, 1, 1],
+			"rotation": [0, 180, 0],
+			"translation": [0, 0, 0]
+		},
+		"gui": {
+			"scale": [0.775, 0.775, 0.775],
+			"rotation": [30, 45, 0],
+			"translation": [0, 4, 0]
+		}
+	}
 }

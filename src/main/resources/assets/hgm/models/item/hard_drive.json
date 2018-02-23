@@ -1,0 +1,67 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "hgm:items/hard_drive"
+	},
+	"elements": [
+		{
+			"name": "hard_drive_0",
+			"from": [3, 0, 1],
+			"to": [13, 2, 15],
+			"faces": {
+				"north": {"uv": [13, 1, 3, 2], "texture": "#0"},
+				"east": {
+					"uv": [12, 1, 13, 15],
+					"texture": "#0",
+					"rotation": 90
+				},
+				"south": {"uv": [3, 14, 13, 15], "texture": "#0"},
+				"west": {
+					"uv": [3, 1, 4, 15],
+					"texture": "#0",
+					"rotation": 270
+				},
+				"up": {"uv": [3, 1, 13, 15], "texture": "#0"},
+				"down": {"uv": [3, 15, 13, 1], "texture": "#0"}
+			},
+			"type": "cube"
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [91, 0, 90],
+			"translation": [-4, 3.5, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [91, 0, 90],
+			"translation": [-4, 3.5, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [57, 0, 90],
+			"translation": [-4, 1, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.55, 0.55, 0.55],
+			"rotation": [57, 0, 90],
+			"translation": [-4, 1, 0]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5],
+			"rotation": [0, 0, 0],
+			"translation": [0, 2, 0]
+		},
+		"fixed": {
+			"scale": [1, 1, 1],
+			"rotation": [-90, 180, 0],
+			"translation": [0, 0, -8]
+		},
+		"gui": {
+			"scale": [0.775, 0.775, 0.775],
+			"rotation": [30, 225, 0],
+			"translation": [0, 4, 0]
+		}
+	}
+}

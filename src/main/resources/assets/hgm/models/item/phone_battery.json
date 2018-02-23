@@ -1,0 +1,30 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "hgm:items/phone_battery"
+	},
+	"elements": [
+		{
+			"name": "phonebattery_0",
+			"from": [4, 0, 0],
+			"to": [12, 1, 16],
+			"faces": {
+				"north": {"uv": [12, 0, 4, 1], "texture": "#0"},
+				"east": {
+					"uv": [11, 0, 12, 16],
+					"texture": "#0",
+					"rotation": 90
+				},
+				"south": {"uv": [4, 15, 12, 16], "texture": "#0"},
+				"west": {
+					"uv": [4, 0, 5, 16],
+					"texture": "#0",
+					"rotation": 270
+				},
+				"up": {"uv": [4, 0, 12, 16], "texture": "#0"},
+				"down": {"uv": [4, 16, 12, 0], "texture": "#0"}
+			},
+			"type": "cube"
+		}
+	]
+}

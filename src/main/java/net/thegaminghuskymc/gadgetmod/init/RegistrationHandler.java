@@ -81,7 +81,7 @@ public class RegistrationHandler {
             Items.ITEMS.forEach(Models::registerRender);
         }
 
-        private static void registerRender(Item item) {
+        public static void registerRender(Item item) {
             if (item instanceof SubItems) {
                 NonNullList<ResourceLocation> modelLocations = ((SubItems) item).getModels();
                 for (int i = 0; i < modelLocations.size(); i++) {

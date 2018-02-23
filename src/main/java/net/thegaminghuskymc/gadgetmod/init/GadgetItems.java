@@ -16,8 +16,8 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class GadgetItems {
 
-    public static Item components;
-    public static Item flash_drives;
+    public static ItemComponent components;
+    public static ItemFlashDrive flash_drives;
 
     public static final ItemPixelWatch pixel_watch;
     public static final ItemPixelTab pixel_pad;
@@ -32,6 +32,8 @@ public class GadgetItems {
 
     public static final Item easter_egg;
     public static final Item wiiu_gamepad;
+
+    public static final Item idCard;
 
     static {
 
@@ -55,6 +57,7 @@ public class GadgetItems {
         easter_egg = new ItemEasterEgg();
         wiiu_gamepad = new ItemWiiUGamepad();
         gpu = new ItemMotherBoard.Component("gpu");
+        idCard = new ItemIDCard();
     }
 
     public static void register() {

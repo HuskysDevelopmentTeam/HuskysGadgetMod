@@ -38,7 +38,7 @@ public class OfficeChairRenderer extends TileEntitySpecialRenderer<TileEntityOff
             GlStateManager.rotate(-te.getRotation(), 0, 1, 0);
             GlStateManager.translate(-0.5, 0, -0.5);
 
-            IBlockState state = tempState.getBlock().getActualState(tempState, te.getWorld(), pos).withProperty(BlockOfficeChair.FACING, EnumFacing.NORTH).withProperty(BlockOfficeChair.TYPE, BlockOfficeChair.Type.SEAT);
+            IBlockState state = tempState.getBlock().getDefaultState().withProperty(BlockOfficeChair.FACING, EnumFacing.NORTH).withProperty(BlockOfficeChair.TYPE, BlockOfficeChair.Type.SEAT);
 
             GlStateManager.disableLighting();
             GlStateManager.enableTexture2D();

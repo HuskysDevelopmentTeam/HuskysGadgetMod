@@ -1,19 +1,23 @@
 {
+  "_comment": "Generated using Husky's JSON Generator v1.",
   "forge_marker": 1,
   "defaults": {
+    "model": "hgm:laptop",
     "transform": "forge:default-block"
   },
   "variants": {
     "type": {
-    	"base": { "model": "hgm:laptop_base" },
-    	"screen": { "model": "hgm:laptop_screen" }
+      "base": { "model": "hgm:laptop_base" },
+      "screen": { "model": "hgm:laptop_screen" }
     },
     "facing": {
-        "north": { "y": 0   },
-    	"east":  { "y": 90  },
-    	"south": { "y": 180 },
-    	"west":  { "y": 270 }
+      "north": { "y": 0   },
+      "east":  { "y": 90  },
+      "south": { "y": 180 },
+      "west":  { "y": 270 }
     },
-    "inventory": [{}]
+    "inventory": [
+      {}
+    ]
   }
 }
