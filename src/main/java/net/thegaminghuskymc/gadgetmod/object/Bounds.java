@@ -14,12 +14,12 @@ public class Bounds {
     /**
      * Will divide every parameter by 16
      *
-     * @param x1
-     * @param y1
-     * @param z1
-     * @param x2
-     * @param y2
-     * @param z2
+     * @param x1 the X point where it starts
+     * @param y1 the Y point where it starts
+     * @param z1 the Z point where it starts
+     * @param x2 the X point where it ends
+     * @param y2 the Y point where it ends
+     * @param z2 the Z point where it ends
      */
     public Bounds(int x1, int y1, int z1, int x2, int y2, int z2) {
         this(x1 / 16.0, y1 / 16.0, z1 / 16.0, x2 / 16.0, y2 / 16.0, z2 / 16.0);

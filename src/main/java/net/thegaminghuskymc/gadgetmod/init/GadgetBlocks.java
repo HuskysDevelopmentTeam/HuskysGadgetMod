@@ -35,14 +35,14 @@ public class GadgetBlocks {
 
     public static final Block PAPER;
     public static final Block SCREEN;
-    public static final Block SERVER;
-    public static final Block SERVER_TERMINAL;
+    public static final Block server, serverRack, serverTerminal;
     public static Block DRAWING_TABLET;
     public static final Block RGB_LIGHTS;
     public static final Block ROOF_LIGHTS;
     public static final Block SECURITY_CAMERA;
     public static final Block SOUNDWOOFERS;
     public static final Block EASTER_EGG;
+    public static final Block securityFence, securityGate, cardScanner, securityLaser;
 
     static {
 
@@ -65,13 +65,18 @@ public class GadgetBlocks {
 
         PAPER = new BlockPaper();
         SCREEN = new BlockScreen();
-        SERVER = new BlockServer();
-        SERVER_TERMINAL = new BlockServerTerminal();
+        server = new BlockServer();
+        serverRack = new BlockServerRack();
+        serverTerminal = new BlockServerTerminal();
         RGB_LIGHTS = new BlockRGBLights();
         ROOF_LIGHTS = new BlockRoofLights();
         SECURITY_CAMERA = new BlockSecurityCamera();
         SOUNDWOOFERS = new BlockSoundwoofers();
         EASTER_EGG = new BlockEasterEgg();
+        securityFence = new BlockElectricSecurityFence();
+        securityGate = new BlockElectricSecurityGate();
+        cardScanner = new BlockCardScanner();
+        securityLaser = new BlockSecurityLaser();
     }
 
     @SubscribeEvent

@@ -11,12 +11,19 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.block.BlockLaptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+
+import java.util.Objects;
 
 public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> {
 
@@ -42,7 +49,7 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
                     GlStateManager.translate(-0.5, 0, -0.5);
                     GlStateManager.translate(0.595, -0.2075, -0.005);
                     entityItem.hoverStart = 0.0F;
-                    entityItem.setItem(new ItemStack(GadgetItems.flash_drives, 1, te.getExternalDriveColor().getMetadata()));
+                    entityItem.setItem(new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.MOD_ID, "flash_drive_" + te.getExternalDriveColor().getName()))), 1));
                     Minecraft.getMinecraft().getRenderManager().renderEntity(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, false);
                     GlStateManager.translate(0.1, 0, 0);
                 }

@@ -5,6 +5,7 @@ import net.minecraft.block.BlockColored;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.CommandBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -16,24 +17,28 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.registries.GameData;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
+import net.thegaminghuskymc.gadgetmod.item.ItemComponent;
+import net.thegaminghuskymc.gadgetmod.item.ItemFlashDrive;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class BlockLaptop extends BlockColoredDevice {
@@ -103,10 +108,14 @@ public class BlockLaptop extends BlockColoredDevice {
                 if (!worldIn.isRemote) {
                     laptop.openClose();
                 }
+            } if (!laptop.isOpen() && playerIn.isSneaking() && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+                if (!worldIn.isRemote) {
+                    laptop.powerUnpower();
+                }
             } else {
                 if (side == state.getValue(FACING).rotateYCCW()) {
                     ItemStack heldItem = playerIn.getHeldItem(hand);
-                    if (!heldItem.isEmpty() && heldItem.getItem() == GadgetItems.flash_drives) {
+                    if (!heldItem.isEmpty() && (heldItem.getItem() == ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.MOD_ID, "flash_drive_" + color.getName())))) {
                         if (!worldIn.isRemote) {
                             if (laptop.getFileSystem().setAttachedDrive(heldItem.copy())) {
                                 heldItem.shrink(1);
@@ -115,7 +124,6 @@ public class BlockLaptop extends BlockColoredDevice {
                                 playerIn.sendMessage(new TextComponentString("No more available USB slots!"));
                             }
                         }
-                        return true;
                     }
 
                     if (!worldIn.isRemote) {
@@ -129,10 +137,19 @@ public class BlockLaptop extends BlockColoredDevice {
                     return true;
                 }
 
-                if (laptop.isOpen() && worldIn.isRemote) {
-                    playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                if(laptop.isPowered()) {
+                    if (laptop.isOpen() && worldIn.isRemote) {
+                        playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                    }
                 }
             }
+
+            if(!laptop.isPowered()) {
+                if (laptop.isOpen() && worldIn.isRemote) {
+                    playerIn.sendStatusMessage(new TextComponentString("The laptop is not powered. To power it do: CTRL + Shift + Right Click it"), true);
+                }
+            }
+
         }
         return true;
     }
@@ -156,6 +173,7 @@ public class BlockLaptop extends BlockColoredDevice {
             NBTTagCompound tileEntityTag = new NBTTagCompound();
             laptop.writeToNBT(tileEntityTag);
             tileEntityTag.removeTag("open");
+            tileEntityTag.removeTag("powered");
 
             NBTTagCompound compound = new NBTTagCompound();
             compound.setTag("BlockEntityTag", tileEntityTag);
@@ -170,12 +188,6 @@ public class BlockLaptop extends BlockColoredDevice {
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
         return state.withProperty(FACING, placer.getHorizontalFacing());
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEntityLaptop();
     }
 
     @Nullable

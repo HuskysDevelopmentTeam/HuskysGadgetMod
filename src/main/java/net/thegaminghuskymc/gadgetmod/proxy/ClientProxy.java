@@ -9,8 +9,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -38,8 +36,6 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColored;
-import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
@@ -54,9 +50,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
-import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
-import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
+import java.util.Objects;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
@@ -88,43 +82,39 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
         File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
 
                 BufferedImage img = null;
                 try {
-                    if (!f.exists()) f.createNewFile();
                     img = ImageIO.read(f);
-                } catch (IOException e) {
+                } catch (IOException ignored) {
 
                 }
-                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
+                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
             }
         }
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
-        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? stack.getTagCompound().getInteger("color" + tintIndex) : 0xFFFFFF;
+        IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? Objects.requireNonNull(stack.getTagCompound()).getInteger("color" + tintIndex) : 0xFFFFFF;
         itemColors.registerItemColorHandler(easterEgg, GadgetItems.easter_egg);
 
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
         IBlockColor easterEggBlock = (state, worldIn, pos, tintIndex) -> {
-            TileEntity te = worldIn.getTileEntity(pos);
-            if (te != null && te instanceof TileEntityEasterEgg) {
+            TileEntity te = Objects.requireNonNull(worldIn).getTileEntity(Objects.requireNonNull(pos));
+            if (te instanceof TileEntityEasterEgg) {
                 return ((TileEntityEasterEgg) te).getColor(tintIndex);
             }
             return 0xFFFFFF;
         };
         blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
 
-        ItemColors items = Minecraft.getMinecraft().getItemColors();
+        /*ItemColors items = Minecraft.getMinecraft().getItemColors();
         BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 
         IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).color.getColorValue();
-        items.registerItemColorHandler(handlerItems, flash_drives);
+        items.registerItemColorHandler(flash_drives., flash_drives);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 gaming_chairs);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
@@ -162,7 +152,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         blocks.registerBlockColorHandler(handlerBlocks, playstation_4_pros);
         blocks.registerBlockColorHandler(handlerBlocks, threede_printers);
         blocks.registerBlockColorHandler(handlerBlocks, desktops);
-        blocks.registerBlockColorHandler(handlerBlocks, routers);
+        blocks.registerBlockColorHandler(handlerBlocks, routers);*/
 
     }
 
@@ -334,7 +324,6 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         return false;
     }
 
-    @Nullable
     private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
         AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
         info.reload();

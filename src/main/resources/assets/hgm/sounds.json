@@ -4,5 +4,11 @@
   },
   "printing_paper": {
     "sounds": [ {"name": "hgm:printing_paper"}]
+  },
+  "lasers": {
+    "sounds": [ {"name": "hgm:lasers"}]
+  },
+  "zap": {
+    "sounds": [ {"name": "hgm:zap"}]
   }
 }

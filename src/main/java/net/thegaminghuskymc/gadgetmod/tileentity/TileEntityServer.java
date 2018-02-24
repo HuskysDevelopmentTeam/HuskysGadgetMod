@@ -6,22 +6,19 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityServer extends TileEntityColoredDevice {
+public class TileEntityServer extends TileEntityDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
-    @SideOnly(Side.CLIENT)
-    public float prevRotation;
     private String name = "Server";
     private boolean
-            connected = false,
-            online = false,
-            powered = false;
+            inServerRack = false,
+            powered = false,
+            connected = false;
 
     @Override
     public void update() {
         if (world.isRemote) {
-            prevRotation = rotation;
             if (rotation > 0) {
                 rotation -= 10F;
             } else if (rotation < 110) {
@@ -36,8 +33,8 @@ public class TileEntityServer extends TileEntityColoredDevice {
         if (compound.hasKey("connected")) {
             this.connected = compound.getBoolean("connected");
         }
-        if (compound.hasKey("online")) {
-            this.online = compound.getBoolean("online");
+        if (compound.hasKey("inServerRack")) {
+            this.inServerRack = compound.getBoolean("inServerRack");
         }
         if (compound.hasKey("powered")) {
             this.powered = compound.getBoolean("powered");
@@ -52,7 +49,7 @@ public class TileEntityServer extends TileEntityColoredDevice {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         compound.setBoolean("connected", connected);
-        compound.setBoolean("online", online);
+        compound.setBoolean("inServerRack", inServerRack);
         compound.setBoolean("powered", powered);
         compound.setString("device_name", name);
     }
@@ -61,7 +58,7 @@ public class TileEntityServer extends TileEntityColoredDevice {
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setBoolean("connected", connected);
-        tag.setBoolean("online", online);
+        tag.setBoolean("inServerRack", inServerRack);
         tag.setBoolean("powered", powered);
         tag.setString("device_name", name);
         return tag;
@@ -78,14 +75,8 @@ public class TileEntityServer extends TileEntityColoredDevice {
         return INFINITE_EXTENT_AABB;
     }
 
-    public void onlineOffline() {
-        online = !online;
-        pipeline.setBoolean("online", online);
-        sync();
-    }
-
-    public boolean isOnline() {
-        return online;
+    public boolean isInServerRack() {
+        return inServerRack;
     }
 
     public void poweredUnpowered() {
@@ -95,7 +86,7 @@ public class TileEntityServer extends TileEntityColoredDevice {
     }
 
     public boolean isPowered() {
-        return online;
+        return powered;
     }
 
     public void connectedNotConnected() {
