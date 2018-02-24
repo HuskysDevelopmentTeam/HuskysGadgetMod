@@ -17,24 +17,24 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class GadgetBlocks {
 
-    public static Block gaming_chairs;
-    public static Block laptops;
-    public static Block routers;
-    public static Block printers;
-    public static Block monitors;
-    public static Block ethernet_wall_outlets;
-    public static Block robots;
-    public static Block gaming_desks;
-    public static Block benchmark_stations;
-    public static Block external_harddrives;
-    public static Block playstation_4_pros;
-    public static Block threede_printers;
-    public static Block desktops;
+    public static Block[] gaming_chairs = new Block[16];
+    public static Block[] laptops = new Block[16];
+    public static Block[] routers = new Block[16];
+    public static Block[] printers = new Block[16];
+    public static Block[] monitors = new Block[16];
+    public static Block[] ethernet_wall_outlets = new Block[16];
+    public static Block[] robots = new Block[16];
+    public static Block[] gaming_desks = new Block[16];
+    public static Block[] benchmark_stations = new Block[16];
+    public static Block[] external_harddrives = new Block[16];
+    public static Block[] playstation_4_pros = new Block[16];
+    public static Block[] threede_printers = new Block[16];
+    public static Block[] desktops = new Block[16];
+    public static Block[] drawing_tablets = new Block[16];
 
     public static final Block PAPER;
     public static final Block SCREEN;
     public static final Block server, serverRack, serverTerminal;
-    public static Block DRAWING_TABLET;
     public static final Block RGB_LIGHTS;
     public static final Block ROOF_LIGHTS;
     public static final Block SECURITY_CAMERA;
@@ -45,9 +45,11 @@ public class GadgetBlocks {
     static {
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
-            gaming_chairs = new BlockOfficeChair(color);
-            laptops = new BlockLaptop(color);
-            routers = new BlockRouter(color);
+            BlockOfficeChair gaming_chair = new BlockOfficeChair(color);
+            gaming_chairs[color.getMetadata()] = gaming_chair;
+            BlockLaptop laptop = new BlockLaptop(color);
+            laptops[color.getMetadata()] = laptop;
+            /*routers = new BlockRouter(color);
             printers = new BlockPrinter(color);
             monitors = new BlockMonitor(color);
             ethernet_wall_outlets = new BlockEthernetWallOutlet(color);
@@ -58,7 +60,7 @@ public class GadgetBlocks {
             playstation_4_pros = new BlockPlaystation4Pro(color);
             threede_printers = new Block3DPrinter(color);
             desktops = new BlockDesktop(color);
-            DRAWING_TABLET = new BlockDrawingTablet(color);
+            drawing_tablets = new BlockDrawingTablet(color);*/
         }
 
         PAPER = new BlockPaper();

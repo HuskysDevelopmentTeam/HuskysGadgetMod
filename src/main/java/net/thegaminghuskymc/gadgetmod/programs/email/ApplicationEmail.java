@@ -97,7 +97,7 @@ public class ApplicationEmail extends Application {
         Image logo = new Image(86, 20, 28, 28, info.getIconU(), info.getIconV(), 14, 14, 224, 224, Laptop.ICON_TEXTURES);
         layoutMainMenu.addComponent(logo);
 
-        Label labelLogo = new Label("Ender Mail", 50, 35);
+        Label labelLogo = new Label("Pixel Mail", 50, 35);
         labelLogo.setAlignment(ALIGN_CENTER);
         layoutMainMenu.addComponent(labelLogo);
 

@@ -12,7 +12,7 @@ public abstract class SystemApplication extends Application {
 
     private Laptop laptop;
 
-    SystemApplication() {
+    protected SystemApplication() {
 
     }
 

@@ -12,6 +12,21 @@
       "south": { "y": 180 },
       "west":  { "y": 270 }
     },
+    "open": {
+      "true": "hgm:electric_gate_open",
+      "false": {}
+    },
+    "powered": {
+      "true": {
+        "model": "hgm:electric_gate_with_lasers"
+      },
+      "false": {
+        "model": "hgm:electric_gate_no_lasers"
+      }
+    },
+    "half": {
+      ""
+    },
     "inventory": [
       {}
     ]

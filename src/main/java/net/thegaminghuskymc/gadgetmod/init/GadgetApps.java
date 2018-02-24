@@ -6,6 +6,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.programs.*;
 import net.thegaminghuskymc.gadgetmod.programs.ApplicationTest;
+import net.thegaminghuskymc.gadgetmod.programs.system.admin.ApplicationServerAdmin;
 import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
 import net.thegaminghuskymc.gadgetmod.programs.debug.ApplicationTextArea;
 import net.thegaminghuskymc.gadgetmod.programs.email.ApplicationEmail;
@@ -36,6 +37,7 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "snake"), Snake.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "text_field"), ApplicationTextArea.class);
         ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "test"), ApplicationTest.class);
+        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "server_admin"), ApplicationServerAdmin.class);
 
         if (Loader.isModLoaded("futopia") || Loader.isModLoaded("futopia2") || Loader.isModLoaded("ae2") || Loader.isModLoaded("refined_storage")) {
             ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "machine_reader"), ApplicationMachineReader.class);

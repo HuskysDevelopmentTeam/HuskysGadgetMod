@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.thegaminghuskymc.gadgetmod.block.BlockOfficeChair;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
 import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
@@ -25,7 +26,7 @@ public class RouterRenderer extends TileEntitySpecialRenderer<TileEntityRouter> 
     @Override
     public void render(TileEntityRouter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         IBlockState state = te.getWorld().getBlockState(te.getPos());
-        if (state.getBlock() != GadgetBlocks.routers)
+        if (!(state.getBlock() instanceof BlockRouter))
             return;
 
         if (te.isDebug()) {

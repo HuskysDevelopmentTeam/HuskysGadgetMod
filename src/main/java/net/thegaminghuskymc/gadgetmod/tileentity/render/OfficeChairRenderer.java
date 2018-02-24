@@ -16,9 +16,6 @@ import net.thegaminghuskymc.gadgetmod.block.BlockOfficeChair;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
 
-/**
- * Author: MrCrayfish
- */
 public class OfficeChairRenderer extends TileEntitySpecialRenderer<TileEntityOfficeChair> {
     private Minecraft mc = Minecraft.getMinecraft();
 
@@ -26,7 +23,7 @@ public class OfficeChairRenderer extends TileEntitySpecialRenderer<TileEntityOff
     public void render(TileEntityOfficeChair te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         BlockPos pos = te.getPos();
         IBlockState tempState = te.getWorld().getBlockState(pos);
-        if (tempState.getBlock() != GadgetBlocks.gaming_chairs) {
+        if (!(tempState.getBlock() instanceof BlockOfficeChair)) {
             return;
         }
 

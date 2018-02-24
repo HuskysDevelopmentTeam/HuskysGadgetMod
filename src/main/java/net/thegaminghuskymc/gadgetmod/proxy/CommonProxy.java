@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
+import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
+import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
@@ -89,7 +91,7 @@ public class CommonProxy {
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         World world = event.getWorld();
         if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() == Items.PAPER) {
-            if (world.getBlockState(event.getPos()).getBlock() == printers) {
+            if (world.getBlockState(event.getPos()).getBlock() instanceof BlockPrinter) {
                 event.setUseBlock(Event.Result.ALLOW);
             }
         }

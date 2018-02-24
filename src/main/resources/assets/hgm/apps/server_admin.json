@@ -1,0 +1,8 @@
+{
+  "app_name": "Server Admin",
+  "app_creator": "TheGamingHuskyMC",
+  "app_description": "${desc}",
+  "app_version": "1.0",
+  "app_icon": "hgm:textures/app/icon/server_admin.png",
+  "app_banner": "hgm:textures/app/banner/banner_server_admin.png"
+}

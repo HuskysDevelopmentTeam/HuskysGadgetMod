@@ -33,8 +33,8 @@ public class LaptopRenderer extends TileEntitySpecialRenderer<TileEntityLaptop> 
 
     @Override
     public void render(TileEntityLaptop te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        IBlockState state = GadgetBlocks.laptops.getDefaultState().withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
         BlockPos pos = te.getPos();
+        IBlockState state = te.getWorld().getBlockState(pos).withProperty(BlockLaptop.TYPE, BlockLaptop.Type.SCREEN);
 
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         GlStateManager.pushMatrix();

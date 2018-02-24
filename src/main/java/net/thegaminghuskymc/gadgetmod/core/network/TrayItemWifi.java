@@ -14,6 +14,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
 import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
@@ -99,7 +100,7 @@ public class TrayItemWifi extends TrayItem {
                 for (int x = -range; x < range + 1; x++) {
                     BlockPos pos = new BlockPos(laptopPos.getX() + x, laptopPos.getY() + y, laptopPos.getZ() + z);
                     IBlockState state = world.getBlockState(pos);
-                    if (state.getBlock() == GadgetBlocks.routers) {
+                    if (state.getBlock() instanceof BlockRouter) {
                         routers.add(pos);
                     }
                 }

@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +37,8 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
+import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColored;
+import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
@@ -51,6 +54,9 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
+import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
@@ -110,16 +116,16 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         };
         blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
 
-        /*ItemColors items = Minecraft.getMinecraft().getItemColors();
+        ItemColors items = Minecraft.getMinecraft().getItemColors();
         BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 
         IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).color.getColorValue();
-        items.registerItemColorHandler(flash_drives., flash_drives);
+        items.registerItemColorHandler(handlerItems, flash_drives);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 gaming_chairs);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 laptops);
-        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+        /*items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 monitors);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 ethernet_wall_outlets);
@@ -138,12 +144,12 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 desktops);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
-                routers);
+                routers);*/
 
-        IBlockColor handlerBlocks = (s, w, p, t) -> ((BlockColored) s.getBlock()).color.getColorValue();
+        IBlockColor handlerBlocks = (s, w, p, t) -> BlockColored.color.getColorValue();
         blocks.registerBlockColorHandler(handlerBlocks, gaming_chairs);
         blocks.registerBlockColorHandler(handlerBlocks, laptops);
-        blocks.registerBlockColorHandler(handlerBlocks, monitors);
+        /*blocks.registerBlockColorHandler(handlerBlocks, monitors);
         blocks.registerBlockColorHandler(handlerBlocks, ethernet_wall_outlets);
         blocks.registerBlockColorHandler(handlerBlocks, robots);
         blocks.registerBlockColorHandler(handlerBlocks, gaming_desks);
