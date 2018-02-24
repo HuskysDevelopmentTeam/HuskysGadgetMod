@@ -17,7 +17,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class GadgetBlocks {
 
-    public static Block[] gaming_chairs = new Block[16];
+    public static BlockOfficeChair[] gaming_chairs = new BlockOfficeChair[16];
     public static Block[] laptops = new Block[16];
     public static Block[] routers = new Block[16];
     public static Block[] printers = new Block[16];
@@ -45,10 +45,8 @@ public class GadgetBlocks {
     static {
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
-            BlockOfficeChair gaming_chair = new BlockOfficeChair(color);
-            gaming_chairs[color.getMetadata()] = gaming_chair;
-            BlockLaptop laptop = new BlockLaptop(color);
-            laptops[color.getMetadata()] = laptop;
+            gaming_chairs[color.getMetadata()] = new BlockOfficeChair(color);
+            laptops[color.getMetadata()] = new BlockLaptop(color);
             /*routers = new BlockRouter(color);
             printers = new BlockPrinter(color);
             monitors = new BlockMonitor(color);
