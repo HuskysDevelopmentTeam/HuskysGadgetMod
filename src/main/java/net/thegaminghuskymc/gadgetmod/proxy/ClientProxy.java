@@ -119,7 +119,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         ItemColors items = Minecraft.getMinecraft().getItemColors();
         BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 
-        IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).getC.getColorValue();
+        IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).color.getColorValue();
         items.registerItemColorHandler(handlerItems, flash_drives);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 gaming_chairs);
