@@ -47,18 +47,18 @@ public class GadgetBlocks {
         for (EnumDyeColor color : EnumDyeColor.values()) {
             gaming_chairs[color.getMetadata()] = new BlockOfficeChair(color);
             laptops[color.getMetadata()] = new BlockLaptop(color);
-            /*routers = new BlockRouter(color);
-            printers = new BlockPrinter(color);
-            monitors = new BlockMonitor(color);
-            ethernet_wall_outlets = new BlockEthernetWallOutlet(color);
-            robots = new BlockRobot(color);
-            gaming_desks = new BlockGamingDesk(color);
-            benchmark_stations = new BlockBenchmarkStation(color);
-            external_harddrives = new BlockExternalHarddrive(color);
-            playstation_4_pros = new BlockPlaystation4Pro(color);
-            threede_printers = new Block3DPrinter(color);
-            desktops = new BlockDesktop(color);
-            drawing_tablets = new BlockDrawingTablet(color);*/
+            routers[color.getMetadata()] = new BlockRouter(color);
+            printers[color.getMetadata()] = new BlockPrinter(color);
+            monitors[color.getMetadata()] = new BlockMonitor(color);
+            ethernet_wall_outlets[color.getMetadata()] = new BlockEthernetWallOutlet(color);
+            robots[color.getMetadata()] = new BlockRobot(color);
+            gaming_desks[color.getMetadata()] = new BlockGamingDesk(color);
+            benchmark_stations[color.getMetadata()] = new BlockBenchmarkStation(color);
+            external_harddrives[color.getMetadata()] = new BlockExternalHarddrive(color);
+            playstation_4_pros[color.getMetadata()] = new BlockPlaystation4Pro(color);
+            threede_printers[color.getMetadata()] = new Block3DPrinter(color);
+            desktops[color.getMetadata()] = new BlockDesktop(color);
+            drawing_tablets[color.getMetadata()] = new BlockDrawingTablet(color);
         }
 
         PAPER = new BlockPaper();
