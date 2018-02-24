@@ -31,12 +31,6 @@ public class BlockOfficeChair extends BlockColoredFacing {
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
         this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
     }
-
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
-
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
