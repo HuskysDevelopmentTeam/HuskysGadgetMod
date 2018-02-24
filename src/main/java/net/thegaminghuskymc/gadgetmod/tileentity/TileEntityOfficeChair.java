@@ -27,6 +27,6 @@ public class TileEntityOfficeChair extends TileMod {
                 return seat.getControllingPassenger().rotationYaw;
             }
         }
-        return getBlockMetadata() * 90F + 180F;
+        return getBlockMetadata() * 90F;
     }
 }
