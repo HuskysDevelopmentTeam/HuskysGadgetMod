@@ -30,3 +30,5 @@ saves/*
 resourcepacks/*
 logs/*
 *.txt
+usercache.json
+usernamecache.json
