@@ -50,7 +50,7 @@ public class LayoutAppPage extends Layout {
     {
         if(entry instanceof LocalEntry)
         {
-            installed = BaseDevice.getSystem().getInstalledApplications().contains(((LocalEntry) entry).getInfo());
+        	installed = BaseDevice.getSystem().getInstalledApplications().contains(((LocalEntry) entry).getInfo());
         }
 
         this.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->

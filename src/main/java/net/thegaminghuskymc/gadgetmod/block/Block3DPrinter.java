@@ -1,5 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,8 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntity3DPrinter;
-
-import javax.annotation.Nullable;
 
 public class Block3DPrinter extends BlockColoredDevice {
 

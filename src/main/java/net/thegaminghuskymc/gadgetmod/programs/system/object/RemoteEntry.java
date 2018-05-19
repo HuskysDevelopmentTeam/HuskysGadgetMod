@@ -7,35 +7,35 @@ import javax.annotation.Nullable;
  */
 public class RemoteEntry implements AppEntry
 {
-    public String id;
-    public String name;
-    public String author;
-    public String description;
-    public int screenshots;
+    public String app_id;
+    public String app_name;
+    public String app_author;
+    public String app_description;
+    public int app_screenshots;
     public String project_id;
 
     @Override
     public String getId()
     {
-        return id;
+        return app_id;
     }
 
     @Override
     public String getName()
     {
-        return name;
+        return app_name;
     }
 
     @Override
     public String getAuthor()
     {
-        return author;
+        return app_author;
     }
 
     @Override
     public String getDescription()
     {
-        return description;
+        return app_description;
     }
 
     @Override

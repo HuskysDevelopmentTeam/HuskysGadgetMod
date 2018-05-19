@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.programs.gitweb.layout;
 
-import com.mrcrayfish.device.api.app.ScrollableLayout;
-import com.mrcrayfish.device.api.app.component.Text;
+import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
 
 /**
  * Author: MrCrayfish

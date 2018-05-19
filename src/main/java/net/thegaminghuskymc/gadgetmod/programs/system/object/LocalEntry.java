@@ -66,7 +66,7 @@ public class LocalEntry implements AppEntry
     {
         if(obj instanceof AppEntry)
         {
-            return ((AppEntry) obj).getId().equals(getId());
+            return this.getId().equals( ((AppEntry) obj).getId() );
         }
         return false;
     }
