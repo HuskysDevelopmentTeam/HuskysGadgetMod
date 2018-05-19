@@ -126,7 +126,7 @@ public class LayoutAppPage extends Layout {
         else if(entry instanceof RemoteEntry) {
             RemoteEntry remoteEntry = (RemoteEntry) entry;
             String screenshotUrl = ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/screenshots/screenshot_%d.png";
-            for(int i = 0; i < remoteEntry.screenshots; i++) {
+            for(int i = 0; i < remoteEntry.app_screenshots; i++) {
                 slideShow.addImage(String.format(screenshotUrl, i));
             }
         }
