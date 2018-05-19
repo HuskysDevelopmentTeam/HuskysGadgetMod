@@ -14,8 +14,8 @@ import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteAppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteEntry;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
@@ -108,7 +108,7 @@ public class AppGrid extends Component
 
     public void addEntry(AppInfo info)
     {
-        this.entries.add(new LocalAppEntry(info));
+        this.entries.add(new LocalEntry(info));
     }
 
     public void addEntry(AppEntry entry)
@@ -121,7 +121,7 @@ public class AppGrid extends Component
         AppInfo info = ApplicationManager.getApplication(entry.getId());
         if(info != null)
         {
-            return new LocalAppEntry(info);
+            return new LocalEntry(info);
         }
         return entry;
     }
@@ -131,16 +131,16 @@ public class AppGrid extends Component
         Layout layout = new Layout(left, top, itemWidth, itemHeight);
 
         int iconOffset = (itemWidth - 14 * 3) / 2;
-        if(entry instanceof LocalAppEntry)
+        if(entry instanceof LocalEntry)
         {
-            LocalAppEntry localAppEntry = (LocalAppEntry) entry;
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localAppEntry.getInfo().getIconU(), localAppEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
+            LocalEntry localEntry = (LocalEntry) entry;
+            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localEntry.getInfo().getIconU(), localEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
             layout.addComponent(image);
         }
-        else if(entry instanceof RemoteAppEntry)
+        else if(entry instanceof RemoteEntry)
         {
-            RemoteAppEntry remoteAppEntry = (RemoteAppEntry) entry;
-            ResourceLocation resource = new ResourceLocation(remoteAppEntry.getId());
+            RemoteEntry remoteEntry = (RemoteEntry) entry;
+            ResourceLocation resource = new ResourceLocation(remoteEntry.getId());
             Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
             layout.addComponent(image);
         }
@@ -162,9 +162,9 @@ public class AppGrid extends Component
             layout.addComponent(certifiedIcon);
         }
 
-        if(entry instanceof LocalAppEntry)
+        if(entry instanceof LocalEntry)
         {
-            AppInfo info = ((LocalAppEntry) entry).getInfo();
+            AppInfo info = ((LocalEntry) entry).getInfo();
             if(BaseDevice.getSystem().getInstalledApplications().contains(info))
             {
                 Image installedIcon = new Image(itemWidth - 10 - 15, 38, Icons.CHECK);

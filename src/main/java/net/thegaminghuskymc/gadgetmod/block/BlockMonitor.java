@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.core.TestLaptop;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityMonitor;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
@@ -99,7 +99,7 @@ public class BlockMonitor extends BlockColoredDevice {
             } else {
                 if (monitor.isPowered() && worldIn.isRemote) {
                     if (monitor.isComputerConnected()) {
-                        playerIn.openGui(HuskyGadgetMod.instance, TestLaptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                        playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
                     }
                 }
             }

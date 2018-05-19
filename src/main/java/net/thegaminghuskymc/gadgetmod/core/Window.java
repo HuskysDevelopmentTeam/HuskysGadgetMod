@@ -77,10 +77,10 @@ public class Window<T extends Wrappable> {
 
         GlStateManager.enableBlend();
 
-        /* Theme Top Bar */
+        /* Application Top Bar */
         Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, BaseDevice.getSystem().getSettings().getColourScheme().getMainApplicationBarColour());
 
-        /* Theme Second Bar */
+        /* Application Second Bar */
 //        Gui.drawRect(x + offsetX, y + offsetY + 23, x + offsetX + width, y + offsetY + 13, colourScheme.getSecondApplicationBarColour());
 
         /* Center */

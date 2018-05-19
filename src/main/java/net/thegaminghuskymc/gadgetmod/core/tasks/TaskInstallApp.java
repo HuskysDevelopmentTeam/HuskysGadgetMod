@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
 /**
  * Author: MrCrayfish
@@ -47,12 +47,17 @@ public class TaskInstallApp extends Task
     {
         String appId = nbt.getString("appId");
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("pos")));
-        if(tileEntity instanceof TileEntityBaseDevice)
+        if(tileEntity instanceof TileEntityLaptop)
         {
-            TileEntityBaseDevice laptop = (TileEntityBaseDevice) tileEntity;
+            TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;
             NBTTagCompound systemData = laptop.getSystemData();
             NBTTagList tagList = systemData.getTagList("InstalledApps", Constants.NBT.TAG_STRING);
 
+            System.out.println("Before the task: ");
+            for(int i = 0; i < tagList.tagCount(); i++) {
+            	System.out.println("\t- " + tagList.getStringTagAt(i));
+            }
+            
             if(nbt.getBoolean("install"))
             {
                 for(int i = 0; i < tagList.tagCount(); i++)
@@ -77,6 +82,11 @@ public class TaskInstallApp extends Task
                 }
             }
             systemData.setTag("InstalledApps", tagList);
+            
+            System.out.println("After the task: ");
+            for(int i = 0; i < tagList.tagCount(); i++) {
+            	System.out.println("\t- " + tagList.getStringTagAt(i));
+            }
         }
     }
 

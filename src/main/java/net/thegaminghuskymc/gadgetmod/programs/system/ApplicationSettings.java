@@ -232,13 +232,13 @@ public class ApplicationSettings extends SystemApplication {
         buttonWallpaperUrl.setSize(55, 20);
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        Label mainApplicationBarColour = new Label("Main Theme Bar Colour", 175, 29);
+        Label mainApplicationBarColour = new Label("Main Application Bar Colour", 175, 29);
         layoutColourScheme.addComponent(mainApplicationBarColour);
 
         ComboBox.Custom<Integer> comboBoxMainApplicationBarColour = createColourPicker(117, 26);
         layoutColourScheme.addComponent(comboBoxMainApplicationBarColour);
 
-        Label secondApplicationBarColour = new Label("Second Theme Bar Colour", 175, 49);
+        Label secondApplicationBarColour = new Label("Second Application Bar Colour", 175, 49);
         layoutColourScheme.addComponent(secondApplicationBarColour);
 
         ComboBox.Custom<Integer> comboBoxSecondaryApplicationBarColour = createColourPicker(117, 46);

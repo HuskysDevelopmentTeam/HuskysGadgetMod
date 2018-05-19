@@ -40,7 +40,6 @@ import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
@@ -54,7 +53,10 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 public class BaseDevice extends GuiScreen implements System {
 
@@ -133,6 +135,7 @@ public class BaseDevice extends GuiScreen implements System {
         }
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
+        java.lang.System.out.println(te.getClass().getName());
         this.desktop = new LayoutDesktop();
 
         if (systemData.hasKey("bootmode")) {
@@ -350,7 +353,7 @@ public class BaseDevice extends GuiScreen implements System {
                     }
                 }
 
-                /* Theme Bar */
+                /* Application Bar */
                 bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
 
                 if (context != null) {
@@ -795,11 +798,6 @@ public class BaseDevice extends GuiScreen implements System {
         return ImmutableList.copyOf(installedApps);
     }
 
-    @Override
-    public Collection<ThemeInfo> getInstalledThemes() {
-        return null;
-    }
-
     public boolean isApplicationInstalled(AppInfo info)
     {
         return info.isSystemApp() || installedApps.contains(info);
@@ -816,7 +814,10 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void installApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        Task task = new TaskInstallApp(info, pos, true);
+        if(!isValidApplication(info))
+            return;
+
+       Task task = new TaskInstallApp(info, pos, true);
         task.setCallback((tagCompound, success) ->
         {
             if(success)
@@ -834,7 +835,7 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void removeApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(isValidApplication(info))
+        if(!isValidApplication(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, false);

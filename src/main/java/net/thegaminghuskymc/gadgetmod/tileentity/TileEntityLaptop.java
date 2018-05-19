@@ -35,6 +35,7 @@ public class TileEntityLaptop extends TileEntityBaseDevice {
                     rotation += 10F;
                 }
             }
+            //System.out.println(this);
         }
     }
 

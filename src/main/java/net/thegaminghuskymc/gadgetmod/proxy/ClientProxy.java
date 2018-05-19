@@ -132,14 +132,14 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 robots);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 gaming_desks);
-        /*items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
-                benchmark_stations);*/
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+                benchmark_stations);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 external_harddrives);
-        /*items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 playstation_4_pros);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
-                threede_printers);*/
+                threede_printers);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 desktops);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
@@ -152,10 +152,10 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         blocks.registerBlockColorHandler(handlerBlocks, ethernet_wall_outlets);
         blocks.registerBlockColorHandler(handlerBlocks, robots);
         blocks.registerBlockColorHandler(handlerBlocks, gaming_desks);
-//        blocks.registerBlockColorHandler(handlerBlocks, benchmark_stations);
+        blocks.registerBlockColorHandler(handlerBlocks, benchmark_stations);
         blocks.registerBlockColorHandler(handlerBlocks, external_harddrives);
-//        blocks.registerBlockColorHandler(handlerBlocks, playstation_4_pros);
-//        blocks.registerBlockColorHandler(handlerBlocks, threede_printers);
+        blocks.registerBlockColorHandler(handlerBlocks, playstation_4_pros);
+        blocks.registerBlockColorHandler(handlerBlocks, threede_printers);
         blocks.registerBlockColorHandler(handlerBlocks, desktops);
         blocks.registerBlockColorHandler(handlerBlocks, routers);
 

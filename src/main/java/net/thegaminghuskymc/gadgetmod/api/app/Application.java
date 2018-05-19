@@ -29,7 +29,7 @@ public abstract class Application extends Wrappable {
     private final Layout defaultLayout = new Layout();
     private Layout currentLayout;
 
-    /** If set to true, will update NBT data for Theme */
+    /** If set to true, will update NBT data for Application */
     private boolean needsDataUpdate = false;
 
     /** If set to true, will update layout */

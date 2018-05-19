@@ -2,7 +2,7 @@ package net.thegaminghuskymc.gadgetmod.core.operation_systems;
 
 import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.core.TaskBar;
-import net.thegaminghuskymc.gadgetmod.core.TestLaptop;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 
 public class NeonOS implements OperatingSystem {
 
@@ -18,7 +18,7 @@ public class NeonOS implements OperatingSystem {
 
     @Override
     public TaskBar getTaskBar() {
-        TestLaptop laptop = new TestLaptop();
+        Laptop laptop = new Laptop();
         return laptop.getTaskBar();
     }
 

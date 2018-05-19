@@ -56,12 +56,12 @@ public class GadgetBlocks {
             ethernet_wall_outlets[color.getMetadata()] = new BlockEthernetWallOutlet(color);
             robots[color.getMetadata()] = new BlockRobot(color);
             gaming_desks[color.getMetadata()] = new BlockGamingDesk(color);
-//            benchmark_stations[color.getMetadata()] = new BlockBenchmarkStation(color);
+            benchmark_stations[color.getMetadata()] = new BlockBenchmarkStation(color);
             external_harddrives[color.getMetadata()] = new BlockExternalHarddrive(color);
-//            playstation_4_pros[color.getMetadata()] = new BlockPlaystation4Pro(color);
-//            threede_printers[color.getMetadata()] = new Block3DPrinter(color);
+            playstation_4_pros[color.getMetadata()] = new BlockPlaystation4Pro(color);
+            threede_printers[color.getMetadata()] = new Block3DPrinter(color);
             desktops[color.getMetadata()] = new BlockDesktop(color);
-//            drawing_tablets[color.getMetadata()] = new BlockDrawingTablet(color);
+            drawing_tablets[color.getMetadata()] = new BlockDrawingTablet(color);
         }
 
         paper = new BlockPaper();

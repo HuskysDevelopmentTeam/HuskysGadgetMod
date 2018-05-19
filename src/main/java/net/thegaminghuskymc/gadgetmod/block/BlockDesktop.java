@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.core.TestLaptop;
+import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
 
 import javax.annotation.Nullable;
@@ -46,7 +46,7 @@ public class BlockDesktop extends BlockColoredDevice {
                 }
             } else {
                 if (desktop.isPowered() && worldIn.isRemote) {
-                    playerIn.openGui(HuskyGadgetMod.instance, TestLaptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                    playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
                 }
             }
         }

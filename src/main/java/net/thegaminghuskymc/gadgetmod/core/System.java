@@ -4,7 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 
 import java.util.Collection;
 
@@ -73,12 +72,5 @@ public interface System {
      * @return a collection of installed applications
      */
     Collection<AppInfo> getInstalledApplications();
-
-    /**
-     * Gets all the installed themes
-     *
-     * @return a collection of installed themes
-     */
-    Collection<ThemeInfo> getInstalledThemes();
 
 }

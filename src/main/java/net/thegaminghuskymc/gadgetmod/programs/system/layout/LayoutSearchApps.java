@@ -15,7 +15,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalEntry;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
@@ -90,7 +90,7 @@ public class LayoutSearchApps extends StandardLayout {
 
     private void openApplication(AppInfo info)
     {
-        Layout layout = new LayoutAppPage(appStore.getLaptop(), new LocalAppEntry(info), appStore);
+        Layout layout = new LayoutAppPage(appStore.getLaptop(), new LocalEntry(info), appStore);
         app.setCurrentLayout(layout);
         Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
         btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> app.setCurrentLayout(this));
