@@ -14,8 +14,8 @@ apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mc_version}-${major_version}.${minor_version}.${build_number}"
-group= "net.hdt.neutronia"
-archivesBaseName = "Neutronia"
+group= "net.thegaminghuskymc.hgm"
+archivesBaseName = "Husky's Gadget Mod"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
