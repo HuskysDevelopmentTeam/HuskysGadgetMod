@@ -39,8 +39,6 @@ repositories {
     maven { url = "http://dvs1.progwml6.com/files/maven" }
     maven { url = "http://tehnut.info/maven" }
     maven { url = "http://maven.tterrag.com" }
-    maven { url = "http://maven.covers1624.net" }
-    maven { url = "http://repo.elytradev.com" }
 }
 
 dependencies {
