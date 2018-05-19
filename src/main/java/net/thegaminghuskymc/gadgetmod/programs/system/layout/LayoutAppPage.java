@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -16,15 +16,15 @@ import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteAppEntry;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
 import java.net.URI;
 import java.net.URL;
 
-public class LayoutAppPage extends Layout {
+public class LayoutAppPage extends ScrollableLayout {
 
     private BaseDevice laptop;
     private AppEntry entry;
@@ -39,7 +39,7 @@ public class LayoutAppPage extends Layout {
 
     public LayoutAppPage(BaseDevice laptop, AppEntry entry, ApplicationAppStore store)
     {
-        super(250, 150);
+        super(250, 150, 150);
         this.laptop = laptop;
         this.entry = entry;
         this.store = store;
@@ -48,9 +48,9 @@ public class LayoutAppPage extends Layout {
     @Override
     public void init()
     {
-        if(entry instanceof LocalEntry)
+        if(entry instanceof LocalAppEntry)
         {
-        	installed = BaseDevice.getSystem().getInstalledApplications().contains(((LocalEntry) entry).getInfo());
+        	installed = BaseDevice.getSystem().getInstalledApplications().contains(((LocalAppEntry) entry).getInfo());
         }
 
         this.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
@@ -65,23 +65,23 @@ public class LayoutAppPage extends Layout {
 
         imageBanner = new Image(0, 0, 250, 40);
         imageBanner.setDrawFull(true);
-        if(entry instanceof LocalEntry)
+        if(entry instanceof LocalAppEntry)
         {
             imageBanner.setImage(new ResourceLocation(resource.getResourceDomain(), "textures/app/banner/banner_" + resource.getResourcePath() + ".png"));
         }
-        else if(entry instanceof RemoteEntry)
+        else if(entry instanceof RemoteAppEntry)
         {
             imageBanner.setImage(ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/banner.png");
         }
         this.addComponent(imageBanner);
 
-        if(entry instanceof LocalEntry)
+        if(entry instanceof LocalAppEntry)
         {
-            LocalEntry localEntry = (LocalEntry) entry;
-            AppInfo info = localEntry.getInfo();
+            LocalAppEntry localAppEntry = (LocalAppEntry) entry;
+            AppInfo info = localAppEntry.getInfo();
             imageIcon = new Image(5, 26, 28, 28, info.getIconU(), info.getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
         }
-        else if(entry instanceof RemoteEntry)
+        else if(entry instanceof RemoteAppEntry)
         {
             imageIcon = new Image(5, 26, 28, 28, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
         }
@@ -97,7 +97,7 @@ public class LayoutAppPage extends Layout {
         labelTitle.setScale(2);
         this.addComponent(labelTitle);
 
-        String version = entry instanceof LocalEntry ? "v" + entry.getVersion() + " - " + entry.getAuthor() : entry.getAuthor();
+        String version = entry instanceof LocalAppEntry ? "v" + entry.getVersion() + " - " + entry.getAuthor() : entry.getAuthor();
         labelVersion = new Label(version, 38, 50);
         this.addComponent(labelVersion);
 
@@ -106,7 +106,7 @@ public class LayoutAppPage extends Layout {
 //        this.addComponent(descriptionLayout);
 
         SlideShow slideShow = new SlideShow(5, 67, 120, 78);
-        if(entry instanceof LocalEntry)
+        if(entry instanceof LocalAppEntry)
         {
             if(entry.getScreenshots() != null)
             {
@@ -123,17 +123,17 @@ public class LayoutAppPage extends Layout {
                 }
             }
         }
-        else if(entry instanceof RemoteEntry) {
-            RemoteEntry remoteEntry = (RemoteEntry) entry;
+        else if(entry instanceof RemoteAppEntry) {
+            RemoteAppEntry remoteAppEntry = (RemoteAppEntry) entry;
             String screenshotUrl = ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/screenshots/screenshot_%d.png";
-            for(int i = 0; i < remoteEntry.app_screenshots; i++) {
+            for(int i = 0; i < remoteAppEntry.app_screenshots; i++) {
                 slideShow.addImage(String.format(screenshotUrl, i));
             }
         }
         this.addComponent(slideShow);
 
-        if(entry instanceof LocalEntry) {
-            AppInfo info = ((LocalEntry) entry).getInfo();
+        if(entry instanceof LocalAppEntry) {
+            AppInfo info = ((LocalAppEntry) entry).getInfo();
             Button btnInstall = new Button(174, 44, installed ? "Delete" : "Install", installed ? Icons.CROSS : Icons.PLUS);
             btnInstall.setSize(55, 14);
             btnInstall.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -163,29 +163,11 @@ public class LayoutAppPage extends Layout {
                 this.addComponent(btnDonate);
             }
         }
-        else if(entry instanceof RemoteEntry) {
+        else if(entry instanceof RemoteAppEntry) {
             Button btnDownload = new Button(20, 2, "Download", Icons.IMPORT);
             btnDownload.setSize(66, 16);
-            btnDownload.setClickListener((mouseX, mouseY, mouseButton) -> this.openWebLink("https://minecraft.curseforge.com/projects/" + ((RemoteEntry) entry).project_id));
+            btnDownload.setClickListener((mouseX, mouseY, mouseButton) -> this.openWebLink("https://minecraft.curseforge.com/projects/" + ((RemoteAppEntry) entry).project_id));
             this.addComponent(btnDownload);
-        }
-
-        if(entry instanceof LocalEntry && installed) {
-            AppInfo info = ((LocalEntry) entry).getInfo();
-            Button btnStart = new Button(80, 2, Icons.PLAY);
-            btnStart.setToolTip("Start", "Starts the application");
-            if(installed) {
-                btnStart.setVisible(true);
-                btnStart.setEnabled(true);
-            } else {
-                btnStart.setVisible(false);
-                btnStart.setEnabled(false);
-            }
-            btnStart.setClickListener((mouseX, mouseY, mouseButton) -> {
-                laptop.openApplication(info);
-                laptop.closeContext();
-            });
-//            this.addComponent(btnStart);
         }
 
     }

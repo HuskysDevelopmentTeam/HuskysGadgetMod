@@ -40,6 +40,7 @@ import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
@@ -53,10 +54,7 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BaseDevice extends GuiScreen implements System {
 
@@ -352,7 +350,7 @@ public class BaseDevice extends GuiScreen implements System {
                     }
                 }
 
-                /* Application Bar */
+                /* Theme Bar */
                 bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
 
                 if (context != null) {
@@ -795,6 +793,11 @@ public class BaseDevice extends GuiScreen implements System {
     public List<AppInfo> getInstalledApplications()
     {
         return ImmutableList.copyOf(installedApps);
+    }
+
+    @Override
+    public Collection<ThemeInfo> getInstalledThemes() {
+        return null;
     }
 
     public boolean isApplicationInstalled(AppInfo info)

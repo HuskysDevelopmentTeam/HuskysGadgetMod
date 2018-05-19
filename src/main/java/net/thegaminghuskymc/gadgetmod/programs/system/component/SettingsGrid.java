@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class AppGrid extends Component
+public class SettingsGrid extends Component
 {
     private int padding = 5;
     private int horizontalItems;
@@ -41,7 +41,7 @@ public class AppGrid extends Component
 
     private Layout container;
 
-    public AppGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationAppStore store)
+    public SettingsGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationAppStore store)
     {
         super(left, top);
         this.horizontalItems = horizontalItems;
@@ -133,14 +133,14 @@ public class AppGrid extends Component
         int iconOffset = (itemWidth - 14 * 3) / 2;
         if(entry instanceof LocalAppEntry)
         {
-            LocalAppEntry localAppEntry = (LocalAppEntry) entry;
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localAppEntry.getInfo().getIconU(), localAppEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
+            LocalAppEntry localEntry = (LocalAppEntry) entry;
+            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localEntry.getInfo().getIconU(), localEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
             layout.addComponent(image);
         }
         else if(entry instanceof RemoteAppEntry)
         {
-            RemoteAppEntry remoteAppEntry = (RemoteAppEntry) entry;
-            ResourceLocation resource = new ResourceLocation(remoteAppEntry.getId());
+            RemoteAppEntry remoteEntry = (RemoteAppEntry) entry;
+            ResourceLocation resource = new ResourceLocation(remoteEntry.getId());
             Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
             layout.addComponent(image);
         }

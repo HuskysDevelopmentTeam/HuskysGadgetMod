@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.programs.system.component;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.ThemeManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
@@ -11,11 +11,12 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteAppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalThemeEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteThemeEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ThemeEntry;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
@@ -25,13 +26,13 @@ import java.util.List;
 /**
  * Author: MrCrayfish
  */
-public class AppGrid extends Component
+public class ThemesGrid extends Component
 {
     private int padding = 5;
     private int horizontalItems;
     private int verticalItems;
-    private List<AppEntry> entries = new ArrayList<>();
-    private ApplicationAppStore store;
+    private List<ThemeEntry> entries = new ArrayList<>();
+    private ApplicationSettings store;
 
     private int itemWidth;
     private int itemHeight;
@@ -41,7 +42,7 @@ public class AppGrid extends Component
 
     private Layout container;
 
-    public AppGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationAppStore store)
+    public ThemesGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationSettings store)
     {
         super(left, top);
         this.horizontalItems = horizontalItems;
@@ -58,7 +59,7 @@ public class AppGrid extends Component
         int size = Math.min(entries.size(), verticalItems * horizontalItems);
         for(int i = 0; i < size; i++)
         {
-            AppEntry entry = entries.get(i);
+            ThemeEntry entry = entries.get(i);
             int itemX = left + (i % horizontalItems) * (itemWidth + padding) + padding;
             int itemY = top + (i / horizontalItems) * (itemHeight + padding) + padding;
             container.addComponent(generateAppTile(entry, itemX, itemY));
@@ -95,7 +96,6 @@ public class AppGrid extends Component
                 if(System.currentTimeMillis() - this.lastClick <= 200 && clickedIndex == i)
                 {
                     this.lastClick = 0;
-                    store.openApplication(entries.get(i));
                 }
                 else
                 {
@@ -106,41 +106,41 @@ public class AppGrid extends Component
         }
     }
 
-    public void addEntry(AppInfo info)
+    public void addEntry(ThemeInfo info)
     {
-        this.entries.add(new LocalAppEntry(info));
+        this.entries.add(new LocalThemeEntry(info));
     }
 
-    public void addEntry(AppEntry entry)
+    public void addEntry(ThemeEntry entry)
     {
         this.entries.add(adjustEntry(entry));
     }
 
-    private AppEntry adjustEntry(AppEntry entry)
+    private ThemeEntry adjustEntry(ThemeEntry entry)
     {
-        AppInfo info = ApplicationManager.getApplication(entry.getId());
+        ThemeInfo info = ThemeManager.getApplication(entry.getId());
         if(info != null)
         {
-            return new LocalAppEntry(info);
+            return new LocalThemeEntry(info);
         }
         return entry;
     }
 
-    private Layout generateAppTile(AppEntry entry, int left, int top)
+    private Layout generateAppTile(ThemeEntry entry, int left, int top)
     {
         Layout layout = new Layout(left, top, itemWidth, itemHeight);
 
         int iconOffset = (itemWidth - 14 * 3) / 2;
-        if(entry instanceof LocalAppEntry)
+        if(entry instanceof LocalThemeEntry)
         {
-            LocalAppEntry localAppEntry = (LocalAppEntry) entry;
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localAppEntry.getInfo().getIconU(), localAppEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
+            LocalThemeEntry localEntry = (LocalThemeEntry) entry;
+            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localEntry.getInfo().getIconU(), localEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
             layout.addComponent(image);
         }
-        else if(entry instanceof RemoteAppEntry)
+        else if(entry instanceof RemoteThemeEntry)
         {
-            RemoteAppEntry remoteAppEntry = (RemoteAppEntry) entry;
-            ResourceLocation resource = new ResourceLocation(remoteAppEntry.getId());
+            RemoteThemeEntry remoteEntry = (RemoteThemeEntry) entry;
+            ResourceLocation resource = new ResourceLocation(remoteEntry.getId());
             Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
             layout.addComponent(image);
         }
@@ -150,22 +150,16 @@ public class AppGrid extends Component
         labelName.setAlignment(Component.ALIGN_CENTER);
         layout.addComponent(labelName);
 
-        String clippedAuthor = RenderUtil.clipStringToWidth(entry.getAuthor(), itemWidth - padding * 2);
+        String clippedAuthor = RenderUtil.clipStringToWidth(entry.getCreator(), itemWidth - padding * 2);
         Label labelAuthor = new Label(clippedAuthor, itemWidth / 2, 62);
         labelAuthor.setAlignment(Component.ALIGN_CENTER);
         labelAuthor.setShadow(false);
         layout.addComponent(labelAuthor);
 
-        if(store.certifiedApps.contains(entry))
+        if(entry instanceof LocalThemeEntry)
         {
-            Image certifiedIcon = new Image(15, 38, Icons.VERIFIED);
-            layout.addComponent(certifiedIcon);
-        }
-
-        if(entry instanceof LocalAppEntry)
-        {
-            AppInfo info = ((LocalAppEntry) entry).getInfo();
-            if(BaseDevice.getSystem().getInstalledApplications().contains(info))
+            ThemeInfo info = ((LocalThemeEntry) entry).getInfo();
+            if(BaseDevice.getSystem().getInstalledThemes().contains(info))
             {
                 Image installedIcon = new Image(itemWidth - 10 - 15, 38, Icons.CHECK);
                 layout.addComponent(installedIcon);
