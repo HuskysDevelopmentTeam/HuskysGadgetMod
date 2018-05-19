@@ -6,8 +6,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
@@ -17,16 +15,16 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
+import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Stack;
 
 public class ApplicationSettings extends SystemApplication {
 
@@ -49,7 +47,7 @@ public class ApplicationSettings extends SystemApplication {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         buttonPrevious = new Button(2, 2, Icons.ARROW_LEFT);
         buttonPrevious.setVisible(false);
         buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -79,11 +77,11 @@ public class ApplicationSettings extends SystemApplication {
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 122, y + wallpaperY - 1 + 70, getLaptop().getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 162, y + wallpaperY - 1 + 90, getLaptop().getSettings().getColourScheme().getHeaderColour());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
             mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
-            RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 120, 68);
+            RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 160, 88);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
         });
 
@@ -169,7 +167,7 @@ public class ApplicationSettings extends SystemApplication {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
                 gui.drawString(mc.fontRenderer, "Router", x + 16, y + 4, Color.WHITE.getRGB());
 
-                BlockPos laptopPos = Laptop.getPos();
+                BlockPos laptopPos = BaseDevice.getPos();
                 double distance = Math.sqrt(blockPos.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
                 if (distance > 20) {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
@@ -181,7 +179,7 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
         itemListRouters.sortBy((o1, o2) -> {
-            BlockPos laptopPos = Laptop.getPos();
+            BlockPos laptopPos = BaseDevice.getPos();
             double distance1 = Math.sqrt(o1.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             double distance2 = Math.sqrt(o2.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             return Double.compare(distance1, distance2);
@@ -193,12 +191,12 @@ public class ApplicationSettings extends SystemApplication {
         {
             if (mouseButton == 0) {
                 if (itemListRouters.getSelectedItem() != null) {
-                    TaskConnect connect = new TaskConnect(Laptop.getPos(), itemListRouters.getSelectedItem());
+                    TaskConnect connect = new TaskConnect(BaseDevice.getPos(), itemListRouters.getSelectedItem());
                     connect.setCallback((tagCompound, success) ->
                     {
                         if (success) {
                             TrayItemWifi.trayItem.setIcon(Icons.WIFI_HIGH);
-                            Laptop.getSystem().closeContext();
+                            BaseDevice.getSystem().closeContext();
                         }
                     });
                     TaskManager.sendTask(connect);
@@ -258,7 +256,7 @@ public class ApplicationSettings extends SystemApplication {
         buttonColourSchemeApply.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
-                ColourScheme colourScheme = Laptop.getSystem().getSettings().getColourScheme();
+                ColourScheme colourScheme = BaseDevice.getSystem().getSettings().getColourScheme();
                 colourScheme.setMainApplicationBarColour(comboBoxMainApplicationBarColour.getValue());
                 colourScheme.setSecondApplicationBarColour(comboBoxSecondaryApplicationBarColour.getValue());
                 colourScheme.setBackgroundColour(comboBoxBackgroundColour.getValue());
@@ -266,31 +264,6 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
         layoutColourScheme.addComponent(buttonColourSchemeApply);
-
-        ItemList<AppInfo> itemListApps = new ItemList<>(10, 30, 310, 5, true);
-        itemListApps.setItems(new ArrayList<>(ApplicationManager.getAvailableApplications()));
-        itemListApps.sortBy(Comparator.comparing(AppInfo::getName));
-        itemListApps.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
-            @Override
-            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
-
-                GlStateManager.color(1.0F, 1.0F, 1.0F);
-                RenderUtil.drawApplicationIcon(info, x + 2, y + 2);
-                RenderUtil.drawStringClipped(info.getName() + TextFormatting.GRAY + " - " + TextFormatting.DARK_GRAY + info.getDescription(), x + 20, y + 5, itemListApps.getWidth() - 22, Color.WHITE.getRGB(), false);
-            }
-        });
-        itemListApps.setItemClickListener((info, index, mouseButton) ->
-        {
-            if (mouseButton == 0) {
-                if (System.currentTimeMillis() - this.lastClick <= 200) {
-                    openApplication(info);
-                } else {
-                    this.lastClick = System.currentTimeMillis();
-                }
-            }
-        });
-        layoutInformationApps.addComponent(itemListApps);
 
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
         layoutInformationComputer.addComponent(nameOnPage);
@@ -361,14 +334,6 @@ public class ApplicationSettings extends SystemApplication {
         predecessor.clear();
     }
 
-    private void openApplication(AppInfo info) {
-        Layout layout = new LayoutAppPage(info);
-        setCurrentLayout(layout);
-        Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
-        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> setCurrentLayout(layoutInformationApps));
-        layout.addComponent(btnPrevious);
-    }
-
     private ComboBox.Custom<Integer> createColourPicker(int left, int top) {
         ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(left, top, 50, 100, 100);
         colourPicker.setValue(Color.RED.getRGB());
@@ -399,8 +364,8 @@ public class ApplicationSettings extends SystemApplication {
         }
 
         @Override
-        public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-            Gui.drawRect(x - 1, y, x + width + 1, y + 20, Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+        public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+            Gui.drawRect(x - 1, y, x + width + 1, y + 20, BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
             mc.fontRenderer.drawString(title, x + 22, y + 6, Color.WHITE.getRGB(), true);
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
         }

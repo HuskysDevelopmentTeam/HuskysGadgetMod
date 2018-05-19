@@ -6,7 +6,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ public class LayoutStartMenu extends Layout {
     @Override
     public void init() {
         this.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
-            Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getItemBackgroundColour());
+            Color color = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getItemBackgroundColour());
             Gui.drawRect(x, y, x + width, y + 100, color.getRGB());
             Gui.drawRect(x, y, x + width, y + 100, color.darker().getRGB());
             Gui.drawRect(x, y, x + width, y + 100, color.brighter().getRGB());
@@ -28,7 +28,7 @@ public class LayoutStartMenu extends Layout {
         Button btnPowerOff = new Button(5, 5, "Shutdown", Icons.POWER_OFF);
         btnPowerOff.setToolTip("Power Off", "This will turn off the computer");
         btnPowerOff.setClickListener((mouseX, mouseY, mouseButton) -> {
-            Laptop laptop = (Laptop) Minecraft.getMinecraft().currentScreen;
+            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
             laptop.closeContext();
             laptop.shutdown();
         });
@@ -37,8 +37,8 @@ public class LayoutStartMenu extends Layout {
         Button btnStore = new Button(5, 30, 69, 20, "Store", Icons.SHOPPING_CART);
         btnStore.setToolTip("App store", "Allows you to install apps");
         btnStore.setClickListener((mouseX, mouseY, mouseButton) -> {
-            Laptop laptop = (Laptop) Minecraft.getMinecraft().currentScreen;
-            laptop.open(laptop.getApplication(Reference.MOD_ID + ".app_store"));
+            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
+            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".app_store").getInfo());
             laptop.closeContext();
         });
         this.addComponent(btnStore);
@@ -46,8 +46,8 @@ public class LayoutStartMenu extends Layout {
         Button btnSettings = new Button(5, 50, 69, 20, "Settings", Icons.HAMMER);
         btnSettings.setToolTip("Settings", "Allows you to change things on the computer");
         btnSettings.setClickListener((mouseX, mouseY, mouseButton) -> {
-            Laptop laptop = (Laptop) Minecraft.getMinecraft().currentScreen;
-            laptop.open(laptop.getApplication(Reference.MOD_ID + ".settings"));
+            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
+            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".settings").getInfo());
             laptop.closeContext();
         });
         this.addComponent(btnSettings);

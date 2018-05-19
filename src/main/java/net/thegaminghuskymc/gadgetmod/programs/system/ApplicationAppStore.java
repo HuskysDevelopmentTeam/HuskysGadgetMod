@@ -1,44 +1,81 @@
 package net.thegaminghuskymc.gadgetmod.programs.system;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
+import net.thegaminghuskymc.gadgetmod.api.utils.OnlineRequest;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.system.appStoreThings.AppStoreAppCategories;
-import net.thegaminghuskymc.gadgetmod.programs.system.layout.HomePageLayout;
+import net.thegaminghuskymc.gadgetmod.object.TrayItem;
+import net.thegaminghuskymc.gadgetmod.programs.system.component.AppGrid;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutSearchApps;
-import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteEntry;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
 
-public class ApplicationAppStore extends Application {
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
-    public static final int LAYOUT_WIDTH = 270;
+public class ApplicationAppStore extends SystemApplication {
+
+    public static final String CERTIFIED_APPS_URL = "https://raw.githubusercontent.com/sindrefag/GadgetMod-CertifiedApps/master";
+
+    public static final int LAYOUT_WIDTH = 250;
     public static final int LAYOUT_HEIGHT = 150;
 
-    private HomePageLayout layoutHome;
+    private Layout layoutMain;
 
-    private long lastClick = 0;
+    int offset;
+
+    public List<AppEntry> certifiedApps = new ArrayList<>();
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
-        layoutHome = new HomePageLayout(LAYOUT_WIDTH, LAYOUT_HEIGHT, this, null);
+        layoutMain = new Layout(LAYOUT_WIDTH, LAYOUT_HEIGHT);
 
-        Button btnSearch = new Button(214, 44, Icons.SEARCH);
+        ScrollableLayout homePageLayout = new ScrollableLayout(0, 0, LAYOUT_WIDTH, 368, LAYOUT_HEIGHT);
+        homePageLayout.setScrollSpeed(10);
+        homePageLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
+        {
+            Color color = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
+            offset = 60;
+            Gui.drawRect(x, y + offset, x + LAYOUT_WIDTH, y + offset + 1, color.brighter().getRGB());
+            Gui.drawRect(x, y + offset + 1, x + LAYOUT_WIDTH, y + offset + 19, color.getRGB());
+            Gui.drawRect(x, y + offset + 19, x + LAYOUT_WIDTH, y + offset + 20, color.darker().getRGB());
+
+            offset = 172;
+            Gui.drawRect(x, y + offset, x + LAYOUT_WIDTH, y + offset + 1, color.brighter().getRGB());
+            Gui.drawRect(x, y + offset + 1, x + LAYOUT_WIDTH, y + offset + 19, color.getRGB());
+            Gui.drawRect(x, y + offset + 19, x + LAYOUT_WIDTH, y + offset + 20, color.darker().getRGB());
+        });
+
+        Image imageBanner = new Image(0, 0, LAYOUT_WIDTH, 60);
+        imageBanner.setImage(new ResourceLocation(MOD_ID, "textures/gui/app_market_background.png"));
+        imageBanner.setDrawFull(true);
+        homePageLayout.addComponent(imageBanner);
+
+        Button btnSearch = new Button(214, 2, Icons.SEARCH);
         btnSearch.setToolTip("Search", "Find a specific application");
         btnSearch.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -46,103 +83,65 @@ public class ApplicationAppStore extends Application {
                 this.setCurrentLayout(new LayoutSearchApps(this, getCurrentLayout()));
             }
         });
-        layoutHome.addComponent(btnSearch);
+        homePageLayout.addComponent(btnSearch);
 
-        Label labelCategories = new Label(RenderHelper.unlocaliseName("appStore.categories"), 5, 70);
-        layoutHome.addComponent(labelCategories);
+        Button btnManageApps = new Button(232, 2, Icons.HAMMER);
+        btnManageApps.setToolTip("Manage Apps", "Manage your installed applications");
+        homePageLayout.addComponent(btnManageApps);
 
-        ItemList itemListCategories = new ItemList(5, 82, 100, 4, true);
-        itemListCategories.setListItemRenderer(new ListItemRenderer(14) {
-            @Override
-            public void render(Object o, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                if (selected)
-                    Gui.drawRect(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
-                else
-                    Gui.drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
-                gui.drawString(mc.fontRenderer, o.toString(), x + 3, y + 2, Color.WHITE.getRGB());
-            }
-        });
-        for (int i = 0; i < AppStoreAppCategories.getSize(); i++) {
-            itemListCategories.addItem(AppStoreAppCategories.getUnlocalizedName(i));
-        }
-        layoutHome.addComponent(itemListCategories);
+        Image image = new Image(5, 33, 20, 20, Icons.SHOP);
+        homePageLayout.addComponent(image);
 
-        Layout layoutSystemApplications = new Layout(LAYOUT_WIDTH, LAYOUT_HEIGHT);
+        Label labelBanner = new Label("App Market", 32, 35);
+        labelBanner.setScale(2);
+        homePageLayout.addComponent(labelBanner);
 
-        ItemList<AppInfo> itemListSystemApplications = new ItemList<>(30, 30, 100, 8, true);
-        itemListSystemApplications.setItems(new ArrayList<>(ApplicationManager.getSystemApplications()));
-        itemListSystemApplications.sortBy(Comparator.comparing(AppInfo::getName));
-        itemListSystemApplications.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
-            @Override
-            public void render(AppInfo e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                if (selected)
-                    Gui.drawRect(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
-                else
-                    Gui.drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
-                GlStateManager.color(1.0f, 1.0f, 1.0f);
-                RenderUtil.drawApplicationIcon(e, x + 3, y + 3);
-                gui.drawString(mc.fontRenderer, e.getName(), x + 20, y + 6, Color.WHITE.getRGB());
-            }
-        });
-        itemListSystemApplications.setItemClickListener((info, index, mouseButton) ->
+        Label labelCertified = new Label(TextFormatting.WHITE + TextFormatting.BOLD.toString() + "Certified Apps", 10, 66);
+        homePageLayout.addComponent(labelCertified);
+
+        Label labelCertifiedDesc = new Label(TextFormatting.GRAY + "Verified by HuskyTheArtist", LAYOUT_WIDTH - 10, 66);
+        labelCertifiedDesc.setAlignment(Component.ALIGN_RIGHT);
+        labelCertifiedDesc.setScale(1.0);
+        labelCertifiedDesc.setShadow(false);
+        homePageLayout.addComponent(labelCertifiedDesc);
+
+        Spinner spinner = new Spinner((LAYOUT_WIDTH - 12) / 2, 120);
+        homePageLayout.addComponent(spinner);
+
+        OnlineRequest.getInstance().make(CERTIFIED_APPS_URL + "/certified_apps.json", (success, response) ->
         {
-            if (mouseButton == 0) {
-                if (System.currentTimeMillis() - this.lastClick <= 200) {
-                    openApplication(info);
-                } else {
-                    this.lastClick = System.currentTimeMillis();
-                }
+            certifiedApps.clear();
+            spinner.setVisible(false);
+            if(success)
+            {
+                Minecraft.getMinecraft().addScheduledTask(() ->
+                {
+                    AppGrid grid = new AppGrid(0, 81, 3, 1, this);
+                    certifiedApps.addAll(parseJson(response));
+//                    shuffleAndShrink(certifiedApps, 3).forEach(grid::addEntry);
+                    homePageLayout.addComponent(grid);
+                    grid.reloadIcons();
+                });
             }
+            //TODO error handling
         });
-        layoutSystemApplications.addComponent(itemListSystemApplications);
 
-        Button btnSystemApps = new Button(194, 44, Icons.CHECK);
-        btnSystemApps.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if (mouseButton == 0) {
-                setCurrentLayout(layoutSystemApplications);
-            }
-        });
-        layoutHome.addComponent(btnSystemApps);
+        Label labelOther = new Label(TextFormatting.WHITE + TextFormatting.BOLD.toString() + "Other Apps", 10, 178);
+        homePageLayout.addComponent(labelOther);
 
-        Label appsLabel = new Label("Application List", 120, 70);
-        layoutHome.addComponent(appsLabel);
+        Label labelOtherDesc = new Label(TextFormatting.GRAY + "Community Created", LAYOUT_WIDTH - 10, 178);
+        labelOtherDesc.setAlignment(Component.ALIGN_RIGHT);
+        labelOtherDesc.setScale(1.0);
+        labelOtherDesc.setShadow(false);
+        homePageLayout.addComponent(labelOtherDesc);
 
-        ItemList<AppInfo> apps = new ItemList<>(120, 82, 140, 3);
-        apps.setItems(new ArrayList<>(ApplicationManager.getAllApplications()));
-        apps.sortBy(Comparator.comparing(AppInfo::getName));
-        apps.setListItemRenderer(new ListItemRenderer<AppInfo>(20) {
-            @Override
-            public void render(AppInfo e, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                if (selected)
-                    Gui.drawRect(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
-                else
-                    Gui.drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
-                GlStateManager.color(1.0f, 1.0f, 1.0f);
-                RenderUtil.drawApplicationIcon(e, x + 3, y + 3);
-                gui.drawString(mc.fontRenderer, e.getName(), x + 20, y + 6, Color.WHITE.getRGB());
-            }
-        });
-        apps.setItemClickListener((info, index, mouseButton) ->
-        {
-            if (mouseButton == 0) {
-                if (System.currentTimeMillis() - this.lastClick <= 200) {
-                    openApplication(info);
-                } else {
-                    this.lastClick = System.currentTimeMillis();
-                }
-            }
-        });
-        layoutHome.addComponent(apps);
+        AppGrid other = new AppGrid(0, 192, 3, 2, this);
+        shuffleAndShrink(ApplicationManager.getAvailableApplications(), 6).forEach(other::addEntry);
+        homePageLayout.addComponent(other);
 
-        this.setCurrentLayout(layoutHome);
-    }
+        layoutMain.addComponent(homePageLayout);
 
-    private void openApplication(AppInfo info) {
-        Layout layout = new LayoutAppPage(info);
-        setCurrentLayout(layout);
-        Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
-        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> setCurrentLayout(layoutHome));
-        layout.addComponent(btnPrevious);
+        setCurrentLayout(layoutMain);
     }
 
     @Override
@@ -153,5 +152,48 @@ public class ApplicationAppStore extends Application {
     @Override
     public void save(NBTTagCompound tagCompound) {
 
+    }
+
+    public List<RemoteEntry> parseJson(String json)
+    {
+        List<RemoteEntry> entries = new ArrayList<>();
+        JsonParser parser = new JsonParser();
+        JsonArray array = parser.parse(json).getAsJsonArray();
+        Gson gson = new Gson();
+        array.forEach(element -> entries.add(gson.fromJson(element, new TypeToken<RemoteEntry>(){}.getType())));
+        return entries;
+    }
+
+    public void openApplication(AppEntry entry)
+    {
+        Layout layout = new LayoutAppPage(getLaptop(), entry, this);
+        this.setCurrentLayout(layout);
+        Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
+        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> this.setCurrentLayout(layoutMain));
+        layout.addComponent(btnPrevious);
+    }
+
+    private <T> List<T> shuffleAndShrink(List<T> list, int newSize)
+    {
+        Collections.shuffle(list);
+        return list.subList(0, Math.min(list.size(), newSize));
+    }
+
+    public static class StoreTrayItem extends TrayItem
+    {
+        public StoreTrayItem()
+        {
+            super(Icons.SHOP);
+        }
+
+        @Override
+        public void handleClick(int mouseX, int mouseY, int mouseButton)
+        {
+            AppInfo info = ApplicationManager.getApplication("hgm:app_store");
+            if(info != null)
+            {
+                BaseDevice.getSystem().openApplication(info);
+            }
+        }
     }
 }

@@ -14,12 +14,8 @@ import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
 
-import java.awt.*;
-
-/**
- * Author: MrCrayfish
- */
 public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter> {
+
     private static final ModelPaper MODEL_PAPER = new ModelPaper();
 
     @Override
@@ -36,9 +32,9 @@ public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter
                     IBlockState state = te.getWorld().getBlockState(te.getPos());
                     GlStateManager.rotate(state.getValue(BlockPrinter.FACING).getHorizontalIndex() * -90F, 0, 1, 0);
                     GlStateManager.rotate(22.5F, 1, 0, 0);
-                    GlStateManager.translate(0, 0, 0.4);
+                    GlStateManager.translate(0, 0.1, 0.35);
                     GlStateManager.translate(-11 * 0.015625, -13 * 0.015625, -0.5 * 0.015625);
-                    MODEL_PAPER.render(null, 0F, 0F, 0F, 0F, 0F, 0.015625F);
+                    MODEL_PAPER.render(null, 0F, 0F, 0F, 0F, 0F, 0.3F);
                 }
                 GlStateManager.popMatrix();
             }
@@ -74,24 +70,6 @@ public class PrinterRenderer extends TileEntitySpecialRenderer<TileEntityPrinter
                         renderer.render(print.toTag());
                     }
                 }
-            }
-            GlStateManager.popMatrix();
-
-            GlStateManager.pushMatrix();
-            {
-                GlStateManager.depthMask(false);
-                GlStateManager.translate(0.5, 0.5, 0.5);
-                IBlockState state1 = te.getWorld().getBlockState(te.getPos());
-                GlStateManager.rotate(state1.getValue(BlockPrinter.FACING).getHorizontalIndex() * -90F, 0, 1, 0);
-                GlStateManager.rotate(180F, 0, 1, 0);
-                GlStateManager.translate(0.0675, 0.005, -0.032);
-                GlStateManager.translate(-6.5 * 0.0625, -3.5 * 0.0625, 3.01 * 0.0625);
-                GlStateManager.scale(0.010416667F, -0.010416667F, 0.010416667F);
-                GlStateManager.glNormal3f(0.0F, 0.0F, -0.010416667F);
-                GlStateManager.rotate(22.5F, 1, 0, 0);
-                Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(te.getPaperCount()), 0, 0, Color.WHITE.getRGB());
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.depthMask(true);
             }
             GlStateManager.popMatrix();
         }

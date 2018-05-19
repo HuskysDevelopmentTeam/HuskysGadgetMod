@@ -17,9 +17,6 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/**
- * Author: MrCrayfish
- */
 public class Router {
     private final Map<UUID, NetworkDevice> NETWORK_DEVICES = new HashMap<>();
 

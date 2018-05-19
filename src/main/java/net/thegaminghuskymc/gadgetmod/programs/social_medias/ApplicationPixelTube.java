@@ -3,6 +3,8 @@ package net.thegaminghuskymc.gadgetmod.programs.social_medias;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 
+import javax.annotation.Nullable;
+
 public class ApplicationPixelTube extends Application {
 
     public ApplicationPixelTube() {
@@ -11,7 +13,7 @@ public class ApplicationPixelTube extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
     }
 

@@ -10,6 +10,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class ApplicationNoteStash extends Application {
@@ -38,7 +39,7 @@ public class ApplicationNoteStash extends Application {
     private Button btnBack;
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         /* Main */
 
         layoutHistory = new Layout(180, 80);

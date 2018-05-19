@@ -2,10 +2,10 @@
 {
   "modid": "hgm",
   "name": "Husky's Gadget Mod",
-  "description": "This mod adds different working devices to minecraft like laptops, phones, tabøets, playstations, monitors and a lot more + some funny easter eggs",
+  "description": "This mod adds different working devices to minecraft like laptops, phones, tablets, playstations, monitors and a lot more + some funny easter eggs",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "authorList": ["TheGamingHuskyMC, MRC, Dbrown55, King of Creepers, Absolem Jackdaw, Igrek"],
-  "credit": "Thanks to King of Creepers for the amazing models, and a lot thanks to Abolem too for the amazing app icons and banners"
+  "authorList": ["TheGamingHuskyMC"],
+  "credit": "Thanks to King of Creepers for the amazing models, and a lot thanks to Absolem too for the amazing app icons and banners and Etaris for some really nice textures"
 }
 ]

@@ -1,3 +1,4 @@
 {
-  "parent": "hgm::block/desktop"
+  "_comment": "Generated using Husky's JSON Generator v1.",
+  "parent": "hgm:block/desktop"
 }

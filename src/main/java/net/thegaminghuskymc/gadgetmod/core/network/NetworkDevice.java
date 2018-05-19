@@ -10,9 +10,6 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class NetworkDevice {
     private Router router;
     private UUID id;

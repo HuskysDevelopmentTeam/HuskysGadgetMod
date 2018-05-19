@@ -1,8 +1,14 @@
 package net.thegaminghuskymc.gadgetmod.api.app;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.core.Settings;
+import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
-public interface System {
+import javax.annotation.Nullable;
+import java.util.Collection;
+
+public interface System
+{
     /**
      * Open a context on the screen
      */
@@ -27,4 +33,11 @@ public interface System {
      */
     Settings getSettings();
 
+    void openApplication(AppInfo info);
+
+    void openApplication(AppInfo info, @Nullable NBTTagCompound intentTag);
+
+    void closeApplication(AppInfo info);
+
+    Collection<AppInfo> getInstalledApplications();
 }

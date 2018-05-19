@@ -12,15 +12,7 @@ public class JsonGenerator {
     public static void main(String[] args) {
 
         for (EnumDyeColor type : EnumDyeColor.values()) {
-//            genBlock("hgm", "office_chair_" + type.getName(), "");
-//            genSpecificBlock("hgm", "laptop_" + type.getName(), "laptop", "laptop");
-//            genSpecificBlock("hgm", "router_" + type.getName(), "router", "router");
-//            genSpecificBlock("hgm", "printer_" + type.getName(), "printer", "printer");
-//            genSpecificBlock("hgm", "monitor_" + type.getName(), "monitor", "monitor");
-//            genSpecificBlock("hgm", "gaming_desk_" + type.getName(), "gaming_desk", "gaming_desk");
-//            genSpecificBlock("hgm", "desktop_" + type.getName(), "desktop", "desktop");
-//            genSpecificBlock("hgm", "external_hard_drive_" + type.getName(), "external_harddrive", "external_harddrive");
-//            genItemModel("hgm", "flash_drive_" + type.getName(), "flash_drive");
+            genSpecificBlock("hgm", "router_" + type.getName(), "router", "router");
         }
 
     }
@@ -71,7 +63,7 @@ public class JsonGenerator {
         }
 
         genBlockModel(modId, blockName, textureName);
-        genBlockItemModel(modId, blockName, textureName);
+        genBlockItemModel(modId, blockName);
 
     }
 
@@ -102,7 +94,7 @@ public class JsonGenerator {
         }
     }
 
-    private static void genBlockItemModel(String modId, String blockName, String textureName) {
+    private static void genBlockItemModel(String modId, String blockName) {
         File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\item\\");
         if (!fileDir.exists()) {
             fileDir.mkdirs();
@@ -215,7 +207,7 @@ public class JsonGenerator {
 
             jw.beginObject();
 
-            jw.name("parent").value("hgm::block/" + blockName);
+            jw.name("parent").value("hgm:block/" + blockName);
             jw.endObject();
 
             writer.close();
@@ -329,6 +321,121 @@ public class JsonGenerator {
 
             jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
             jw.name("parent").value(modId + ":block/" + blockName);
+
+            jw.endObject();
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void genSpesificOrientedBlock(String modId, String blockName, String topTextureName, String frontTextureName, String sidesTextureName, String textureName) {
+
+        File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\blockstates\\");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        try {
+
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+            jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
+            jw.name("variants");
+            jw.beginObject();
+
+            jw.name("facing=north");
+            jw.beginObject();
+            jw.name("model").value(blockName);
+            jw.endObject();
+
+            jw.name("facing=south");
+            jw.beginObject();
+            jw.name("model").value(blockName);
+            jw.name("y").value(180);
+            jw.endObject();
+
+            jw.name("facing=west");
+            jw.beginObject();
+            jw.name("model").value(blockName);
+            jw.name("y").value(270);
+            jw.endObject();
+
+            jw.name("facing=east");
+            jw.beginObject();
+            jw.name("model").value(blockName);
+            jw.name("y").value(90);
+            jw.endObject();
+
+            jw.endObject();
+            jw.endObject();
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        genSpesificBlockOrientedModel(modId, blockName, topTextureName, frontTextureName, sidesTextureName);
+        genSpesificBlockOrientedItemModel(modId, blockName, textureName);
+
+    }
+
+    private static void genSpesificBlockOrientedModel(String modId, String blockName, String topTextureName, String frontTextureName, String sidesTextureName) {
+
+        File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\block\\");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        try {
+
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+            jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
+            jw.name("parent").value("block/orientable");
+            jw.name("textures");
+            jw.beginObject();
+            jw.name("top").value(modId + ":blocks/" + topTextureName);
+            jw.name("front").value(modId + ":blocks/" + frontTextureName);
+            jw.name("side").value(modId + ":blocks/" + sidesTextureName);
+            jw.endObject();
+            jw.endObject();
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void genSpesificBlockOrientedItemModel(String modId, String blockName, String textureName) {
+
+        File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\item\\");
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        try {
+
+            Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + blockName + ".json"), "UTF-8");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jw = gson.newJsonWriter(writer);
+
+            jw.beginObject();
+
+            jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
+            jw.name("parent").value(modId + ":block/" + textureName);
 
             jw.endObject();
 
@@ -788,10 +895,8 @@ public class JsonGenerator {
             jw.name("description").value(description);
             jw.name("version").value(version);
             jw.name("credits").value(credits);
-            jw.name("logoFile").value("");
             jw.name("mcversion").value(gameVersion);
             jw.name("url").value(url);
-            jw.name("updateUrl").value("");
             jw.name("authorList");
             jw.beginArray();
             jw.value(author);
@@ -799,10 +904,6 @@ public class JsonGenerator {
             jw.name("parent").value("");
             jw.name("screenshots");
             jw.beginArray();
-            jw.endArray();
-            jw.name("dependencies");
-            jw.beginArray();
-            jw.value("mod_MinecraftForge");
             jw.endArray();
 
             jw.endObject();
@@ -867,13 +968,12 @@ public class JsonGenerator {
         }
     }
 
-    public static void genItemModel(String modId, String itemName, String textureName) {
+    public static void genItemModel(String modId, String itemName) {
 
         File fileDir = new File("src\\main\\resources\\assets\\" + modId + "\\models\\item\\");
         if (!fileDir.exists()) {
             fileDir.mkdirs();
         }
-
         try {
 
             Writer writer = new OutputStreamWriter(new FileOutputStream(fileDir + "\\" + itemName + ".json"), "UTF-8");
@@ -882,7 +982,7 @@ public class JsonGenerator {
 
             jw.beginObject();
             jw.name("_comment").value("Generated using Husky's JSON Generator v1.");
-            jw.name("parent").value("hgm:item/flash_drive");
+            jw.name("parent").value(modId + ":" + "block/desktop");
             jw.endObject();
 
             writer.close();

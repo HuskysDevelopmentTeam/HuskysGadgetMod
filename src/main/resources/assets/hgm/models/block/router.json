@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
 		"0": "hgm:model/router",
-		"particle": "#0"
+		"particle": "hgm:model/router"
 	},
 	"elements": [
 		{
@@ -157,7 +157,7 @@
 				"up": {
 					"uv": [7, 2.5, 7.7, 3.3],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7, 2.5, 7.7, 3.3],
@@ -190,7 +190,7 @@
 				"up": {
 					"uv": [7, 2.5, 7.7, 3.3],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7, 2.5, 7.7, 3.3],
@@ -223,7 +223,7 @@
 				"up": {
 					"uv": [7, 2.5, 7.7, 3.3],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7, 2.5, 7.7, 3.3],
@@ -260,7 +260,7 @@
 				"up": {
 					"uv": [7, 2.5, 7.7, 3.3],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7, 2.5, 7.7, 3.3],
@@ -293,7 +293,7 @@
 				"up": {
 					"uv": [7, 2.5, 7.7, 3.3],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7, 2.5, 7.7, 3.3],
@@ -326,7 +326,7 @@
 				"up": {
 					"uv": [0, 0, 6.5, 7.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [9, 8.5, 15.2, 15.6],

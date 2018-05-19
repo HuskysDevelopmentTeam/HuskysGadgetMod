@@ -7,6 +7,7 @@ public class GadgetTileEntities {
 
     public static void register() {
         GameRegistry.registerTileEntity(TileEntityLaptop.class, "hgm:laptop");
+        GameRegistry.registerTileEntity(TileEntityBaseDevice.class, "hgm:base_device");
         GameRegistry.registerTileEntity(TileEntityRouter.class, "hgm:router");
         GameRegistry.registerTileEntity(TileEntityPrinter.class, "hgm:printer");
         GameRegistry.registerTileEntity(TileEntityPaper.class, "hgm:printed_paper");

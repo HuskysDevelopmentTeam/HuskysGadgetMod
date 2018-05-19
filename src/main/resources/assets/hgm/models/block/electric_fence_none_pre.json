@@ -1,6 +1,0 @@
-{
-  "parent": "hgm:block/fence_none",
-  "textures": {
-    "1": "blocks/anvil_base"
-  }
-}

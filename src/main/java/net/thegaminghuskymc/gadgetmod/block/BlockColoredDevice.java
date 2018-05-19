@@ -9,15 +9,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColoredFacing;
+import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -123,4 +125,10 @@ public class BlockColoredDevice extends BlockColoredFacing {
     public String getModNamespace() {
         return Reference.MOD_ID;
     }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
+    }
+
 }

@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import javax.annotation.Nullable;
@@ -80,7 +80,7 @@ public class RenderUtil {
 
     public static void drawApplicationIcon(@Nullable AppInfo info, double x, double y) {
         GlStateManager.color(1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Laptop.ICON_TEXTURES);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(BaseDevice.ICON_TEXTURES);
         if (info != null) {
             drawRectWithTexture(x, y, info.getIconU(), info.getIconV(), 14, 14, 14, 14, 224, 224);
         } else {

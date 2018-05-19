@@ -96,7 +96,7 @@ public class ScreenRenderer extends TileEntitySpecialRenderer<TileEntityScreen> 
             GlStateManager.translate(x, y, z);
             GlStateManager.translate(0.5, 0.5, 0.5);
             IBlockState state = te.getWorld().getBlockState(te.getPos());
-            if (state.getBlock() != GadgetBlocks.SCREEN) return;
+            if (state.getBlock() != GadgetBlocks.screen) return;
             GlStateManager.rotate(state.getValue(BlockScreen.FACING).getHorizontalIndex() * -90F + 180F, 0, 1, 0);
             GlStateManager.rotate(-te.getRotation(), 0, 0, 1);
             GlStateManager.translate(-0.5, -0.5, -0.5);

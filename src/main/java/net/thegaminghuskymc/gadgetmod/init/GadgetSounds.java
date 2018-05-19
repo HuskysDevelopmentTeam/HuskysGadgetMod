@@ -9,7 +9,6 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class GadgetSounds {
     public static final SoundEvent PRINTER_PRINTING;

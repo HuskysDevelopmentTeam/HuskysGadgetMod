@@ -7,14 +7,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskSendAction extends Task {
     private String uuid;
     private FileAction action;
@@ -30,7 +27,7 @@ public class TaskSendAction extends Task {
         this();
         this.uuid = drive.getUUID().toString();
         this.action = action;
-        this.pos = Laptop.getPos();
+        this.pos = BaseDevice.getPos();
     }
 
     @Override

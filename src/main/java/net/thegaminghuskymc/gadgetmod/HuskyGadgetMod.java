@@ -1,9 +1,7 @@
 package net.thegaminghuskymc.gadgetmod;
 
-import com.google.gson.Gson;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -13,37 +11,26 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
-import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.core.io.task.*;
-import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
-import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
-import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
-import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
 import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
-import net.thegaminghuskymc.gadgetmod.event.BankEvents;
-import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
-import net.thegaminghuskymc.gadgetmod.handler.PlayerEvents;
+import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
+import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
+import net.thegaminghuskymc.gadgetmod.init.GadgetTasks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
-import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
-import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
-import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
-import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
-import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
-import net.thegaminghuskymc.gadgetmod.programs.system.task.*;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION/*, dependencies = Reference.DEPENDENCE*/)
 public class HuskyGadgetMod {
 
-    public static final RemoteClassLoader classLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
     @Instance(Reference.MOD_ID)
     public static HuskyGadgetMod instance;
-    public static Gson gson;
+    public static boolean hasAllApps = false, isInsider = false, isDeveloper = false, isAdmin = false, isServerAdmin = false, isArtist = true, likesSocialMedias = true;
+    public static final RemoteClassLoader remoteClassLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
+    public static File modDataDir;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
@@ -60,82 +47,27 @@ public class HuskyGadgetMod {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-
-        Keybinds.register();
-
-        logger = event.getModLog();
-
-        DeviceConfig.load(event.getSuggestedConfigurationFile());
-        MinecraftForge.EVENT_BUS.register(new DeviceConfig());
-
-        RegistrationHandler.init();
-
         proxy.preInit(event);
+        Keybinds.register();
+        logger = event.getModLog();
+        DeviceConfig.load(event.getSuggestedConfigurationFile());
+        GadgetItems.register();
+        GadgetCrafting.register();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        /* Tile Entity Registering */
-        GadgetTileEntities.register();
-
-        EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "seat"), EntitySeat.class, "Seat", 0, this, 80, 1, false);
-
-        /* Packet Registering */
-        PacketHandler.init();
-
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        MinecraftForge.EVENT_BUS.register(new PlayerEvents());
-        MinecraftForge.EVENT_BUS.register(new EmailEvents());
-        MinecraftForge.EVENT_BUS.register(new BankEvents());
-
-        registerTasks();
-
         proxy.init(event);
-
+        GadgetTileEntities.register();
+        GadgetTasks.register();
+        PacketHandler.init();
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+        EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "seat"), EntitySeat.class, "Seat", 0, this, 80, 1, false);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-    }
-
-    private void registerTasks() {
-        // Core
-        TaskManager.registerTask(TaskUpdateApplicationData.class);
-        TaskManager.registerTask(TaskPrint.class);
-        TaskManager.registerTask(TaskUpdateSystemData.class);
-        TaskManager.registerTask(TaskConnect.class);
-        TaskManager.registerTask(TaskPing.class);
-        TaskManager.registerTask(TaskGetDevices.class);
-
-        //Bank
-        TaskManager.registerTask(TaskDeposit.class);
-        TaskManager.registerTask(TaskWithdraw.class);
-        TaskManager.registerTask(TaskGetBalance.class);
-        TaskManager.registerTask(TaskPay.class);
-        TaskManager.registerTask(TaskAdd.class);
-        TaskManager.registerTask(TaskRemove.class);
-
-        TaskManager.registerTask(TaskAddAuction.class);
-        TaskManager.registerTask(TaskGetAuctions.class);
-        TaskManager.registerTask(TaskBuyItem.class);
-
-        //File Browser
-        TaskManager.registerTask(TaskSendAction.class);
-        TaskManager.registerTask(TaskSetupFileBrowser.class);
-        TaskManager.registerTask(TaskGetFiles.class);
-        TaskManager.registerTask(TaskGetStructure.class);
-        TaskManager.registerTask(TaskGetMainDrive.class);
-
-        //Ender Mail
-        TaskManager.registerTask(TaskUpdateInbox.class);
-        TaskManager.registerTask(TaskSendEmail.class);
-        TaskManager.registerTask(TaskCheckEmailAccount.class);
-        TaskManager.registerTask(TaskRegisterEmailAccount.class);
-        TaskManager.registerTask(TaskDeleteEmail.class);
-        TaskManager.registerTask(TaskViewEmail.class);
-
-        PrintingManager.registerPrint(new ResourceLocation(Reference.MOD_ID, "picture"), ApplicationPixelShop.PicturePrint.class);
     }
 
 }

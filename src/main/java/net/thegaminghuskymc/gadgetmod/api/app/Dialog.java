@@ -21,7 +21,7 @@ import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
@@ -30,6 +30,7 @@ import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
+import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
@@ -37,170 +38,187 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.function.Predicate;
 
-public abstract class Dialog extends Wrappable {
-
-    protected final Layout defaultLayout;
+public abstract class Dialog extends Wrappable
+{
     private String title = "Message";
     private int width;
     private int height;
+
+    protected final Layout defaultLayout;
     private Layout customLayout;
 
     private boolean pendingLayoutUpdate = true;
     private boolean pendingClose = false;
 
-    public Dialog() {
+    public Dialog()
+    {
         this.defaultLayout = new Layout(150, 40);
     }
 
-    protected final void addComponent(Component c) {
-        if (c != null) {
+    protected final void addComponent(Component c)
+    {
+        if (c != null)
+        {
             defaultLayout.addComponent(c);
             c.init(defaultLayout);
         }
     }
 
-    protected final void setLayout(Layout layout) {
+    protected final void setLayout(Layout layout)
+    {
         this.customLayout = layout;
         this.width = layout.width;
         this.height = layout.height;
         this.pendingLayoutUpdate = true;
-        this.customLayout.init();
+        this.customLayout.handleLoad();
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent)
+    {
         this.defaultLayout.clear();
         this.setLayout(defaultLayout);
     }
 
     @Override
-    public void onTick() {
-        if (pendingClose && getWindow().getDialogWindow() == null) {
+    public void onTick()
+    {
+        if(pendingClose && getWindow().getDialogWindow() == null)
+        {
             getWindow().close();
         }
         customLayout.handleTick();
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
-        customLayout.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
-        customLayout.renderOverlay(laptop, mc, mouseX, mouseY, active);
+    public void render(BaseDevice BaseDevice, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks)
+    {
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
+        GLHelper.pushScissor(x, y, width, height);
+        customLayout.render(BaseDevice, mc, x, y, mouseX, mouseY, active, partialTicks);
+        GLHelper.popScissor();
+
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
+        customLayout.renderOverlay(BaseDevice, mc, mouseX, mouseY, active);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderHelper.disableStandardItemLighting();
     }
 
     @Override
-    public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
+    {
         customLayout.handleMouseClick(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void handleMouseDrag(int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseDrag(int mouseX, int mouseY, int mouseButton)
+    {
         customLayout.handleMouseDrag(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
+    public void handleMouseRelease(int mouseX, int mouseY, int mouseButton)
+    {
         customLayout.handleMouseRelease(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
+    public void handleMouseScroll(int mouseX, int mouseY, boolean direction)
+    {
         customLayout.handleMouseScroll(mouseX, mouseY, direction);
     }
 
     @Override
-    public void handleKeyTyped(char character, int code) {
+    public void handleKeyTyped(char character, int code)
+    {
         customLayout.handleKeyTyped(character, code);
     }
 
     @Override
-    public void handleKeyReleased(char character, int code) {
+    public void handleKeyReleased(char character, int code)
+    {
         customLayout.handleKeyReleased(character, code);
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
     @Override
-    public String getWindowTitle() {
+    public String getWindowTitle()
+    {
         return title;
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight()
+    {
         return height;
     }
 
     @Override
-    public void markForLayoutUpdate() {
+    public void markForLayoutUpdate()
+    {
         this.pendingLayoutUpdate = true;
     }
 
     @Override
-    public boolean isPendingLayoutUpdate() {
+    public boolean isPendingLayoutUpdate()
+    {
         return pendingLayoutUpdate;
     }
 
     @Override
-    public void clearPendingLayout() {
+    public void clearPendingLayout()
+    {
         this.pendingLayoutUpdate = false;
     }
 
     @Override
-    public void updateComponents(int x, int y) {
+    public void updateComponents(int x, int y)
+    {
         customLayout.updateComponents(x, y);
     }
 
     @Override
-    public void onClose() {
-    }
+    public void onClose() {}
 
-    public void close() {
+    public void close()
+    {
         this.pendingClose = true;
     }
 
-    /**
-     * The response listener interface. Used for handling responses
-     * from components. The generic is the returned value.
-     *
-     * @author MrCrayfish
-     */
-    public interface ResponseHandler<E> {
-        /**
-         * Called when a response is thrown.
-         *
-         * @param success if the executing task was successful
-         */
-        boolean onResponse(boolean success, E e);
-    }
-
-    public static class Message extends Dialog {
-
+    public static class Message extends Dialog
+    {
         private String messageText = "";
 
         private ClickListener positiveListener;
         private Button buttonPositive;
 
-        public Message(String messageText) {
+        public Message(String messageText)
+        {
             this.messageText = messageText;
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
 
             int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
             defaultLayout.height += (lines - 1) * 9;
 
-            super.init();
+            super.init(intent);
 
             defaultLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB()));
 
@@ -211,7 +229,8 @@ public abstract class Dialog extends Wrappable {
             buttonPositive.setSize(36, 16);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (positiveListener != null) {
+                if(positiveListener != null)
+                {
                     positiveListener.onClick(mouseX, mouseY, mouseButton);
                 }
                 close();
@@ -222,13 +241,14 @@ public abstract class Dialog extends Wrappable {
 
     /**
      * A simple confirmation dialog
-     * <p>
+     *
      * This can be used to prompt as user to confirm whether a
      * task should run. For instance, the FileBrowser component
      * uses this dialog to prompt the user if it should override
      * a file.
      */
-    public static class Confirmation extends Dialog {
+    public static class Confirmation extends Dialog
+    {
         private static final int DIVIDE_WIDTH = 15;
 
         private String messageText = "Are you sure?";
@@ -241,21 +261,22 @@ public abstract class Dialog extends Wrappable {
         private Button buttonPositive;
         private Button buttonNegative;
 
-        public Confirmation() {
-        }
+        public Confirmation() {}
 
-        public Confirmation(String messageText) {
+        public Confirmation(String messageText)
+        {
             this.messageText = messageText;
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
 
             int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
             defaultLayout.height += (lines - 1) * 9;
 
-            super.init();
+            super.init(intent);
 
             defaultLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB()));
 
@@ -267,7 +288,8 @@ public abstract class Dialog extends Wrappable {
             buttonPositive.setSize(positiveWidth + 10, 16);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (positiveListener != null) {
+                if(positiveListener != null)
+                {
                     positiveListener.onClick(mouseX, mouseY, mouseButton);
                 }
                 close();
@@ -277,19 +299,23 @@ public abstract class Dialog extends Wrappable {
             int negativeWidth = Math.max(20, Minecraft.getMinecraft().fontRenderer.getStringWidth(negativeText));
             buttonNegative = new Button(getWidth() - DIVIDE_WIDTH - positiveWidth - DIVIDE_WIDTH - negativeWidth + 1, getHeight() - 20, negativeText);
             buttonNegative.setSize(negativeWidth + 10, 16);
-            buttonNegative.setClickListener((mouseX, mouseY, mouseButton) -> close());
+            buttonNegative.setClickListener((mouseX, mouseY, mouseButton) ->
+            {
+                if(negativeListener != null)
+                {
+                    negativeListener.onClick(mouseX, mouseY, mouseButton);
+                }
+                close();
+            });
             this.addComponent(buttonNegative);
         }
 
         /**
          * Sets the positive button text
-         *
          * @param positiveText
          */
-        public void setPositiveText(@Nonnull String positiveText) {
-            if (positiveText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setPositiveText(@Nonnull String positiveText)
+        {
             this.positiveText = positiveText;
         }
 
@@ -298,22 +324,23 @@ public abstract class Dialog extends Wrappable {
          *
          * @param negativeText
          */
-        public void setNegativeText(@Nonnull String negativeText) {
-            if (negativeText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setNegativeText(@Nonnull String negativeText)
+        {
             this.negativeText = negativeText;
         }
 
-        public void setPositiveListener(ClickListener positiveListener) {
+        public void setPositiveListener(ClickListener positiveListener)
+        {
             this.positiveListener = positiveListener;
         }
 
-        public void setNegativeListener(ClickListener negativeListener) {
+        public void setNegativeListener(ClickListener negativeListener)
+        {
             this.negativeListener = negativeListener;
         }
 
-        public void setMessageText(String messageText) {
+        public void setMessageText(String messageText)
+        {
             this.messageText = messageText;
         }
     }
@@ -321,7 +348,8 @@ public abstract class Dialog extends Wrappable {
     /**
      * A simple dialog to retrieve text input from the user
      */
-    public static class Input extends Dialog {
+    public static class Input extends Dialog
+    {
         private static final int DIVIDE_WIDTH = 15;
 
         private String messageText = null;
@@ -335,32 +363,35 @@ public abstract class Dialog extends Wrappable {
         private Button buttonPositive;
         private Button buttonNegative;
 
-        public Input() {
-        }
+        public Input() {}
 
-        public Input(String messageText) {
+        public Input(String messageText)
+        {
             this.messageText = messageText;
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
 
             int offset = 0;
 
-            if (messageText != null) {
+            if(messageText != null)
+            {
                 int lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(messageText, getWidth() - 10).size();
                 defaultLayout.height += lines * 9 + 10;
                 offset += lines * 9 + 5;
             }
 
-            super.init();
+            super.init(intent);
 
             defaultLayout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
                 Gui.drawRect(x, y, x + width, y + height, Color.LIGHT_GRAY.getRGB());
             });
 
-            if (messageText != null) {
+            if(messageText != null)
+            {
                 Text message = new Text(messageText, 5, 5, getWidth() - 10);
                 this.addComponent(message);
             }
@@ -375,12 +406,14 @@ public abstract class Dialog extends Wrappable {
             buttonPositive.setSize(positiveWidth + 10, 16);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (!textFieldInput.getText().isEmpty()) {
+                if(!textFieldInput.getText().isEmpty())
+                {
                     boolean close = true;
-                    if (responseListener != null) {
+                    if(responseListener != null)
+                    {
                         close = responseListener.onResponse(true, textFieldInput.getText().trim());
                     }
-                    if (close) close();
+                    if(close) close();
                 }
             });
             this.addComponent(buttonPositive);
@@ -394,35 +427,29 @@ public abstract class Dialog extends Wrappable {
 
         /**
          * Sets the initial text for the input text field
-         *
          * @param inputText
          */
-        public void setInputText(@Nonnull String inputText) {
-            if (inputText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setInputText(@Nonnull String inputText)
+        {
             this.inputText = inputText;
         }
 
         /**
          * Gets the input text field. This will be null if has not been
-         *
          * @return
          */
         @Nullable
-        public TextField getTextFieldInput() {
+        public TextField getTextFieldInput()
+        {
             return textFieldInput;
         }
 
         /**
          * Sets the positive button text
-         *
          * @param positiveText
          */
-        public void setPositiveText(@Nonnull String positiveText) {
-            if (positiveText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setPositiveText(@Nonnull String positiveText)
+        {
             this.positiveText = positiveText;
         }
 
@@ -431,10 +458,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param negativeText
          */
-        public void setNegativeText(@Nonnull String negativeText) {
-            if (negativeText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setNegativeText(@Nonnull String negativeText)
+        {
             this.negativeText = negativeText;
         }
 
@@ -445,12 +470,14 @@ public abstract class Dialog extends Wrappable {
          *
          * @param responseListener
          */
-        public void setResponseHandler(ResponseHandler<String> responseListener) {
+        public void setResponseHandler(ResponseHandler<String> responseListener)
+        {
             this.responseListener = responseListener;
         }
     }
 
-    public static class OpenFile extends Dialog {
+    public static class OpenFile extends Dialog
+    {
         private final Application app;
 
         private String positiveText = "Open";
@@ -464,14 +491,16 @@ public abstract class Dialog extends Wrappable {
         private ResponseHandler<File> responseListener;
         private Predicate<File> filter;
 
-        public OpenFile(Application app) {
+        public OpenFile(Application app)
+        {
             this.app = app;
             this.setTitle("Open File");
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
 
             main = new Layout(211, 126);
 
@@ -480,14 +509,15 @@ public abstract class Dialog extends Wrappable {
             browser.setFilter(file -> filter == null || filter.test(file) || file.isFolder());
             browser.setItemClickListener((file, index, mouseButton) ->
             {
-                if (mouseButton == 0) {
-                    if (!file.isFolder()) {
+                if(mouseButton == 0)
+                {
+                    if(!file.isFolder())
+                    {
                         buttonPositive.setEnabled(true);
                     }
                 }
             });
             main.addComponent(browser);
-            browser.handleOnLoad();
 
             int positiveWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(positiveText);
             buttonPositive = new Button(172, 106, positiveText);
@@ -495,11 +525,14 @@ public abstract class Dialog extends Wrappable {
             buttonPositive.setEnabled(false);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     File file = browser.getSelectedFile();
-                    if (file != null) {
+                    if(file != null)
+                    {
                         boolean close = true;
-                        if (responseListener != null) {
+                        if (responseListener != null)
+                        {
                             close = responseListener.onResponse(true, file);
                         }
                         if (close) close();
@@ -519,11 +552,11 @@ public abstract class Dialog extends Wrappable {
 
         /**
          * Sets the positive button text
-         *
          * @param positiveText
          */
-        public void setPositiveText(String positiveText) {
-            if (positiveText == null) {
+        public void setPositiveText(String positiveText)
+        {
+            if(positiveText == null) {
                 throw new IllegalArgumentException("Text can't be null");
             }
             this.positiveText = positiveText;
@@ -534,8 +567,9 @@ public abstract class Dialog extends Wrappable {
          *
          * @param negativeText
          */
-        public void setNegativeText(String negativeText) {
-            if (negativeText == null) {
+        public void setNegativeText(String negativeText)
+        {
+            if(negativeText == null) {
                 throw new IllegalArgumentException("Text can't be null");
             }
             this.negativeText = negativeText;
@@ -548,7 +582,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param responseListener the response handler to handle the returned file
          */
-        public void setResponseHandler(ResponseHandler<File> responseListener) {
+        public void setResponseHandler(ResponseHandler<File> responseListener)
+        {
             this.responseListener = responseListener;
         }
 
@@ -557,7 +592,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param filter the predicate
          */
-        public void setFilter(Predicate<File> filter) {
+        public void setFilter(Predicate<File> filter)
+        {
             this.filter = filter;
         }
 
@@ -567,34 +603,41 @@ public abstract class Dialog extends Wrappable {
          *
          * @param app the predicate
          */
-        public void setFilter(Application app) {
+        public void setFilter(Application app)
+        {
             this.filter = file -> app.getInfo().getFormattedId().equals(file.getOpeningApp());
         }
     }
 
-    public static class SaveFile extends Dialog {
+    public static class SaveFile extends Dialog
+    {
         private final Application app;
-        public ResponseHandler<File> responseHandler;
         private String name;
         private NBTTagCompound data;
+
         private String positiveText = "Save";
         private String negativeText = "Cancel";
+
         private Layout main;
         private FileBrowser browser;
         private TextField textFieldFileName;
         private Button buttonPositive;
         private Button buttonNegative;
+
+        public ResponseHandler<File> responseHandler;
         private Predicate<File> filter;
 
         private String path = FileSystem.DIR_HOME;
 
-        public SaveFile(Application app, NBTTagCompound data) {
+        public SaveFile(Application app, NBTTagCompound data)
+        {
             this.app = app;
             this.data = data;
             this.setTitle("Save File");
         }
 
-        public SaveFile(Application app, File file) {
+        public SaveFile(Application app, File file)
+        {
             this.app = app;
             this.name = file.getName();
             this.data = file.toTag();
@@ -602,54 +645,66 @@ public abstract class Dialog extends Wrappable {
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
             main = new Layout(211, 145);
 
             browser = new FileBrowser(0, 0, app, FileBrowser.Mode.BASIC);
             browser.setFilter(file -> filter == null || filter.test(file) || file.isFolder());
             browser.openFolder(path);
             main.addComponent(browser);
-            browser.handleOnLoad();
 
             buttonPositive = new Button(172, 125, positiveText);
             buttonPositive.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
-                    if (!textFieldFileName.getText().isEmpty()) {
-                        if (!FileSystem.PATTERN_FILE_NAME.matcher(textFieldFileName.getText()).matches()) {
+                if(mouseButton == 0)
+                {
+                    if(!textFieldFileName.getText().isEmpty())
+                    {
+                        if(!FileSystem.PATTERN_FILE_NAME.matcher(textFieldFileName.getText()).matches())
+                        {
                             Dialog.Message dialog = new Dialog.Message("File name may only contain letters, numbers, underscores and spaces.");
                             app.openDialog(dialog);
                             return;
                         }
 
                         File file;
-                        if (name != null) {
+                        if(name != null)
+                        {
                             file = File.fromTag(textFieldFileName.getText(), data);
-                        } else {
+                        }
+                        else
+                        {
                             file = new File(textFieldFileName.getText(), app, data.copy());
                         }
 
                         browser.addFile(file, (response, success) ->
                         {
-                            if (response.getStatus() == FileSystem.Status.FILE_EXISTS) {
+                            if(response.getStatus() == FileSystem.Status.FILE_EXISTS)
+                            {
                                 Dialog.Confirmation dialog = new Dialog.Confirmation("A file with that name already exists. Are you sure you want to override it?");
                                 dialog.setPositiveText("Override");
                                 dialog.setPositiveListener((mouseX1, mouseY1, mouseButton1) ->
                                 {
-                                    browser.removeFile(file.getName());
-                                    browser.addFile(file);
-                                    dialog.close();
+                                    browser.addFile(file, true, (response1, success1) ->
+                                    {
+                                        dialog.close();
 
-                                    //TODO Look into better handling. Get response from parent if should close. Maybe a response interface w/ generic
-                                    if (SaveFile.this.responseHandler != null) {
-                                        SaveFile.this.responseHandler.onResponse(true, file);
-                                    }
-                                    SaveFile.this.close();
+                                        //TODO Look into better handling. Get response from parent if should close. Maybe a response interface w/ generic
+                                        if(responseHandler != null)
+                                        {
+                                            responseHandler.onResponse(success1, file);
+                                        }
+                                        SaveFile.this.close();
+                                    });
                                 });
                                 app.openDialog(dialog);
-                            } else {
-                                if (responseHandler != null) {
+                            }
+                            else
+                            {
+                                if(responseHandler != null)
+                                {
                                     responseHandler.onResponse(true, file);
                                 }
                                 close();
@@ -666,7 +721,7 @@ public abstract class Dialog extends Wrappable {
 
             textFieldFileName = new TextField(26, 105, 180);
             textFieldFileName.setFocused(true);
-            if (name != null) textFieldFileName.setText(name);
+            if(name != null) textFieldFileName.setText(name);
             main.addComponent(textFieldFileName);
 
             this.setLayout(main);
@@ -674,13 +729,10 @@ public abstract class Dialog extends Wrappable {
 
         /**
          * Sets the positive button text
-         *
          * @param positiveText
          */
-        public void setPositiveText(@Nonnull String positiveText) {
-            if (positiveText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setPositiveText(@Nonnull String positiveText)
+        {
             this.positiveText = positiveText;
         }
 
@@ -689,10 +741,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param negativeText
          */
-        public void setNegativeText(@Nonnull String negativeText) {
-            if (negativeText == null) {
-                throw new IllegalArgumentException("Text can't be null");
-            }
+        public void setNegativeText(@Nonnull String negativeText)
+        {
             this.negativeText = negativeText;
         }
 
@@ -703,7 +753,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param responseHandler the response handler to handle the returned file
          */
-        public void setResponseHandler(ResponseHandler<File> responseHandler) {
+        public void setResponseHandler(ResponseHandler<File> responseHandler)
+        {
             this.responseHandler = responseHandler;
         }
 
@@ -712,7 +763,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param filter the predicate
          */
-        public void setFilter(Predicate<File> filter) {
+        public void setFilter(Predicate<File> filter)
+        {
             this.filter = filter;
         }
 
@@ -722,7 +774,8 @@ public abstract class Dialog extends Wrappable {
          *
          * @param app the predicate
          */
-        public void setFilter(Application app) {
+        public void setFilter(Application app)
+        {
             this.filter = file -> app.getInfo().getFormattedId().equals(file.getOpeningApp());
         }
 
@@ -731,12 +784,14 @@ public abstract class Dialog extends Wrappable {
          *
          * @param path the initial folder path
          */
-        public void setFolder(String path) {
+        public void setFolder(String path)
+        {
             this.path = path;
         }
     }
 
-    public static class Print extends Dialog {
+    public static class Print extends Dialog
+    {
         private final IPrint print;
 
         private Layout layoutMain;
@@ -747,14 +802,16 @@ public abstract class Dialog extends Wrappable {
         private Button buttonCancel;
         private Button buttonInfo;
 
-        public Print(IPrint print) {
+        public Print(IPrint print)
+        {
             this.print = print;
             this.setTitle("Print");
         }
 
         @Override
-        public void init() {
-            super.init();
+        public void init(@Nullable NBTTagCompound intent)
+        {
+            super.init(intent);
 
             layoutMain = new Layout(150, 132);
 
@@ -766,7 +823,8 @@ public abstract class Dialog extends Wrappable {
             buttonRefresh.setToolTip("Refresh", "Retrieve an updated list of printers");
             buttonRefresh.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     itemListPrinters.setSelectedIndex(-1);
                     getPrinters(itemListPrinters);
                 }
@@ -774,33 +832,36 @@ public abstract class Dialog extends Wrappable {
             layoutMain.addComponent(buttonRefresh);
 
             itemListPrinters = new ItemList<>(5, 18, 140, 5);
-            itemListPrinters.setListItemRenderer(new ListItemRenderer<NetworkDevice>(16) {
+            itemListPrinters.setListItemRenderer(new ListItemRenderer<NetworkDevice>(16)
+            {
                 @Override
-                public void render(NetworkDevice networkDevice, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
-                    ColourScheme colorScheme = Laptop.getSystem().getSettings().getColourScheme();
+                public void render(NetworkDevice networkDevice, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
+                {
+                    ColourScheme colorScheme = BaseDevice.getSystem().getSettings().getColourScheme();
                     Gui.drawRect(x, y, x + width, y + height, selected ? colorScheme.getItemHighlightColour() : colorScheme.getItemBackgroundColour());
                     Icons.PRINTER.draw(mc, x + 3, y + 3);
-                    RenderUtil.drawStringClipped(networkDevice.getName(), x + 18, y + 4, 118, Laptop.getSystem().getSettings().getColourScheme().getTextColour(), true);
+                    RenderUtil.drawStringClipped(networkDevice.getName(), x + 18, y + 4, 118, BaseDevice.getSystem().getSettings().getColourScheme().getTextColour(), true);
                 }
             });
             itemListPrinters.setItemClickListener((blockPos, index, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     buttonPrint.setEnabled(true);
                     buttonInfo.setEnabled(true);
                 }
             });
             itemListPrinters.sortBy((o1, o2) ->
             {
-                BlockPos laptopPos = Laptop.getPos();
+                BlockPos BaseDevicePos = BaseDevice.getPos();
 
                 BlockPos pos1 = o1.getPos();
-                double distance1 = laptopPos.distanceSqToCenter(pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5);
+                double distance1 = BaseDevicePos.distanceSqToCenter(pos1.getX() + 0.5, pos1.getY() + 0.5, pos1.getZ() + 0.5);
 
                 BlockPos pos2 = o2.getPos();
-                double distance2 = laptopPos.distanceSqToCenter(pos2.getX() + 0.5, pos2.getY() + 0.5, pos2.getZ() + 0.5);
+                double distance2 = BaseDevicePos.distanceSqToCenter(pos2.getX() + 0.5, pos2.getY() + 0.5, pos2.getZ() + 0.5);
 
-                return distance2 < distance1 ? 1 : (distance1 == distance2) ? 0 : -1;
+                return Double.compare(distance1, distance2);
             });
             layoutMain.addComponent(itemListPrinters);
 
@@ -809,13 +870,16 @@ public abstract class Dialog extends Wrappable {
             buttonPrint.setEnabled(false);
             buttonPrint.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     NetworkDevice networkDevice = itemListPrinters.getSelectedItem();
-                    if (networkDevice != null) {
-                        TaskPrint task = new TaskPrint(Laptop.getPos(), networkDevice, print);
+                    if(networkDevice != null)
+                    {
+                        TaskPrint task = new TaskPrint(BaseDevice.getPos(), networkDevice, print);
                         task.setCallback((nbtTagCompound, success) ->
                         {
-                            if (success) {
+                            if(success)
+                            {
                                 close();
                             }
                         });
@@ -829,7 +893,8 @@ public abstract class Dialog extends Wrappable {
             buttonCancel.setPadding(5);
             buttonCancel.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     close();
                 }
             });
@@ -840,9 +905,11 @@ public abstract class Dialog extends Wrappable {
             buttonInfo.setPadding(5);
             buttonInfo.setClickListener((mouseX, mouseY, mouseButton) ->
             {
-                if (mouseButton == 0) {
+                if(mouseButton == 0)
+                {
                     NetworkDevice printerEntry = itemListPrinters.getSelectedItem();
-                    if (printerEntry != null) {
+                    if(printerEntry != null)
+                    {
                         Info info = new Info(printerEntry);
                         openDialog(info);
                     }
@@ -855,15 +922,18 @@ public abstract class Dialog extends Wrappable {
             getPrinters(itemListPrinters);
         }
 
-        private void getPrinters(ItemList<NetworkDevice> itemList) {
+        private void getPrinters(ItemList<NetworkDevice> itemList)
+        {
             itemList.removeAll();
             itemList.setLoading(true);
-            Task task = new TaskGetDevices(Laptop.getPos(), TileEntityPrinter.class);
+            Task task = new TaskGetDevices(BaseDevice.getPos(), TileEntityPrinter.class);
             task.setCallback((tagCompound, success) ->
             {
-                if (success) {
+                if(success)
+                {
                     NBTTagList tagList = tagCompound.getTagList("network_devices", Constants.NBT.TAG_COMPOUND);
-                    for (int i = 0; i < tagList.tagCount(); i++) {
+                    for(int i = 0; i < tagList.tagCount(); i++)
+                    {
                         itemList.addItem(NetworkDevice.fromTag(tagList.getCompoundTagAt(i)));
                     }
                     itemList.setLoading(false);
@@ -872,7 +942,8 @@ public abstract class Dialog extends Wrappable {
             TaskManager.sendTask(task);
         }
 
-        private static class Info extends Dialog {
+        private static class Info extends Dialog
+        {
             private final NetworkDevice entry;
 
             private Layout layoutMain;
@@ -882,14 +953,16 @@ public abstract class Dialog extends Wrappable {
             private Label labelPosition;
             private Button buttonClose;
 
-            private Info(NetworkDevice entry) {
+            private Info(NetworkDevice entry)
+            {
                 this.entry = entry;
                 this.setTitle("Details");
             }
 
             @Override
-            public void init() {
-                super.init();
+            public void init(@Nullable NBTTagCompound intent)
+            {
+                super.init(intent);
 
                 layoutMain = new Layout(120, 70);
 
@@ -909,7 +982,8 @@ public abstract class Dialog extends Wrappable {
                 buttonClose = new Button(5, 49, "Close");
                 buttonClose.setClickListener((mouseX, mouseY, mouseButton) ->
                 {
-                    if (mouseButton == 0) {
+                    if(mouseButton == 0)
+                    {
                         close();
                     }
                 });
@@ -918,6 +992,22 @@ public abstract class Dialog extends Wrappable {
                 setLayout(layoutMain);
             }
         }
+    }
+
+    /**
+     * The response listener interface. Used for handling responses
+     * from components. The generic is the returned value.
+     *
+     * @author MrCrayfish
+     */
+    public interface ResponseHandler<E>
+    {
+        /**
+         * Called when a response is thrown.
+         *
+         * @param success if the executing task was successful
+         */
+        boolean onResponse(boolean success, E e);
     }
 
 }

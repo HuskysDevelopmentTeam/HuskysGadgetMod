@@ -3,10 +3,12 @@ package net.thegaminghuskymc.gadgetmod.programs.system;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 
+import javax.annotation.Nullable;
+
 public class ApplicationPackageManager extends Application {
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
     }
 

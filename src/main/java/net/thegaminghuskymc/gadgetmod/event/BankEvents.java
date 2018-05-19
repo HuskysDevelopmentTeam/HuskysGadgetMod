@@ -4,12 +4,14 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 
 import java.io.File;
 import java.io.IOException;
 
+@Mod.EventBusSubscriber
 public class BankEvents {
     @SubscribeEvent
     public void load(WorldEvent.Load event) {

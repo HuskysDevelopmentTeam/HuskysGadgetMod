@@ -18,7 +18,7 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
 import net.thegaminghuskymc.gadgetmod.util.SeatUtil;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColoredFacing;
+import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 

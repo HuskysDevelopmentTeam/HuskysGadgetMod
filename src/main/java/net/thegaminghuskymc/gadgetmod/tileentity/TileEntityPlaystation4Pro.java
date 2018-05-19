@@ -1,15 +1,17 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 
-public class TileEntityPlaystation4Pro extends TileEntitySync implements IColored {
-
-    private EnumDyeColor color = EnumDyeColor.WHITE;
+public class TileEntityPlaystation4Pro extends TileEntityBaseDevice {
 
     private byte rotation;
+
+    private boolean isPowered = false, powerConnected = false, wifiConnected = false;
+
+    public TileEntityPlaystation4Pro() {
+        super("Playstation 4 Pro");
+    }
 
     public void nextRotation() {
         rotation++;
@@ -30,34 +32,19 @@ public class TileEntityPlaystation4Pro extends TileEntitySync implements IColore
         if (compound.hasKey("rotation", Constants.NBT.TAG_BYTE)) {
             rotation = compound.getByte("rotation");
         }
-        if (compound.hasKey("color", Constants.NBT.TAG_BYTE)) {
-            this.color = EnumDyeColor.byDyeDamage(compound.getByte("color"));
-        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setByte("rotation", rotation);
-        compound.setByte("color", (byte) color.getDyeDamage());
         return compound;
     }
 
     @Override
     public NBTTagCompound writeSyncTag() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setByte("color", (byte) color.getDyeDamage());
         return tag;
-    }
-
-    @Override
-    public EnumDyeColor getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(EnumDyeColor color) {
-        this.color = color;
     }
 
 }

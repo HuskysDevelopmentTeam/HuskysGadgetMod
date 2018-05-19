@@ -7,8 +7,9 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 
 public class ApplicationFlameChat extends Application {
@@ -58,7 +59,7 @@ public class ApplicationFlameChat extends Application {
     };
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         Layout layoutMain = new Layout(270, 140);
 
@@ -103,7 +104,7 @@ public class ApplicationFlameChat extends Application {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
         servers[activeTab].render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
         super.render(laptop, mc, x, y, mouseX, mouseY, active, partialTicks);
     }

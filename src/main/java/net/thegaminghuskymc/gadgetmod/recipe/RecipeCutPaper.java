@@ -26,7 +26,7 @@ public class RecipeCutPaper extends net.minecraftforge.registries.IForgeRegistry
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() == Item.getItemFromBlock(GadgetBlocks.PAPER)) {
+                if (stack.getItem() == Item.getItemFromBlock(GadgetBlocks.paper)) {
                     if (!paper.isEmpty()) return false;
                     paper = stack;
                 }
@@ -47,7 +47,7 @@ public class RecipeCutPaper extends net.minecraftforge.registries.IForgeRegistry
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() == Item.getItemFromBlock(GadgetBlocks.PAPER)) {
+                if (stack.getItem() == Item.getItemFromBlock(GadgetBlocks.paper)) {
                     if (!paper.isEmpty()) return ItemStack.EMPTY;
                     paper = stack;
                 }
@@ -55,7 +55,7 @@ public class RecipeCutPaper extends net.minecraftforge.registries.IForgeRegistry
         }
 
         if (!paper.isEmpty() && paper.hasTagCompound()) {
-            ItemStack result = new ItemStack(GadgetBlocks.PAPER);
+            ItemStack result = new ItemStack(GadgetBlocks.paper);
 
             NBTTagCompound tag = paper.getTagCompound();
             if (!tag.hasKey("BlockEntityTag", Constants.NBT.TAG_COMPOUND)) {

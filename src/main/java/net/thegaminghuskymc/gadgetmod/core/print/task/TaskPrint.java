@@ -14,9 +14,6 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
 
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskPrint extends Task {
     private BlockPos devicePos;
     private UUID printerId;

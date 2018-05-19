@@ -151,6 +151,14 @@ public class ColourScheme {
         this.buttonDisabledColour = buttonDisabledColour;
     }
 
+    public int getTaskBarColour() {
+        return taskBarColour;
+    }
+
+    public void setTaskBarColour(int taskBarColour) {
+        this.taskBarColour = taskBarColour;
+    }
+
     private void resetDefault() {
         textColour = 0xFFFFFFFF;
         textSecondaryColour = 0xFF9BEDF2;

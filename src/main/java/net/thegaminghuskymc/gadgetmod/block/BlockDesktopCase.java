@@ -1,10 +1,9 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -13,16 +12,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDesktop;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockDesktopCase extends BlockColoredDevice {
+public class BlockDesktopCase extends BlockDevice {
 
-    public BlockDesktopCase(EnumDyeColor color) {
-        super("desktop_case", color);
+    public BlockDesktopCase() {
+        super(Material.IRON, "desktop_case");
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
     }
 
@@ -36,24 +34,6 @@ public class BlockDesktopCase extends BlockColoredDevice {
         return false;
     }
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityDesktop) {
-            TileEntityDesktop desktop = (TileEntityDesktop) tileEntity;
-
-            if (playerIn.isSneaking()) {
-                if (!worldIn.isRemote) {
-                    desktop.powerUnpower();
-                }
-            } else {
-                if (desktop.isPowered() && worldIn.isRemote) {
-                    playerIn.openGui(HuskyGadgetMod.instance, Laptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
-                }
-            }
-        }
-        return true;
-    }
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {

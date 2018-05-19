@@ -25,7 +25,12 @@
       }
     },
     "half": {
-      ""
+      "lower": {
+        "model": "hgm:electric_gate_with_lasers_lower"
+      },
+      "upper": {
+        "model": "hgm:electric_gate_with_lasers_upper"
+      }
     },
     "inventory": [
       {}

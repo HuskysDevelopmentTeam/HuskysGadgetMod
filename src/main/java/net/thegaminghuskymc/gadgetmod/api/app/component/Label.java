@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.api.app.component;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import java.awt.*;
 
@@ -22,25 +22,28 @@ public class Label extends Component {
      *
      * @param text the text to display
      * @param left how many pixels from the left
-     * @param top  how many pixels from the top
+     * @param top how many pixels from the top
      */
-    public Label(String text, int left, int top) {
+    public Label(String text, int left, int top)
+    {
         super(left, top);
         this.text = text;
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        if (this.visible) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+    {
+        if (this.visible)
+        {
             GlStateManager.pushMatrix();
             {
                 GlStateManager.translate(xPosition, yPosition, 0);
                 GlStateManager.scale(scale, scale, scale);
-                if (alignment == ALIGN_RIGHT)
-                    GlStateManager.translate((int) -(Laptop.fontRenderer.getStringWidth(text) * scale), 0, 0);
-                if (alignment == ALIGN_CENTER)
-                    GlStateManager.translate((int) (-(Laptop.fontRenderer.getStringWidth(text) * scale) / (2 * scale)), 0, 0);
-                Laptop.fontRenderer.drawString(text, 0, 0, textColor, shadow);
+                if(alignment == ALIGN_RIGHT)
+                    GlStateManager.translate((int) -(mc.fontRenderer.getStringWidth(text) * scale), 0, 0);
+                if(alignment == ALIGN_CENTER)
+                    GlStateManager.translate((int) -(mc.fontRenderer.getStringWidth(text) * scale) / (int) (2 * scale), 0, 0);
+                BaseDevice.fontRenderer.drawString(text, 0, 0, textColor, shadow);
             }
             GlStateManager.popMatrix();
         }
@@ -51,7 +54,8 @@ public class Label extends Component {
      *
      * @param text the text
      */
-    public void setText(String text) {
+    public void setText(String text)
+    {
         this.text = text;
     }
 
@@ -60,7 +64,8 @@ public class Label extends Component {
      *
      * @param color the text color
      */
-    public void setTextColor(Color color) {
+    public void setTextColor(Color color)
+    {
         this.textColor = color.getRGB();
     }
 
@@ -69,7 +74,8 @@ public class Label extends Component {
      *
      * @param shadow if should render shadow
      */
-    public void setShadow(boolean shadow) {
+    public void setShadow(boolean shadow)
+    {
         this.shadow = shadow;
     }
 
@@ -79,7 +85,8 @@ public class Label extends Component {
      *
      * @param scale the text scale
      */
-    public void setScale(double scale) {
+    public void setScale(double scale)
+    {
         this.scale = scale;
     }
 
@@ -89,7 +96,8 @@ public class Label extends Component {
      *
      * @param alignment the alignment type
      */
-    public void setAlignment(int alignment) {
+    public void setAlignment(int alignment)
+    {
         this.alignment = alignment;
     }
 }

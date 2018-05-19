@@ -4,9 +4,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 
-/**
- * Author: MrCrayfish
- */
 public class Bounds {
     public double x1, y1, z1;
     public double x2, y2, z2;

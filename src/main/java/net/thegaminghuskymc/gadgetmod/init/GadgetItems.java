@@ -2,18 +2,13 @@ package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.enums.EnumComponents;
 import net.thegaminghuskymc.gadgetmod.item.*;
 
-import java.util.EnumMap;
-import java.util.Map;
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class GadgetItems {
 
     public static ItemComponent components;

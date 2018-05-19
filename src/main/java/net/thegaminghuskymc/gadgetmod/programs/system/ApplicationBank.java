@@ -24,6 +24,7 @@ import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskDeposit;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskWithdraw;
 import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Objects;
 
@@ -67,7 +68,7 @@ public class ApplicationBank extends SystemApplication {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         layoutStart = new Layout();
         layoutStart.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->

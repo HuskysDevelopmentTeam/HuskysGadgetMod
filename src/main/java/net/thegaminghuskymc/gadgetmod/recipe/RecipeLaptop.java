@@ -3,14 +3,12 @@ package net.thegaminghuskymc.gadgetmod.recipe;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.item.ItemComponent;
 

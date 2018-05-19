@@ -2,21 +2,21 @@ package net.thegaminghuskymc.gadgetmod.core;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutOSSelect;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutStartMenu;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import org.lwjgl.opengl.GL11;
 
@@ -25,28 +25,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-public class TaskBar {
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+public class TaskBar extends GuiScreen {
 
     public static final int BAR_HEIGHT = 18;
-    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application_bar.png");
+    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(MOD_ID, "textures/gui/application_bar.png");
     private static final int APPS_DISPLAYED = 18;
     private Button btnLeft;
     private Button btnRight;
     private Button btnStartButton;
     private Button btnOSSelect;
 
+    private boolean menuOpened = false;
+    private float menuAnim = 0.0f;
+
     private int offset = 0;
 
     private List<Application> applications;
     private List<TrayItem> trayItems = new ArrayList<>();
 
+    private BaseDevice device;
+
     private int posX, posY;
 
-    public TaskBar(List<Application> applications) {
-        setupApplications(applications);
+    public TaskBar(BaseDevice device) {
+        this.device = device;
         trayItems.add(new TrayItemWifi());
+        trayItems.add(new ApplicationAppStore.StoreTrayItem());
     }
 
     public void init() {
@@ -54,9 +61,22 @@ public class TaskBar {
     }
 
     private void setupApplications(List<Application> applications) {
-        final Predicate<Application> VALID_APPS = (Application app) ->
-                app instanceof SystemApplication || !HuskyGadgetMod.proxy.hasAllowedApplications() || HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo());
-        this.applications = applications.stream().filter(VALID_APPS).collect(Collectors.toList());
+        final Predicate<Application> VALID_APPS = app ->
+        {
+            if(app instanceof SystemApplication)
+            {
+                return true;
+            }
+            if(HuskyGadgetMod.proxy.hasAllowedApplications())
+            {
+                if(HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo()))
+                {
+                    return Settings.isShowAllApps();
+                }
+                return false;
+            }
+            return true;
+        };
     }
 
     public void init(int posX, int posY) {
@@ -89,27 +109,10 @@ public class TaskBar {
             if (mouseButton == 0) {
                 Layout layout = new LayoutStartMenu();
                 layout.init();
-                if (!Laptop.getSystem().hasContext() || !(Laptop.getSystem().getContext() instanceof LayoutStartMenu)) {
-                    Laptop.getSystem().openContext(layout, this.posX, this.posY);
+                if (!BaseDevice.getSystem().hasContext() || !(BaseDevice.getContext() instanceof LayoutStartMenu)) {
+                    BaseDevice.getSystem().openContext(layout, this.posX, this.posY);
                 } else {
-                    Laptop.getSystem().closeContext();
-                }
-            }
-        });
-
-        btnOSSelect = new Button(0, 0, Icons.COMPUTER);
-        btnOSSelect.setToolTip("Select OS", "This will let you select the OS you want to use");
-        btnOSSelect.setPadding(1);
-        btnOSSelect.xPosition = posX + 30 + 14 * APPS_DISPLAYED + 58;
-        btnOSSelect.yPosition = posY + 3;
-        btnOSSelect.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if (mouseButton == 0) {
-                Layout layout = new LayoutOSSelect();
-                layout.init();
-                if (!Laptop.getSystem().hasContext() || !(Laptop.getSystem().getContext() instanceof LayoutOSSelect)) {
-                    Laptop.getSystem().openContext(layout, this.posX, this.posY);
-                } else {
-                    Laptop.getSystem().closeContext();
+                    BaseDevice.getSystem().closeContext();
                 }
             }
         });
@@ -121,29 +124,30 @@ public class TaskBar {
         trayItems.forEach(TrayItem::tick);
     }
 
-    public void render(Laptop gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks) {
+    public void render(BaseDevice gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks) {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
         gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
         int trayItemsWidth = trayItems.size() * 14;
-        RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
-        RenderUtil.drawRectWithTexture(x + Laptop.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
+        RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, BaseDevice.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
+        RenderUtil.drawRectWithTexture(x + BaseDevice.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
         GlStateManager.disableBlend();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
         btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
         btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
-        btnOSSelect.render(gui, mc, btnOSSelect.xPosition, btnOSSelect.yPosition, mouseX, mouseY, true, partialTicks);
 
-        for (int i = 0; i < APPS_DISPLAYED && i < applications.size(); i++) {
-            AppInfo info = applications.get(i + offset).getInfo();
-            RenderUtil.drawApplicationIcon(info, x + 33 + i * 16, y + 2);
-            if (gui.isApplicationRunning(info.getFormattedId())) {
+        for(int i = 0; i < APPS_DISPLAYED && i < gui.installedApps.size(); i++)
+        {
+            AppInfo info = gui.installedApps.get(i + offset);
+            RenderUtil.drawApplicationIcon(info, x + 2 + i * 16, y + 2);
+            if(gui.isApplicationRunning(info))
+            {
                 mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                gui.drawTexturedModalRect(x + 32 + i * 16, y + 1, 35, 0, 16, 16);
+                gui.drawTexturedModalRect(x + 1 + i * 16, y + 1, 35, 0, 16, 16);
             }
         }
 
@@ -162,11 +166,11 @@ public class TaskBar {
 
         /* Other Apps */
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
-            for (int i = 0; i < APPS_DISPLAYED; i++) {
-                if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
-                    gui.drawTexturedModalRect(x + 32 + i * 16, y + 1, 35, 0, 16, 16);
-                    gui.drawHoveringText(Collections.singletonList(applications.get(i + offset).getInfo().getName()), mouseX, mouseY);
-                }
+            int appIndex = (mouseX - x - 1) / 16;
+            if(appIndex >= 0 && appIndex < offset + APPS_DISPLAYED && appIndex < gui.installedApps.size())
+            {
+                gui.drawTexturedModalRect(x + appIndex * 16 + 1, y + 1, 35, 0, 16, 16);
+                gui.drawHoveringText(Collections.singletonList(gui.installedApps.get(appIndex).getName()), mouseX, mouseY);
             }
         }
 
@@ -175,18 +179,17 @@ public class TaskBar {
 
     }
 
-    public void handleClick(Laptop laptop, int x, int y, int mouseX, int mouseY, int mouseButton) {
+    public void handleClick(BaseDevice laptop, int x, int y, int mouseX, int mouseY, int mouseButton) {
         btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
         btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
-        btnOSSelect.handleMouseClick(mouseX, mouseY, mouseButton);
 
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
-            for (int i = 0; i < APPS_DISPLAYED; i++) {
-                if (RenderUtil.isMouseInside(mouseX, mouseY, x + 32 + i * 16, y + 1, x + 32 + (i + 1) * 16 - 2, y + 14) && i + offset < applications.size()) {
-                    laptop.open(applications.get(i + offset));
-                    return;
-                }
+            int appIndex = (mouseX - x - 1) / 16;
+            if(appIndex >= 0 && appIndex <= offset + APPS_DISPLAYED && appIndex < laptop.installedApps.size())
+            {
+                laptop.openApplication(laptop.installedApps.get(appIndex));
+                return;
             }
         }
 
@@ -205,10 +208,14 @@ public class TaskBar {
         return mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2;
     }
 
-    public String timeToString(long time) {
+    public String timeToString(long time)  {
         int hours = (int) ((Math.floor(time / 1000.0) + 7) % 24);
         int minutes = (int) Math.floor((time % 1000) / 1000.0 * 60);
         return String.format("%02d:%02d", hours, minutes);
+    }
+
+    public String dayToString(long time)  {
+        return String.format("Day %d", time / 24000);
     }
 
 }

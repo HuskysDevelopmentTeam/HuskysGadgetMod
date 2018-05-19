@@ -6,15 +6,14 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
-import net.thegaminghuskymc.gadgetmod.util.ItemUtils;
-import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
+import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
-import java.util.Objects;
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 public class ItemFlashDrive extends ItemColored implements SubItems {
 
     public ItemFlashDrive(EnumDyeColor color) {
-        super(Reference.MOD_ID, "flash_drive", color);
+        super("flash_drive", MOD_ID, color);
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         RegistrationHandler.Models.registerRender(this);
     }
@@ -22,12 +21,8 @@ public class ItemFlashDrive extends ItemColored implements SubItems {
     @Override
     public NonNullList<ResourceLocation> getModels() {
         NonNullList<ResourceLocation> modelLocations = NonNullList.create();
-        modelLocations.add(new ResourceLocation(Reference.MOD_ID, "flash_drive/" + this.color.getName()));
+        modelLocations.add(new ResourceLocation(MOD_ID, "flash_drive/" + this.color.getName()));
         return modelLocations;
     }
 
-    @Override
-    public String getPrefix() {
-        return Reference.MOD_ID;
-    }
 }

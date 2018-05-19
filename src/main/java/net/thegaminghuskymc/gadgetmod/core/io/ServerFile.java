@@ -6,9 +6,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 
-/**
- * Author: MrCrayfish
- */
 public class ServerFile {
     public static final Comparator<ServerFile> SORT_BY_NAME = (f1, f2) -> {
         if (f1.isFolder() && !f2.isFolder()) return -1;

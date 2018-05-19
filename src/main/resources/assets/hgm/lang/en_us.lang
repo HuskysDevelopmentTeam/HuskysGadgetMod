@@ -59,22 +59,12 @@ app.hgm.pixel_tube.name=PixelTube
 app.hgm.pixel_plus.name=Pixel+
 app.hgm.cackler.name=Cackler
 app.hgm.flame_chat.name=Flame Chat
-app.hgm.app_store.name=App Store
-
-appStore.title=App Market
-appStore.categories=Categories
-
-apps.category.games=Games
-apps.category.tools=Tools
-apps.category.education=Education
-apps.category.entertainment=Entertainment
-apps.category.sports=Sports
-apps.category.vr=VR
-apps.category.finance=Finance
-apps.category.multiplayer=Multiplayer
-apps.category.shopping=Shopping
-apps.category.social=Social
-
+app.hgm.app_store.name=App Market
+        
+app.hgm.bank.desc=The official bank application for the Device Mod. Allow you to convert emeralds into digital currency.
+app.hgm.note_stash.desc=The official note application for the Device Mod. Allows you to store simple notes.
+app.hgm.ender_mail.desc=The official email application for the Device Mod. Allows you to send emails to other players on the server.
+        
 message.select_router=Now select a router to connect this device to.
 message.invalid_cable=Please select a device first before adding it to this monitor.
 message.router_max_devices=The maximum amount of devices has been reached for this monitor.

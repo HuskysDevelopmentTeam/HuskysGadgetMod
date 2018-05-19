@@ -8,9 +8,6 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskPing extends Task {
     private BlockPos sourceDevicePos;
     private int strength;

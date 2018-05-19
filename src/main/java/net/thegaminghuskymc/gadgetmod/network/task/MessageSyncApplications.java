@@ -14,9 +14,6 @@ import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class MessageSyncApplications implements IMessage, IMessageHandler<MessageSyncApplications, MessageSyncApplications> {
     private List<AppInfo> allowedApps;
 

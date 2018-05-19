@@ -1,7 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.programs.system;
 
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import javax.annotation.Nullable;
 
@@ -10,18 +10,18 @@ import javax.annotation.Nullable;
  */
 public abstract class SystemApplication extends Application {
 
-    private Laptop laptop;
+    private BaseDevice laptop;
 
     protected SystemApplication() {
 
     }
 
     @Nullable
-    public Laptop getLaptop() {
+    public BaseDevice getLaptop() {
         return laptop;
     }
 
-    public void setLaptop(@Nullable Laptop laptop) {
+    public void setLaptop(@Nullable BaseDevice laptop) {
         this.laptop = laptop;
     }
 

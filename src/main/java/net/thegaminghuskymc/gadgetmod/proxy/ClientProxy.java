@@ -13,8 +13,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,7 +28,7 @@ import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
@@ -37,8 +37,8 @@ import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColored;
-import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
+import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
+import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
@@ -58,14 +58,13 @@ import java.util.Objects;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
+@Mod.EventBusSubscriber
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         GadgetConfig.clientPreInit();
-        MinecraftForge.EVENT_BUS.register(this);
-//		MinecraftForge.EVENT_BUS.register(new GuiDrawHandler());
     }
 
     @Override
@@ -78,14 +77,14 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-        Laptop.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
         File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
@@ -98,7 +97,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 } catch (IOException ignored) {
 
                 }
-                Laptop.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
+                BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
             }
         }
 
@@ -114,18 +113,18 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
             }
             return 0xFFFFFF;
         };
-        blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.EASTER_EGG);
+        blockColors.registerBlockColorHandler(easterEggBlock, GadgetBlocks.easter_egg);
 
         ItemColors items = Minecraft.getMinecraft().getItemColors();
         BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 
-        IItemColor handlerItems = (s, t) -> ((ItemColored) s.getItem()).color.getColorValue();
+        IItemColor handlerItems = (s, t) -> t == 0 ? ((ItemColored) s.getItem()).color.getColorValue() : 0xFFFFFF;
         items.registerItemColorHandler(handlerItems, flash_drives);
-        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getDefaultState(), null, null, tintIndex),
                 gaming_chairs);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 laptops);
-        /*items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
+        items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 monitors);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 ethernet_wall_outlets);
@@ -144,12 +143,12 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
                 desktops);
         items.registerItemColorHandler((stack, tintIndex) -> blocks.colorMultiplier(((ItemBlock) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata()), null, null, tintIndex),
-                routers);*/
+                routers);
 
-        IBlockColor handlerBlocks = (s, w, p, t) -> t == 1 ? ((BlockColored) s.getBlock()).getColor().getColorValue() : 0xFFFFFF;
+        IBlockColor handlerBlocks = (s, w, p, t) -> t == 0 ? ((BlockColored) s.getBlock()).color.getColorValue() : 0xFFFFFF;
         blocks.registerBlockColorHandler(handlerBlocks, gaming_chairs);
         blocks.registerBlockColorHandler(handlerBlocks, laptops);
-        /*blocks.registerBlockColorHandler(handlerBlocks, monitors);
+        blocks.registerBlockColorHandler(handlerBlocks, monitors);
         blocks.registerBlockColorHandler(handlerBlocks, ethernet_wall_outlets);
         blocks.registerBlockColorHandler(handlerBlocks, robots);
         blocks.registerBlockColorHandler(handlerBlocks, gaming_desks);
@@ -158,7 +157,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         blocks.registerBlockColorHandler(handlerBlocks, playstation_4_pros);
         blocks.registerBlockColorHandler(handlerBlocks, threede_printers);
         blocks.registerBlockColorHandler(handlerBlocks, desktops);
-        blocks.registerBlockColorHandler(handlerBlocks, routers);*/
+        blocks.registerBlockColorHandler(handlerBlocks, routers);
 
     }
 
@@ -214,7 +213,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         }
 
         g.dispose();
-        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.ICON_TEXTURES, new DynamicTexture(atlas));
+        Minecraft.getMinecraft().getTextureManager().loadTexture(BaseDevice.ICON_TEXTURES, new DynamicTexture(atlas));
     }
 
     private void generateBannerAtlas() {
@@ -263,7 +262,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         }
 
         g.dispose();
-        Minecraft.getMinecraft().getTextureManager().loadTexture(Laptop.BANNER_TEXTURES, new DynamicTexture(atlas));
+        Minecraft.getMinecraft().getTextureManager().loadTexture(BaseDevice.BANNER_TEXTURES, new DynamicTexture(atlas));
     }
 
     private void updateIcon(AppInfo info, int iconU, int iconV) {
@@ -285,7 +284,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
         try {
             Application application = clazz.newInstance();
-            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(Laptop.class, null, "APPLICATIONS");
+            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(BaseDevice.class, null, "APPLICATIONS");
             APPS.add(application);
 
             Field field = Application.class.getDeclaredField("info");

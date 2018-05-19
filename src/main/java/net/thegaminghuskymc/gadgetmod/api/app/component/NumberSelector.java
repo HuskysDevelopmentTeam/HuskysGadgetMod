@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.api.app.component;
 import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import org.lwjgl.input.Mouse;
 
 import java.text.DecimalFormat;
@@ -72,7 +72,7 @@ public class NumberSelector extends Component {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
     }
 
     @Override

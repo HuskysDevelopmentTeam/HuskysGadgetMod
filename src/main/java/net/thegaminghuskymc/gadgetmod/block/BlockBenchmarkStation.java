@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBenchmarkStation;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockColoredFacing;
+import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 
@@ -49,6 +50,11 @@ public class BlockBenchmarkStation extends BlockColoredFacing {
     @Override
     public String getModNamespace() {
         return Reference.MOD_ID;
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 
 }

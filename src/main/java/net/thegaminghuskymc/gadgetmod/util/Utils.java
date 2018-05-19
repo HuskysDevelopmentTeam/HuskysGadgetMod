@@ -3,19 +3,21 @@ package net.thegaminghuskymc.gadgetmod.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sun.net.www.protocol.jar.JarURLConnection;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
@@ -46,24 +48,12 @@ public class Utils {
 
     @SideOnly(Side.CLIENT)
     public static void registerFontRenderer(Minecraft mc, FontRenderer renderer) throws Exception {
-
-        Class<? extends Minecraft> mcClass = mc.getClass();
-
         if (mc.gameSettings.language != null) {
             renderer.setUnicodeFlag(mc.isUnicode());
-
-            Field mcLanguageManagerField = mcClass.getDeclaredField("mcLanguageManager");
-
-            mcLanguageManagerField.setAccessible(true);
-
-            renderer.setBidiFlag(((LanguageManager) mcLanguageManagerField.get(mc)).isCurrentLanguageBidirectional());
+            renderer.setBidiFlag(mc.getLanguageManager().isCurrentLanguageBidirectional());
         }
 
-        Field mcResourceManagerField = mcClass.getDeclaredField("mcResourceManager");
-
-        mcResourceManagerField.setAccessible(true);
-
-        ((IReloadableResourceManager) mcResourceManagerField.get(mc)).registerReloadListener(renderer);
+        ((IReloadableResourceManager) mc.getResourceManager()).registerReloadListener(renderer);
     }
 
     public static File getResourceAsFile(String resource) throws IOException {
@@ -79,6 +69,20 @@ public class Utils {
         return Minecraft.getMinecraft().getResourceManager().getResource(resource).getInputStream();
     }
 
+    public static String buildStringWithoutLast(String... parts) {
+        return buildStringWithoutLast(' ', parts);
+    }
+
+    public static String buildStringWithoutLast(char separator, String... parts) {
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        for (String part : parts) {
+            if (!(i >= parts.length - 1)) builder.append(part + separator);
+            i++;
+        }
+        return builder.toString();
+    }
+
     public static File streamToFile(InputStream initialStream, File out) throws IOException {
         byte[] buffer = new byte[initialStream.available()];
         initialStream.read(buffer);
@@ -92,14 +96,19 @@ public class Utils {
         return out;
     }
 
-    public static ArrayList<Class> loadAllClassesFromJar(String path) {
+    public static ArrayList<Class> loadAllClassesFromRemoteJar(String path) {
+        if (path == null || path.equals("null")) return new ArrayList<>();
         JarFile jarFile = null;
         ArrayList<Class> classes = new ArrayList<>();
+        URL jarUrl;
         try {
-            jarFile = new JarFile(path);
+            jarUrl = new URL("jar:" + path + "!/");
+            JarURLConnection conn = new JarURLConnection(jarUrl, null);
+
+            jarFile = conn.getJarFile();
             Enumeration<JarEntry> e = jarFile.entries();
 
-            URL[] urls = {new URL("jar:" + path + "!/")};
+            URL[] urls = {jarUrl};
             URLClassLoader cl = URLClassLoader.newInstance(urls);
 
             while (e.hasMoreElements()) {
@@ -123,6 +132,16 @@ public class Utils {
             }
         }
         return classes;
+    }
+
+    public static String formatNumber(Object num) {
+        DecimalFormat f = new DecimalFormat("###,###");
+        f.setRoundingMode(RoundingMode.HALF_UP);
+        return f.format(num);
+    }
+
+    public static String formatNumberString(String s) {
+        return formatNumber(Integer.parseInt(s));
     }
 
 }

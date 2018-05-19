@@ -9,14 +9,11 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskGetMainDrive extends Task {
     private BlockPos pos;
 
@@ -39,8 +36,8 @@ public class TaskGetMainDrive extends Task {
     @Override
     public void processRequest(NBTTagCompound nbt, World world, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("pos")));
-        if (tileEntity instanceof TileEntityLaptop) {
-            TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;
+        if (tileEntity instanceof TileEntityBaseDevice) {
+            TileEntityBaseDevice laptop = (TileEntityBaseDevice) tileEntity;
             FileSystem fileSystem = laptop.getFileSystem();
             mainDrive = fileSystem.getMainDrive();
             this.setSuccessful();
@@ -62,14 +59,14 @@ public class TaskGetMainDrive extends Task {
     @Override
     public void processResponse(NBTTagCompound nbt) {
         if (this.isSucessful()) {
-            if (Minecraft.getMinecraft().currentScreen instanceof Laptop) {
+            if (Minecraft.getMinecraft().currentScreen instanceof BaseDevice) {
                 NBTTagCompound structureTag = nbt.getCompoundTag("structure");
                 Drive drive = new Drive(nbt.getCompoundTag("main_drive"));
                 drive.syncRoot(Folder.fromTag(FileSystem.LAPTOP_DRIVE_NAME, structureTag));
                 drive.getRoot().validate();
 
-                if (Laptop.getMainDrive() == null) {
-                    Laptop.setMainDrive(drive);
+                if (BaseDevice.getMainDrive() == null) {
+                    BaseDevice.setMainDrive(drive);
                 }
             }
         }

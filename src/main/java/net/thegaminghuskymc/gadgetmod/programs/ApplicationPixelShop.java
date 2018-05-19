@@ -23,12 +23,13 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.object.Canvas;
 import net.thegaminghuskymc.gadgetmod.object.Picture;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Objects;
 
@@ -58,7 +59,7 @@ public class ApplicationPixelShop extends Application {
     private ComboBox.Custom<Integer> colourPicker;
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         layoutMainMenu = new StandardLayout("Main Menu", 201, 125, this, null);
         layoutMainMenu.setIcon(Icons.HOME);
@@ -94,7 +95,7 @@ public class ApplicationPixelShop extends Application {
         layoutMainMenu.addComponent(btnDeletePicture);
 
         /* New Picture */
-        layoutNewPicture = new Layout(180, 65);
+        layoutNewPicture = new Layout(180, 85);
 
         Label labelName = new Label("Name", 5, 5);
         layoutNewPicture.addComponent(labelName);
@@ -122,7 +123,15 @@ public class ApplicationPixelShop extends Application {
         checkBox32x.setRadioGroup(sizeGroup);
         layoutNewPicture.addComponent(checkBox32x);
 
-        Button btnCreatePicture = new Button(110, 40, "Create");
+        CheckBox checkBox64x = new CheckBox("64x", 110, 39);
+        checkBox64x.setRadioGroup(sizeGroup);
+        layoutNewPicture.addComponent(checkBox64x);
+
+        CheckBox checkBox128xx = new CheckBox("128x", 145, 39);
+        checkBox128xx.setRadioGroup(sizeGroup);
+        layoutNewPicture.addComponent(checkBox128xx);
+
+        Button btnCreatePicture = new Button(110, 60, "Create");
         btnCreatePicture.setSize(65, 20);
         btnCreatePicture.setClickListener((mouseX, mouseY, mouseButton) ->
         {
@@ -371,7 +380,7 @@ public class ApplicationPixelShop extends Application {
 
         Component colourDisplay = new Component(5, 25) {
             @Override
-            public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+            public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
                 drawRect(xPosition, yPosition, xPosition + 50, yPosition + 15, Color.DARK_GRAY.getRGB());
                 drawRect(xPosition + 1, yPosition + 1, xPosition + 49, yPosition + 1, canvas.getCurrentColour());
             }

@@ -1,24 +1,15 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.core.Laptop.BootMode;
-import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
-import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
 
-public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
+public class TileEntityLaptop extends TileEntityBaseDevice {
 
     private static final int OPENED_ANGLE = 102;
 
     private boolean open = false, powered = false, hasBattery = false;
-
-    private NBTTagCompound applicationData;
-    private NBTTagCompound systemData;
-    private FileSystem fileSystem;
 
     @SideOnly(Side.CLIENT)
     private int rotation;
@@ -26,12 +17,8 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
     @SideOnly(Side.CLIENT)
     private int prevRotation;
 
-    @SideOnly(Side.CLIENT)
-    private EnumDyeColor externalDriveColor;
-
-    @Override
-    public String getDeviceName() {
-        return "Laptop";
+    public TileEntityLaptop() {
+        super("Laptop");
     }
 
     @Override
@@ -49,18 +36,6 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
                 }
             }
         }
-
-        if (this.systemData != null && this.systemData.hasKey("boottimer") && this.systemData.hasKey("bootmode")) {
-            BootMode bootmode = BootMode.getBootMode(this.systemData.getInteger("bootmode"));
-            if (bootmode != null && bootmode != BootMode.NOTHING) {
-                int boottimer = Math.max(this.systemData.getInteger("boottimer") - 1, 0);
-                if (boottimer == 0) {
-                    bootmode = bootmode == BootMode.BOOTING ? BootMode.NOTHING : null;
-                    this.systemData.setInteger("bootmode", BootMode.ordinal(bootmode));
-                }
-                this.systemData.setInteger("boottimer", boottimer);
-            }
-        }
     }
 
     @Override
@@ -75,21 +50,6 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         if (compound.hasKey("hasBattery")) {
             this.hasBattery = compound.getBoolean("hasBattery");
         }
-        if (compound.hasKey("system_data", Constants.NBT.TAG_COMPOUND)) {
-            this.systemData = compound.getCompoundTag("system_data");
-        }
-        if (compound.hasKey("application_data", Constants.NBT.TAG_COMPOUND)) {
-            this.applicationData = compound.getCompoundTag("application_data");
-        }
-        if (compound.hasKey("file_system")) {
-            this.fileSystem = new FileSystem(this, compound.getCompoundTag("file_system"));
-        }
-        if (compound.hasKey("external_drive_color", Constants.NBT.TAG_BYTE)) {
-            this.externalDriveColor = null;
-            if (compound.getByte("external_drive_color") != -1) {
-                this.externalDriveColor = EnumDyeColor.byMetadata(compound.getByte("external_drive_color"));
-            }
-        }
     }
 
     @Override
@@ -97,18 +57,6 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         super.writeToNBT(compound);
         compound.setBoolean("open", open);
         compound.setBoolean("powered", powered);
-
-        if (systemData != null) {
-            compound.setTag("system_data", systemData);
-        }
-
-        if (applicationData != null) {
-            compound.setTag("application_data", applicationData);
-        }
-
-        if (fileSystem != null) {
-            compound.setTag("file_system", fileSystem.toTag());
-        }
         return compound;
     }
 
@@ -118,14 +66,6 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         tag.setBoolean("open", open);
         tag.setBoolean("powered", powered);
         tag.setBoolean("hasBattery", hasBattery);
-        tag.setTag("system_data", getSystemData());
-
-        if (getFileSystem().getAttachedDrive() != null) {
-            tag.setByte("external_drive_color", (byte) getFileSystem().getAttachedDriveColor().getMetadata());
-        } else {
-            tag.setByte("external_drive_color", (byte) -1);
-        }
-
         return tag;
     }
 
@@ -170,46 +110,9 @@ public class TileEntityLaptop extends TileEntityNetworkDevice.Colored {
         return hasBattery;
     }
 
-    public NBTTagCompound getApplicationData() {
-        return applicationData != null ? applicationData : new NBTTagCompound();
-    }
-
-    public NBTTagCompound getSystemData() {
-        return systemData != null ? systemData : new NBTTagCompound();
-    }
-
-    public void setSystemData(NBTTagCompound systemData) {
-        this.systemData = systemData;
-        markDirty();
-        TileEntityUtil.markBlockForUpdate(world, pos);
-    }
-
-    public FileSystem getFileSystem() {
-        if (fileSystem == null) {
-            fileSystem = new FileSystem(this, new NBTTagCompound());
-        }
-        return fileSystem;
-    }
-
-    public void setApplicationData(String appID, NBTTagCompound applicationData) {
-        this.applicationData = applicationData;
-        markDirty();
-        TileEntityUtil.markBlockForUpdate(world, pos);
-    }
-
     @SideOnly(Side.CLIENT)
     public float getScreenAngle(float partialTicks) {
         return -OPENED_ANGLE * ((prevRotation + (rotation - prevRotation) * partialTicks) / OPENED_ANGLE);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean isExternalDriveAttached() {
-        return externalDriveColor != null;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public EnumDyeColor getExternalDriveColor() {
-        return externalDriveColor;
     }
 
 }

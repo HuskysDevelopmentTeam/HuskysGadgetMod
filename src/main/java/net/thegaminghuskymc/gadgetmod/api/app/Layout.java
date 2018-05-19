@@ -4,15 +4,30 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.InitListener;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import net.thegaminghuskymc.gadgetmod.core.Wrappable;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Layout extends Component {
+/**
+ * The Layout class is the main implementation for displaying
+ * components in your application. You can have multiple layouts
+ * in your application to switch interfaces during runtime.
+ * <p>
+ * Use {@link Application#setCurrentLayout(Layout)}
+ * inside of {@link Wrappable#init()} (net.minecraft.nbt.NBTTagCompound)}
+ * to set the current layout for your application.
+ * <p>
+ * Check out the example applications to get a better understand of
+ * how this works.
+ *
+ * @author MrCrayfish
+ */
+public class Layout extends Component
+{
     /**
      * The list of components in the layout
      */
@@ -29,7 +44,6 @@ public class Layout extends Component {
     public int height;
 
     private String title;
-    private String icon;
     private boolean initialized = false;
 
     private InitListener initListener;
@@ -40,20 +54,22 @@ public class Layout extends Component {
      * 200 and a height of 100. Use the alternate constructor to
      * set a custom width and height.
      */
-    public Layout() {
-        this(202, 100);
+    public Layout()
+    {
+        this(200, 100);
     }
 
-    public Layout(int width, int height) {
+    public Layout(int width, int height)
+    {
         this(0, 0, width, height);
 
-        if (width < 13)
+        if(width < 13)
             throw new IllegalArgumentException("Width can not be less than 13 wide");
 
-        if (height < 1)
+        if(height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<>();
+        this.components = new ArrayList<Component>();
         this.width = width;
         this.height = height;
     }
@@ -62,17 +78,21 @@ public class Layout extends Component {
      * Constructor to set a custom width and height. It should be
      * noted that the width must be in the range of 20 to 362 and
      * the height 20 to 164.
+     *
+     * @param width
+     * @param height
      */
-    public Layout(int left, int top, int width, int height) {
+    public Layout(int left, int top, int width, int height)
+    {
         super(left, top);
 
-        if (width < 13)
+        if(width < 13)
             throw new IllegalArgumentException("Width can not be less than 13 wide");
 
-        if (height < 1)
+        if(height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<>();
+        this.components = new ArrayList<Component>();
         this.width = width;
         this.height = height;
     }
@@ -82,47 +102,61 @@ public class Layout extends Component {
      * {@link Application#setCurrentLayout(Layout)}. Will
      * trigger on initialization listener if set.
      * See {@link #setInitListener(InitListener)}
+     * TODO: Fix docs
      */
-    public void init() {
-    }
+    public void init() {}
 
     /**
      * Adds a component to this layout and initializes it.
      *
      * @param c the component
      */
-    public void addComponent(Component c) {
-        if (c != null) {
+    public void addComponent(Component c)
+    {
+        if(c != null)
+        {
             this.components.add(c);
             c.init(this);
         }
     }
 
     @Override
-    public void init(Layout layout) {
-    }
+    public void init(Layout layout) {}
 
     @Override
-    protected void handleOnLoad() {
-        if (!initialized) {
+    public void handleLoad()
+    {
+        if(!initialized)
+        {
             this.init();
             initialized = true;
         }
-        if (initListener != null) {
+
+        if(initListener != null)
+        {
             initListener.onInit();
         }
-        for (Component c : components) {
-            c.handleOnLoad();
-        }
-    }
 
-    public boolean isInitialized() {
-        return initialized;
+        for(Component c : components)
+        {
+            c.handleLoad();
+        }
     }
 
     @Override
-    public void handleTick() {
-        for (Component c : components) {
+    protected void handleUnload()
+    {
+        for(Component c : components)
+        {
+            c.handleUnload();
+        }
+    }
+
+    @Override
+    public void handleTick()
+    {
+        for(Component c : components)
+        {
             c.handleTick();
         }
     }
@@ -132,99 +166,120 @@ public class Layout extends Component {
      * has be set. See {@link #setBackground(Background)}.
      *
      * @param laptop a Gui instance
-     * @param mc     a Minecraft instance
-     * @param x      the starting x rendering position (left most)
-     * @param y      the starting y rendering position (top most)
+     * @param mc a Minecraft instance
+     * @param x the starting x rendering position (left most)
+     * @param y the starting y rendering position (top most)
      */
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        if (!this.visible)
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+    {
+        if(!this.visible)
             return;
 
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GLHelper.scissor(x, y, width, height);
-
-        /*if (background != null) {
-            background.render(laptop, mc,  x, y, width, height, mouseX, mouseY, windowActive);
-        }*/
-
-        for (Component c : components) {
-            GlStateManager.disableDepth();
-            c.render(laptop, mc, c.xPosition, c.yPosition, mouseX, mouseY, windowActive, partialTicks);
+        if(background != null)
+        {
+            background.render(laptop, mc, x, y, width, height, mouseX, mouseY, windowActive);
         }
 
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
+        for(Component c : components)
+        {
+            GlStateManager.disableDepth();
+            GLHelper.pushScissor(x, y, width, height);
+            c.render(laptop, mc, x + c.left, y + c.top, mouseX, mouseY, windowActive, partialTicks);
+            GLHelper.popScissor();
+        }
     }
 
     @Override
-    public void renderOverlay(Laptop laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive) {
-        for (Component c : components) {
+    public void renderOverlay(BaseDevice laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
+    {
+        for(Component c : components)
+        {
             c.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
         }
     }
 
     @Override
-    public void handleKeyTyped(char character, int code) {
-        for (Component c : components) {
+    public void handleKeyTyped(char character, int code)
+    {
+        for(Component c : components)
+        {
             c.handleKeyTyped(character, code);
         }
     }
 
     @Override
-    public void handleKeyReleased(char character, int code) {
-        for (Component c : components) {
+    public void handleKeyReleased(char character, int code)
+    {
+        for(Component c : components)
+        {
             c.handleKeyReleased(character, code);
         }
     }
 
     @Override
-    public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-        for (Component c : components) {
+    public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
+    {
+        for(Component c : components)
+        {
             c.handleMouseClick(mouseX, mouseY, mouseButton);
         }
     }
 
     @Override
-    public void handleMouseDrag(int mouseX, int mouseY, int mouseButton) {
-        for (Component c : components) {
+    public void handleMouseDrag(int mouseX, int mouseY, int mouseButton)
+    {
+        for(Component c : components)
+        {
             c.handleMouseDrag(mouseX, mouseY, mouseButton);
         }
     }
 
     @Override
-    public void handleMouseRelease(int mouseX, int mouseY, int mouseButton) {
-        for (Component c : components) {
+    public void handleMouseRelease(int mouseX, int mouseY, int mouseButton)
+    {
+        for(Component c : components)
+        {
             c.handleMouseRelease(mouseX, mouseY, mouseButton);
         }
     }
 
     @Override
-    public void handleMouseScroll(int mouseX, int mouseY, boolean direction) {
-        for (Component c : components) {
+    public void handleMouseScroll(int mouseX, int mouseY, boolean direction)
+    {
+        for(Component c : components)
+        {
             c.handleMouseScroll(mouseX, mouseY, direction);
         }
     }
 
     @Override
-    public void updateComponents(int x, int y) {
+    public void updateComponents(int x, int y)
+    {
         super.updateComponents(x, y);
-        for (Component c : components) {
+        for(Component c : components)
+        {
             c.updateComponents(x + left, y + top);
         }
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled)
+    {
         super.setEnabled(enabled);
-        for (Component c : components) {
+        for(Component c : components)
+        {
             c.setEnabled(enabled);
         }
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(boolean visible)
+    {
         super.setVisible(visible);
-        for (Component c : components) {
+        for(Component c : components)
+        {
             c.setVisible(visible);
         }
     }
@@ -232,8 +287,11 @@ public class Layout extends Component {
     /**
      * Sets the initialization listener for this layout.
      * See {@link InitListener}.
+     *
+     * @param initListener
      */
-    public void setInitListener(InitListener initListener) {
+    public void setInitListener(InitListener initListener)
+    {
         this.initListener = initListener;
     }
 
@@ -243,27 +301,42 @@ public class Layout extends Component {
      *
      * @param background the background
      */
-    public void setBackground(Background background) {
+    public void setBackground(Background background)
+    {
         this.background = background;
     }
 
     /**
      * Clears all components in this layout
      */
-    public void clear() {
+    public void clear()
+    {
         this.components.clear();
     }
 
-    public boolean hasTitle() {
+    public boolean hasTitle()
+    {
         return title != null;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
+    }
+
+    public boolean isInitialized()
+    {
+        return initialized;
+    }
+
+    public void setInitialized()
+    {
+        this.initialized = initialized;
     }
 
     /**
@@ -271,36 +344,46 @@ public class Layout extends Component {
      *
      * @author MrCrayfish
      */
-    public interface Background {
+    public interface Background
+    {
         /**
          * The render method
          *
-         * @param gui    a Gui instance
-         * @param mc     A Minecraft instance
-         * @param x      the starting x rendering position (left most)
-         * @param y      the starting y rendering position (top most)
-         * @param width  the width of the layout
+         * @param gui a Gui instance
+         * @param mc A Minecraft instance
+         * @param x the starting x rendering position (left most)
+         * @param y the starting y rendering position (top most)
+         * @param width the width of the layout
          * @param height the height of the layout
          */
         void render(Gui gui, Minecraft mc, int x, int y, int width, int height, int mouseX, int mouseY, boolean windowActive);
     }
 
-    public static class Context extends Layout {
-        private boolean borderVisible = false;
+    public static class Context extends Layout
+    {
+        private boolean borderVisible = true;
 
-        public Context(int width, int height) {
+        public Context(int width, int height)
+        {
             super(width, height);
         }
 
         @Override
-        public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+        public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
+        {
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
-            if (borderVisible) {
-                drawHorizontalLine(x, x + width - 1, y, Color.BLACK.getRGB());
-                drawHorizontalLine(x, x + width - 1, y + height - 1, Color.BLACK.getRGB());
-                drawVerticalLine(x, y, y + height - 1, Color.BLACK.getRGB());
-                drawVerticalLine(x + width - 1, y, y + height - 1, Color.BLACK.getRGB());
+            if(borderVisible)
+            {
+                drawHorizontalLine(x, x + width - 1, y, Color.DARK_GRAY.getRGB());
+                drawHorizontalLine(x, x + width - 1, y + height - 1, Color.DARK_GRAY.getRGB());
+                drawVerticalLine(x, y, y + height - 1, Color.DARK_GRAY.getRGB());
+                drawVerticalLine(x + width - 1, y, y + height - 1, Color.DARK_GRAY.getRGB());
             }
+        }
+
+        public void setBorderVisible(boolean visible)
+        {
+            this.borderVisible = visible;
         }
     }
 }

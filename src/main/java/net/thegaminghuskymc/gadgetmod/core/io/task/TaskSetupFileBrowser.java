@@ -14,9 +14,6 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskSetupFileBrowser extends Task {
     private BlockPos pos;
     private boolean includeMain;

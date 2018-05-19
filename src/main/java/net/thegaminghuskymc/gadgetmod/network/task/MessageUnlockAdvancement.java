@@ -28,7 +28,7 @@ public class MessageUnlockAdvancement implements IMessage, IMessageHandler<Messa
         int z = (int) pl.posZ + w.rand.nextInt(rad * 2) - rad;
         int y = w.getHeight(x, z);
         BlockPos pos = new BlockPos(x, y, z);
-        w.setBlockState(pos, GadgetBlocks.EASTER_EGG.getDefaultState());
+        w.setBlockState(pos, GadgetBlocks.easter_egg.getDefaultState());
         return null;
     }
 

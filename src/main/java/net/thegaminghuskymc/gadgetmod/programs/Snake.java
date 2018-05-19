@@ -5,8 +5,9 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,7 +24,7 @@ public class Snake extends Application {
     private ArrayList<Point> snake;
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         // AUTO ADJUST WIDTH AND HEIGHT BASED ON SNAKE SCALE.
         width -= (width % size);
@@ -48,7 +49,6 @@ public class Snake extends Application {
     @Override
     public void onTick() {
         super.onTick();
-        System.out.println(ticks);
         if (ticks + 1 == Integer.MAX_VALUE) ticks = 0;
 
         int gameSpeed = 2;
@@ -102,7 +102,7 @@ public class Snake extends Application {
     }
 
     @Override
-    public void render(Laptop lap, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+    public void render(BaseDevice lap, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
         super.render(lap, mc, x, y, mouseX, mouseY, active, partialTicks);
         for (Point aSnake : snake) {
             Gui.drawRect(x + aSnake.x * size, y + aSnake.y * size, x + (aSnake.x * size) + size, y + (aSnake.y * size) + size, Color.GRAY.getRGB());

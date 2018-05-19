@@ -7,7 +7,7 @@ import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
@@ -330,7 +330,7 @@ public class Folder extends File {
         }
 
         if (!folder.isSynced()) {
-            Task task = new TaskGetFiles(folder, Laptop.getPos());
+            Task task = new TaskGetFiles(folder, BaseDevice.getPos());
             task.setCallback((nbt, success) ->
             {
                 if (success && nbt.hasKey("files", Constants.NBT.TAG_LIST)) {
@@ -477,7 +477,7 @@ public class Folder extends File {
         NBTTagCompound folderTag = new NBTTagCompound();
 
         NBTTagCompound fileList = new NBTTagCompound();
-        files.stream().forEach(file -> fileList.setTag(file.getName(), file.toTag()));
+        files.forEach(file -> fileList.setTag(file.getName(), file.toTag()));
         folderTag.setTag("files", fileList);
 
         if (protect) folderTag.setBoolean("protected", true);

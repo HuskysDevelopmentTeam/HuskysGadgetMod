@@ -7,7 +7,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -40,8 +40,8 @@ public class StandardLayout extends Layout {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+        Color color = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
         Gui.drawRect(x - 1, y, x + width + 1, y + 20, color.getRGB());
         Gui.drawRect(x - 1, y + 20, x + width + 1, y + 21, color.darker().getRGB());
 

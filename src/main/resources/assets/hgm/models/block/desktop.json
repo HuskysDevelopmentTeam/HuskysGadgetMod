@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
 		"0": "hgm:model/desktop",
-		"particle": "#0"
+		"particle": "hgm:model/desktop"
 	},
 	"elements": [
 		{
@@ -1063,32 +1063,32 @@
 				"north": {
 					"uv": [4.5, 10, 6.75, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [4, 8, 8, 12],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [4.5, 10, 6.75, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [4.5, 10, 6.75, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [4.5, 10, 6.75, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [4.5, 10, 6.75, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -1101,32 +1101,32 @@
 				"north": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -1590,32 +1590,32 @@
 				"north": {
 					"uv": [4, 4.25, 7.25, 8],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [15.5, 15.25, 16, 16],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [15.5, 15.25, 16, 16],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [15.5, 15.25, 16, 16],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [15.5, 15.25, 16, 16],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [15.5, 15.25, 16, 16],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -1660,32 +1660,32 @@
 				"north": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [5.75, 13.75, 7.5, 15.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -1878,32 +1878,32 @@
 				"north": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8.75, 2.75, 9.5, 3.75],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"

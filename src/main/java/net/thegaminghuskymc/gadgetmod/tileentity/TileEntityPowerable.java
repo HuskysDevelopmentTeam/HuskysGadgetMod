@@ -12,9 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public abstract class TileEntityPowerable extends TileEntitySync implements ITickable, IColored {
 
     private EnumDyeColor color = EnumDyeColor.WHITE;

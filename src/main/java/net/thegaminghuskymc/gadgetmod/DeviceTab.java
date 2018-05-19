@@ -6,7 +6,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-
 public class DeviceTab extends CreativeTabs {
 
     private String title = "";

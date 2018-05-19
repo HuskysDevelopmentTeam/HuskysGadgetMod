@@ -10,7 +10,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.listener.ChangeListener;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +38,7 @@ public abstract class ComboBox<T> extends Component {
     @Override
     public void handleTick() {
         super.handleTick();
-        if (opened && !Laptop.getSystem().hasContext()) {
+        if (opened && !BaseDevice.getSystem().hasContext()) {
             opened = false;
         }
     }
@@ -49,7 +49,7 @@ public abstract class ComboBox<T> extends Component {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if (this.visible) {
             FontRenderer fontrenderer = mc.fontRenderer;
             mc.getTextureManager().bindTexture(Component.COMPONENTS_GUI);
@@ -104,7 +104,7 @@ public abstract class ComboBox<T> extends Component {
 
         if (this.hovered && !this.opened) {
             this.opened = true;
-            Laptop.getSystem().openContext(this.layout, xPosition, yPosition + 13);
+            BaseDevice.getSystem().openContext(this.layout, xPosition, yPosition + 13);
         }
     }
 
@@ -145,7 +145,7 @@ public abstract class ComboBox<T> extends Component {
     }
 
     public void closeContext() {
-        Laptop.getSystem().closeContext();
+        BaseDevice.getSystem().closeContext();
     }
 
     public static class List<T> extends ComboBox<T> {
@@ -190,7 +190,7 @@ public abstract class ComboBox<T> extends Component {
                 if (mouseButton == 0) {
                     selected = t;
                     updateValue(t);
-                    Laptop.getSystem().closeContext();
+                    BaseDevice.getSystem().closeContext();
                 }
             });
             this.layout.addComponent(list);

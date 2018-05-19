@@ -17,15 +17,12 @@ import java.util.List;
 import java.util.Set;
 
 public class GadgetGuiFactory implements IModGuiFactory {
-    //this class is accessed when Forge needs a GUI made relating to your mod (e.g. config GUI)
 
     @Override
     public void initialize(Minecraft minecraftInstance) {
-        //needed to implement IModGuiFactory but doesn't need to do anything
-        // for the configuration gui
+
     }
 
-    // called when your GUI needs to be created
     public GuiScreen createConfigGui(GuiScreen parentScreen) {
         return new MBEConfigGui(parentScreen);
     }
@@ -34,30 +31,24 @@ public class GadgetGuiFactory implements IModGuiFactory {
         return true;
     }
 
-    // This function is needed for implementation only, the config gui does not require them
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
         return null;
     }
 
-    //This class inherits from GuiConfig, a specialized GuiScreen designed to display your
-    // configuration categories
     public static class MBEConfigGui extends GuiConfig {
         public MBEConfigGui(GuiScreen parentScreen) {
-            //I18n function basically "translates" or localizes the given key using the appropriate .lang file
             super(parentScreen, getConfigElements(), Reference.MOD_ID,
-                    false, false, I18n.format("gui.mbe70_configuration.mainTitle"));
+                    false, false, I18n.format("gui.gadget_mod.mainTitle"));
         }
 
         private static List<IConfigElement> getConfigElements() {
             List<IConfigElement> list = new ArrayList<>();
-            //Add the two buttons that will go to each config category edit screen
-            list.add(new DummyConfigElement.DummyCategoryElement("mainCfg", "gui.mbe70_configuration.ctgy.general", CategoryEntryGeneral.class));
-            list.add(new DummyConfigElement.DummyCategoryElement("miscCfg", "gui.mbe70_configuration.ctgy.other", CategoryEntryOther.class));
+            list.add(new DummyConfigElement.DummyCategoryElement("mainCfg", "gui.gadget_mod.general", CategoryEntryGeneral.class));
+            list.add(new DummyConfigElement.DummyCategoryElement("miscCfg", "gui.gadget_mod.other", CategoryEntryOther.class));
             return list;
         }
 
-        //the next two classes are the edit screens for each configuration category
         public static class CategoryEntryGeneral extends GuiConfigEntries.CategoryEntry {
             public CategoryEntryGeneral(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop) {
                 super(owningScreen, owningEntryList, prop);
@@ -65,13 +56,6 @@ public class GadgetGuiFactory implements IModGuiFactory {
 
             @Override
             protected GuiScreen buildChildScreen() {
-                //The following GuiConfig object specifies the configID of the object and thus will force-save
-                // when closed.
-                //Parent GuiConfig object's entryList will also be refreshed to reflect the changes.
-                // --see GuiFactory of Forge for more info
-                //Additionally, Forge best practices say to put the path to the config file for the category as
-                // the title for the category config screen
-
                 Configuration configuration = GadgetConfig.getConfig();
                 ConfigElement cat_general = new ConfigElement(configuration.getCategory(GadgetConfig.CATEGORY_NAME_GENERAL));
                 List<IConfigElement> propertiesOnThisScreen = cat_general.getChildElements();
@@ -83,8 +67,6 @@ public class GadgetGuiFactory implements IModGuiFactory {
                         this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
                         this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                         windowTitle);
-                //this is a complicated object that specifies the category's gui screen, to better understand
-                // how it works, look into the definitions of the called functions and objects
             }
         }
 
@@ -106,8 +88,6 @@ public class GadgetGuiFactory implements IModGuiFactory {
                         this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
                         this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                         windowTitle);
-                //this is a complicated object that specifies the category's gui screen, to better understand
-                // how it works, look into the definitions of the called functions and objects
             }
         }
     }

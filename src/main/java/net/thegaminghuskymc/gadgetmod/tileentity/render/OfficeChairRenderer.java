@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.block.BlockOfficeChair;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
 
 public class OfficeChairRenderer extends TileEntitySpecialRenderer<TileEntityOfficeChair> {

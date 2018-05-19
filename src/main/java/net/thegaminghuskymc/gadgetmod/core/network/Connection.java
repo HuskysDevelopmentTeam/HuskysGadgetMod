@@ -10,9 +10,6 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class Connection {
     private UUID routerId;
     private BlockPos routerPos;

@@ -18,13 +18,14 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskAddAuction;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskBuyItem;
 import net.thegaminghuskymc.gadgetmod.programs.auction.task.TaskGetAuctions;
 import net.thegaminghuskymc.gadgetmod.util.TimeUtil;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ApplicationPixelBay extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         Button btnAddItem = new Button(70, 5, "Add Item");
         btnAddItem.setSize(60, 15);
@@ -364,7 +365,7 @@ public class ApplicationPixelBay extends Application {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
         Gui.drawRect(x, y, x + this.getWidth(), y + 25, Color.GRAY.getRGB());
         Gui.drawRect(x, y + 24, x + this.getWidth(), y + 25, Color.DARK_GRAY.getRGB());
         Gui.drawRect(x, y + 25, x + 78, y + this.getHeight() - 36, Color.LIGHT_GRAY.getRGB());

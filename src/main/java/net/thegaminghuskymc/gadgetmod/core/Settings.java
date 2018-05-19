@@ -13,6 +13,10 @@ public class Settings {
         return Settings.showAllApps;
     }
 
+    public static void setShowAllApps(boolean showAllApps) {
+        Settings.showAllApps = showAllApps;
+    }
+
     public static Settings fromTag(NBTTagCompound tag) {
         showAllApps = tag.getBoolean("showAllApps");
 

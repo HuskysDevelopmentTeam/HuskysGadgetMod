@@ -9,7 +9,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 
 import javax.annotation.Nullable;
@@ -48,9 +48,9 @@ public class HomePageLayout extends Layout {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
 
-        Color color = new Color(Laptop.getSystem().getSettings().getColourScheme().getHeaderColour());
+        Color color = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getHeaderColour());
         Gui.drawRect(x, y + 44, x + width, y + 45, color.brighter().getRGB());
         Gui.drawRect(x, y + 45, x + width, y + 60, color.getRGB());
         Gui.drawRect(x, y + 60, x + width, y + 61, color.darker().getRGB());

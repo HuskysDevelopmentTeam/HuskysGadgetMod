@@ -24,9 +24,6 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemHDMICable extends Item {
 
     public ItemHDMICable() {

@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 
+import javax.annotation.Nullable;
+
 public class ApplicationPixelBook extends Application {
 
     public ApplicationPixelBook() {
@@ -12,7 +14,7 @@ public class ApplicationPixelBook extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         Button button = new Button(getWidth() / 2, getHeight() / 2, "Travel to the Earth's Core and see your Long Lost Great Grandpa");
         super.addComponent(button);
     }

@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.util.ItemUtils;
-import net.thegaminghuskymc.huskylib2.lib.items.ItemColored;
+import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
 import java.util.Objects;
 

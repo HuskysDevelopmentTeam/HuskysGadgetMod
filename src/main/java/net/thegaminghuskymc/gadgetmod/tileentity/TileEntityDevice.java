@@ -1,12 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.util.IColored;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;

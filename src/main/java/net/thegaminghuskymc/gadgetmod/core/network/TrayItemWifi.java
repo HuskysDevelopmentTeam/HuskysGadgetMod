@@ -1,10 +1,8 @@
 package net.thegaminghuskymc.gadgetmod.core.network;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
@@ -15,10 +13,9 @@ import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
 
 import java.awt.*;
@@ -49,7 +46,7 @@ public class TrayItemWifi extends TrayItem {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
                 gui.drawString(mc.fontRenderer, "Router", x + 16, y + 4, Color.WHITE.getRGB());
 
-                BlockPos laptopPos = Laptop.getPos();
+                BlockPos laptopPos = BaseDevice.getPos();
                 double distance = Math.sqrt(blockPos.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
                 if (distance > 20) {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
@@ -61,7 +58,7 @@ public class TrayItemWifi extends TrayItem {
             }
         });
         itemListRouters.sortBy((o1, o2) -> {
-            BlockPos laptopPos = Laptop.getPos();
+            BlockPos laptopPos = BaseDevice.getPos();
             double distance1 = Math.sqrt(o1.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             double distance2 = Math.sqrt(o2.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             return Double.compare(distance1, distance2);
@@ -72,11 +69,11 @@ public class TrayItemWifi extends TrayItem {
         buttonConnect.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (mouseButton == 0) {
                 if (itemListRouters.getSelectedItem() != null) {
-                    TaskConnect connect = new TaskConnect(Laptop.getPos(), itemListRouters.getSelectedItem());
+                    TaskConnect connect = new TaskConnect(BaseDevice.getPos(), itemListRouters.getSelectedItem());
                     connect.setCallback((tagCompound, success) -> {
                         if (success) {
                             item.setIcon(Icons.WIFI_HIGH);
-                            Laptop.getSystem().closeContext();
+                            BaseDevice.getSystem().closeContext();
                         }
                     });
                     TaskManager.sendTask(connect);
@@ -92,7 +89,7 @@ public class TrayItemWifi extends TrayItem {
         List<BlockPos> routers = new ArrayList<>();
 
         World world = Minecraft.getMinecraft().world;
-        BlockPos laptopPos = Laptop.getPos();
+        BlockPos laptopPos = BaseDevice.getPos();
         int range = DeviceConfig.getSignalRange();
 
         for (int y = -range; y < range + 1; y++) {
@@ -112,10 +109,10 @@ public class TrayItemWifi extends TrayItem {
     @Override
     public void init() {
         this.setClickListener((mouseX, mouseY, mouseButton) -> {
-            if (Laptop.getSystem().hasContext()) {
-                Laptop.getSystem().closeContext();
+            if (BaseDevice.getSystem().hasContext()) {
+                BaseDevice.getSystem().closeContext();
             } else {
-                Laptop.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 80);
+                BaseDevice.getSystem().openContext(createWifiMenu(this), mouseX - 100, mouseY - 80);
             }
         });
 
@@ -131,7 +128,7 @@ public class TrayItemWifi extends TrayItem {
     }
 
     private void runPingTask() {
-        TaskPing task = new TaskPing(Laptop.getPos());
+        TaskPing task = new TaskPing(BaseDevice.getPos());
         task.setCallback((tagCompound, success) -> {
             if (success) {
                 int strength = tagCompound.getInteger("strength");

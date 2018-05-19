@@ -8,9 +8,6 @@ import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
 
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class SeatUtil {
     public static void createSeatAndSit(World worldIn, BlockPos pos, EntityPlayer playerIn, double yOffset) {
         List<EntitySeat> seats = worldIn.getEntitiesWithinAABB(EntitySeat.class, new AxisAlignedBB(pos));

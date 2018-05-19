@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
@@ -87,12 +87,12 @@ public class Banner extends Component {
     }
 
     @Override
-    public void handleOnLoad() {
+    public void handleLoad() {
         loader.setup(this);
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if (this.visible) {
             if (loader.setup) {
                 image = loader.load(this);

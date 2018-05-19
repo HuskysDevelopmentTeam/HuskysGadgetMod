@@ -22,11 +22,12 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Objects;
 import java.util.Timer;
@@ -77,7 +78,7 @@ public class ApplicationEmail extends Application {
     private File attachedFile;
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         /* Loading Layout */
         Layout layoutInit = new Layout(40, 40);
 
@@ -90,11 +91,11 @@ public class ApplicationEmail extends Application {
         /* Main Menu Layout */
         layoutMainMenu = new Layout(200, 113);
 
-        Image image = new Image(0, 0, layoutMainMenu.width, layoutMainMenu.height, 0, 0, 640, 360, 640, 360, PIXEL_MAIL_BACKGROUND);
+        Image image = new Image(0, 0, layoutMainMenu.width, layoutMainMenu.height, 640, 360, PIXEL_MAIL_BACKGROUND);
         image.setAlpha(0.85F);
         layoutMainMenu.addComponent(image);
 
-        Image logo = new Image(86, 20, 28, 28, info.getIconU(), info.getIconV(), 14, 14, 224, 224, Laptop.ICON_TEXTURES);
+        Image logo = new Image(86, 20, 28, 28, info.getIconU(), info.getIconV(), 224, 224, BaseDevice.ICON_TEXTURES);
         layoutMainMenu.addComponent(logo);
 
         Label labelLogo = new Label("Pixel Mail", 50, 35);
@@ -157,7 +158,7 @@ public class ApplicationEmail extends Application {
             mc.getTextureManager().bindTexture(PIXEL_MAIL_BACKGROUND);
             RenderUtil.drawRectWithTexture(x, y, 0, 0, width, height, 640, 360, 640, 360);
 
-            Color temp = new Color(Laptop.getSystem().getSettings().getColourScheme().getBackgroundColour());
+            Color temp = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
             Color color = new Color(temp.getRed(), temp.getGreen(), temp.getBlue(), 150);
             Gui.drawRect(x, y, x + 125, y + height, color.getRGB());
             Gui.drawRect(x + 125, y, x + 126, y + height, color.darker().getRGB());
@@ -169,7 +170,7 @@ public class ApplicationEmail extends Application {
                 Gui.drawRect(x + 130, y + 35, x + width - 5, y + height - 5, new Color(1.0F, 1.0F, 1.0F, 0.25F).getRGB());
                 RenderUtil.drawStringClipped(e.getSubject(), x + 135, y + 10, 120, Color.WHITE.getRGB(), true);
                 RenderUtil.drawStringClipped(e.getAuthor() + "@pixelmail.com", x + 135, y + 22, 120, Color.LIGHT_GRAY.getRGB(), false);
-                Laptop.fontRenderer.drawSplitString(e.getMessage(), x + 135, y + 40, 115, Color.WHITE.getRGB());
+                BaseDevice.fontRenderer.drawSplitString(e.getMessage(), x + 135, y + 40, 115, Color.WHITE.getRGB());
             }
         });
 

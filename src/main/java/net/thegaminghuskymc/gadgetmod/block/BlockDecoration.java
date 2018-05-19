@@ -4,16 +4,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockFacing;
+import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class BlockDecoration extends BlockFacing {

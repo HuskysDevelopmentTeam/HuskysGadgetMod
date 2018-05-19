@@ -7,10 +7,10 @@ import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Alphabet;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.EmojiesMRC;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.*;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
+
+import javax.annotation.Nullable;
 
 public class ApplicationIcons extends Application {
     private int offset;
@@ -25,16 +25,22 @@ public class ApplicationIcons extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         layoutMain = new StandardLayout(TextFormatting.BOLD + "Icons", 330, 153, this, null);
         layoutMain.setIcon(Icons.HOME);
 
         layoutContainer = new Layout(330, 153);
         layoutMain.addComponent(layoutContainer);
 
-        IconSet[] iconSets = new IconSet[]{new IconSet("Standard Icons", Icons.values()),
+        IconSet[] iconSets = new IconSet[]{
+                new IconSet("Standard Icons", Icons.values()),
                 new IconSet("Alphabet", Alphabet.values()),
-                new IconSet("Emojies", EmojiesMRC.values())};
+                new IconSet("Emojies", EmojiesMRC.values()),
+                new IconSet("Faces", Faces.values()),
+                new IconSet("Food", Food.values()),
+                new IconSet("Logos", Logos.values()),
+                new IconSet("Other Emojies", OtherEmojis.values())
+        };
         iconSetComboBox = new ComboBox.List<>(191, 3, 100, iconSets);
         iconSetComboBox.setChangeListener((oldValue, newValue) ->
         {

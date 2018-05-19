@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskGetFiles extends Task {
     private String uuid;
     private String path;

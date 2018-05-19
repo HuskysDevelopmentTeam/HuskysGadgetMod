@@ -1,14 +1,13 @@
 package net.thegaminghuskymc.gadgetmod.proxy;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,10 +17,8 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
-import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
-import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
@@ -34,24 +31,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.printers;
-
+@Mod.EventBusSubscriber
 public class CommonProxy {
 
     List<AppInfo> allowedApps;
-    int hashCode = -1;
 
+    @SubscribeEvent
     public void preInit(FMLPreInitializationEvent event) {
         GadgetConfig.preInit();
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
+    @SubscribeEvent
     public void init(FMLInitializationEvent event) {
         GadgetApps.init();
-
-        GadgetCrafting.register();
     }
 
+    @SubscribeEvent
     public void postInit(FMLPostInitializationEvent event) {
     }
 

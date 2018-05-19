@@ -5,7 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockFacing;
+import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
 
 public class BlockGreenScreen extends BlockFacing {
 

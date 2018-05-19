@@ -2,25 +2,20 @@ package net.thegaminghuskymc.gadgetmod.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.block.*;
-import net.thegaminghuskymc.gadgetmod.item.ItemPaper;
 
-import java.util.EnumMap;
-import java.util.Map;
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class GadgetBlocks {
 
     public static BlockOfficeChair[] gaming_chairs = new BlockOfficeChair[16];
-    public static Block[] laptops = new Block[16];
-    public static Block[] routers = new Block[16];
-    public static Block[] printers = new Block[16];
+    public static BlockLaptop[] laptops = new BlockLaptop[16];
+    public static BlockRouter[] routers = new BlockRouter[16];
+    public static BlockPrinter[] printers = new BlockPrinter[16];
     public static Block[] monitors = new Block[16];
     public static Block[] ethernet_wall_outlets = new Block[16];
     public static Block[] robots = new Block[16];
@@ -32,15 +27,23 @@ public class GadgetBlocks {
     public static Block[] desktops = new Block[16];
     public static Block[] drawing_tablets = new Block[16];
 
-    public static final Block PAPER;
-    public static final Block SCREEN;
+    // Needed but boring stuff
+    public static final Block paper, screen;
+
+    // Server Stuff
     public static final Block server, serverRack, serverTerminal;
-    public static final Block RGB_LIGHTS;
-    public static final Block ROOF_LIGHTS;
-    public static final Block SECURITY_CAMERA;
-    public static final Block SOUNDWOOFERS;
-    public static final Block EASTER_EGG;
-    public static final Block securityFence, securityGate, cardScanner, securityLaser;
+
+    // Lights
+    public static final Block rgbLights, roofLights;
+
+    // Fun Stuff
+    public static final Block easter_egg;
+
+    // Other computer stuff
+    private static final Block desktopCase;
+
+    // Security Stuff
+    private static final Block securityFence, securityGate, cardScanner, securityLaser, securityCamera;
 
     static {
 
@@ -61,25 +64,25 @@ public class GadgetBlocks {
             drawing_tablets[color.getMetadata()] = new BlockDrawingTablet(color);
         }
 
-        PAPER = new BlockPaper();
-        SCREEN = new BlockScreen();
+        paper = new BlockPaper();
+        screen = new BlockScreen();
         server = new BlockServer();
         serverRack = new BlockServerRack();
         serverTerminal = new BlockServerTerminal();
-        RGB_LIGHTS = new BlockRGBLights();
-        ROOF_LIGHTS = new BlockRoofLights();
-        SECURITY_CAMERA = new BlockSecurityCamera();
-        SOUNDWOOFERS = new BlockSoundwoofers();
-        EASTER_EGG = new BlockEasterEgg();
+        rgbLights = new BlockRGBLights();
+        roofLights = new BlockRoofLights();
+        securityCamera = new BlockSecurityCamera();
+        easter_egg = new BlockEasterEgg();
         securityFence = new BlockElectricSecurityFence();
         securityGate = new BlockElectricSecurityGate();
         cardScanner = new BlockCardScanner();
         securityLaser = new BlockSecurityLaser();
+        desktopCase = new BlockDesktopCase();
     }
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        IForgeRegistry<Block> r = event.getRegistry();
+
     }
 
 }

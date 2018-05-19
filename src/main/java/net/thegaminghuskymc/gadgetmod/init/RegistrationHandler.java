@@ -22,11 +22,6 @@ import java.util.Objects;
 
 public class RegistrationHandler {
 
-    public static void init() {
-        GadgetItems.register();
-        GadgetCrafting.register();
-    }
-
     @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
     public static class Blocks {
         private static final List<Block> BLOCKS = new LinkedList<>();

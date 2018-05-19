@@ -8,8 +8,10 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.ButtonToggle;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.interfaces.IHighlight;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
+
+import javax.annotation.Nullable;
 
 public class ApplicationTextArea extends Application {
     public static final IHighlight JAVA_HIGHLIGHT = text ->
@@ -83,7 +85,7 @@ public class ApplicationTextArea extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         Layout layout = new Layout(250, 150);
 
         TextArea textArea = new TextArea(5, 25, 240, 120);
@@ -105,7 +107,7 @@ public class ApplicationTextArea extends Application {
         buttonDebug.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
-                ((LaptopFontRenderer) Laptop.fontRenderer).setDebug(!buttonDebug.isSelected());
+                ((LaptopFontRenderer) BaseDevice.fontRenderer).setDebug(!buttonDebug.isSelected());
             }
         });
         layout.addComponent(buttonDebug);

@@ -7,9 +7,8 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 import net.thegaminghuskymc.gadgetmod.object.tiles.Tile.Category;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
@@ -30,7 +29,7 @@ public class TileGrid extends Component {
     public TileGrid(int left, int top, Game game) {
         super(left, top);
         this.currentCategory = 0;
-        this.tabTiles = new ArrayList<Tile>();
+        this.tabTiles = new ArrayList<>();
         this.game = game;
     }
 
@@ -40,7 +39,7 @@ public class TileGrid extends Component {
         layout.addComponent(labelCurrentCategory);
 
         btnNextCategory = new Button(left + 81, top, Icons.CHEVRON_RIGHT);
-        btnNextCategory.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+        btnNextCategory.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (currentCategory < Category.values().length - 1) {
                 currentCategory++;
                 updateTiles();
@@ -49,7 +48,7 @@ public class TileGrid extends Component {
         layout.addComponent(btnNextCategory);
 
         btnPrevCategory = new Button(left, top, Icons.CHEVRON_LEFT);
-        btnPrevCategory.setClickListener((ClickListener) (mouseX, mouseY, mouseButton) -> {
+        btnPrevCategory.setClickListener((mouseX, mouseY, mouseButton) -> {
             if (currentCategory > 0) {
                 currentCategory--;
                 updateTiles();
@@ -61,7 +60,7 @@ public class TileGrid extends Component {
     }
 
     @Override
-    public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         drawRect(xPosition, yPosition + 15, xPosition + 93, yPosition + 100, Color.DARK_GRAY.getRGB());
         drawRect(xPosition + 1, yPosition + 16, xPosition + 92, yPosition + 99, Color.GRAY.getRGB());
 

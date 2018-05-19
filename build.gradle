@@ -2,24 +2,20 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "http://repo.spongepowered.org/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.android.tools.build:gradle:1.0.0'// For gradle 2.2.1 - 2.3
     }
 }
+
+apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-ext.configFile = file('build.properties')
-
-configFile.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
-}
-
-version = "${config.major_version}.${config.minor_version}.${config.build_number}"
-group= "net.thegaminghuskymc.gadgetmod"
-archivesBaseName = config.mod_name + "[" + project.minecraft.version + "]"
+version = "${mc_version}-${major_version}.${minor_version}.${build_number}"
+group= "net.hdt.neutronia"
+archivesBaseName = "Neutronia"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -27,34 +23,43 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.1.2589"
+    version = "${mc_version}-${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20180113"
+    mappings = "${mcp_mappings}"
+    makeObfSourceJar = false
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
 }
 
 repositories {
-    maven { // The repo from which to get waila
-        name "Mobius Repo"
-        url "http://tehnut.info/maven"
-    }
-    maven {
-        name = "JEI Maven"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
+    maven { url = "http://chickenbones.net/maven" }
+    maven { url = "http://dvs1.progwml6.com/files/maven" }
+    maven { url = "http://tehnut.info/maven" }
+    maven { url = "http://maven.tterrag.com" }
+    maven { url = "http://maven.covers1624.net" }
+    maven { url = "http://repo.elytradev.com" }
 }
 
 dependencies {
-    deobfCompile "mcp.mobius.waila:Hwyla:+"
-    deobfCompile "mezz.jei:jei_1.12.2:4.7.+"
+    compile "mezz.jei:jei_${mc_version}:${jei_version}:api"
+    compile "mcp.mobius.waila:Hwyla:${hwyla_version}:api"
+    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    runtime "mcp.mobius.waila:Hwyla:${hwyla_version}"
+    compile group: 'com.github.jsonld-java', name: 'jsonld-java', version: '0.12.0'
 }
 
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
+
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
+
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

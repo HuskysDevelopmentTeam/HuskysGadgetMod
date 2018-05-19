@@ -5,7 +5,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.huskylib2.lib.blocks.tile.TileMod;
+import net.thegaminghuskymc.huskylib2.blocks.tile.TileMod;
 
 public class TileEntityServerRack extends TileMod implements ITickable {
 

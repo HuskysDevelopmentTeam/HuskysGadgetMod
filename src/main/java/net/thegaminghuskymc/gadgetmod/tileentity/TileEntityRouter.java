@@ -10,9 +10,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
 import net.thegaminghuskymc.gadgetmod.util.IColored;
 
-/**
- * Author: MrCrayfish
- */
 public class TileEntityRouter extends TileEntitySync implements ITickable, IColored {
 
     private EnumDyeColor color = EnumDyeColor.WHITE;

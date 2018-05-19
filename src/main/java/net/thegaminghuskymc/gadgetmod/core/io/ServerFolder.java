@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-/**
- * Author: MrCrayfish
- */
 public class ServerFolder extends ServerFile {
     private List<ServerFile> files = new ArrayList<>();
 

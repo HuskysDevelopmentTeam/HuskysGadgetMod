@@ -18,9 +18,6 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Author: MrCrayfish
- */
 public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper> {
     private static void drawCuboid(double x, double y, double z, double width, double height, double depth) {
         x /= 16;
@@ -98,7 +95,7 @@ public class PaperRenderer extends TileEntitySpecialRenderer<TileEntityPaper> {
             GlStateManager.translate(x, y, z);
             GlStateManager.translate(0.5, 0.5, 0.5);
             IBlockState state = te.getWorld().getBlockState(te.getPos());
-            if (state.getBlock() != GadgetBlocks.PAPER) return;
+            if (state.getBlock() != GadgetBlocks.paper) return;
             GlStateManager.rotate(state.getValue(BlockPaper.FACING).getHorizontalIndex() * -90F + 180F, 0, 1, 0);
             GlStateManager.rotate(-te.getRotation(), 0, 0, 1);
             GlStateManager.translate(-0.5, -0.5, -0.5);

@@ -2,12 +2,12 @@ package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 public class LayoutOSSelect extends Layout {
 
     public LayoutOSSelect() {
-        super(0, 18, Laptop.SCREEN_WIDTH, Laptop.SCREEN_HEIGHT);
+        super(0, 18, BaseDevice.SCREEN_WIDTH, BaseDevice.SCREEN_HEIGHT);
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.thegaminghuskymc.gadgetmod.DeviceTab;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
@@ -16,13 +17,12 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+//@Mod.EventBusSubscriber
 public class GuiDrawHandler {
     private static final ResourceLocation ICONS = new ResourceLocation("hgm:textures/gui/icons2.png");
 
     private GuiLinkImageButton buttonWebsite;
-    private GuiLinkImageButton buttonYouTube;
     private GuiLinkImageButton buttonTwitter;
-    private GuiLinkImageButton buttonPatreon;
 
     private int guiCenterX = 0;
     private int guiCenterY = 0;
@@ -34,9 +34,7 @@ public class GuiDrawHandler {
             this.guiCenterY = event.getGui().height / 2;
 
             event.getButtonList().add(buttonWebsite = new GuiLinkImageButton(10, guiCenterX - 120, guiCenterY - 66, ICONS, 48, 0, "https://thegaminghuskymc.com", TextFormatting.WHITE + ">" + TextFormatting.DARK_GRAY + " Browse Husky's " + TextFormatting.DARK_GREEN.toString() + TextFormatting.BOLD.toString() + "Website"));
-//			event.getButtonList().add(buttonYouTube = new GuiLinkImageButton(10, guiCenterX - 120, guiCenterY - 44, ICONS, 32, 0, "https://www.youtube.com/channel/UCSwwxl2lWJcbGOGQ_d04v2Q", TextFormatting.WHITE + ">" + TextFormatting.DARK_GRAY + " Sub to Husky on " + TextFormatting.RED.toString() + TextFormatting.BOLD.toString() + "YouTube"));
             event.getButtonList().add(buttonTwitter = new GuiLinkImageButton(10, guiCenterX - 120, guiCenterY - 22, ICONS, 16, 0, "https://twitter.com/ninathekiller06", TextFormatting.WHITE + ">" + TextFormatting.DARK_GRAY + " Follow Husky on " + TextFormatting.BLUE.toString() + TextFormatting.BOLD.toString() + "Twitter"));
-//			event.getButtonList().add(buttonPatreon = new GuiLinkImageButton(10, guiCenterX - 120, guiCenterY, ICONS, 0, 0, "https://www.patreon.com/mrcrayfish", TextFormatting.WHITE + ">" + TextFormatting.DARK_GRAY + " Support Husky on " + TextFormatting.GOLD.toString() + TextFormatting.BOLD.toString() + "Patreon"));
         }
     }
 
@@ -46,14 +44,10 @@ public class GuiDrawHandler {
             GuiContainerCreative creative = (GuiContainerCreative) event.getGui();
             if (creative.getSelectedTabIndex() == HuskyGadgetMod.deviceBlocks.getTabIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceDecoration.getTabIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceItems.getTabIndex()) {
                 buttonWebsite.visible = true;
-//				buttonYouTube.visible = true;
                 buttonTwitter.visible = true;
-//				buttonPatreon.visible = true;
             } else {
                 buttonWebsite.visible = false;
-                buttonYouTube.visible = false;
                 buttonTwitter.visible = false;
-                buttonPatreon.visible = false;
             }
         }
     }
@@ -73,8 +67,8 @@ public class GuiDrawHandler {
     private void openWebLink(URI url) {
         try {
             Class<?> oclass = Class.forName("java.awt.Desktop");
-            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
-            oclass.getMethod("browse", new Class[]{URI.class}).invoke(object, new Object[]{url});
+            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null);
+            oclass.getMethod("browse", new Class[]{URI.class}).invoke(object, url);
         } catch (Exception e) {
             e.printStackTrace();
         }

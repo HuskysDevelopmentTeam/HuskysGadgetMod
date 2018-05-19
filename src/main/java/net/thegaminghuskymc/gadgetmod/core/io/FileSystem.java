@@ -1,8 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.core.io;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -20,7 +18,7 @@ import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.ExternalDrive;
@@ -28,8 +26,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.drive.InternalDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetMainDrive;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSendAction;
-import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
@@ -52,11 +49,12 @@ public class FileSystem {
     private AbstractDrive mainDrive = null;
     private Map<UUID, AbstractDrive> additionalDrives = new HashMap<>();
     private AbstractDrive attachedDrive = null;
-    private EnumDyeColor attachedDriveColor = EnumDyeColor.RED;
 
-    private TileEntityLaptop tileEntity;
+    private TileEntityBaseDevice tileEntity;
 
-    public FileSystem(TileEntityLaptop tileEntity, NBTTagCompound fileSystemTag) {
+    private EnumDyeColor attachedDriveColor = EnumDyeColor.WHITE;
+
+    public FileSystem(TileEntityBaseDevice tileEntity, NBTTagCompound fileSystemTag) {
         this.tileEntity = tileEntity;
 
         load(fileSystemTag);
@@ -64,7 +62,7 @@ public class FileSystem {
 
     @SideOnly(Side.CLIENT)
     public static void sendAction(Drive drive, FileAction action, @Nullable Callback<Response> callback) {
-        if (Laptop.getPos() != null) {
+        if (BaseDevice.getPos() != null) {
             Task task = new TaskSendAction(drive, action);
             task.setCallback((nbt, success) ->
             {
@@ -83,8 +81,8 @@ public class FileSystem {
                 return;
             }
         }
-        if (Laptop.getMainDrive() == null) {
-            Task task = new TaskGetMainDrive(Laptop.getPos());
+        if (BaseDevice.getMainDrive() == null) {
+            Task task = new TaskGetMainDrive(BaseDevice.getPos());
             task.setCallback((nbt, success) ->
             {
                 if (success) {
@@ -100,14 +98,14 @@ public class FileSystem {
     }
 
     private static void setupApplicationFolder(Application app, Callback<Folder> callback) {
-        Folder folder = Laptop.getMainDrive().getFolder(FileSystem.DIR_APPLICATION_DATA);
+        Folder folder = BaseDevice.getMainDrive().getFolder(FileSystem.DIR_APPLICATION_DATA);
         if (folder != null) {
             if (folder.hasFolder(app.getInfo().getFormattedId())) {
                 Folder appFolder = folder.getFolder(app.getInfo().getFormattedId());
                 if (appFolder.isSynced()) {
                     callback.execute(appFolder, true);
                 } else {
-                    Task task = new TaskGetFiles(appFolder, Laptop.getPos());
+                    Task task = new TaskGetFiles(appFolder, BaseDevice.getPos());
                     task.setCallback((nbt, success) ->
                     {
                         if (success && nbt.hasKey("files", Constants.NBT.TAG_LIST)) {

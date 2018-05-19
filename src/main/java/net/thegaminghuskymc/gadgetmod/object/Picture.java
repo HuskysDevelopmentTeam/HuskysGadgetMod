@@ -86,7 +86,10 @@ public class Picture {
     }
 
     public enum Size {
-        X16(16, 16, 8, 8), X32(32, 32, 4, 4), X64(64, 64, 2, 2), X128(128, 128, 1, 1);
+        X16(16, 16, 8, 8),
+        X32(32, 32, 4, 4),
+        X64(64, 64, 2, 2),
+        X128(128, 128, 1, 1);
 
         public int width, height;
         public int pixelWidth, pixelHeight;

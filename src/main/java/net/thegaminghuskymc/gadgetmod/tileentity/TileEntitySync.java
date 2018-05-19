@@ -3,9 +3,8 @@ package net.thegaminghuskymc.gadgetmod.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
-import net.thegaminghuskymc.huskylib2.lib.blocks.tile.TileMod;
+import net.thegaminghuskymc.huskylib2.blocks.tile.TileMod;
 
 public abstract class TileEntitySync extends TileMod {
 

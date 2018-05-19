@@ -6,8 +6,9 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -41,16 +42,16 @@ public class ApplicationManager {
      *
      * @return the application list
      */
-    public static Collection<AppInfo> getAvailableApplications() {
+    public static List<AppInfo> getAvailableApplications() {
         return APP_INFO.values().stream().filter(info -> !info.isSystemApp()).collect(Collectors.toList());
     }
 
-    public static Collection<AppInfo> getSystemApplications() {
+    public static List<AppInfo> getSystemApplications() {
         return APP_INFO.values().stream().filter(AppInfo::isSystemApp).collect(Collectors.toList());
     }
 
-    public static Collection<AppInfo> getAllApplications() {
-        return APP_INFO.values();
+    public static List<AppInfo> getAllApplications() {
+        return new ArrayList<>(APP_INFO.values());
     }
 
     @Nullable

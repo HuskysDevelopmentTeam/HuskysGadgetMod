@@ -8,9 +8,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class EntitySeat extends Entity {
     public EntitySeat(World worldIn) {
         super(worldIn);

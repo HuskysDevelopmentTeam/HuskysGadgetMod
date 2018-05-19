@@ -2,22 +2,15 @@ package net.thegaminghuskymc.gadgetmod.item;
 
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.huskylib2.lib.items.ItemMod;
+import net.thegaminghuskymc.huskylib2.items.ItemMod;
+
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 public class ItemIDCard extends ItemMod {
 
     public ItemIDCard() {
-        super("id_card");
+        super("id_card", MOD_ID);
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }
 
-    @Override
-    public String getPrefix() {
-        return Reference.MOD_ID;
-    }
-
-    @Override
-    public String getModNamespace() {
-        return Reference.MOD_ID;
-    }
 }

@@ -1,6 +1,7 @@
 {
   "app_name": "App Market",
   "app_creator": "TheGamingHuskyMC",
+  "app_contributors": ["SomeOtherGuy", "Winner", "Loser"],
   "app_description": "${desc}",
   "app_version": "1.0",
   "app_icon": "hgm:textures/app/icon/app_store.png",

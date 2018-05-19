@@ -10,9 +10,6 @@ import net.thegaminghuskymc.gadgetmod.core.network.Router;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskConnect extends Task {
     private BlockPos devicePos;
     private BlockPos routerPos;

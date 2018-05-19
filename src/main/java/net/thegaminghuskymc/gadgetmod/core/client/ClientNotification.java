@@ -12,7 +12,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 
 public class ClientNotification implements IToast {
-    private static final ResourceLocation TEXTURE_TOASTS = new ResourceLocation("cdm:textures/gui/toast.png");
+    private static final ResourceLocation TEXTURE_TOASTS = new ResourceLocation("hgm:textures/gui/toast.png");
 
     private Icons icon;
     private String title;

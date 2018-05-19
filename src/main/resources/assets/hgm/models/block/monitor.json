@@ -51,32 +51,32 @@
 				"north": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [7.5, 2.5, 12.5, 6],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [7.5, 2.5, 12.5, 6],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"rotation": {
@@ -163,32 +163,32 @@
 				"north": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8, 10, 16, 10.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -201,32 +201,32 @@
 				"north": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8, 4.5, 16, 5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [7.5, 4, 15.5, 4.5],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8, 9.5, 16, 10],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -431,32 +431,32 @@
 				"north": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -469,32 +469,32 @@
 				"north": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -507,32 +507,32 @@
 				"north": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [8.5, 7, 9.5, 7.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -577,32 +577,32 @@
 				"north": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"
@@ -615,32 +615,32 @@
 				"north": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"east": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"south": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"west": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"up": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				},
 				"down": {
 					"uv": [10.5, 3.5, 12, 4.95],
 					"texture": "#0",
-					"tintindex": 1
+					"tintindex": 0
 				}
 			},
 			"type": "cube"

@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import org.lwjgl.opengl.GL11;
@@ -60,7 +60,7 @@ public class Palette extends Component {
     }
 
     @Override
-    protected void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    protected void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         Gui.drawRect(x, y, x + 52, y + 52, Color.DARK_GRAY.getRGB());
 
         GlStateManager.disableLighting();

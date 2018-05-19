@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
+import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ItemList;
@@ -15,35 +15,43 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalEntry;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class LayoutSearchApps extends StandardLayout {
+
     private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
     private static final Color ITEM_SELECTED = Color.decode("0x757575");
 
     private long lastClick = 0;
 
-    public LayoutSearchApps(Application app, Layout previous) {
-        super("Search", ApplicationAppStore.LAYOUT_WIDTH, ApplicationAppStore.LAYOUT_HEIGHT, app, previous);
+    private ApplicationAppStore appStore;
+
+    public LayoutSearchApps(ApplicationAppStore appStore, Layout previous)
+    {
+        super("Search", ApplicationAppStore.LAYOUT_WIDTH, ApplicationAppStore.LAYOUT_HEIGHT, appStore, previous);
+        this.appStore = appStore;
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         super.init();
 
         ItemList<AppInfo> itemListResults = new ItemList<>(5, 48, ApplicationAppStore.LAYOUT_WIDTH - 10, 5, true);
-        itemListResults.setItems(new ArrayList<>(ApplicationManager.getAvailableApplications()));
+        itemListResults.setItems(ApplicationManager.getAvailableApplications());
         itemListResults.sortBy(Comparator.comparing(AppInfo::getName));
-        itemListResults.setListItemRenderer(new ListItemRenderer<AppInfo>(18) {
+        itemListResults.setListItemRenderer(new ListItemRenderer<AppInfo>(18)
+        {
             @Override
-            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
+            public void render(AppInfo info, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
+            {
                 Gui.drawRect(x, y, x + width, y + height, selected ? ITEM_SELECTED.getRGB() : ITEM_BACKGROUND.getRGB());
 
                 GlStateManager.color(1.0F, 1.0F, 1.0F);
@@ -53,10 +61,14 @@ public class LayoutSearchApps extends StandardLayout {
         });
         itemListResults.setItemClickListener((info, index, mouseButton) ->
         {
-            if (mouseButton == 0) {
-                if (System.currentTimeMillis() - this.lastClick <= 200) {
+            if(mouseButton == 0)
+            {
+                if(System.currentTimeMillis() - this.lastClick <= 200)
+                {
                     openApplication(info);
-                } else {
+                }
+                else
+                {
                     this.lastClick = System.currentTimeMillis();
                 }
             }
@@ -76,14 +88,28 @@ public class LayoutSearchApps extends StandardLayout {
         this.addComponent(textFieldSearch);
     }
 
-    private void openApplication(AppInfo info) {
-        Layout layout = new LayoutAppPage(info);
+    private void openApplication(AppInfo info)
+    {
+        Layout layout = new LayoutAppPage(appStore.getLaptop(), new LocalEntry(info), appStore);
         app.setCurrentLayout(layout);
         Button btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
-        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) ->
-        {
-            app.setCurrentLayout(this);
-        });
+        btnPrevious.setClickListener((mouseX1, mouseY1, mouseButton1) -> app.setCurrentLayout(this));
+
+        if(info.hasContributors()){
+            String contrbstr = "Contributors";
+            Button contribbutton = new Button(this.width - Minecraft.getMinecraft().fontRenderer.getStringWidth(contrbstr) + 3, 10, contrbstr);
+            contribbutton.setClickListener((x, y, b)->{
+                StringBuilder sb = new StringBuilder();
+                for(String c : info.getContributors()){
+                    sb.append(c);
+                    sb.append("\n");
+                }
+                Dialog.Message message = new Dialog.Message(sb.toString());
+                app.openDialog(message);
+            });
+            layout.addComponent(contribbutton);
+        }
         layout.addComponent(btnPrevious);
     }
+
 }

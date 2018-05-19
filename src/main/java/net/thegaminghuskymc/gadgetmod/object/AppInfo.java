@@ -11,25 +11,32 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AppInfo {
 
-    private final ResourceLocation APP_ID;
-    private transient int iconU = 0, iconV = 0, bannerU = 0, bannerV = 0;
+    public static final Comparator<AppInfo> SORT_NAME = Comparator.comparing(AppInfo::getName);
+
+    private transient final ResourceLocation APP_ID;
+    private transient int iconU = 0;
+    private transient int iconV = 0;
     private transient boolean systemApp;
 
-    private String appName;
-    private String appCreator;
-    private String appDescription;
-    private String appVersion;
-    private String appIcon;
-    private String appBanner;
-    private String[] appScreenshots;
-    private Support creatorSupport;
+    private String name;
+    private String author;
+    private String[] authors;
+    private String[] contributors;
+    private String description;
+    private String version;
+    private String icon;
+    private String banner;
+    private String[] screenshots;
+    private Support support;
 
-    public AppInfo(ResourceLocation identifier, boolean isSystemApp) {
+    public AppInfo(ResourceLocation identifier, boolean isSystemApp)
+    {
         this.APP_ID = identifier;
         this.systemApp = isSystemApp;
     }
@@ -39,7 +46,8 @@ public class AppInfo {
      *
      * @return the app resource location
      */
-    public ResourceLocation getId() {
+    public ResourceLocation getId()
+    {
         return APP_ID;
     }
 
@@ -48,7 +56,8 @@ public class AppInfo {
      *
      * @return a formatted id
      */
-    public String getFormattedId() {
+    public String getFormattedId()
+    {
         return APP_ID.getResourceDomain() + "." + APP_ID.getResourcePath();
     }
 
@@ -57,28 +66,45 @@ public class AppInfo {
      *
      * @return the application name
      */
-    public String getName() {
-        return appName;
+    public String getName()
+    {
+        return name;
     }
 
     public String getAuthor() {
-        return appCreator;
+        return author;
+    }
+
+    public boolean hasSingleAuthor() {
+        return (this.author != null && this.authors == null);
+    }
+
+    public String[] getAuthors() {
+        return authors;
+    }
+
+    public boolean hasContributors() {
+        return this.contributors != null && this.contributors.length > 0;
+    }
+
+    public String[] getContributors() {
+        return this.contributors;
     }
 
     public String getDescription() {
-        return appDescription;
+        return description;
     }
 
     public String getVersion() {
-        return appVersion;
+        return version;
     }
 
     public String getIcon() {
-        return appIcon;
+        return icon;
     }
 
     public String getBanner() {
-        return appBanner;
+        return banner;
     }
 
     public int getIconU() {
@@ -89,30 +115,23 @@ public class AppInfo {
         return iconV;
     }
 
-    public int getBannerU() {
-        return bannerU;
-    }
-
-    public int getBannerV() {
-        return bannerV;
-    }
-
     public String[] getScreenshots() {
-        return appScreenshots;
+        return screenshots;
     }
 
     public Support getSupport() {
-        return creatorSupport;
+        return support;
     }
 
-    public boolean isSystemApp() {
+    public boolean isSystemApp()
+    {
         return systemApp;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof AppInfo)) return false;
+        if(obj == null) return false;
+        if(!(obj instanceof AppInfo)) return false;
         AppInfo info = (AppInfo) obj;
         return this == info || getFormattedId().equals(info.getFormattedId());
     }
@@ -121,7 +140,7 @@ public class AppInfo {
         resetInfo();
         InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + APP_ID.getResourceDomain() + "/apps/" + APP_ID.getResourcePath() + ".json");
 
-        if (stream == null)
+        if(stream == null)
             throw new RuntimeException("Missing app info json for '" + APP_ID + "'");
 
         Reader reader = new InputStreamReader(stream);
@@ -134,14 +153,14 @@ public class AppInfo {
     }
 
     private void resetInfo() {
-        appName = null;
-        appCreator = null;
-        appDescription = null;
-        appVersion = null;
-        appIcon = null;
-        appBanner = null;
-        appScreenshots = null;
-        creatorSupport = null;
+        name = null;
+        author = null;
+        description = null;
+        version = null;
+        icon = null;
+        banner = null;
+        screenshots = null;
+        support = null;
     }
 
     private static class Support {
@@ -155,6 +174,17 @@ public class AppInfo {
 
         private static final Pattern LANG = Pattern.compile("\\$\\{[a-z]+}");
 
+        private static final String NAME = "app_name";
+        private static final String AUTHOR = "app_author";
+        private static final String AUTHORS = "app_authors";
+        private static final String CONTRIBUTORS = "app_contributors";
+        private static final String DESC = "app_description";
+        private static final String VERSION = "app_version";
+        private static final String SCREENS = "app_screenshots";
+        private static final String ICON = "app_icon";
+        private static final String BANNER = "app_banner";
+        private static final String SUPPORT = "app_support";
+
         private AppInfo info;
 
         public Deserializer(AppInfo info) {
@@ -164,26 +194,34 @@ public class AppInfo {
         @Override
         public AppInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             try {
-                info.appName = convertToLocal(json.getAsJsonObject().get("app_name").getAsString());
-                info.appCreator = convertToLocal(json.getAsJsonObject().get("app_creator").getAsString());
-                info.appDescription = convertToLocal(json.getAsJsonObject().get("app_description").getAsString());
-                info.appVersion = json.getAsJsonObject().get("app_version").getAsString();
+                info.name = convertToLocal(json.getAsJsonObject().get(NAME).getAsString());
+                if (json.getAsJsonObject().has(AUTHOR))
+                    info.author = convertToLocal(json.getAsJsonObject().get(AUTHOR).getAsString());
+                else if (json.getAsJsonObject().has(AUTHORS) && json.getAsJsonObject().get(AUTHORS).isJsonArray()) {
+                    info.authors = context.deserialize(json.getAsJsonObject().get(AUTHORS), new TypeToken<String[]>() {
+                    }.getType());
+                }
+                if (json.getAsJsonObject().has(CONTRIBUTORS) && json.getAsJsonObject().get(CONTRIBUTORS).isJsonArray()) {
+                    info.contributors = this.deserializeArray(json, CONTRIBUTORS, context);
+                }
+                info.description = convertToLocal(json.getAsJsonObject().get(DESC).getAsString());
+                info.version = json.getAsJsonObject().get(VERSION).getAsString();
 
-                if (json.getAsJsonObject().has("app_screenshots") && json.getAsJsonObject().get("app_screenshots").isJsonArray()) {
-                    info.appScreenshots = context.deserialize(json.getAsJsonObject().get("app_screenshots"), new TypeToken<String[]>() {
+                if (json.getAsJsonObject().has(SCREENS) && json.getAsJsonObject().get(SCREENS).isJsonArray()) {
+                    info.screenshots = context.deserialize(json.getAsJsonObject().get(SCREENS), new TypeToken<String[]>() {
                     }.getType());
                 }
 
-                if (json.getAsJsonObject().has("app_banner") && json.getAsJsonObject().get("app_banner").isJsonPrimitive()) {
-                    info.appBanner = json.getAsJsonObject().get("app_banner").getAsString();
+                if (json.getAsJsonObject().has(ICON) && json.getAsJsonObject().get(ICON).isJsonPrimitive()) {
+                    info.icon = json.getAsJsonObject().get(ICON).getAsString();
                 }
 
-                if (json.getAsJsonObject().has("app_icon") && json.getAsJsonObject().get("app_icon").isJsonPrimitive()) {
-                    info.appIcon = json.getAsJsonObject().get("app_icon").getAsString();
+                if (json.getAsJsonObject().has(BANNER) && json.getAsJsonObject().get(BANNER).isJsonPrimitive()) {
+                    info.banner = json.getAsJsonObject().get(BANNER).getAsString();
                 }
 
-                if (json.getAsJsonObject().has("creator_support") && json.getAsJsonObject().get("creator_support").getAsJsonObject().size() > 0) {
-                    JsonObject supportObj = json.getAsJsonObject().get("creator_support").getAsJsonObject();
+                if (json.getAsJsonObject().has(SUPPORT) && json.getAsJsonObject().get(SUPPORT).getAsJsonObject().size() > 0) {
+                    JsonObject supportObj = json.getAsJsonObject().get(SUPPORT).getAsJsonObject();
                     Support support = new Support();
 
                     if (supportObj.has("paypal")) {
@@ -199,13 +237,18 @@ public class AppInfo {
                         support.youtube = supportObj.get("youtube").getAsString();
                     }
 
-                    info.creatorSupport = support;
+                    info.support = support;
                 }
             } catch (JsonParseException e) {
                 HuskyGadgetMod.getLogger().error("Malformed app info json for '" + info.getFormattedId() + "'");
             }
 
             return info;
+        }
+
+        private String[] deserializeArray(JsonElement json, String name, JsonDeserializationContext context) {
+            return context.deserialize(json.getAsJsonObject().get(name), new TypeToken<String[]>() {
+            }.getType());
         }
 
         private String convertToLocal(String s) {
@@ -217,5 +260,4 @@ public class AppInfo {
             return s;
         }
     }
-
 }

@@ -16,9 +16,6 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemUSBCable extends Item {
 
     public ItemUSBCable() {

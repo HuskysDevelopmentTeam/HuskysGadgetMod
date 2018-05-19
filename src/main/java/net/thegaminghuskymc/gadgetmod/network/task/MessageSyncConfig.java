@@ -8,9 +8,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 
-/**
- * Author: MrCrayfish
- */
 public class MessageSyncConfig implements IMessage, IMessageHandler<MessageSyncConfig, MessageSyncConfig> {
     @Override
     public void toBytes(ByteBuf buf) {

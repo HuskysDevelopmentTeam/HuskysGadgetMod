@@ -14,9 +14,6 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
 import java.util.UUID;
 
-/**
- * Author: MrCrayfish
- */
 public class TaskGetStructure extends Task {
     private String uuid;
     private BlockPos pos;

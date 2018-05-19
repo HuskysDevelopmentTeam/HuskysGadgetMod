@@ -6,9 +6,11 @@ import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 
+import javax.annotation.Nullable;
+
 public class ApplicationTest extends Application {
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         Button confirmation = new Button(5, 5, Icons.CHECK);
         confirmation.setToolTip("Confirmation", "This will show a fake confirmation");
         confirmation.setClickListener((mouseX, mouseY, mouseButton) ->

@@ -4,10 +4,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 
+import javax.annotation.Nullable;
+
 public class ApplicationUserInfo extends Application {
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
         Label test = new Label("Test", 50, 50);
         super.addComponent(test);
     }

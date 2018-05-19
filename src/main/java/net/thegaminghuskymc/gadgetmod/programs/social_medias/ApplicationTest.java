@@ -7,6 +7,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 
 public class ApplicationTest extends Application {
@@ -16,7 +17,7 @@ public class ApplicationTest extends Application {
         this.setDefaultHeight(140);
     }
 
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         Layout homeLayout = new Layout();
 

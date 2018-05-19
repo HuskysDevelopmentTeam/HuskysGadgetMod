@@ -7,6 +7,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 
 public class ApplicationCackler extends Application {
@@ -17,7 +18,7 @@ public class ApplicationCackler extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(@Nullable NBTTagCompound intent) {
 
         Layout layoutMain = new Layout(270, 140);
 

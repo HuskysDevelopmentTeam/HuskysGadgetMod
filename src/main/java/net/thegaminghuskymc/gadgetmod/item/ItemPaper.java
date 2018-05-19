@@ -7,9 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
 
-/**
- * Author: MrCrayfish
- */
 public class ItemPaper extends ItemBlock {
     public ItemPaper(Block block) {
         super(block);

@@ -1,16 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
-public class Desktop extends GuiContainer {
+public class Desktop extends BaseDevice {
 
-    public Desktop(Container inventorySlotsIn) {
-        super(inventorySlotsIn);
+    public Desktop() {
+        super(new TileEntityBaseDevice("Desktop"));
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-
-    }
 }

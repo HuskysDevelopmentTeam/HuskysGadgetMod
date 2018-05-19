@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.ImageEntry;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
@@ -47,12 +47,12 @@ public class SlideShow extends Component {
     }
 
     @Override
-    protected void handleOnLoad() {
-        image.handleOnLoad();
+    protected void handleLoad() {
+        image.handleLoad();
     }
 
     @Override
-    protected void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
+    protected void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if (!this.visible)
             return;
 
@@ -107,11 +107,7 @@ public class SlideShow extends Component {
     }
 
     public void setImage(int index) {
-        if (IMAGES.isEmpty() && index < 0 && index >= IMAGES.size())
-            return;
-
         currentImage = index;
-
         ImageEntry entry = IMAGES.get(index);
         switch (entry.getType()) {
             case LOCAL:

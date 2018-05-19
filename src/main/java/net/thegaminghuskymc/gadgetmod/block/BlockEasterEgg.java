@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
-import net.thegaminghuskymc.huskylib2.lib.blocks.BlockMod;
+import net.thegaminghuskymc.huskylib2.blocks.BlockMod;
 
 public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
 
@@ -28,7 +28,7 @@ public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
         super.onBlockClicked(worldIn, pos, playerIn);
         if (!worldIn.isRemote) {
             TileEntity te = worldIn.getTileEntity(pos);
-            if (te != null && te instanceof TileEntityEasterEgg) {
+            if (te instanceof TileEntityEasterEgg) {
                 TileEntityEasterEgg eggte = (TileEntityEasterEgg) te;
                 ItemStack egg = new ItemStack(GadgetItems.easter_egg);
                 NBTTagCompound nbt = eggte.writeColorsToNBT(new NBTTagCompound());

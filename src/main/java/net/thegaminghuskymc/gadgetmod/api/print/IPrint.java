@@ -33,7 +33,7 @@ public interface IPrint {
         NBTTagCompound itemTag = new NBTTagCompound();
         itemTag.setTag("BlockEntityTag", blockEntityTag);
 
-        ItemStack stack = new ItemStack(GadgetBlocks.PAPER);
+        ItemStack stack = new ItemStack(GadgetBlocks.paper);
         stack.setTagCompound(itemTag);
 
         if (print.getName() != null && !print.getName().isEmpty()) {
