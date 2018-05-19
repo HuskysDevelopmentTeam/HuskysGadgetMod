@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
 /**
  * Author: MrCrayfish
@@ -47,9 +47,9 @@ public class TaskInstallApp extends Task
     {
         String appId = nbt.getString("appId");
         TileEntity tileEntity = world.getTileEntity(BlockPos.fromLong(nbt.getLong("pos")));
-        if(tileEntity instanceof TileEntityLaptop)
+        if(tileEntity instanceof TileEntityBaseDevice)
         {
-            TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;
+            TileEntityBaseDevice laptop = (TileEntityBaseDevice) tileEntity;
             NBTTagCompound systemData = laptop.getSystemData();
             NBTTagList tagList = systemData.getTagList("InstalledApps", Constants.NBT.TAG_STRING);
 

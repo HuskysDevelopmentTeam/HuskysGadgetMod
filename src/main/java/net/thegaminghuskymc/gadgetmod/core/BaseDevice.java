@@ -816,9 +816,6 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void installApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(isValidApplication(info))
-            return;
-
         Task task = new TaskInstallApp(info, pos, true);
         task.setCallback((tagCompound, success) ->
         {

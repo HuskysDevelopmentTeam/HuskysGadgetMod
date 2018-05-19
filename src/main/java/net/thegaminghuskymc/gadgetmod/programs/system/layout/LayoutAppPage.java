@@ -156,6 +156,13 @@ public class LayoutAppPage extends ScrollableLayout {
             });
             this.addComponent(btnInstall);
 
+            if(laptop.isApplicationInstalled(info)) {
+                Button btnOpen = new Button(234, 44, Icons.PLAY);
+                btnOpen.setToolTip("Start", "Starts the application");
+                btnOpen.setClickListener((mouseX, mouseY, mouseButton) -> laptop.openApplication(info));
+                this.addComponent(btnOpen);
+            }
+
             if(info.getSupport() != null) {
                 Button btnDonate = new Button(234, 44, Icons.COIN);
                 btnDonate.setToolTip("Donate", "Opens a link to donate to author of the application");

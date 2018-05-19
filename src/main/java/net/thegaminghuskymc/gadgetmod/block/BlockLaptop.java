@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.gadgetmod.core.TestLaptop;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
@@ -132,7 +132,7 @@ public class BlockLaptop extends BlockColoredDevice {
 
                 if(laptop.isPowered()) {
                     if (laptop.isOpen() && worldIn.isRemote) {
-                        playerIn.openGui(HuskyGadgetMod.instance, TestLaptop.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                        playerIn.openGui(HuskyGadgetMod.instance, BaseDevice.ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
                     }
                 }
             }
