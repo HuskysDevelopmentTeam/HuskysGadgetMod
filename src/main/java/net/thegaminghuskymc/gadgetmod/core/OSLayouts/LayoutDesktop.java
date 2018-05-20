@@ -21,7 +21,7 @@ public class LayoutDesktop extends Layout {
             mc.getTextureManager().bindTexture(BaseDevice.WALLPAPERS.get(BaseDevice.currentWallpaper));
             RenderUtil.drawRectWithFullTexture(x, y, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         } else {
-            Gui.drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
+            Gui.drawRect(x, y, x + SCREEN_WIDTH, y + SCREEN_HEIGHT, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
         }
     }
 
