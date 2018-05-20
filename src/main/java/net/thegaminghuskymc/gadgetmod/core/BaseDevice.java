@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
@@ -149,9 +150,8 @@ public class BaseDevice extends GuiScreen implements System {
             this.bootMode = BootMode.BOOTING;
             this.bootTimer = BOOT_ON_TIME;
         }
-
     }
-
+    
     @Nullable
     public static BlockPos getPos() {
         return pos;
@@ -193,7 +193,7 @@ public class BaseDevice extends GuiScreen implements System {
         for(int i = 0; i < tagList.tagCount(); i++)
         {
             AppInfo info = ApplicationManager.getApplication(tagList.getStringTagAt(i));
-            if(info != null)
+            if(info != null && !installedApps.contains(info))
             {
                 installedApps.add(info);
             }
@@ -264,6 +264,10 @@ public class BaseDevice extends GuiScreen implements System {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    	if(DEVICE_WIDTH > this.width || DEVICE_HEIGHT > this.height) {
+    		GlStateManager.scale(0.5f, 0.5f, 0.5f);
+    	}
+    	
         this.drawDefaultBackground();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -386,6 +390,10 @@ public class BaseDevice extends GuiScreen implements System {
                 GlStateManager.popMatrix();
             }
         }
+        
+        if(DEVICE_WIDTH > this.width || DEVICE_HEIGHT > this.height) {
+    		GlStateManager.scale(2f, 2f, 2f);
+    	}
     }
 
     @Override
@@ -569,8 +577,8 @@ public class BaseDevice extends GuiScreen implements System {
     public void drawHoveringText(List<String> textLines, int x, int y) {
         int guiLeft = (this.width - DEVICE_WIDTH) / 2;
         int guiTop = (this.height - DEVICE_HEIGHT) / 2;
-        x = Mouse.getEventX() * width / mc.displayWidth;
-        y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+        //x = Mouse.getEventX() * width / mc.displayWidth;
+        //y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
         drawHoveringText(textLines, x - guiLeft, y - guiTop, mc.fontRenderer);
     }
 

@@ -231,13 +231,13 @@ public class TaskBar extends GuiScreen {
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
         /* Other Apps */
-        if(isMouseInside(mouseX, mouseY, x + 1, y + 1, x + 236, y + 16))
+        if(isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 236, y + 16))
         {
-            int appIndex = (mouseX - x - 1) / 16;
+            int appIndex = (mouseX - x - 33) / 16;
             if(appIndex >= 0 && appIndex < offset + APPS_DISPLAYED && appIndex < gui.installedApps.size())
             {
-                gui.drawTexturedModalRect(x + appIndex * 16 + 1, y + 1, 35, 0, 16, 16);
-                gui.drawHoveringText(Collections.singletonList(gui.installedApps.get(appIndex).getName()), mouseX, mouseY);
+                gui.drawTexturedModalRect(x + appIndex * 16 + 33, y + 1, 35, 0, 16, 16);
+                gui.drawHoveringText(Collections.singletonList(gui.installedApps.get(appIndex).getName()), mouseX + 20, mouseY + 35);
             }
         }
 
