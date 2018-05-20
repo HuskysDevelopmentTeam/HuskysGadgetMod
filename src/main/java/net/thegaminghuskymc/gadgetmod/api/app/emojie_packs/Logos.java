@@ -18,7 +18,16 @@ public enum Logos implements IIcon {
     APPLE_RAINBOW,
     ANDROID,
     GOOGLE,
-    SIRI;
+    SIRI,
+    PYTHON,
+    LUA,
+    LOVE2D,
+    RUBY,
+    CPP,
+    RASPBERRY_PI,
+    ARDUINO,
+    NPM,
+    DISCORD;
 
     private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/logos.png");
 
