@@ -184,7 +184,7 @@ public abstract class Wrappable
     }
 
     /**
-     * Gets the Window this Application is wrapped in.
+     * Gets the Window this Theme is wrapped in.
      *
      * @return the window
      */

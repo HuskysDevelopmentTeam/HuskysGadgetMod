@@ -27,7 +27,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
     	TileEntity tileEntity = player.world.getTileEntity(new BlockPos(x, y, z));     
         if(tileEntity instanceof TileEntityBaseDevice && validateTE(ID, tileEntity)) {
-        	return new BaseDevice((TileEntityBaseDevice)tileEntity);
+        	return new BaseDevice((TileEntityBaseDevice)tileEntity, 0);
         }
         return null;
     }

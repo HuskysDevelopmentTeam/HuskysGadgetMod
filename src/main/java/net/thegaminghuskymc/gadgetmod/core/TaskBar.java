@@ -26,13 +26,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
 public class TaskBar extends GuiScreen {
 
     public static final int BAR_HEIGHT = 18;
-    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation(MOD_ID, "textures/gui/application_bar.png");
-    private static final int APPS_DISPLAYED = 18;
+    private static final ResourceLocation APP_BAR_GUI = new ResourceLocation("cdm:textures/gui/application_bar.png");
+    private static final int APPS_DISPLAYED = 10;
     private Button btnLeft;
     private Button btnRight;
     private Button btnStartButton;
@@ -126,28 +124,34 @@ public class TaskBar extends GuiScreen {
 
     public void render(BaseDevice gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks) {
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
+        /*GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
         gui.drawTexturedModalRect(x, y, 0, 0, 1, 18);
+
+        Color bgColor = new Color(gui.getSettings().getColourScheme().getBackgroundColour()).brighter().brighter();
+        float[] hsb = Color.RGBtoHSB(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), null);
+        bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
+        GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 1.0F);
+
         int trayItemsWidth = trayItems.size() * 14;
         RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, BaseDevice.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
         RenderUtil.drawRectWithTexture(x + BaseDevice.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
         GlStateManager.disableBlend();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-        btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
-        btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
+//        btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+//        btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+//        btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
 
-        for(int i = 0; i < APPS_DISPLAYED && i < gui.installedApps.size(); i++)
+        for(int i = 0; i < APPS_DISPLAYED && i < device.installedApps.size(); i++)
         {
-            AppInfo info = gui.installedApps.get(i + offset);
-            RenderUtil.drawApplicationIcon(info, x + 2 + i * 16, y + 2);
-            if(gui.isApplicationRunning(info))
+            AppInfo info = device.installedApps.get(i + offset);
+            RenderUtil.drawApplicationIcon(info, x + 34 + i * 16, y + 2);
+            if(device.isApplicationRunning(info))
             {
                 mc.getTextureManager().bindTexture(APP_BAR_GUI);
-                gui.drawTexturedModalRect(x + 1 + i * 16, y + 1, 35, 0, 16, 16);
+                gui.drawTexturedModalRect(x + 34 + i * 16, y + 1, 35, 0, 16, 16);
             }
         }
 
@@ -164,8 +168,71 @@ public class TaskBar extends GuiScreen {
 
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
-        /* Other Apps */
+        *//* Other Apps *//*
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
+            int appIndex = (mouseX - x - 1) / 16;
+            if(appIndex >= 0 && appIndex < offset + APPS_DISPLAYED && appIndex < gui.installedApps.size())
+            {
+                gui.drawTexturedModalRect(x + appIndex * 16 + 1, y + 1, 35, 0, 16, 16);
+                gui.drawHoveringText(Collections.singletonList(gui.installedApps.get(appIndex).getName()), mouseX, mouseY);
+            }
+        }
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderHelper.disableStandardItemLighting();*/
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
+        GlStateManager.enableBlend();
+        mc.getTextureManager().bindTexture(APP_BAR_GUI);
+
+        Color bgColor = new Color(gui.getSettings().getColourScheme().getBackgroundColour()).brighter().brighter();
+        float[] hsb = Color.RGBtoHSB(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), null);
+        bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
+        GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 1.0F);
+
+        int trayItemsWidth = trayItems.size() * 14;
+        RenderUtil.drawRectWithTexture(x, y, 0, 0, 1, 18, 1, 18);
+        RenderUtil.drawRectWithTexture(x + 1, y, 1, 0, Laptop.SCREEN_WIDTH - 36 - trayItemsWidth, 18, 1, 18);
+        RenderUtil.drawRectWithTexture(x + Laptop.SCREEN_WIDTH - 35 - trayItemsWidth, y, 2, 0, 35 + trayItemsWidth, 18, 1, 18);
+
+        GlStateManager.disableBlend();
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+        btnLeft.render(gui, mc, btnLeft.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+        btnRight.render(gui, mc, btnRight.xPosition, btnLeft.yPosition, mouseX, mouseY, true, partialTicks);
+        btnStartButton.render(gui, mc, btnStartButton.xPosition, btnStartButton.yPosition, mouseX, mouseY, true, partialTicks);
+
+        for(int i = 0; i < APPS_DISPLAYED && i < gui.installedApps.size(); i++)
+        {
+            AppInfo info = gui.installedApps.get(i + offset);
+            RenderUtil.drawApplicationIcon(info, x + 34 + i * 16, y + 2);
+            if(gui.isApplicationRunning(info))
+            {
+                mc.getTextureManager().bindTexture(APP_BAR_GUI);
+                gui.drawTexturedModalRect(x + 33 + i * 16, y + 1, 35, 0, 16, 16);
+            }
+        }
+
+        mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 334, y + 5, Color.WHITE.getRGB(), true);
+
+        /* Settings App */
+        int startX = x + 317;
+        for(int i = 0; i < trayItems.size(); i++)
+        {
+            int posX = startX - (trayItems.size() - 1 - i) * 14;
+            if(isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15))
+            {
+                Gui.drawRect(posX, y + 2, posX + 14, y + 16, new Color(1.0F, 1.0F, 1.0F, 0.1F).getRGB());
+            }
+            trayItems.get(i).getIcon().draw(mc, posX + 2, y + 4);
+        }
+
+        mc.getTextureManager().bindTexture(APP_BAR_GUI);
+
+        /* Other Apps */
+        if(isMouseInside(mouseX, mouseY, x + 1, y + 1, x + 236, y + 16))
+        {
             int appIndex = (mouseX - x - 1) / 16;
             if(appIndex >= 0 && appIndex < offset + APPS_DISPLAYED && appIndex < gui.installedApps.size())
             {
@@ -180,12 +247,12 @@ public class TaskBar extends GuiScreen {
     }
 
     public void handleClick(BaseDevice laptop, int x, int y, int mouseX, int mouseY, int mouseButton) {
-        btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
-        btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
+//        btnLeft.handleMouseClick(mouseX, mouseY, mouseButton);
+//        btnRight.handleMouseClick(mouseX, mouseY, mouseButton);
         btnStartButton.handleMouseClick(mouseX, mouseY, mouseButton);
 
         if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
-            int appIndex = (mouseX - x - 1) / 16;
+            int appIndex = (mouseX - x - 33) / 16;
             if(appIndex >= 0 && appIndex <= offset + APPS_DISPLAYED && appIndex < laptop.installedApps.size())
             {
                 laptop.openApplication(laptop.installedApps.get(appIndex));

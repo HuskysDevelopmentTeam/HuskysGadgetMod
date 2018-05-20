@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
@@ -123,6 +124,13 @@ public class ApplicationSettings extends SystemApplication {
             }
         });
         layoutMain.addComponent(personalise);
+
+        for(int i = 0; i > 10; i++) {
+            int padding = 5;
+            int iconOffset = (15 - 14 * 3) / 2;
+            Image image = new Image(iconOffset, padding, Icons.ARROW_LEFT);
+            this.addComponent(image);
+        }
 
         Button information = new Button(5, 46, "Information", Icons.HELP);
         information.setClickListener((mouseX, mouseY, mouseButton) ->

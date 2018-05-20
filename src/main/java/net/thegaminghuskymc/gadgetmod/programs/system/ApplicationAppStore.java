@@ -26,7 +26,7 @@ import net.thegaminghuskymc.gadgetmod.programs.system.component.AppGrid;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutSearchApps;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteAppEntry;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -154,13 +154,13 @@ public class ApplicationAppStore extends SystemApplication {
 
     }
 
-    public List<RemoteEntry> parseJson(String json)
+    public List<RemoteAppEntry> parseJson(String json)
     {
-        List<RemoteEntry> entries = new ArrayList<>();
+        List<RemoteAppEntry> entries = new ArrayList<>();
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(json).getAsJsonArray();
         Gson gson = new Gson();
-        array.forEach(element -> entries.add(gson.fromJson(element, new TypeToken<RemoteEntry>(){}.getType())));
+        array.forEach(element -> entries.add(gson.fromJson(element, new TypeToken<RemoteAppEntry>(){}.getType())));
         return entries;
     }
 

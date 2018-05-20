@@ -1,23 +1,19 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.object;
 
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
+
+import javax.annotation.Nullable;
 
 /**
  * Author: MrCrayfish
  */
-public class LocalEntry implements AppEntry
+public class LocalThemeEntry implements ThemeEntry
 {
-    private AppInfo info;
+    private ThemeInfo info;
 
-    public LocalEntry(AppInfo info)
+    public LocalThemeEntry(ThemeInfo info)
     {
         this.info = info;
-    }
-
-    @Override
-    public String getId()
-    {
-        return info.getId().toString();
     }
 
     @Override
@@ -27,9 +23,8 @@ public class LocalEntry implements AppEntry
     }
 
     @Override
-    public String getAuthor()
-    {
-        return info.getAuthor();
+    public String getCreator() {
+        return info.getCreator();
     }
 
     @Override
@@ -38,16 +33,21 @@ public class LocalEntry implements AppEntry
         return info.getDescription();
     }
 
+    @Nullable
     @Override
-    public String getVersion()
-    {
+    public String getThemeVersion() {
         return info.getVersion();
     }
 
+    @Nullable
     @Override
-    public String getIcon()
-    {
+    public String getThemePreview() {
         return info.getIcon();
+    }
+
+    @Override
+    public String getId() {
+        return info.getId().toString();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LocalEntry implements AppEntry
         return info.getScreenshots();
     }
 
-    public AppInfo getInfo()
+    public ThemeInfo getInfo()
     {
         return info;
     }
@@ -66,7 +66,7 @@ public class LocalEntry implements AppEntry
     {
         if(obj instanceof AppEntry)
         {
-            return this.getId().equals( ((AppEntry) obj).getId() );
+            return ((AppEntry) obj).getId().equals(getId());
         }
         return false;
     }

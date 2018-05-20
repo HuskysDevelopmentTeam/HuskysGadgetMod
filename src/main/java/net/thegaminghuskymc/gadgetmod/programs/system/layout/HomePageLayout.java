@@ -2,6 +2,7 @@ package net.thegaminghuskymc.gadgetmod.programs.system.layout;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
@@ -14,6 +15,8 @@ import net.thegaminghuskymc.gadgetmod.util.RenderHelper;
 
 import javax.annotation.Nullable;
 import java.awt.*;
+
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 public class HomePageLayout extends Layout {
     protected Application app;
@@ -38,7 +41,9 @@ public class HomePageLayout extends Layout {
             this.addComponent(btnBack);
         }
 
-        Image imageBanner = new Image(0, 0, 270, 44, "https://i.imgur.com/VAGCpKY.jpg");
+        Image imageBanner = new Image(0, 0, previous.width, 60);
+        imageBanner.setImage(new ResourceLocation(MOD_ID, "textures/gui/app_market_background.png"));
+        imageBanner.setDrawFull(true);
         this.addComponent(imageBanner);
 
         Label labelBanner = new Label(RenderHelper.unlocaliseName(ApplicationManager.getApplication("hgm:app_store").getName()), 10, 36);

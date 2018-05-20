@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 /**
  * Author: MrCrayfish
  */
-public class RemoteEntry implements AppEntry
+public class RemoteThemeEntry implements AppEntry
 {
     public String app_id;
     public String app_name;

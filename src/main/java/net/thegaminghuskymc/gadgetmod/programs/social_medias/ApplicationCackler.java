@@ -4,8 +4,11 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.OtherEmojis;
+import net.thegaminghuskymc.gadgetmod.programs.social_medias.layouts.LayoutProfile;
+import net.thegaminghuskymc.gadgetmod.programs.system.layout.HomePageLayout;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -20,7 +23,9 @@ public class ApplicationCackler extends Application {
     @Override
     public void init(@Nullable NBTTagCompound intent) {
 
-        Layout layoutMain = new Layout(270, 140);
+        Layout defaultLayout = new Layout(270, 140);
+
+        HomePageLayout layoutMain = new HomePageLayout(defaultLayout.width, defaultLayout.height, this, defaultLayout);
 
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
             Gui.drawRect(x, y + 15, x + width, y + height, new Color(89, 100, 101, 255).getRGB());
@@ -33,27 +38,12 @@ public class ApplicationCackler extends Application {
         Label labelCackler = new Label("Cackler", 15, 3);
         layoutMain.addComponent(labelCackler);
 
-        Image profilePicture = new Image(15, 25, 40, 40, "https://cdn.discordapp.com/avatars/235792215736188928/445367d691b718e48bcb208e626a76a7.png?size=2048");
-        layoutMain.addComponent(profilePicture);
+        LayoutProfile profile = new LayoutProfile(this, "_Zontic", "_Zontic", "A kid with no computer", "10 000 000", "69 000 000", "46 000 000");
 
-        Label labelNick = new Label("MRC", 15, 69);
-        layoutMain.addComponent(labelNick);
-
-        Label labelUsername = new Label("@MRC", 12, 79);
-        layoutMain.addComponent(labelUsername);
-
-        Label labelBio = new Label("This is a bio", 5, 92);
-        labelBio.setAlignment(3);
-        layoutMain.addComponent(labelBio);
-
-        Label labelTweets = new Label("Clucks: 100", 3, 105);
-        layoutMain.addComponent(labelTweets);
-
-        Label labelFollowing = new Label("Following: 10", 3, 117);
-        layoutMain.addComponent(labelFollowing);
-
-        Label labelFollowers = new Label("Followers: 19", 3, 129);
-        layoutMain.addComponent(labelFollowers);
+        Button button = new Button(10, 10, "Profile", OtherEmojis.POOP);
+        button.setClickListener((mouseX, mouseY, mouseButton) ->
+                setCurrentLayout(profile));
+        layoutMain.addComponent(button);
 
         setCurrentLayout(layoutMain);
     }

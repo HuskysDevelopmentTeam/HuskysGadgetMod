@@ -40,6 +40,7 @@ import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.task.TaskUpdateApplicationData;
@@ -53,10 +54,7 @@ import org.lwjgl.opengl.GL11;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class BaseDevice extends GuiScreen implements System {
 
@@ -123,7 +121,8 @@ public class BaseDevice extends GuiScreen implements System {
 
     protected List<AppInfo> installedApps = new ArrayList<>();
 
-    public BaseDevice(TileEntityBaseDevice te) {
+    public BaseDevice(TileEntityBaseDevice te, int id) {
+        ID = id;
         this.appData = te.getApplicationData();
         this.systemData = te.getSystemData();
         this.windows = new Window[5];
@@ -796,6 +795,11 @@ public class BaseDevice extends GuiScreen implements System {
     public List<AppInfo> getInstalledApplications()
     {
         return ImmutableList.copyOf(installedApps);
+    }
+
+    @Override
+    public Collection<ThemeInfo> getInstalledThemes() {
+        return null;
     }
 
     public boolean isApplicationInstalled(AppInfo info)

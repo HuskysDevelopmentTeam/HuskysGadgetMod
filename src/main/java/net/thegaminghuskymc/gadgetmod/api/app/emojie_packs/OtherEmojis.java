@@ -45,7 +45,7 @@ public enum OtherEmojis implements IIcon {
     SNOWMAN,
     NO_TEXTURE;
 
-    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/other_emojie.png");
+    private static final ResourceLocation ICON_ASSET = new ResourceLocation(Reference.MOD_ID, "textures/gui/icon_packs/other_emoji.png");
 
     private static final int ICON_SIZE = 10;
     private static final int GRID_SIZE = 20;
