@@ -13,7 +13,7 @@ import java.awt.*;
 public class LayoutStartMenu extends Layout {
 
     public LayoutStartMenu() {
-        super(0, 18, 80, 100);
+        super(0, 18, 80, 120);
     }
 
     @Override
@@ -21,8 +21,8 @@ public class LayoutStartMenu extends Layout {
         this.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
             Color color = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getItemBackgroundColour());
             Gui.drawRect(x, y, x + width, y + 100, color.getRGB());
-            Gui.drawRect(x, y, x + width, y + 100, color.darker().getRGB());
-            Gui.drawRect(x, y, x + width, y + 100, color.brighter().getRGB());
+//            Gui.drawRect(x, y, x + width, y + 100, color.darker().darker().getRGB());
+//            Gui.drawRect(x, y, x + width, y + 100, color.brighter().brighter().getRGB());
         });
 
         Button btnPowerOff = new Button(5, 5, "Shutdown", Icons.POWER_OFF);

@@ -233,6 +233,16 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutWallpapers.addComponent(buttonWallpaperRight);
 
+        ComboBox.List<String> wallpaperOrColorSelection = new ComboBox.List<>(215, 47, new String[]{ "Wallpaper", "Color" });
+        wallpaperOrColorSelection.setChangeListener((oldValue, newValue) -> {
+            if(wallpaperOrColorSelection.getSelectedItem().equals("Color")) {
+                BaseDevice.getSystem().getSettings().setHasWallpaperOrColor("Color");
+            } else {
+                BaseDevice.getSystem().getSettings().setHasWallpaperOrColor("Wallpaper");
+            }
+        });
+        layoutWallpapers.addComponent(wallpaperOrColorSelection);
+
         Button reload = new Button(250, 27, Icons.RELOAD);
         layoutWallpapers.addComponent(reload);
 
@@ -243,20 +253,26 @@ public class ApplicationSettings extends SystemApplication {
         Label mainApplicationBarColour = new Label("Main Application Bar Colour", 175, 29);
         layoutColourScheme.addComponent(mainApplicationBarColour);
 
-        ComboBox.Custom<Integer> comboBoxMainApplicationBarColour = createColourPicker(117, 26);
+        ComboBox.Custom<Integer> comboBoxMainApplicationBarColour = createColourPicker(117, 26, BaseDevice.getSystem().getSettings().getColourScheme().getMainApplicationBarColour());
         layoutColourScheme.addComponent(comboBoxMainApplicationBarColour);
 
         Label secondApplicationBarColour = new Label("Second Application Bar Colour", 175, 49);
         layoutColourScheme.addComponent(secondApplicationBarColour);
 
-        ComboBox.Custom<Integer> comboBoxSecondaryApplicationBarColour = createColourPicker(117, 46);
+        ComboBox.Custom<Integer> comboBoxSecondaryApplicationBarColour = createColourPicker(117, 46, BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
         layoutColourScheme.addComponent(comboBoxSecondaryApplicationBarColour);
 
         Label backgroundColour = new Label("Background Colour", 175, 69);
         layoutColourScheme.addComponent(backgroundColour);
 
-        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(117, 66);
+        ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(117, 66, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
         layoutColourScheme.addComponent(comboBoxBackgroundColour);
+
+        Label taskbarColor = new Label("Taskbar Colour", 175, 89);
+        layoutColourScheme.addComponent(taskbarColor);
+
+        ComboBox.Custom<Integer> comboBoxTaskbarColour = createColourPicker(117, 86, BaseDevice.getSystem().getSettings().getColourScheme().getTaskBarColour());
+        layoutColourScheme.addComponent(comboBoxTaskbarColour);
 
         buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
         buttonColourSchemeApply.setEnabled(false);
@@ -268,6 +284,7 @@ public class ApplicationSettings extends SystemApplication {
                 colourScheme.setMainApplicationBarColour(comboBoxMainApplicationBarColour.getValue());
                 colourScheme.setSecondApplicationBarColour(comboBoxSecondaryApplicationBarColour.getValue());
                 colourScheme.setBackgroundColour(comboBoxBackgroundColour.getValue());
+                colourScheme.setTaskBarColour(comboBoxTaskbarColour.getValue());
                 buttonColourSchemeApply.setEnabled(false);
             }
         });
@@ -342,9 +359,9 @@ public class ApplicationSettings extends SystemApplication {
         predecessor.clear();
     }
 
-    private ComboBox.Custom<Integer> createColourPicker(int left, int top) {
+    private ComboBox.Custom<Integer> createColourPicker(int left, int top, int baseColor) {
         ComboBox.Custom<Integer> colourPicker = new ComboBox.Custom<>(left, top, 50, 100, 100);
-        colourPicker.setValue(Color.RED.getRGB());
+        colourPicker.setValue(baseColor);
         colourPicker.setItemRenderer(new ItemRenderer<Integer>() {
             @Override
             public void render(Integer integer, Gui gui, Minecraft mc, int x, int y, int width, int height) {

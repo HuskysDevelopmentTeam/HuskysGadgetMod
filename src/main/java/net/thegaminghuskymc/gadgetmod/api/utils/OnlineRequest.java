@@ -6,7 +6,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -91,7 +90,7 @@ public class OnlineRequest {
             while (!requests.isEmpty()) {
                 RequestWrapper wrapper = requests.poll();
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
-                    HttpGet get = new HttpGet(Objects.requireNonNull(wrapper).url);
+                    HttpGet get = new HttpGet(wrapper.url);
                     try (CloseableHttpResponse response = client.execute(get)) {
                         String raw = StreamUtils.convertToString(response.getEntity().getContent());
                         System.out.println(raw);
@@ -99,7 +98,7 @@ public class OnlineRequest {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-//                    Objects.requireNonNull(wrapper).handler.handle(false, "");
+                    wrapper.handler.handle(false, "");
                 }
             }
         }

@@ -18,7 +18,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
@@ -117,6 +116,7 @@ public class BaseDevice extends GuiScreen implements System {
     private int lastCode = Keyboard.KEY_DOWN;
     private int konamiProgress = 0;
     private LayoutDesktop desktop;
+    private String wallpaperOrColor;
 
     public int posX, posY;
 
@@ -133,6 +133,7 @@ public class BaseDevice extends GuiScreen implements System {
         if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
             currentWallpaper = 0;
         }
+        wallpaperOrColor = systemData.getString("wallpaperOrColor");
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
         java.lang.System.out.println(te.getClass().getName());
@@ -213,6 +214,7 @@ public class BaseDevice extends GuiScreen implements System {
 
         /* Send system data */
         systemData.setInteger("CurrentWallpaper", currentWallpaper);
+        systemData.setString("wallpaperOrColor", wallpaperOrColor);
         systemData.setTag("Settings", settings.toTag());
         systemData.setInteger("bootmode", BootMode.ordinal(this.bootMode));
         systemData.setInteger("boottimer", this.bootTimer);
@@ -616,7 +618,7 @@ public class BaseDevice extends GuiScreen implements System {
         if(!isApplicationInstalled(app.getInfo()))
             return;
 
-        if(!isValidApplication(app.getInfo()))
+        if(isValidApplication(app.getInfo()))
             return;
 
         if(sendApplicationToFront(app.getInfo()))
@@ -651,7 +653,7 @@ public class BaseDevice extends GuiScreen implements System {
         if(!isApplicationInstalled(info))
             return false;
 
-        if(!isValidApplication(info))
+        if(isValidApplication(info))
             return false;
 
         Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
@@ -764,7 +766,7 @@ public class BaseDevice extends GuiScreen implements System {
         return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX, posY + window.offsetY, posX + window.offsetX + window.width, posY + window.offsetY + window.height);
     }
 
-    public boolean isApplicationRunning(AppInfo info) {
+    boolean isApplicationRunning(AppInfo info) {
         for (Window window : windows) {
             if (window != null && ((Application) window.content).getInfo().getFormattedId().equals(info.getFormattedId())) {
                 return true;
@@ -819,17 +821,17 @@ public class BaseDevice extends GuiScreen implements System {
     {
         if(HuskyGadgetMod.proxy.hasAllowedApplications())
         {
-            return HuskyGadgetMod.proxy.getAllowedApplications().contains(info);
+            return !HuskyGadgetMod.proxy.getAllowedApplications().contains(info);
         }
-        return true;
+        return false;
     }
 
     public void installApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(!isValidApplication(info))
+        if(isValidApplication(info))
             return;
 
-       Task task = new TaskInstallApp(info, pos, true);
+        Task task = new TaskInstallApp(info, pos, true);
         task.setCallback((tagCompound, success) ->
         {
             if(success)
@@ -847,7 +849,7 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void removeApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(!isValidApplication(info))
+        if(isValidApplication(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, false);

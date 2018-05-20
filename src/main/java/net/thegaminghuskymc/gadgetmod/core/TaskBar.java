@@ -11,6 +11,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Logos;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutStartMenu;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
@@ -99,8 +100,9 @@ public class TaskBar extends GuiScreen {
             }
         });
 
-        btnStartButton = new Button(0, 0, Icons.EARTH);
+        btnStartButton = new Button(0, 0, Logos.WINDOWS);
         btnStartButton.setPadding(1);
+        btnStartButton.setHasBackground(false);
         btnStartButton.xPosition = posX + 3;
         btnStartButton.yPosition = posY + 3;
         btnStartButton.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -155,12 +157,14 @@ public class TaskBar extends GuiScreen {
             }
         }
 
-        mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 414, y + 5, Color.WHITE.getRGB(), true);
+        mc.fontRenderer.drawString(timeToString(mc.player.world.getWorldTime()), x + 334, y + 5, Color.WHITE.getRGB(), true);
 
-        int startX = x + 397;
-        for (int i = 0; i < trayItems.size(); i++) {
+        int startX = x + 317;
+        for(int i = 0; i < trayItems.size(); i++)
+        {
             int posX = startX - (trayItems.size() - 1 - i) * 14;
-            if (isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15)) {
+            if(isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15))
+            {
                 Gui.drawRect(posX, y + 2, posX + 14, y + 16, new Color(1.0F, 1.0F, 1.0F, 0.1F).getRGB());
             }
             trayItems.get(i).getIcon().draw(mc, posX + 2, y + 4);
@@ -168,8 +172,8 @@ public class TaskBar extends GuiScreen {
 
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 
-        *//* Other Apps *//*
-        if (isMouseInside(mouseX, mouseY, x + 33, y + 1, x + 306, y + 16)) {
+        if(isMouseInside(mouseX, mouseY, x + 1, y + 1, x + 236, y + 16))
+        {
             int appIndex = (mouseX - x - 1) / 16;
             if(appIndex >= 0 && appIndex < offset + APPS_DISPLAYED && appIndex < gui.installedApps.size())
             {

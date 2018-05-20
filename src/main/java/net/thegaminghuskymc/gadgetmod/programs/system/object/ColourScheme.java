@@ -18,6 +18,7 @@ public class ColourScheme {
     private int taskBarColour;
     private int mainApplicationBarColour;
     private int secondApplicationBarColour;
+    private int applicationBackgroundColor;
 
     public ColourScheme() {
         resetDefault();
@@ -63,6 +64,9 @@ public class ColourScheme {
         }
         if (tag.hasKey("secondApplicationBarColour", Constants.NBT.TAG_INT)) {
             scheme.secondApplicationBarColour = tag.getInteger("secondApplicationBarColour");
+        }
+        if (tag.hasKey("applicationBackgroundColour", Constants.NBT.TAG_INT)) {
+            scheme.applicationBackgroundColor = tag.getInteger("applicationBackgroundColour");
         }
         return scheme;
     }
@@ -127,6 +131,14 @@ public class ColourScheme {
         this.secondApplicationBarColour = secondApplicationBarColour;
     }
 
+    public int getApplicationBackgroundColor() {
+        return applicationBackgroundColor;
+    }
+
+    public void setApplicationBackgroundColor(int applicationBackgroundColor) {
+        this.applicationBackgroundColor = applicationBackgroundColor;
+    }
+
     public int getButtonNormalColour() {
         return buttonNormalColour;
     }
@@ -173,6 +185,7 @@ public class ColourScheme {
         taskBarColour = 0xFF9E9E9E;
         mainApplicationBarColour = 0xFF9E9E9E;
         secondApplicationBarColour = 0xFF7F7F7F;
+        applicationBackgroundColor = 0xFF7F7F7F;
     }
 
     public NBTTagCompound toTag() {

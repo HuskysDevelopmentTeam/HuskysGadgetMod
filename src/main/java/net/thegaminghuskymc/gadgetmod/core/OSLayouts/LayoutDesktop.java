@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
@@ -16,8 +17,12 @@ public class LayoutDesktop extends Layout {
 
     @Override
     public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-        mc.getTextureManager().bindTexture(BaseDevice.WALLPAPERS.get(BaseDevice.currentWallpaper));
-        RenderUtil.drawRectWithFullTexture(x, y, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        if(BaseDevice.getSystem().getSettings().hasWallpaperOrColor().equals("Wallpaper")) {
+            mc.getTextureManager().bindTexture(BaseDevice.WALLPAPERS.get(BaseDevice.currentWallpaper));
+            RenderUtil.drawRectWithFullTexture(x, y, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        } else {
+            Gui.drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
+        }
     }
 
 }

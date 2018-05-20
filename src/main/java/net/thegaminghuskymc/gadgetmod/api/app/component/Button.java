@@ -31,9 +31,13 @@ public class Button extends Component
     protected int toolTipTick;
     protected boolean hovered;
 
+    private int textColorNormal = 0xFFFFFF, textColorDisabled = 0xFFFFFF, textColorHovered = 0xFFFFFF, backgroundColor, borderColor;
+
     protected int padding = 5;
     protected int width, height;
     protected boolean explicitSize = false;
+
+    private boolean hasBackground;
 
     protected ResourceLocation iconResource;
     protected int iconU, iconV;
@@ -206,30 +210,34 @@ public class Button extends Component
         {
             mc.getTextureManager().bindTexture(Component.COMPONENTS_GUI);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            Color bgColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour()).brighter().brighter();
+
+            Color bgColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getButtonNormalColour());
             float[] hsb = Color.RGBtoHSB(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), null);
             bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
             GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 1.0F);
+
             this.hovered = GuiHelper.isMouseWithin(mouseX, mouseY, x, y, width, height) && windowActive;
             int i = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
 
-            /* Corners */
-            RenderUtil.drawRectWithTexture(x, y, 96 + i * 5, 12, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(x + width - 2, y, 99 + i * 5, 12, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(x + width - 2, y + height - 2, 99 + i * 5, 15, 2, 2, 2, 2);
-            RenderUtil.drawRectWithTexture(x, y + height - 2, 96 + i * 5, 15, 2, 2, 2, 2);
+            if(hasBackground) {
+                /* Corners */
+                RenderUtil.drawRectWithTexture(x, y, 96 + i * 5, 12, 2, 2, 2, 2);
+                RenderUtil.drawRectWithTexture(x + width - 2, y, 99 + i * 5, 12, 2, 2, 2, 2);
+                RenderUtil.drawRectWithTexture(x + width - 2, y + height - 2, 99 + i * 5, 15, 2, 2, 2, 2);
+                RenderUtil.drawRectWithTexture(x, y + height - 2, 96 + i * 5, 15, 2, 2, 2, 2);
 
-            /* Middles */
-            RenderUtil.drawRectWithTexture(x + 2, y, 98 + i * 5, 12, width - 4, 2, 1, 2);
-            RenderUtil.drawRectWithTexture(x + width - 2, y + 2, 99 + i * 5, 14, 2, height - 4, 2, 1);
-            RenderUtil.drawRectWithTexture(x + 2, y + height - 2, 98 + i * 5, 15, width - 4, 2, 1, 2);
-            RenderUtil.drawRectWithTexture(x, y + 2, 96 + i * 5, 14, 2, height - 4, 2, 1);
+                /* Middles */
+                RenderUtil.drawRectWithTexture(x + 2, y, 98 + i * 5, 12, width - 4, 2, 1, 2);
+                RenderUtil.drawRectWithTexture(x + width - 2, y + 2, 99 + i * 5, 14, 2, height - 4, 2, 1);
+                RenderUtil.drawRectWithTexture(x + 2, y + height - 2, 98 + i * 5, 15, width - 4, 2, 1, 2);
+                RenderUtil.drawRectWithTexture(x, y + 2, 96 + i * 5, 14, 2, height - 4, 2, 1);
 
-            /* Center */
-            RenderUtil.drawRectWithTexture(x + 2, y + 2, 98 + i * 5, 14, width - 4, height - 4, 1, 1);
+                /* Center */
+                RenderUtil.drawRectWithTexture(x + 2, y + 2, 98 + i * 5, 14, width - 4, height - 4, 1, 1);
+            }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -249,7 +257,7 @@ public class Button extends Component
             {
                 int textY = (height - mc.fontRenderer.FONT_HEIGHT) / 2 + 1;
                 int textOffsetX = iconResource != null ? iconWidth + 3 : 0;
-                int textColor = !Button.this.enabled ? 10526880 : (Button.this.hovered ? 16777120 : 14737632);
+                int textColor = !Button.this.enabled ? textColorDisabled : (Button.this.hovered ? textColorHovered : textColorNormal);
                 drawString(mc.fontRenderer, text, x + contentX + textOffsetX, y + textY, textColor);
             }
         }
@@ -439,6 +447,54 @@ public class Button extends Component
         int width = fontRenderer.getStringWidth(text);
         fontRenderer.setUnicodeFlag(flag);
         return width;
+    }
+
+    public boolean hasBackground() {
+        return hasBackground;
+    }
+
+    public void setHasBackground(boolean hasBackground) {
+        this.hasBackground = hasBackground;
+    }
+
+    public int getTextColorNormal() {
+        return textColorNormal;
+    }
+
+    public void setTextColorNormal(int textColorNormal) {
+        this.textColorNormal = textColorNormal;
+    }
+
+    public int getTextColorDisabled() {
+        return textColorDisabled;
+    }
+
+    public void setTextColorDisabled(int textColorDisabled) {
+        this.textColorDisabled = textColorDisabled;
+    }
+
+    public int getTextColorHovered() {
+        return textColorHovered;
+    }
+
+    public void setTextColorHovered(int textColorHovered) {
+        this.textColorHovered = textColorHovered;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
     }
 
     //TODO add button text Color and button Color

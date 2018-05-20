@@ -383,9 +383,7 @@ public class GitWebFrame extends Component
     private static int calculateHeight(List<ModuleEntry> modules, int width)
     {
         int height = 0;
-        for(int i = 0; i < modules.size(); i++)
-        {
-            ModuleEntry entry = modules.get(i);
+        for (ModuleEntry entry : modules) {
             height += entry.getModule().calculateHeight(entry.getData(), width);
         }
         return height;
