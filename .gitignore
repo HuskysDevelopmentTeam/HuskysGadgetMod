@@ -34,3 +34,11 @@ usercache.json
 usernamecache.json
 lib/*
 setup.bat
+src/main/resources/assets/cdm/*
+src/main/resources/assets/deviceai/*
+src/main/resources/assets/dm_rswifi/*
+src/main/resources/assets/gitwebbuilder/*
+src/main/resources/assets/spstore/*
+src/main/java/mastef_chief/gitwebbuilder/*
+src/main/java/com/jakecrowley/redstonewifi/*
+src/main/java/com/spjoes/spstore/*
