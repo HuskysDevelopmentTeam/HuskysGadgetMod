@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.component;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
@@ -41,6 +40,15 @@ public class AppGrid extends Component
 
     private Layout container;
 
+    private static final int WIDE = 640;
+    private static final int HIGH = 240;
+    private static final float HUE_MIN = 0;
+    private static final float HUE_MAX = 1;
+    private float hue = HUE_MIN;
+    private Color color1 = Color.white;
+    private Color color2 = Color.black;
+    private float delta = 0.01f;
+
     public AppGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationAppStore store)
     {
         super(left, top);
@@ -76,8 +84,14 @@ public class AppGrid extends Component
             int itemY = y + (i / horizontalItems) * (itemHeight + padding) + padding;
             if(GuiHelper.isMouseWithin(mouseX, mouseY, itemX, itemY, itemWidth, itemHeight))
             {
-                Gui.drawRect(itemX, itemY, itemX + itemWidth, itemY + itemHeight, Color.GRAY.getRGB());
-                Gui.drawRect(itemX + 1, itemY + 1, itemX + itemWidth - 1, itemY + itemHeight - 1, BaseDevice.getSystem().getSettings().getColourScheme().getItemBackgroundColour());
+                hue += delta;
+                if (hue > HUE_MAX) {
+                    hue = HUE_MIN;
+                }
+                color1 = Color.getHSBColor(hue, 1, 1);
+                color2 = Color.getHSBColor(hue + 16 * delta, 1, 1);
+                drawGradientRect(itemX, itemY, itemX + itemWidth, itemY + itemHeight, color1.getRGB(), color2.getRGB());
+                drawGradientRect(itemX + 1, itemY + 1, itemX + itemWidth - 1, itemY + itemHeight - 1, Color.TRANSLUCENT, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getItemBackgroundColour()).getRGB());
             }
         }
     }

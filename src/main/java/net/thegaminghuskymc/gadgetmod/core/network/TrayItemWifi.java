@@ -16,6 +16,7 @@ import net.thegaminghuskymc.gadgetmod.block.BlockRouter;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskPing;
+import net.thegaminghuskymc.gadgetmod.core.trayItems.TrayItemUtils;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
 
 import java.awt.*;
@@ -33,10 +34,7 @@ public class TrayItemWifi extends TrayItem {
     private static Layout createWifiMenu(TrayItem item) {
         trayItem = item;
 
-        Layout layout = new Layout.Context(100, 100);
-        layout.yPosition = 70;
-        layout.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-                Gui.drawRect(x, y, x + width, y + height, new Color(0.65F, 0.65F, 0.65F, 0.9F).getRGB()));
+        Layout layout = TrayItemUtils.createMenu(100, 100);
 
         ItemList<BlockPos> itemListRouters = new ItemList<>(5, 5, 90, 4);
         itemListRouters.setItems(getRouters());

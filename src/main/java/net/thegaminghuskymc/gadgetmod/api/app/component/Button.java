@@ -37,7 +37,7 @@ public class Button extends Component
     protected int width, height;
     protected boolean explicitSize = false;
 
-    private boolean hasBackground = true;
+    private boolean background = true;
 
     protected ResourceLocation iconResource;
     protected int iconU, iconV;
@@ -222,7 +222,7 @@ public class Button extends Component
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
 
-            if(hasBackground) {
+            if(background) {
                 /* Corners */
                 RenderUtil.drawRectWithTexture(x, y, 96 + i * 5, 12, 2, 2, 2, 2);
                 RenderUtil.drawRectWithTexture(x + width - 2, y, 99 + i * 5, 12, 2, 2, 2, 2);
@@ -450,11 +450,11 @@ public class Button extends Component
     }
 
     public boolean hasBackground() {
-        return hasBackground;
+        return background;
     }
 
-    public void setHasBackground(boolean hasBackground) {
-        this.hasBackground = hasBackground;
+    public void setBackground(boolean background) {
+        this.background = background;
     }
 
     public int getTextColorNormal() {

@@ -4,6 +4,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
 
 public class TrayItem {
+
     private IIcon icon;
     private ClickListener listener;
 
@@ -11,11 +12,9 @@ public class TrayItem {
         this.icon = icon;
     }
 
-    public void init() {
-    }
+    public void init() {}
 
-    public void tick() {
-    }
+    public void tick() {}
 
     public IIcon getIcon() {
         return icon;
@@ -34,4 +33,5 @@ public class TrayItem {
             listener.onClick(mouseX, mouseY, mouseButton);
         }
     }
+
 }
