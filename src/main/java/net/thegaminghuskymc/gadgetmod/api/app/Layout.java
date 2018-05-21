@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.api.app;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.InitListener;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
@@ -18,7 +19,7 @@ import java.util.List;
  * in your application to switch interfaces during runtime.
  * <p>
  * Use {@link Application#setCurrentLayout(Layout)}
- * inside of {@link Wrappable#init()} (net.minecraft.nbt.NBTTagCompound)}
+ * inside of {@link Wrappable#init(NBTTagCompound)}
  * to set the current layout for your application.
  * <p>
  * Check out the example applications to get a better understand of
@@ -194,6 +195,9 @@ public class Layout extends Component
     @Override
     public void renderOverlay(BaseDevice laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
     {
+        if(!visible)
+            return;
+
         for(Component c : components)
         {
             c.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
@@ -203,6 +207,9 @@ public class Layout extends Component
     @Override
     public void handleKeyTyped(char character, int code)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleKeyTyped(character, code);
@@ -212,6 +219,9 @@ public class Layout extends Component
     @Override
     public void handleKeyReleased(char character, int code)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleKeyReleased(character, code);
@@ -221,6 +231,9 @@ public class Layout extends Component
     @Override
     public void handleMouseClick(int mouseX, int mouseY, int mouseButton)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleMouseClick(mouseX, mouseY, mouseButton);
@@ -230,6 +243,9 @@ public class Layout extends Component
     @Override
     public void handleMouseDrag(int mouseX, int mouseY, int mouseButton)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleMouseDrag(mouseX, mouseY, mouseButton);
@@ -239,6 +255,9 @@ public class Layout extends Component
     @Override
     public void handleMouseRelease(int mouseX, int mouseY, int mouseButton)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleMouseRelease(mouseX, mouseY, mouseButton);
@@ -248,6 +267,9 @@ public class Layout extends Component
     @Override
     public void handleMouseScroll(int mouseX, int mouseY, boolean direction)
     {
+        if(!visible || !enabled)
+            return;
+
         for(Component c : components)
         {
             c.handleMouseScroll(mouseX, mouseY, direction);

@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -65,6 +66,7 @@ public class BaseDevice extends GuiScreen implements System {
     public static final int DEVICE_WIDTH = 464;
     public static final int DEVICE_HEIGHT = 246;
     public static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
+    public static final List<ResourceLocation> THEMES = new ArrayList<>();
     private static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
@@ -86,7 +88,7 @@ public class BaseDevice extends GuiScreen implements System {
             Keyboard.KEY_A
     };
     private static final HashMap<Integer, String> codeToName = new HashMap<>();
-    public static int currentWallpaper;
+    public static int currentWallpaper, currentTheme;
     private static System system;
     private static BlockPos pos;
     private static Drive mainDrive;
@@ -133,6 +135,10 @@ public class BaseDevice extends GuiScreen implements System {
         if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
             currentWallpaper = 0;
         }
+        currentTheme = systemData.getInteger("CurrentTheme");
+        if (currentTheme < 0 || currentTheme >= THEMES.size()) {
+            currentTheme = 0;
+        }
         wallpaperOrColor = systemData.getString("wallpaperOrColor");
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
@@ -164,6 +170,12 @@ public class BaseDevice extends GuiScreen implements System {
         }
     }
 
+    public static void addTheme(ResourceLocation theme) {
+        if (theme != null) {
+            THEMES.add(theme);
+        }
+    }
+
     public static System getSystem() {
         return system;
     }
@@ -190,6 +202,7 @@ public class BaseDevice extends GuiScreen implements System {
         posY = (height - DEVICE_HEIGHT) / 2;
         bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 236);
 
+        installedApps.clear();
         NBTTagList tagList = systemData.getTagList("InstalledApps", Constants.NBT.TAG_STRING);
         for(int i = 0; i < tagList.tagCount(); i++)
         {
@@ -213,16 +226,25 @@ public class BaseDevice extends GuiScreen implements System {
         }
 
         /* Send system data */
-        systemData.setInteger("CurrentWallpaper", currentWallpaper);
-        systemData.setString("wallpaperOrColor", wallpaperOrColor);
-        systemData.setTag("Settings", settings.toTag());
-        systemData.setInteger("bootmode", BootMode.ordinal(this.bootMode));
-        systemData.setInteger("boottimer", this.bootTimer);
-        TaskManager.sendTask(new TaskUpdateSystemData(pos, systemData));
+        this.updateSystemData();
 
         BaseDevice.pos = null;
         BaseDevice.system = null;
         BaseDevice.mainDrive = null;
+    }
+
+    private void updateSystemData()
+    {
+        systemData.setInteger("CurrentWallpaper", currentWallpaper);
+        systemData.setInteger("CurrentTheme", currentTheme);
+        systemData.setString("wallpaperOrColor", wallpaperOrColor);
+        systemData.setTag("Settings", settings.toTag());
+
+        NBTTagList tagListApps = new NBTTagList();
+        installedApps.forEach(info -> tagListApps.appendTag(new NBTTagString(info.getFormattedId())));
+        systemData.setTag("InstalledApps", tagListApps);
+
+        TaskManager.sendTask(new TaskUpdateSystemData(pos, systemData));
     }
 
     @Override
@@ -787,12 +809,32 @@ public class BaseDevice extends GuiScreen implements System {
         }
     }
 
-    public int getCurrentWallpaper() {
+    public void nextTheme() {
+        if (currentTheme + 1 < THEMES.size()) {
+            currentTheme++;
+        }
+    }
+
+    public void prevTheme() {
+        if (currentTheme - 1 >= 0) {
+            currentTheme--;
+        }
+    }
+
+    public static int getCurrentWallpaper() {
         return currentWallpaper;
     }
 
-    public List<ResourceLocation> getWallapapers() {
+    public static int getCurrentTheme() {
+        return currentTheme;
+    }
+
+    public static List<ResourceLocation> getWallapapers() {
         return ImmutableList.copyOf(WALLPAPERS);
+    }
+
+    public static List<ResourceLocation> getThemes() {
+        return ImmutableList.copyOf(THEMES);
     }
 
     @Nullable

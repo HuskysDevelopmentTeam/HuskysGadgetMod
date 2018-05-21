@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ApplicationManager {
@@ -43,7 +44,8 @@ public class ApplicationManager {
      * @return the application list
      */
     public static List<AppInfo> getAvailableApplications() {
-        return APP_INFO.values().stream().filter(info -> !info.isSystemApp()).collect(Collectors.toList());
+        final Predicate<AppInfo> FILTER = info -> !info.isSystemApp() && (!HuskyGadgetMod.proxy.hasAllowedApplications() || HuskyGadgetMod.proxy.getAllowedApplications().contains(info));
+        return APP_INFO.values().stream().filter(FILTER).collect(Collectors.toList());
     }
 
     public static List<AppInfo> getSystemApplications() {

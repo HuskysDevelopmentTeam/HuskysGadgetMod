@@ -12,6 +12,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
+import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Logos;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
@@ -29,17 +30,13 @@ import java.util.Stack;
 
 public class ApplicationSettings extends SystemApplication {
 
-    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
-    private static final Color ITEM_SELECTED = Color.decode("0x757575");
-
-    private Button buttonPrevious;
+    private Button btnPrevious;
     private Layout layoutPersonalise;
     private Layout layoutWallpapers;
     private Layout layoutColourScheme;
     private Layout layoutInformationApps;
-    private Button buttonColourSchemeApply;
+    private Button btnColourSchemeApply, btnResetColors;
     private Layout layoutInformation;
-    private long lastClick = 0;
     private Stack<Layout> predecessor = new Stack<>();
 
     public ApplicationSettings() {
@@ -49,51 +46,51 @@ public class ApplicationSettings extends SystemApplication {
 
     @Override
     public void init(@Nullable NBTTagCompound intent) {
-        buttonPrevious = new Button(2, 2, Icons.ARROW_LEFT);
-        buttonPrevious.setVisible(false);
-        buttonPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
+        btnPrevious = new Button(2, 2, Icons.ARROW_LEFT);
+        btnPrevious.setVisible(false);
+        btnPrevious.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 if (predecessor.size() > 0) {
                     setCurrentLayout(predecessor.pop());
                 }
                 if (predecessor.isEmpty()) {
-                    buttonPrevious.setVisible(false);
+                    btnPrevious.setVisible(false);
                 }
             }
         });
 
         Layout layoutMain = new Menu("Home");
-        layoutMain.addComponent(buttonPrevious);
+        layoutMain.addComponent(btnPrevious);
 
         layoutColourScheme = new Menu("Colour Scheme");
-        layoutColourScheme.addComponent(buttonPrevious);
+        layoutColourScheme.addComponent(btnPrevious);
 
         layoutPersonalise = new Menu("Personalise");
-        layoutPersonalise.addComponent(buttonPrevious);
+        layoutPersonalise.addComponent(btnPrevious);
 
         layoutWallpapers = new Menu("Wallpapers");
-        layoutWallpapers.addComponent(buttonPrevious);
+        layoutWallpapers.addComponent(btnPrevious);
         layoutWallpapers.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             int wallpaperX = 7;
             int wallpaperY = 28;
-            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 162, y + wallpaperY - 1 + 90, getLaptop().getSettings().getColourScheme().getHeaderColour());
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 162, y + wallpaperY - 1 + 90, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().brighter().getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
-            List<ResourceLocation> wallpapers = getLaptop().getWallapapers();
-            mc.getTextureManager().bindTexture(wallpapers.get(getLaptop().getCurrentWallpaper()));
+            List<ResourceLocation> wallpapers = BaseDevice.getWallapapers();
+            mc.getTextureManager().bindTexture(wallpapers.get(BaseDevice.getCurrentWallpaper()));
             RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 160, 88);
-            mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, getLaptop().getSettings().getColourScheme().getTextColour(), true);
+            mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, BaseDevice.getSystem().getSettings().getColourScheme().getTextColour(), true);
         });
 
         layoutInformation = new Menu("Information");
-        layoutInformation.addComponent(buttonPrevious);
+        layoutInformation.addComponent(btnPrevious);
 
         Layout layoutInformationComputer = new Menu("Computer Information");
-        layoutInformationComputer.addComponent(buttonPrevious);
+        layoutInformationComputer.addComponent(btnPrevious);
 
         layoutInformationApps = new Menu("App Information");
-        layoutInformationApps.addComponent(buttonPrevious);
+        layoutInformationApps.addComponent(btnPrevious);
 
         Button buttonInformationApps = new Button(5, 25, "App Information", Icons.CONTACTS);
         buttonInformationApps.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -114,7 +111,7 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformation.addComponent(buttonInformationComputer);
 
         Layout layoutWifi = new Menu("WiFi");
-        layoutWifi.addComponent(buttonPrevious);
+        layoutWifi.addComponent(btnPrevious);
 
         Button personalise = new Button(5, 25, "Personalise", Icons.EYE_DROPPER);
         personalise.setClickListener((mouseX, mouseY, mouseButton) ->
@@ -125,11 +122,9 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(personalise);
 
-        for(int i = 0; i > 10; i++) {
-            int padding = 5;
-            int iconOffset = (15 - 14 * 3) / 2;
-            Image image = new Image(iconOffset, padding, Icons.ARROW_LEFT);
-            this.addComponent(image);
+        for(int i = 0; i < 10; i++) {
+            Image image = new Image(3 * i * 20, 3 * i * 20, Logos.LOVE2D);
+            layoutInformationApps.addComponent(image);
         }
 
         Button information = new Button(5, 46, "Information", Icons.HELP);
@@ -248,15 +243,12 @@ public class ApplicationSettings extends SystemApplication {
 
         Button buttonWallpaperUrl = new Button(185, 52, "Load", Icons.EARTH);
         buttonWallpaperUrl.setSize(55, 20);
+        buttonWallpaperUrl.setClickListener((mouseX, mouseY, mouseButton) -> {
+
+        });
         layoutWallpapers.addComponent(buttonWallpaperUrl);
 
-        Label mainApplicationBarColour = new Label("Main Application Bar Colour", 175, 29);
-        layoutColourScheme.addComponent(mainApplicationBarColour);
-
-        ComboBox.Custom<Integer> comboBoxMainApplicationBarColour = createColourPicker(117, 26, BaseDevice.getSystem().getSettings().getColourScheme().getMainApplicationBarColour());
-        layoutColourScheme.addComponent(comboBoxMainApplicationBarColour);
-
-        Label secondApplicationBarColour = new Label("Second Application Bar Colour", 175, 49);
+        Label secondApplicationBarColour = new Label("Base Application Color", 175, 49);
         layoutColourScheme.addComponent(secondApplicationBarColour);
 
         ComboBox.Custom<Integer> comboBoxSecondaryApplicationBarColour = createColourPicker(117, 46, BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
@@ -268,27 +260,31 @@ public class ApplicationSettings extends SystemApplication {
         ComboBox.Custom<Integer> comboBoxBackgroundColour = createColourPicker(117, 66, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
         layoutColourScheme.addComponent(comboBoxBackgroundColour);
 
-        Label taskbarColor = new Label("Taskbar Colour", 175, 89);
-        layoutColourScheme.addComponent(taskbarColor);
+        btnResetColors = new Button(5, 99, Icons.UNDO);
+        btnResetColors.setEnabled(false);
+        btnResetColors.setToolTip("Reset Colors", "This will reset all of the custom colors you have set");
+        btnResetColors.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if (mouseButton == 0) {
+                ColourScheme colourScheme = BaseDevice.getSystem().getSettings().getColourScheme();
+                colourScheme.resetDefault();
+                btnResetColors.setEnabled(false);
+            }
+        });
+        layoutColourScheme.addComponent(btnResetColors);
 
-        ComboBox.Custom<Integer> comboBoxTaskbarColour = createColourPicker(117, 86, BaseDevice.getSystem().getSettings().getColourScheme().getTaskBarColour());
-        layoutColourScheme.addComponent(comboBoxTaskbarColour);
-
-        buttonColourSchemeApply = new Button(5, 79, Icons.CHECK);
-        buttonColourSchemeApply.setEnabled(false);
-        buttonColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
-        buttonColourSchemeApply.setClickListener((mouseX, mouseY, mouseButton) ->
+        btnColourSchemeApply = new Button(5, 79, Icons.CHECK);
+        btnColourSchemeApply.setEnabled(false);
+        btnColourSchemeApply.setToolTip("Apply", "Set these colours as the new colour scheme");
+        btnColourSchemeApply.setClickListener((mouseX, mouseY, mouseButton) ->
         {
             if (mouseButton == 0) {
                 ColourScheme colourScheme = BaseDevice.getSystem().getSettings().getColourScheme();
-                colourScheme.setMainApplicationBarColour(comboBoxMainApplicationBarColour.getValue());
                 colourScheme.setSecondApplicationBarColour(comboBoxSecondaryApplicationBarColour.getValue());
                 colourScheme.setBackgroundColour(comboBoxBackgroundColour.getValue());
-                colourScheme.setTaskBarColour(comboBoxTaskbarColour.getValue());
-                buttonColourSchemeApply.setEnabled(false);
+                btnColourSchemeApply.setEnabled(false);
             }
         });
-        layoutColourScheme.addComponent(buttonColourSchemeApply);
+        layoutColourScheme.addComponent(btnColourSchemeApply);
 
         Label nameOnPage = new Label("Basic information about the computer", 40, 25);
         layoutInformationComputer.addComponent(nameOnPage);
@@ -334,6 +330,12 @@ public class ApplicationSettings extends SystemApplication {
         Label labelCredits = new Label("Credits", 80, 10);
         menuCredits.addComponent(labelCredits);
 
+        Layout themes = new Menu("Themes");
+
+        Button btnThemes = new Button(5, 88, "Themes", Icons.PICTURE);
+        btnThemes.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(themes));
+        layoutMain.addComponent(btnThemes);
+
         setCurrentLayout(layoutMain);
     }
 
@@ -349,7 +351,7 @@ public class ApplicationSettings extends SystemApplication {
 
     private void showMenu(Layout layout) {
         predecessor.push(getCurrentLayout());
-        buttonPrevious.setVisible(true);
+        btnPrevious.setVisible(true);
         setCurrentLayout(layout);
     }
 
@@ -370,7 +372,10 @@ public class ApplicationSettings extends SystemApplication {
                 }
             }
         });
-        colourPicker.setChangeListener((oldValue, newValue) -> buttonColourSchemeApply.setEnabled(true));
+        colourPicker.setChangeListener((oldValue, newValue) -> {
+            btnColourSchemeApply.setEnabled(true);
+            btnResetColors.setEnabled(true);
+        });
 
         Palette palette = new Palette(5, 5, colourPicker);
         Layout layout = colourPicker.getLayout();

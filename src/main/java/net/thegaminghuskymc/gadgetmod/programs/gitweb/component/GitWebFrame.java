@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.programs.gitweb.component;
 
+import net.minecraft.client.Minecraft;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
@@ -234,45 +235,48 @@ public class GitWebFrame extends Component
 
     private void generateLayout(String websiteData, boolean dynamic)
     {
-        List<ModuleEntry> modules = parseData(websiteData);
-        if(modules == null)
+        Minecraft.getMinecraft().addScheduledTask(() ->
         {
-            //DISPLAY DIALOG?
-            return;
-        }
+            List<ModuleEntry> modules = parseData(websiteData);
+            if(modules == null)
+            {
+                //DISPLAY DIALOG?
+                return;
+            }
 
-        layout.clear();
-        layout.height = calculateHeight(modules, width);
+            layout.clear();
+            layout.height = calculateHeight(modules, width);
 
-        int offset = 0;
-        for(int i = 0; i < modules.size() - 1; i++)
-        {
-            ModuleEntry entry = modules.get(i);
-            Module module = entry.getModule();
-            int height = module.calculateHeight(entry.getData(), width);
-            Layout moduleLayout = new Layout(0, offset, width, height);
-            module.generate(this, moduleLayout, width, entry.getData());
-            layout.addComponent(moduleLayout);
-            offset += height;
-        }
+            int offset = 0;
+            for(int i = 0; i < modules.size() - 1; i++)
+            {
+                ModuleEntry entry = modules.get(i);
+                Module module = entry.getModule();
+                int height = module.calculateHeight(entry.getData(), width);
+                Layout moduleLayout = new Layout(0, offset, width, height);
+                module.generate(this, moduleLayout, width, entry.getData());
+                layout.addComponent(moduleLayout);
+                offset += height;
+            }
 
-        if(modules.size() > 0)
-        {
-            ModuleEntry entry = modules.get(modules.size() - 1);
-            Module module = entry.getModule();
-            int height = module.calculateHeight(entry.getData(), width);
-            Layout moduleLayout = new Layout(0, offset, width, height);
-            module.generate(this, moduleLayout, width, entry.getData());
-            layout.addComponent(moduleLayout);
-        }
+            if(modules.size() > 0)
+            {
+                ModuleEntry entry = modules.get(modules.size() - 1);
+                Module module = entry.getModule();
+                int height = module.calculateHeight(entry.getData(), width);
+                Layout moduleLayout = new Layout(0, offset, width, height);
+                module.generate(this, moduleLayout, width, entry.getData());
+                layout.addComponent(moduleLayout);
+            }
 
-        if(dynamic || initialized)
-        {
-            layout.handleLoad();
-        }
+            if(dynamic || initialized)
+            {
+                layout.handleLoad();
+            }
 
-        layout.resetScroll();
-        updateListeners();
+            layout.resetScroll();
+            updateListeners();
+        });
     }
 
     private void updateListeners()

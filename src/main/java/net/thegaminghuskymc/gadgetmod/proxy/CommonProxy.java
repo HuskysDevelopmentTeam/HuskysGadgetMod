@@ -19,6 +19,7 @@ import net.thegaminghuskymc.gadgetmod.api.theme.Theme;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
+import net.thegaminghuskymc.gadgetmod.init.GadgetThemes;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
@@ -40,6 +41,7 @@ public class CommonProxy {
     @SubscribeEvent
     public void preInit(FMLPreInitializationEvent event) {
         GadgetConfig.preInit();
+        GadgetThemes.init();
     }
 
     @SubscribeEvent

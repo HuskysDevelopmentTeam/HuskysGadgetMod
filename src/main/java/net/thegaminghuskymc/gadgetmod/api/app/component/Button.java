@@ -37,7 +37,7 @@ public class Button extends Component
     protected int width, height;
     protected boolean explicitSize = false;
 
-    private boolean hasBackground;
+    private boolean hasBackground = true;
 
     protected ResourceLocation iconResource;
     protected int iconU, iconV;
@@ -376,8 +376,8 @@ public class Button extends Component
         this.iconResource = iconResource;
         this.iconWidth = iconWidth;
         this.iconHeight = iconHeight;
-        this.iconSourceWidth = 256;
-        this.iconSourceHeight = 256;
+        this.iconSourceWidth = 16;
+        this.iconSourceHeight = 16;
         updateSize();
     }
 

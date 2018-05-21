@@ -3,6 +3,11 @@
     "app_author": "MrCrayfish, MinecraftDoodler",
     "app_description": "GitWeb is a web browser powered by GitHub. It is community driven, which means websites you browse are created by other players.",
     "app_version": "0.0.2",
+    "app_support": {
+        "patreon": "https://www.patreon.com/mrcrayfish",
+        "twitter": "https://twitter.com/MrCraayfish",
+        "youtube": "https://www.youtube.com/user/MrCrayfishMinecraft"
+    },
     "app_icon": "hgm:textures/app/icon/gitweb.png",
     "app_screenshots": [
         "hgm:textures/app/screenshot/gitweb_screenshot_1.png"

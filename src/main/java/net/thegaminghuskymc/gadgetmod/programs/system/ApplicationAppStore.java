@@ -118,7 +118,7 @@ public class ApplicationAppStore extends SystemApplication {
                 {
                     AppGrid grid = new AppGrid(0, 81, 3, 1, this);
                     certifiedApps.addAll(parseJson(response));
-//                    shuffleAndShrink(certifiedApps, 3).forEach(grid::addEntry);
+                    shuffleAndShrink(certifiedApps, 3).forEach(grid::addEntry);
                     homePageLayout.addComponent(grid);
                     grid.reloadIcons();
                 });

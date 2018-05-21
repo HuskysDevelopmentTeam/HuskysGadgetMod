@@ -1,7 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api.app.component;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
@@ -18,12 +17,12 @@ import java.awt.*;
 
 public abstract class ComboBox<T> extends Component {
     protected T value;
-    protected boolean hovered;
+    private boolean hovered;
     protected int width = 80;
     protected int height = 14;
     protected Layout layout;
-    protected ItemRenderer<T> itemRenderer;
-    protected ChangeListener<T> changeListener;
+    private ItemRenderer<T> itemRenderer;
+    private ChangeListener<T> changeListener;
     private boolean opened = false;
 
     public ComboBox(int left, int top) {
@@ -51,7 +50,6 @@ public abstract class ComboBox<T> extends Component {
     @Override
     public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
         if (this.visible) {
-            FontRenderer fontrenderer = mc.fontRenderer;
             mc.getTextureManager().bindTexture(Component.COMPONENTS_GUI);
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -113,7 +111,7 @@ public abstract class ComboBox<T> extends Component {
         return value;
     }
 
-    protected void updateValue(T newValue) {
+    void updateValue(T newValue) {
         if (newValue != null && value != newValue) {
             if (value != null && changeListener != null) {
                 changeListener.onChange(value, newValue);
@@ -122,7 +120,7 @@ public abstract class ComboBox<T> extends Component {
         }
     }
 
-    protected boolean isInside(int mouseX, int mouseY) {
+    private boolean isInside(int mouseX, int mouseY) {
         return mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
     }
 
@@ -178,10 +176,6 @@ public abstract class ComboBox<T> extends Component {
             return (list.renderer != null ? list.renderer.getHeight() : 13) * size + size + 1;
         }
 
-        private static int getListWidth(ItemList list) {
-            return list.width + 15;
-        }
-
         @Override
         public void init(Layout layout) {
             super.init(layout);
@@ -211,24 +205,8 @@ public abstract class ComboBox<T> extends Component {
             layout.height = getListHeight(list);
         }
 
-        public void setSelectedItem(int index) {
-            T t = list.getItem(index);
-            if (t != null) {
-                selected = t;
-                updateValue(t);
-            }
-        }
-
         public T getSelectedItem() {
             return selected;
-        }
-
-        public void setSelectedItem(T t) {
-            if (list.getItems().stream().anyMatch(i -> i == t)) {
-                list.setSelectedIndex(list.getItems().indexOf(t));
-                selected = t;
-                updateValue(t);
-            }
         }
 
         public void setListItemRenderer(ListItemRenderer<T> renderer) {

@@ -171,7 +171,7 @@ public class ColourScheme {
         this.taskBarColour = taskBarColour;
     }
 
-    private void resetDefault() {
+    public void resetDefault() {
         textColour = 0xFFFFFFFF;
         textSecondaryColour = 0xFF9BEDF2;
         headerColour = 0xFF535861;
@@ -202,6 +202,7 @@ public class ColourScheme {
         tag.setInteger("taskBarColour", taskBarColour);
         tag.setInteger("mainApplicationBarColour", mainApplicationBarColour);
         tag.setInteger("secondApplicationBarColour", secondApplicationBarColour);
+        tag.setInteger("applicationBackgroundColor", applicationBackgroundColor);
 
         return tag;
     }

@@ -2,20 +2,13 @@ package net.thegaminghuskymc.gadgetmod.programs.system.component;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
-import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
-import net.thegaminghuskymc.gadgetmod.programs.system.object.RemoteAppEntry;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
@@ -30,8 +23,8 @@ public class SettingsGrid extends Component
     private int padding = 5;
     private int horizontalItems;
     private int verticalItems;
-    private List<AppEntry> entries = new ArrayList<>();
-    private ApplicationAppStore store;
+    private List<Button> entries = new ArrayList<>();
+    private ApplicationSettings store;
 
     private int itemWidth;
     private int itemHeight;
@@ -41,27 +34,32 @@ public class SettingsGrid extends Component
 
     private Layout container;
 
-    public SettingsGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationAppStore store)
+    private String text;
+    private IIcon icon;
+
+    public SettingsGrid(int left, int top, int horizontalItems, int verticalItems, ApplicationSettings store, String text, IIcon icon)
     {
         super(left, top);
+        this.text = text;
+        this.icon = icon;
         this.horizontalItems = horizontalItems;
         this.verticalItems = verticalItems;
         this.store = store;
-        this.itemWidth = (ApplicationAppStore.LAYOUT_WIDTH - padding * 2 - padding * (horizontalItems - 1)) / horizontalItems;
+        this.itemWidth = (store.getWidth() - padding * 2 - padding * (horizontalItems - 1)) / horizontalItems;
         this.itemHeight = 80;
     }
 
     @Override
     protected void init(Layout layout)
     {
-        container = new Layout(0, 0, ApplicationAppStore.LAYOUT_WIDTH, horizontalItems * itemHeight + (horizontalItems + 1) * padding);
+        container = new Layout(0, 0, store.getWidth(), horizontalItems * itemHeight + (horizontalItems + 1) * padding);
         int size = Math.min(entries.size(), verticalItems * horizontalItems);
         for(int i = 0; i < size; i++)
         {
-            AppEntry entry = entries.get(i);
+            Button entry = entries.get(i);
             int itemX = left + (i % horizontalItems) * (itemWidth + padding) + padding;
             int itemY = top + (i / horizontalItems) * (itemHeight + padding) + padding;
-            container.addComponent(generateAppTile(entry, itemX, itemY));
+            container.addComponent(generateAppTile(entry, itemX, itemY, text, icon));
         }
         layout.addComponent(container);
     }
@@ -95,7 +93,7 @@ public class SettingsGrid extends Component
                 if(System.currentTimeMillis() - this.lastClick <= 200 && clickedIndex == i)
                 {
                     this.lastClick = 0;
-                    store.openApplication(entries.get(i));
+//                    store.openApplication(entries.get(i));
                 }
                 else
                 {
@@ -106,71 +104,18 @@ public class SettingsGrid extends Component
         }
     }
 
-    public void addEntry(AppInfo info)
+    public void addEntry(Button button)
     {
-        this.entries.add(new LocalAppEntry(info));
+        this.entries.add(button);
     }
 
-    public void addEntry(AppEntry entry)
-    {
-        this.entries.add(adjustEntry(entry));
-    }
-
-    private AppEntry adjustEntry(AppEntry entry)
-    {
-        AppInfo info = ApplicationManager.getApplication(entry.getId());
-        if(info != null)
-        {
-            return new LocalAppEntry(info);
-        }
-        return entry;
-    }
-
-    private Layout generateAppTile(AppEntry entry, int left, int top)
+    private Layout generateAppTile(Button entry, int left, int top, String text, IIcon icon)
     {
         Layout layout = new Layout(left, top, itemWidth, itemHeight);
 
-        int iconOffset = (itemWidth - 14 * 3) / 2;
-        if(entry instanceof LocalAppEntry)
-        {
-            LocalAppEntry localEntry = (LocalAppEntry) entry;
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, localEntry.getInfo().getIconU(), localEntry.getInfo().getIconV(), 14, 14, 224, 224, BaseDevice.ICON_TEXTURES);
-            layout.addComponent(image);
-        }
-        else if(entry instanceof RemoteAppEntry)
-        {
-            RemoteAppEntry remoteEntry = (RemoteAppEntry) entry;
-            ResourceLocation resource = new ResourceLocation(remoteEntry.getId());
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
-            layout.addComponent(image);
-        }
+        entry = new Button(left, top, text, icon);
+        layout.addComponent(entry);
 
-        String clippedName = RenderUtil.clipStringToWidth(entry.getName(), itemWidth - padding * 2);
-        Label labelName = new Label(clippedName, itemWidth / 2, 50);
-        labelName.setAlignment(Component.ALIGN_CENTER);
-        layout.addComponent(labelName);
-
-        String clippedAuthor = RenderUtil.clipStringToWidth(entry.getAuthor(), itemWidth - padding * 2);
-        Label labelAuthor = new Label(clippedAuthor, itemWidth / 2, 62);
-        labelAuthor.setAlignment(Component.ALIGN_CENTER);
-        labelAuthor.setShadow(false);
-        layout.addComponent(labelAuthor);
-
-        if(store.certifiedApps.contains(entry))
-        {
-            Image certifiedIcon = new Image(15, 38, Icons.VERIFIED);
-            layout.addComponent(certifiedIcon);
-        }
-
-        if(entry instanceof LocalAppEntry)
-        {
-            AppInfo info = ((LocalAppEntry) entry).getInfo();
-            if(BaseDevice.getSystem().getInstalledApplications().contains(info))
-            {
-                Image installedIcon = new Image(itemWidth - 10 - 15, 38, Icons.CHECK);
-                layout.addComponent(installedIcon);
-            }
-        }
         return layout;
     }
 

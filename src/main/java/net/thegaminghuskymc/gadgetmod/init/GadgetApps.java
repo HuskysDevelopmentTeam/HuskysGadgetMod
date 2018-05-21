@@ -31,6 +31,8 @@ public class GadgetApps {
         ApplicationManager.registerApplication(new ResourceLocation(MOD_ID, "snake"), Snake.class);
         ApplicationManager.registerApplication(new ResourceLocation(MOD_ID, "gitweb"), ApplicationGitWeb.class);
 
+        ApplicationManager.registerApplication(new ResourceLocation(MOD_ID, "boat_racer"), ApplicationBoatRacers.class);
+
         if(HuskyGadgetMod.isServerAdmin) {
             ApplicationManager.registerApplication(new ResourceLocation(MOD_ID, "server_admin"), ApplicationServerAdmin.class);
         }

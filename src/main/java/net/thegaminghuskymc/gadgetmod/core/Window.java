@@ -78,13 +78,13 @@ public class Window<T extends Wrappable> {
         GlStateManager.enableBlend();
 
         /* Theme Top Bar */
-        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, BaseDevice.getSystem().getSettings().getColourScheme().getMainApplicationBarColour());
+        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
         /* Theme Second Bar */
-//        Gui.drawRect(x + offsetX, y + offsetY + 23, x + offsetX + width, y + offsetY + 13, colourScheme.getSecondApplicationBarColour());
+        Gui.drawRect(x + offsetX, y + offsetY + 23, x + offsetX + width, y + offsetY + 13, colourScheme.getSecondApplicationBarColour());
 
         /* Center */
-        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
+        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
 
 //        mc.fontRenderer.drawString("File", x + offsetX + 3, y + offsetY + 14, 0xFFFFFF, true);
 //

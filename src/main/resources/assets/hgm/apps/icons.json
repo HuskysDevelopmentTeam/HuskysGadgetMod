@@ -5,6 +5,11 @@
   "app_version": "1.0",
   "app_icon": "hgm:textures/app/icon/icons.png",
   "app_banner": "hgm:textures/app/banner/banner_icons.png",
+  "app_support": {
+    "patreon": "https://www.patreon.com/mrcrayfish",
+    "twitter": "https://twitter.com/MrCraayfish",
+    "youtube": "https://www.youtube.com/user/MrCrayfishMinecraft"
+  },
   "app_screenshots": [
     "https://i.imgur.com/7CzbiA7.png",
     "https://i.imgur.com/4AiXzf8.jpg",

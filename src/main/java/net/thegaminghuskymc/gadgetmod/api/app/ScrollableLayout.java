@@ -43,6 +43,9 @@ public class ScrollableLayout extends Layout
     @Override
     public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
     {
+        if(!visible)
+            return;
+
         GLHelper.pushScissor(x, y, width, visibleHeight);
         super.render(laptop, mc, x, y - scroll, mouseX, mouseY, windowActive, partialTicks);
         GLHelper.popScissor();
@@ -51,7 +54,11 @@ public class ScrollableLayout extends Layout
     @Override
     public void renderOverlay(BaseDevice laptop, Minecraft mc, int mouseX, int mouseY, boolean windowActive)
     {
+        if(!visible)
+            return;
+
         super.renderOverlay(laptop, mc, mouseX, mouseY, windowActive);
+
         if(this.height > this.visibleHeight)
         {
             int visibleScrollBarHeight = visibleHeight;
@@ -77,6 +84,9 @@ public class ScrollableLayout extends Layout
     @Override
     public void handleMouseScroll(int mouseX, int mouseY, boolean direction)
     {
+        if(!visible || !enabled)
+            return;
+
         if(GuiHelper.isMouseWithin(mouseX, mouseY, xPosition, yPosition, width, visibleHeight) && height > visibleHeight)
         {
             scroll += direction ? -scrollSpeed : scrollSpeed;

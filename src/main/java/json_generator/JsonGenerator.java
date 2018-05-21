@@ -25,7 +25,7 @@ public class JsonGenerator {
     private static String modid = "hgm";
 
     public static void main(String[] args) {
-
+        genAppInfo(modid, "Boat Racer", "MrCrayfish", new String[] { "HuskyTheArtist" }, "This is a game", "0.0.1", new String[]{ "" });
     }
 
     public static void genBlock(String modId, String blockName, String textureName) {
@@ -1247,6 +1247,42 @@ public class JsonGenerator {
             FileUtils.writeStringToFile(base.resolve(itemName + ".json").toFile(), StringEscapeUtils.unescapeJson(json), CharEncoding.UTF_8);
         } catch (IOException e) {
             System.out.print(String.format("Error creating file %s.json" + "\n", itemName));
+        }
+    }
+
+    public static void genAppInfo(String modId, String appName, String appCreator, String[] appContributors, String appDescription, String appVersion, String[] appScreenshots) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Path base = Paths.get("src", "main", "resources", "assets", modId, "apps");
+        if (!base.toFile().exists()) {
+            base.toFile().mkdirs();
+        }
+        JsonObject root = new JsonObject();
+        root.addProperty("_comment", "Generated using Husky's JSON Generator v3.");
+        root.addProperty("app_name", appName);
+        root.addProperty("app_creator", appCreator);
+        JsonArray contributors = new JsonArray();
+        for (int i = 0; i <= appContributors.length - 1; i++) {
+            contributors.add(appContributors[i]);
+        }
+        root.add("app_contributors", contributors);
+        root.addProperty("app_description", appDescription);
+        root.addProperty("app_version", appVersion);
+
+        String name = appName.replace(" ", "_").toLowerCase();
+
+        root.addProperty("app_icon", modId + ":textures/app/icon/" + name);
+        root.addProperty("app_banner", modId + ":textures/app/banner/banner_" + name);
+
+        JsonArray screenshotList = new JsonArray();
+        for (int i = 0; i <= appScreenshots.length - 1; i++) {
+            screenshotList.add(appScreenshots[i]);
+        }
+        root.add("app_screenshots", screenshotList);
+        String json = gson.toJson(root);
+        try {
+            FileUtils.writeStringToFile(base.resolve(name + ".json").toFile(), StringEscapeUtils.unescapeJson(json), CharEncoding.UTF_8);
+        } catch (IOException e) {
+            System.out.print(String.format("Error creating file %s.json" + "\n", name));
         }
     }
 

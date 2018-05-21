@@ -1,0 +1,15 @@
+{
+  "_comment": "Generated using Husky's JSON Generator v3.",
+  "app_name": "Boat Racer",
+  "app_creator": "MrCrayfish",
+  "app_contributors": [
+    "HuskyTheArtist"
+  ],
+  "app_description": "This is a game",
+  "app_version": "0.0.1",
+  "app_icon": "hgm:textures/app/icon/boat_racer",
+  "app_banner": "hgm:textures/app/banner/banner_boat_racer",
+  "app_screenshots": [
+    ""
+  ]
+}

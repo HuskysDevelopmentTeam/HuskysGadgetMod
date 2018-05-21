@@ -11,6 +11,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.interfaces.IHighlight;
 import net.thegaminghuskymc.gadgetmod.api.app.listener.KeyListener;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
@@ -107,7 +108,7 @@ public class TextArea extends Component {
             if(!isFocused && placeholder != null && (lines.isEmpty() || (lines.size() == 1 && lines.get(0).isEmpty())))
             {
                 GlStateManager.enableBlend();
-                mc.fontRenderer.drawSplitString(placeholder, x + padding, y + padding, width - padding * 2 - 2, placeholderColor);
+                RenderUtil.drawStringClipped(placeholder, x + padding, y + padding, width - padding * 2, placeholderColor, false);
             }
 
             GLHelper.pushScissor(x + padding, y + padding, width - padding * 2, height - padding * 2);

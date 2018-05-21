@@ -16,7 +16,7 @@ import java.util.Map;
 public class Game extends Component {
     public static final ResourceLocation ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/mine_racer.png");
 
-    private static final Map<Integer, Tile> registeredTiles = new HashMap<Integer, Tile>();
+    private static final Map<Integer, Tile> registeredTiles = new HashMap<>();
 
     public int mapWidth;
     public int mapHeight;
@@ -289,7 +289,7 @@ public class Game extends Component {
         for (int i = 0; i < tiles[0].length; i++) tiles[0][i] = tile;
     }
 
-    public static enum Layer {
+    public enum Layer {
         BACKGROUND(0, 0), MIDGROUND_LOW(1, 0), MIDGROUND_HIGH(2, 20), FOREGROUND(3, 30);
 
         public int layer;

@@ -169,11 +169,68 @@ public class LayoutAppPage extends Layout {
                 this.addComponent(btnOpen);
             }
 
-            if(info.getSupport() != null) {
-                Button btnDonate = new Button(234, 44, Icons.COIN);
-                btnDonate.setToolTip("Donate", "Opens a link to donate to author of the application");
-                btnDonate.setSize(14, 14);
-                this.addComponent(btnDonate);
+            if (info.getSupport() != null)
+            {
+                AppInfo.Support support = info.getSupport();
+                int xOffset = 0;
+                if (support.getPaypal() != null)
+                {
+                    Button btnDonate = new Button(174, 22, Icons.CREDIT_CARD);
+                    btnDonate.setToolTip("PayPal", "Opens a link to donate to author of the application on paypal");
+                    btnDonate.setSize(14, 14);
+                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                        if (mouseButton == 0)
+                        {
+                            openWebLink(info.getSupport().getPaypal());
+                        }
+                    });
+                    this.addComponent(btnDonate);
+                    xOffset++;
+                }
+
+                if (support.getPatreon() != null)
+                {
+                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.COIN);
+                    btnDonate.setToolTip("Patron", "Opens a link to donate to author of the application on patron");
+                    btnDonate.setSize(14, 14);
+                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                        if (mouseButton == 0)
+                        {
+                            openWebLink(info.getSupport().getPatreon());
+                        }
+                    });
+                    this.addComponent(btnDonate);
+                    xOffset++;
+                }
+
+                if (support.getTwitter() != null)
+                {
+                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.EARTH);
+                    btnDonate.setToolTip("Twitter", "Opens a link to follow the author of the application on twitter");
+                    btnDonate.setSize(14, 14);
+                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                        if (mouseButton == 0)
+                        {
+                            openWebLink(info.getSupport().getTwitter());
+                        }
+                    });
+                    this.addComponent(btnDonate);
+                    xOffset++;
+                }
+
+                if (support.getYoutube() != null)
+                {
+                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.VIDEO_CAMERA);
+                    btnDonate.setToolTip("Youtube", "Opens a link to subscribe to the author on youtube");
+                    btnDonate.setSize(14, 14);
+                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                        if (mouseButton == 0)
+                        {
+                            openWebLink(info.getSupport().getYoutube());
+                        }
+                    });
+                    this.addComponent(btnDonate);
+                }
             }
         }
         else if(entry instanceof RemoteAppEntry) {
@@ -182,25 +239,6 @@ public class LayoutAppPage extends Layout {
             btnDownload.setClickListener((mouseX, mouseY, mouseButton) -> this.openWebLink("https://minecraft.curseforge.com/projects/" + ((RemoteAppEntry) entry).project_id));
             this.addComponent(btnDownload);
         }
-
-        if(entry instanceof LocalAppEntry && installed) {
-            AppInfo info = ((LocalAppEntry) entry).getInfo();
-            Button btnStart = new Button(80, 2, Icons.PLAY);
-            btnStart.setToolTip("Start", "Starts the application");
-            if(installed) {
-                btnStart.setVisible(true);
-                btnStart.setEnabled(true);
-            } else {
-                btnStart.setVisible(false);
-                btnStart.setEnabled(false);
-            }
-            btnStart.setClickListener((mouseX, mouseY, mouseButton) -> {
-                laptop.openApplication(info);
-                laptop.closeContext();
-            });
-//            this.addComponent(btnStart);
-        }
-
     }
 
     @Override

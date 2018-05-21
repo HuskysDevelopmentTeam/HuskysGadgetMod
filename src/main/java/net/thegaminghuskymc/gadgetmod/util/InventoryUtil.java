@@ -9,7 +9,7 @@ public class InventoryUtil {
         int amount = 0;
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack stack = player.inventory.getStackInSlot(i);
-            if (stack != null && stack.getItem() == item) {
+            if (stack.getItem() == item) {
                 amount += stack.getCount();
             }
         }
@@ -30,7 +30,7 @@ public class InventoryUtil {
         if (hasItemAndAmount(player, item, amount)) {
             for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                 ItemStack stack = player.inventory.getStackInSlot(i);
-                if (stack != null && stack.getItem() == item) {
+                if (stack.getItem() == item) {
                     if (amount - stack.getCount() < 0) {
                         stack.shrink(amount);
                         return true;

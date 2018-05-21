@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
@@ -34,6 +33,7 @@ import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
@@ -77,16 +78,18 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
-        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
+        BaseDevice.addTheme(new ResourceLocation(MOD_ID, "themes/test_theme.json"));
+
+        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "wallpapers").toFile();
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
@@ -98,6 +101,14 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
                 }
                 BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
+            }
+        }
+
+        File folderThemes = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "themes").toFile();
+        File[] filesThemes = folderThemes.listFiles((dir, name) -> name.matches("theme_*.json"));
+        if (filesThemes != null) {
+            for (File f : filesThemes) {
+
             }
         }
 
@@ -176,7 +187,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         Graphics g = atlas.createGraphics();
 
         try {
-            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/icon/missing.png"));
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + MOD_ID + "/textures/app/icon/missing.png"));
             g.drawImage(icon, 0, 0, ICON_SIZE, ICON_SIZE, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,7 +236,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         Graphics g = atlas.createGraphics();
 
         try {
-            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/banner/banner_default.png"));
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + MOD_ID + "/textures/app/banner/banner_default.png"));
             g.drawImage(icon, 0, 0, BANNER_WIDTH, BANNER_HEIGHT, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -331,6 +342,12 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
     private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
         AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
+        info.reload();
+        return info;
+    }
+
+    private ThemeInfo generateThemeInfo(ResourceLocation identifier) {
+        ThemeInfo info = new ThemeInfo(identifier);
         info.reload();
         return info;
     }

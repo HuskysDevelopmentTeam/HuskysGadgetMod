@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "deviceai:blocks/ai_block"
+  }
+}
