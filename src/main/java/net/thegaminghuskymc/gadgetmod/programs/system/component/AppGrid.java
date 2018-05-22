@@ -84,7 +84,8 @@ public class AppGrid extends Component
             int itemY = y + (i / horizontalItems) * (itemHeight + padding) + padding;
             if(GuiHelper.isMouseWithin(mouseX, mouseY, itemX, itemY, itemWidth, itemHeight))
             {
-                hue += delta;
+                //hue += delta;
+            	hue += 0.001f;
                 if (hue > HUE_MAX) {
                     hue = HUE_MIN;
                 }

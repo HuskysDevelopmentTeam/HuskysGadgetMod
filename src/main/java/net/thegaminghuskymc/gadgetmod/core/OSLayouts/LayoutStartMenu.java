@@ -51,7 +51,6 @@ public class LayoutStartMenu extends Layout {
             laptop.closeContext();
         });
         this.addComponent(btnSettings);
-
     }
 
 }

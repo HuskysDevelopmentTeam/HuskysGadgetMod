@@ -232,7 +232,7 @@ public class LayoutAppPage extends Layout {
                     this.addComponent(btnDonate);
                 }*/
 
-                LinkedLabel paypal = new LinkedLabel("Patreon", 234, 22, info.getSupport().getPatreon());
+                LinkedLabel paypal = new LinkedLabel("Patreon", 200, 22, info.getSupport().getPatreon());
                 paypal.setClickListener((mouseX, mouseY, mouseButton) -> {
                     if(mouseButton == 0) {
                         openWebLink(info.getSupport().getPatreon());
