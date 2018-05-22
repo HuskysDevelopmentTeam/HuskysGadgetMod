@@ -90,8 +90,8 @@ public class AppGrid extends Component
                 }
                 color1 = Color.getHSBColor(hue, 1, 1);
                 color2 = Color.getHSBColor(hue + 16 * delta, 1, 1);
-                drawGradientRect(itemX, itemY, itemX + itemWidth, itemY + itemHeight, color1.getRGB(), color2.getRGB());
-                drawGradientRect(itemX + 1, itemY + 1, itemX + itemWidth - 1, itemY + itemHeight - 1, Color.TRANSLUCENT, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getItemBackgroundColour()).getRGB());
+                drawGradientRect(itemX, itemY, itemX + itemWidth, itemY + itemHeight, Color.TRANSLUCENT + color1.getRGB(), color2.getRGB());
+                drawGradientRect(itemX + 1, itemY + 1, itemX + itemWidth - 1, itemY + itemHeight - 1, Color.TRANSLUCENT + color1.getRGB(), color2.getRGB());
             }
         }
     }

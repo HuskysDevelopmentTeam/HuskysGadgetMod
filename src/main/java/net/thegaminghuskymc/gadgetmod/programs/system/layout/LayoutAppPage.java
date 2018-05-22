@@ -11,7 +11,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
-import net.thegaminghuskymc.gadgetmod.api.app.component.SlideShow;
+import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.object.AppInfo;
@@ -173,7 +173,7 @@ public class LayoutAppPage extends Layout {
             {
                 AppInfo.Support support = info.getSupport();
                 int xOffset = 0;
-                if (support.getPaypal() != null)
+                /*if (support.getPaypal() != null)
                 {
                     Button btnDonate = new Button(174, 22, Icons.CREDIT_CARD);
                     btnDonate.setToolTip("PayPal", "Opens a link to donate to author of the application on paypal");
@@ -230,8 +230,20 @@ public class LayoutAppPage extends Layout {
                         }
                     });
                     this.addComponent(btnDonate);
-                }
+                }*/
+
+                LinkedLabel paypal = new LinkedLabel("Patreon", 234, 22, info.getSupport().getPatreon());
+                paypal.setClickListener((mouseX, mouseY, mouseButton) -> {
+                    if(mouseButton == 0) {
+                        openWebLink(info.getSupport().getPatreon());
+                    }
+                });
+                this.addComponent(paypal);
+
             }
+
+
+
         }
         else if(entry instanceof RemoteAppEntry) {
             Button btnDownload = new Button(20, 2, "Download", Icons.IMPORT);
