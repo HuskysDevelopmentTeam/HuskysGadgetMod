@@ -233,9 +233,9 @@ public class LayoutAppPage extends Layout {
                             openWebLink(info.getSupport().getYoutube());
                         }
                     });
-<<<<<<< HEAD
-                    this.addComponent(btnDonate);
-                }*/
+
+                    this.addComponent(btnYoutube);
+                }
 
                 LinkedLabel paypal = new LinkedLabel("Patreon", 200, 22, info.getSupport().getPatreon());
                 paypal.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -244,14 +244,8 @@ public class LayoutAppPage extends Layout {
                     }
                 });
                 this.addComponent(paypal);
-=======
-                    this.addComponent(btnYoutube);
-                }
->>>>>>> b902950f5619223be9315831a63072595b09e322
 
             }
-
-
 
         }
         else if(entry instanceof RemoteAppEntry) {

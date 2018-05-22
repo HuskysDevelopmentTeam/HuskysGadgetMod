@@ -51,8 +51,6 @@ public class LayoutStartMenu extends Layout {
             laptop.closeContext();
         });
         this.addComponent(btnSettings);
-<<<<<<< HEAD
-=======
 
         Button btnFileBrowser = new Button(5, 71, 82, 20, "File Browser", Icons.FOLDER);
         btnFileBrowser.setToolTip("File Browser", "Allows you to browse your files");
@@ -62,8 +60,6 @@ public class LayoutStartMenu extends Layout {
             laptop.closeContext();
         });
         this.addComponent(btnFileBrowser);
-
->>>>>>> b902950f5619223be9315831a63072595b09e322
     }
 
 }
