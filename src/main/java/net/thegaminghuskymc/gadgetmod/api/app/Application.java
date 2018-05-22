@@ -379,9 +379,9 @@ public abstract class Application extends Wrappable {
         return info.getName();
     }
 
-    public String getApplicationFolderPath()
+    protected String getApplicationFolderPath()
     {
-        return FileSystem.DIR_APPLICATION_DATA + "/" + info.getFormattedId();
+        return FileSystem.DIR_APPLICATION_DATA + "/" + info.getName().toLowerCase();
     }
 
     /**

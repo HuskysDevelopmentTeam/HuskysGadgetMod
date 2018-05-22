@@ -35,15 +35,14 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class FileSystem {
-    public static final Pattern PATTERN_FILE_NAME = Pattern.compile("^[\\w'. ]{1,32}$");
-    public static final Pattern PATTERN_DIRECTORY = Pattern.compile("^(/)|(/[\\w'. ]{1,32})*$");
+    public static final Pattern PATTERN_FILE_NAME = Pattern.compile("^[\\w'. _]{1,32}$");
+    public static final Pattern PATTERN_DIRECTORY = Pattern.compile("^(/)|(/[\\w'. _]{1,32})*$");
 
     public static final String DIR_ROOT = "/";
     public static final String DIR_APPLICATION_DATA = DIR_ROOT + "Programfiles";
     public static final String DIR_APPLICATION_DATA_32 = DIR_ROOT + "Programfiles (x86)";
     public static final String DIR_HOME = DIR_ROOT + "NeonOS";
     public static final String DIR_USERS = DIR_ROOT + "Users";
-//    public static final String DIR_MAIN_USER = DIR_USERS + Minecraft.getMinecraft().player.getDisplayName();
     public static final String LAPTOP_DRIVE_NAME = "NeonOS (C:)";
 
     private AbstractDrive mainDrive = null;
@@ -178,7 +177,6 @@ public class FileSystem {
             root.add(createProtectedFolder("Programfiles"), false);
             root.add(createProtectedFolder("Programfiles (x86)"), false);
             root.add(createProtectedFolder("NeonOS"), false);
-//            root.add(createProtectedFolder(DIR_MAIN_USER), false);
             mainDrive = drive;
             tileEntity.markDirty();
         }
