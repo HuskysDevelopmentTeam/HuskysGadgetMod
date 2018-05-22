@@ -686,19 +686,16 @@ public abstract class Dialog extends Wrappable
                                 Dialog.Confirmation dialog = new Dialog.Confirmation("A file with that name already exists. Are you sure you want to override it?");
                                 dialog.setPositiveText("Override");
                                 dialog.setPositiveListener((mouseX1, mouseY1, mouseButton1) ->
-                                {
-                                    browser.addFile(file, true, (response1, success1) ->
-                                    {
-                                        dialog.close();
-
-                                        //TODO Look into better handling. Get response from parent if should close. Maybe a response interface w/ generic
-                                        if(responseHandler != null)
-                                        {
-                                            responseHandler.onResponse(success1, file);
-                                        }
-                                        SaveFile.this.close();
-                                    });
-                                });
+                                        browser.addFile(file, true, (response1, success1) -> {
+                                            dialog.close();
+                                            //TODO Look into better handling. Get response from parent if should close. Maybe a response interface w/ generic
+                                            if(responseHandler != null)
+                                            {
+                                                responseHandler.onResponse(success1, file);
+                                            }
+                                            SaveFile.this.close();
+                                        })
+                                );
                                 app.openDialog(dialog);
                             }
                             else
@@ -729,7 +726,7 @@ public abstract class Dialog extends Wrappable
 
         /**
          * Sets the positive button text
-         * @param positiveText
+         * @param positiveText the text for this thing
          */
         public void setPositiveText(@Nonnull String positiveText)
         {
@@ -739,7 +736,7 @@ public abstract class Dialog extends Wrappable
         /**
          * Sets the negative button text
          *
-         * @param negativeText
+         * @param negativeText the text for this thing
          */
         public void setNegativeText(@Nonnull String negativeText)
         {

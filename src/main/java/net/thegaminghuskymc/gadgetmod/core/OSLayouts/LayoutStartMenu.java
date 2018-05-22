@@ -34,8 +34,8 @@ public class LayoutStartMenu extends Layout {
         });
         this.addComponent(btnPowerOff);
 
-        Button btnStore = new Button(5, 30, 69, 20, "Store", Icons.SHOPPING_CART);
-        btnStore.setToolTip("App store", "Allows you to install apps");
+        Button btnStore = new Button(5, 27, 69, 20, "App Market", Icons.SHOPPING_CART);
+        btnStore.setToolTip("App Market", "Allows you to install apps");
         btnStore.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
             laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".app_store").getInfo());
@@ -43,7 +43,7 @@ public class LayoutStartMenu extends Layout {
         });
         this.addComponent(btnStore);
 
-        Button btnSettings = new Button(5, 50, 69, 20, "Settings", Icons.HAMMER);
+        Button btnSettings = new Button(5, 49, 69, 20, "Settings", Icons.HAMMER);
         btnSettings.setToolTip("Settings", "Allows you to change things on the computer");
         btnSettings.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
@@ -51,6 +51,19 @@ public class LayoutStartMenu extends Layout {
             laptop.closeContext();
         });
         this.addComponent(btnSettings);
+<<<<<<< HEAD
+=======
+
+        Button btnFileBrowser = new Button(5, 71, 69, 20, "File Browser", Icons.FOLDER);
+        btnFileBrowser.setToolTip("File Browser", "Allows you to browse your files");
+        btnFileBrowser.setClickListener((mouseX, mouseY, mouseButton) -> {
+            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
+            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".file_browser").getInfo());
+            laptop.closeContext();
+        });
+        this.addComponent(btnFileBrowser);
+
+>>>>>>> b902950f5619223be9315831a63072595b09e322
     }
 
 }

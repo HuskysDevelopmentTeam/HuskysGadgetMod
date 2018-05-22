@@ -1,0 +1,12 @@
+{
+  "app_name": "GitWeb Builder",
+  "app_author": "Mastef_Chief",
+  "app_description": "${desc}",
+  "app_version": "1.0",
+  "app_icon": "gitwebbuilder:textures/app/icon/gitwebbuilder_app.png",
+  "app_screenshots": [
+    "http://mastefchief.com/mods/gitwebbuilder/screenshots/screenshot1.png",
+    "http://mastefchief.com/mods/gitwebbuilder/screenshots/screenshot2.png",
+    "http://mastefchief.com/mods/gitwebbuilder/screenshots/screenshot3.png"
+  ]
+}

@@ -311,10 +311,7 @@ public class FileBrowser extends Component {
         layoutMain.addComponent(fileList);
 
         comboBoxDrive = new ComboBox.List<>(26, 3, 44, 100, new Drive[]{});
-        comboBoxDrive.setChangeListener((oldValue, newValue) ->
-        {
-            openDrive(newValue);
-        });
+        comboBoxDrive.setChangeListener((oldValue, newValue) -> openDrive(newValue));
         comboBoxDrive.setListItemRenderer(new ListItemRenderer<Drive>(12)
         {
             @Override
@@ -340,10 +337,7 @@ public class FileBrowser extends Component {
         layout.addComponent(layoutMain);
 
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
-        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + height, Window.colourScheme.getBackgroundColour());
-        });
+        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Window.colourScheme.getBackgroundColour()));
         layoutLoading.setVisible(false);
 
         spinnerLoading = new Spinner((layoutLoading.width - 12) / 2, (layoutLoading.height - 12) / 2);
@@ -396,17 +390,7 @@ public class FileBrowser extends Component {
                     }
                     else
                     {
-                        openFolder(currentDrive.getRoot(), false, (folder12, success12) ->
-                        {
-                            if(success)
-                            {
-                                createErrorDialog("Unable to open directory '" + initialFolder + "'");
-                            }
-                            else
-                            {
-                                createErrorDialog("A critical error occurred while initializing.");
-                            }
-                        });
+                        openFolder(currentDrive.getRoot(), false, (folder12, success12) -> createErrorDialog("Unable to open directory '" + initialFolder + "'"));
                     }
                 }
                 else

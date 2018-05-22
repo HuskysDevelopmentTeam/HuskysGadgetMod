@@ -173,9 +173,10 @@ public class LayoutAppPage extends Layout {
             {
                 AppInfo.Support support = info.getSupport();
                 int xOffset = 0;
-                /*if (support.getPaypal() != null)
+                if (support.getPaypal() != null)
                 {
                     Button btnDonate = new Button(174, 22, Icons.CREDIT_CARD);
+                    btnDonate.setBackground(false);
                     btnDonate.setToolTip("PayPal", "Opens a link to donate to author of the application on paypal");
                     btnDonate.setSize(14, 14);
                     btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
@@ -190,8 +191,9 @@ public class LayoutAppPage extends Layout {
 
                 if (support.getPatreon() != null)
                 {
-                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.COIN);
-                    btnDonate.setToolTip("Patron", "Opens a link to donate to author of the application on patron");
+                    Button btnDonate = new Button(174 - xOffset * 15, 77, String.format("%s's Patreon", info.getAuthor()), Icons.COIN);
+                    btnDonate.setBackground(false);
+                    btnDonate.setToolTip("Patreon", "Opens a link to donate to author of the application on patreon");
                     btnDonate.setSize(14, 14);
                     btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
                         if (mouseButton == 0)
@@ -205,30 +207,33 @@ public class LayoutAppPage extends Layout {
 
                 if (support.getTwitter() != null)
                 {
-                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.EARTH);
-                    btnDonate.setToolTip("Twitter", "Opens a link to follow the author of the application on twitter");
-                    btnDonate.setSize(14, 14);
-                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                    Button btnTwitter = new Button(174 - xOffset * 15, 22, Icons.EARTH);
+                    btnTwitter.setBackground(false);
+                    btnTwitter.setToolTip("Twitter", "Opens a link to follow the author of the application on twitter");
+                    btnTwitter.setSize(14, 14);
+                    btnTwitter.setClickListener((mouseX, mouseY, mouseButton) -> {
                         if (mouseButton == 0)
                         {
                             openWebLink(info.getSupport().getTwitter());
                         }
                     });
-                    this.addComponent(btnDonate);
+                    this.addComponent(btnTwitter);
                     xOffset++;
                 }
 
                 if (support.getYoutube() != null)
                 {
-                    Button btnDonate = new Button(174 - xOffset * 15, 22, Icons.VIDEO_CAMERA);
-                    btnDonate.setToolTip("Youtube", "Opens a link to subscribe to the author on youtube");
-                    btnDonate.setSize(14, 14);
-                    btnDonate.setClickListener((mouseX, mouseY, mouseButton) -> {
+                    Button btnYoutube = new Button(174 - xOffset * 15, 22, Icons.VIDEO_CAMERA);
+                    btnYoutube.setBackground(false);
+                    btnYoutube.setToolTip("Youtube", "Opens a link to subscribe to the author on youtube");
+                    btnYoutube.setSize(14, 14);
+                    btnYoutube.setClickListener((mouseX, mouseY, mouseButton) -> {
                         if (mouseButton == 0)
                         {
                             openWebLink(info.getSupport().getYoutube());
                         }
                     });
+<<<<<<< HEAD
                     this.addComponent(btnDonate);
                 }*/
 
@@ -239,6 +244,10 @@ public class LayoutAppPage extends Layout {
                     }
                 });
                 this.addComponent(paypal);
+=======
+                    this.addComponent(btnYoutube);
+                }
+>>>>>>> b902950f5619223be9315831a63072595b09e322
 
             }
 
