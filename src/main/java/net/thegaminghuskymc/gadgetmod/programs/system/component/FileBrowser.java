@@ -49,10 +49,10 @@ public class FileBrowser extends Component {
 
     private static final ResourceLocation ASSETS = new ResourceLocation("hgm:textures/gui/file_browser.png");
 
-    private static final Color HEADER_BACKGROUND = Color.decode("0x535861");
-    private static final Color ITEM_BACKGROUND = Color.decode("0x9E9E9E");
-    private static final Color ITEM_SELECTED = Color.decode("0x757575");
-    private static final Color PROTECTED_FILE = new Color(155, 237, 242);
+    private static Color HEADER_BACKGROUND = Color.decode("0x535861");
+    private static Color ITEM_BACKGROUND = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+    private static Color ITEM_SELECTED = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+    private static Color PROTECTED_FILE = new Color(155, 237, 242);
 
     private static final ListItemRenderer<File> ITEM_RENDERER = new ListItemRenderer<File>(18)
     {
@@ -141,8 +141,8 @@ public class FileBrowser extends Component {
         layoutMain = new Layout(mode.getWidth(), mode.getHeight());
         layoutMain.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
         {
-            Gui.drawRect(x, y, x + width, y + 20, BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour());
-            Gui.drawRect(x, y + 20, x + width, y + 21, Color.DARK_GRAY.getRGB());
+            Gui.drawRect(x, y, x + width, y + 20, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).getRGB());
+            Gui.drawRect(x, y + 20, x + width, y + 21, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
         });
 
         btnPreviousFolder = new Button(5, 2, Icons.ARROW_LEFT);
@@ -317,9 +317,8 @@ public class FileBrowser extends Component {
             @Override
             public void render(Drive drive, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected)
             {
-                drawRect(x, y, x + width, y + height, Color.GRAY.getRGB());
+                drawRect(x, y, x + width, y + height, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).getRGB());
                 mc.getTextureManager().bindTexture(ASSETS);
-                GlStateManager.color(1.0F, 1.0F, 1.0F);
                 RenderUtil.drawRectWithTexture(x + 2, y + 2, drive.getType().ordinal() * 8, 30, 8, 8, 8, 8);
 
                 String text = drive.getName();
@@ -337,7 +336,7 @@ public class FileBrowser extends Component {
         layout.addComponent(layoutMain);
 
         layoutLoading = new Layout(mode.getOffset(), 25, fileList.getWidth(), fileList.getHeight());
-        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Window.colourScheme.getBackgroundColour()));
+        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, Window.colourScheme.getSecondApplicationBarColour()));
         layoutLoading.setVisible(false);
 
         spinnerLoading = new Spinner((layoutLoading.width - 12) / 2, (layoutLoading.height - 12) / 2);

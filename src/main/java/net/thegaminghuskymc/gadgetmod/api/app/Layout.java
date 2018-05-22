@@ -70,7 +70,7 @@ public class Layout extends Component
         if(height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<Component>();
+        this.components = new ArrayList<>();
         this.width = width;
         this.height = height;
     }
@@ -93,7 +93,7 @@ public class Layout extends Component
         if(height < 1)
             throw new IllegalArgumentException("Height can not be less than 1 tall");
 
-        this.components = new ArrayList<Component>();
+        this.components = new ArrayList<>();
         this.width = width;
         this.height = height;
     }
@@ -396,10 +396,10 @@ public class Layout extends Component
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
             if(borderVisible)
             {
-                drawHorizontalLine(x, x + width - 1, y, Color.DARK_GRAY.getRGB());
-                drawHorizontalLine(x, x + width - 1, y + height - 1, Color.DARK_GRAY.getRGB());
-                drawVerticalLine(x, y, y + height - 1, Color.DARK_GRAY.getRGB());
-                drawVerticalLine(x + width - 1, y, y + height - 1, Color.DARK_GRAY.getRGB());
+                drawHorizontalLine(x, x + width - 1, y, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
+                drawHorizontalLine(x, x + width - 1, y + height - 1, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
+                drawVerticalLine(x, y, y + height - 1, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
+                drawVerticalLine(x + width - 1, y, y + height - 1, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
             }
         }
 

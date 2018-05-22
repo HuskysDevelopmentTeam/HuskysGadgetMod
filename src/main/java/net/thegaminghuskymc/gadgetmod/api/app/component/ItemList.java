@@ -21,7 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ItemList<E> extends Component implements Iterable<E> {
-    private static final int LOADING_BACKGROUND = new Color(0F, 0F, 0F, 0.5F).getRGB();
+
+    private static final int LOADING_BACKGROUND = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB();
     protected int width;
     protected int visibleItems;
     protected int offset;
@@ -37,8 +38,8 @@ public class ItemList<E> extends Component implements Iterable<E> {
     protected Button btnDown;
     protected Layout layoutLoading;
     protected int textColor = Color.WHITE.getRGB();
-    protected int backgroundColor = Color.GRAY.getRGB();
-    protected int borderColor = Color.BLACK.getRGB();
+    protected Color backgroundColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter();
+    protected Color borderColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().darker();
     private Comparator<E> sorter = null;
 
     /**
@@ -86,10 +87,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
         layoutLoading = new Layout(left, top, getWidth(), getHeight());
         layoutLoading.setVisible(loading);
         layoutLoading.addComponent(new Spinner((layoutLoading.width - 12) / 2, (layoutLoading.height - 12) / 2));
-        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) ->
-        {
-            Gui.drawRect(x, y, x + width, y + height, LOADING_BACKGROUND);
-        });
+        layoutLoading.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> Gui.drawRect(x, y, x + width, y + height, LOADING_BACKGROUND));
         layout.addComponent(layoutLoading);
 
         updateButtons();
@@ -109,13 +107,13 @@ public class ItemList<E> extends Component implements Iterable<E> {
             int size = getSize();
 
             /* Fill */
-            Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + (size * height) + size, Color.LIGHT_GRAY.getRGB());
+            Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + (size * height) + size, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
             /* Box */
-            drawHorizontalLine(xPosition, xPosition + width - 1, yPosition, borderColor);
-            drawVerticalLine(xPosition, yPosition, yPosition + (size * height) + size, borderColor);
-            drawVerticalLine(xPosition + width - 1, yPosition, yPosition + (size * height) + size, borderColor);
-            drawHorizontalLine(xPosition, xPosition + width - 1, yPosition + (size * height) + size, borderColor);
+            drawHorizontalLine(xPosition, xPosition + width - 1, yPosition, borderColor.getRGB());
+            drawVerticalLine(xPosition, yPosition, yPosition + (size * height) + size, borderColor.getRGB());
+            drawVerticalLine(xPosition + width - 1, yPosition, yPosition + (size * height) + size, borderColor.getRGB());
+            drawHorizontalLine(xPosition, xPosition + width - 1, yPosition + (size * height) + size, borderColor.getRGB());
 
             /* Items */
             for (int i = 0; i < size - 1 && i < items.size(); i++) {
@@ -123,11 +121,11 @@ public class ItemList<E> extends Component implements Iterable<E> {
                 if (item != null) {
                     if (renderer != null) {
                         renderer.render(item, this, mc, xPosition + 1, yPosition + (i * (renderer.getHeight())) + 1 + i, width - 2, renderer.getHeight(), (i + offset) == selected);
-                        drawHorizontalLine(xPosition + 1, xPosition + width - 1, yPosition + (i * height) + i + height + 1, borderColor);
+                        drawHorizontalLine(xPosition + 1, xPosition + width - 1, yPosition + (i * height) + i + height + 1, borderColor.getRGB());
                     } else {
-                        drawRect(xPosition + 1, yPosition + (i * 14) + 1, xPosition + width - 1, yPosition + 13 + (i * 14) + 1, (i + offset) != selected ? backgroundColor : Color.DARK_GRAY.getRGB());
+                        drawRect(xPosition + 1, yPosition + (i * 14) + 1, xPosition + width - 1, yPosition + 13 + (i * 14) + 1, (i + offset) != selected ? backgroundColor.getRGB() : new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
                         drawString(mc.fontRenderer, item.toString(), xPosition + 3, yPosition + 3 + (i * 14), textColor);
-                        drawHorizontalLine(xPosition + 1, xPosition + width - 2, yPosition + (i * height) + i + height + 1, Color.DARK_GRAY.getRGB());
+                        drawHorizontalLine(xPosition + 1, xPosition + width - 2, yPosition + (i * height) + i + height + 1, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
                     }
                 }
             }
@@ -137,16 +135,16 @@ public class ItemList<E> extends Component implements Iterable<E> {
             if (item != null) {
                 if (renderer != null) {
                     renderer.render(item, this, mc, xPosition + 1, yPosition + (i * (renderer.getHeight())) + 1 + i, width - 2, renderer.getHeight(), (i + offset) == selected);
-                    drawHorizontalLine(xPosition + 1, xPosition + width - 1, yPosition + (i * height) + i + height + 1, borderColor);
+                    drawHorizontalLine(xPosition + 1, xPosition + width - 1, yPosition + (i * height) + i + height + 1, borderColor.getRGB());
                 } else {
-                    drawRect(xPosition + 1, yPosition + (i * 14) + 1, xPosition + width - 1, yPosition + 13 + (i * 14) + 1, (i + offset) != selected ? backgroundColor : Color.DARK_GRAY.getRGB());
+                    drawRect(xPosition + 1, yPosition + (i * 14) + 1, xPosition + width - 1, yPosition + 13 + (i * 14) + 1, (i + offset) != selected ? backgroundColor.getRGB() : new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
                     RenderUtil.drawStringClipped(item.toString(), xPosition + 3, yPosition + 3 + (i * 14), width - 6, textColor, true);
                 }
             }
 
             if (items.size() > visibleItems) {
-                drawRect(xPosition + width, yPosition, xPosition + width + 10, yPosition + (size * height) + size, Color.DARK_GRAY.getRGB());
-                drawVerticalLine(xPosition + width + 10, yPosition + 11, yPosition + (size * height) + size - 11, borderColor);
+                drawRect(xPosition + width, yPosition, xPosition + width + 10, yPosition + (size * height) + size, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
+                drawVerticalLine(xPosition + width + 10, yPosition + 11, yPosition + (size * height) + size - 11, borderColor.getRGB());
             }
         }
     }
@@ -390,7 +388,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
      * @param color the border color
      */
     public void setBackgroundColor(Color color) {
-        this.backgroundColor = color.getRGB();
+        this.backgroundColor = color;
     }
 
     /**
@@ -399,7 +397,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
      * @param color the border color
      */
     public void setBorderColor(Color color) {
-        this.borderColor = color.getRGB();
+        this.borderColor = color;
     }
 
     public void setLoading(boolean loading) {

@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.core;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 
 import javax.annotation.Nullable;
 
@@ -123,6 +124,13 @@ public abstract class Wrappable
      * @return The display name
      */
     public abstract String getWindowTitle();
+
+    /**
+     * Gets the text in the title bar.
+     *
+     * @return The display name
+     */
+    public abstract AppInfo getAppInfo();
 
     /**
      * Gets the width of the content (application/dialog) including the border.

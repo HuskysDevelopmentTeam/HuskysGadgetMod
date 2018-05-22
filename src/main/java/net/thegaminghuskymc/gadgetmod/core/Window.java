@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
+import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
 import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
@@ -38,23 +39,23 @@ public class Window<T extends Wrappable> {
     }
 
     void setWidth(int width) {
-        this.width = width + 2;
+        this.width = width;
         if (this.width > BaseDevice.SCREEN_WIDTH) {
             this.width = BaseDevice.SCREEN_WIDTH;
         }
     }
 
     void setHeight(int height) {
-        this.height = height + 14;
+        this.height = height + 18;
         if (this.height > 178) {
             this.height = 178;
         }
     }
 
     public void init(int x, int y, @Nullable NBTTagCompound intent) {
-        btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 1);
-        btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 12, y + offsetY + 1);
-        btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 12, y + offsetY + 1);
+        btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 3);
+        btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 12, y + offsetY + 3);
+        btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 12, y + offsetY + 3);
         content.init(intent);
     }
 
@@ -78,23 +79,13 @@ public class Window<T extends Wrappable> {
         GlStateManager.enableBlend();
 
         /* Theme Top Bar */
-        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 13, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
-
-        /* Theme Second Bar */
-        Gui.drawRect(x + offsetX, y + offsetY + 23, x + offsetX + width, y + offsetY + 13, colourScheme.getSecondApplicationBarColour());
+        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 18, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
         /* Center */
-        Gui.drawRect(x + offsetX, y + offsetY + 13, x + offsetX + width, y + offsetY + height, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
+        Gui.drawRect(x + offsetX, y + offsetY + 18, x + offsetX + width, y + offsetY + height + 5, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
 
-//        mc.fontRenderer.drawString("File", x + offsetX + 3, y + offsetY + 14, 0xFFFFFF, true);
-//
-//        mc.fontRenderer.drawString("Edit", x + offsetX + 23, y + offsetY + 14, 0xFFFFFF, true);
-//
-//        mc.fontRenderer.drawString("View", x + offsetX + 43, y + offsetY + 14, 0xFFFFFF, true);
-//
-//        mc.fontRenderer.drawString("Navigate", x + offsetX + 65, y + offsetY + 14, 0xFFFFFF, true);
-
-        mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
+        RenderUtil.drawApplicationIcon(content.getAppInfo(), x + offsetX + 2, y + offsetY + 2);
+        mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 19, y + offsetY + 5, Color.WHITE.getRGB(), true);
 
         btnClose.drawButton(mc, mouseX, mouseY, partialTicks);
         btnMinimize.drawButton(mc, mouseX, mouseY, partialTicks);
@@ -103,7 +94,7 @@ public class Window<T extends Wrappable> {
         GlStateManager.disableBlend();
 
         /* Render content */
-        content.render(gui, mc, x + offsetX + 1, y + offsetY + 13, mouseX, mouseY, active && dialogWindow == null, partialTicks);
+        content.render(gui, mc, x + offsetX, y + offsetY + 18, mouseX, mouseY, active && dialogWindow == null, partialTicks);
 
         if (dialogWindow != null) {
             Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, new Color(1.0f, 1.0f, 1.0f, 0.0f).getAlpha());
@@ -199,15 +190,15 @@ public class Window<T extends Wrappable> {
     }
 
     private void updateComponents(int x, int y) {
-        content.updateComponents(x + offsetX + 1, y + offsetY + 13);
+        content.updateComponents(x + offsetX + 1, y + offsetY + 18);
         btnClose.x = x + offsetX + width - 12;
-        btnClose.y = y + offsetY + 1;
+        btnClose.y = y + offsetY + 3;
 
         btnFullscreen.x = x + offsetX + width - 24;
-        btnFullscreen.y = y + offsetY + 1;
+        btnFullscreen.y = y + offsetY + 3;
 
         btnMinimize.x = x + offsetX + width - 35;
-        btnMinimize.y = y + offsetY + 1;
+        btnMinimize.y = y + offsetY + 3;
     }
 
     public void openDialog(Dialog dialog) {

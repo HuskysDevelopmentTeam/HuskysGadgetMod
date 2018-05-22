@@ -41,16 +41,13 @@ import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
 import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
 import javax.annotation.Nullable;
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -78,18 +75,20 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityScreen.class, new ScreenRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
-        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
+        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/wallpapers/default.png"));
+
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_3.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_4.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_5.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_6.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
+//        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
         BaseDevice.addTheme(new ResourceLocation(MOD_ID, "themes/test_theme.json"));
 
-        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "wallpapers").toFile();
+        /*File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "wallpapers").toFile();
         File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
@@ -102,15 +101,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 }
                 BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
             }
-        }
-
-        File folderThemes = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "themes").toFile();
-        File[] filesThemes = folderThemes.listFiles((dir, name) -> name.matches("theme_*.json"));
-        if (filesThemes != null) {
-            for (File f : filesThemes) {
-
-            }
-        }
+        }*/
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
         IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? Objects.requireNonNull(stack.getTagCompound()).getInteger("color" + tintIndex) : 0xFFFFFF;

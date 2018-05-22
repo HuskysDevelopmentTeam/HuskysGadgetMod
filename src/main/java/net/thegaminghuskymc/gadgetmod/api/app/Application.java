@@ -141,7 +141,7 @@ public abstract class Application extends Wrappable {
 
         currentLayout.renderOverlay(laptop, mc, mouseX, mouseY, active);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
         RenderHelper.disableStandardItemLighting();
     }
 
@@ -434,4 +434,8 @@ public abstract class Application extends Wrappable {
         return app.info.getFormattedId().equals(this.info.getFormattedId());
     }
 
+    @Override
+    public AppInfo getAppInfo() {
+        return info;
+    }
 }

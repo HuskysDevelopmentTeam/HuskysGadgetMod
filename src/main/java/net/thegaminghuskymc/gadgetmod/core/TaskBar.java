@@ -115,7 +115,7 @@ public class TaskBar extends GuiScreen {
                 Layout layout = new LayoutStartMenu();
                 layout.init();
                 if (!BaseDevice.getSystem().hasContext() || !(BaseDevice.getContext() instanceof LayoutStartMenu)) {
-                    BaseDevice.getSystem().openContext(layout, this.posX, this.posY);
+                    BaseDevice.getSystem().openContext(layout, this.posX - layout.width, this.posY - layout.height);
                 } else {
                     BaseDevice.getSystem().closeContext();
                 }

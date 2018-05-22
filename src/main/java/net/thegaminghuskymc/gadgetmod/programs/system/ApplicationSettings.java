@@ -20,7 +20,9 @@ import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
+import net.thegaminghuskymc.gadgetmod.programs.system.object.ColorThemes;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -78,7 +80,12 @@ public class ApplicationSettings extends SystemApplication {
             Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 162, y + wallpaperY - 1 + 90, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().brighter().getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             List<ResourceLocation> wallpapers = BaseDevice.getWallapapers();
+            Color bgColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour()).brighter().brighter();
+            float[] hsb = Color.RGBtoHSB(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), null);
+            bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
+            GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 0.3F);
             mc.getTextureManager().bindTexture(wallpapers.get(BaseDevice.getCurrentWallpaper()));
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
             RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 160, 88);
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, BaseDevice.getSystem().getSettings().getColourScheme().getTextColour(), true);
         });
@@ -238,6 +245,47 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutWallpapers.addComponent(wallpaperOrColorSelection);
 
+        ComboBox.List<String> taskbarPlacement = new ComboBox.List<>(215, 47, new String[]{ "Top", "Bottom", "Left", "Right" });
+        taskbarPlacement.setChangeListener((oldValue, newValue) -> {
+            switch (taskbarPlacement.getSelectedItem()) {
+                case "Top":
+                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Top");
+                    break;
+                case "Bottom":
+                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Bottom");
+                    break;
+                case "Left":
+                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Left");
+                    break;
+                case "Right":
+                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Right");
+                    break;
+            }
+        });
+        layoutPersonalise.addComponent(taskbarPlacement);
+
+        ComboBox.List<String> colourThemes = new ComboBox.List<>(215, 87, new String[]{ "Default", "Dark", "Light" });
+        colourThemes.setChangeListener((oldValue, newValue) -> {
+            ColourScheme colourScheme = BaseDevice.getSystem().getSettings().getColourScheme();
+            switch (colourThemes.getSelectedItem()) {
+                case "Default":
+                    colourScheme.resetDefault();
+                    break;
+                case "Dark":
+                    colourScheme.setBackgroundColour(ColorThemes.darkMode[0]);
+                    colourScheme.setSecondApplicationBarColour(ColorThemes.darkMode[1]);
+                    break;
+                case "Light":
+                    colourScheme.setBackgroundColour(ColorThemes.lightMode[0]);
+                    colourScheme.setSecondApplicationBarColour(ColorThemes.lightMode[1]);
+                    break;
+            }
+        });
+        layoutColourScheme.addComponent(colourThemes);
+
+        Label labelColorThemes = new Label("Color Themes", 145, 90);
+        layoutColourScheme.addComponent(labelColorThemes);
+
         Button reload = new Button(250, 27, Icons.RELOAD);
         layoutWallpapers.addComponent(reload);
 
@@ -290,15 +338,15 @@ public class ApplicationSettings extends SystemApplication {
         layoutInformationComputer.addComponent(nameOnPage);
 
         layoutInformationComputer.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
-            Gui.drawRect(x, y + 35, x + width, y + 36, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 35, x + width, y + 36, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
-            Gui.drawRect(x, y + 49, x + width, y + 50, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 49, x + width, y + 50, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
-            Gui.drawRect(x, y + 80, x + width, y + 81, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 80, x + width, y + 81, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
-            Gui.drawRect(x, y + 93, x + width, y + 94, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 93, x + width, y + 94, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
-            Gui.drawRect(x, y + 147, x + width, y + 148, Color.GRAY.getRGB());
+            Gui.drawRect(x, y + 147, x + width, y + 148, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
         });
 
         Label NeonOSVersion = new Label("NeonOS-Version", 40, 38);
@@ -331,9 +379,14 @@ public class ApplicationSettings extends SystemApplication {
         menuCredits.addComponent(labelCredits);
 
         Layout themes = new Menu("Themes");
+        themes.addComponent(btnPrevious);
 
         Button btnThemes = new Button(5, 88, "Themes", Icons.PICTURE);
-        btnThemes.setClickListener((mouseX, mouseY, mouseButton) -> setCurrentLayout(themes));
+        btnThemes.setClickListener((mouseX, mouseY, mouseButton) -> {
+            if (mouseButton == 0) {
+                showMenu(themes);
+            }
+        });
         layoutMain.addComponent(btnThemes);
 
         setCurrentLayout(layoutMain);
@@ -368,7 +421,7 @@ public class ApplicationSettings extends SystemApplication {
             @Override
             public void render(Integer integer, Gui gui, Minecraft mc, int x, int y, int width, int height) {
                 if (integer != null) {
-                    Gui.drawRect(x, y, x + width, y + height, integer);
+                    Gui.drawRect(x + 1, y, x + width + 1, y + height, integer);
                 }
             }
         });
@@ -395,7 +448,7 @@ public class ApplicationSettings extends SystemApplication {
 
         @Override
         public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) {
-            Gui.drawRect(x - 1, y, x + width + 1, y + 20, BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour());
+            Gui.drawRect(x - 1, y, x + width + 1, y + 20, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).getRGB());
             mc.fontRenderer.drawString(title, x + 22, y + 6, Color.WHITE.getRGB(), true);
             super.render(laptop, mc, x, y, mouseX, mouseY, windowActive, partialTicks);
         }

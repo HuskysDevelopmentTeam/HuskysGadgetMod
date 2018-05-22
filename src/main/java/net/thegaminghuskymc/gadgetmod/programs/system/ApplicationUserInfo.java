@@ -23,4 +23,5 @@ public class ApplicationUserInfo extends Application {
     public void save(NBTTagCompound tagCompound) {
 
     }
+
 }

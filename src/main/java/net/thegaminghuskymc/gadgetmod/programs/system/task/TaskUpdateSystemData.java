@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
-import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
+import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
 public class TaskUpdateSystemData extends Task {
     private BlockPos pos;
@@ -32,8 +32,8 @@ public class TaskUpdateSystemData extends Task {
     public void processRequest(NBTTagCompound tag, World world, EntityPlayer player) {
         BlockPos pos = BlockPos.fromLong(tag.getLong("pos"));
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityLaptop) {
-            TileEntityLaptop laptop = (TileEntityLaptop) tileEntity;
+        if (tileEntity instanceof TileEntityBaseDevice) {
+            TileEntityBaseDevice laptop = (TileEntityBaseDevice) tileEntity;
             laptop.setSystemData(tag.getCompoundTag("data"));
         }
         this.setSuccessful();

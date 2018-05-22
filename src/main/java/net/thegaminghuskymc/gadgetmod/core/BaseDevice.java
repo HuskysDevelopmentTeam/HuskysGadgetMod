@@ -67,7 +67,7 @@ public class BaseDevice extends GuiScreen implements System {
     public static final int DEVICE_HEIGHT = 246;
     public static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
     public static final List<ResourceLocation> THEMES = new ArrayList<>();
-    private static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
+    public static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     public static int BORDER = 10;
@@ -118,11 +118,11 @@ public class BaseDevice extends GuiScreen implements System {
     private int lastCode = Keyboard.KEY_DOWN;
     private int konamiProgress = 0;
     private LayoutDesktop desktop;
-    private String wallpaperOrColor;
+    private String wallpaperOrColor, taskbarPlacement;
 
     public int posX, posY;
 
-    protected List<AppInfo> installedApps = new ArrayList<>();
+    List<AppInfo> installedApps = new ArrayList<>();
 
     public BaseDevice(TileEntityBaseDevice te, int id) {
         ID = id;
@@ -131,15 +131,18 @@ public class BaseDevice extends GuiScreen implements System {
         this.windows = new Window[5];
         this.settings = Settings.fromTag(systemData.getCompoundTag("Settings"));
         this.bar = new TaskBar(this);
-        currentWallpaper = systemData.getInteger("CurrentWallpaper");
-        if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
-            currentWallpaper = 0;
+        wallpaperOrColor = Settings.fromTag(systemData.getCompoundTag("wallpaperOrColor")).hasWallpaperOrColor();
+        if(wallpaperOrColor.equals("Wallpaper")) {
+            currentWallpaper = systemData.getInteger("CurrentWallpaper");
+            if (currentWallpaper < 0 || currentWallpaper >= WALLPAPERS.size()) {
+                currentWallpaper = 0;
+            }
         }
+        taskbarPlacement = Settings.fromTag(systemData.getCompoundTag("taskbarPlacement")).getTaskbarPlacement();
         currentTheme = systemData.getInteger("CurrentTheme");
         if (currentTheme < 0 || currentTheme >= THEMES.size()) {
             currentTheme = 0;
         }
-        wallpaperOrColor = systemData.getString("wallpaperOrColor");
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
         java.lang.System.out.println(te.getClass().getName());
@@ -198,9 +201,22 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
-        posX = (width - DEVICE_WIDTH) / 2;
-        posY = (height - DEVICE_HEIGHT) / 2;
-        bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 236);
+        posX = width / 2 - DEVICE_WIDTH / 2;
+        posY = height / 2 - DEVICE_HEIGHT / 2;
+        switch (taskbarPlacement) {
+            case "Top":
+                bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 236);
+                break;
+            case "Bottom":
+                bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 28);
+                break;
+            case "Left":
+                bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 28);
+                break;
+            case "Right":
+                bar.init(posX + BORDER, posY + DEVICE_HEIGHT - 28);
+                break;
+        }
 
         installedApps.clear();
         NBTTagList tagList = systemData.getTagList("InstalledApps", Constants.NBT.TAG_STRING);
@@ -238,6 +254,7 @@ public class BaseDevice extends GuiScreen implements System {
         systemData.setInteger("CurrentWallpaper", currentWallpaper);
         systemData.setInteger("CurrentTheme", currentTheme);
         systemData.setString("wallpaperOrColor", wallpaperOrColor);
+        systemData.setString("taskbarPlacement", taskbarPlacement);
         systemData.setTag("Settings", settings.toTag());
 
         NBTTagList tagListApps = new NBTTagList();
@@ -298,8 +315,8 @@ public class BaseDevice extends GuiScreen implements System {
         this.mc.getTextureManager().bindTexture(LAPTOP_GUI);
 
         /* Physical Screen */
-        int posX = (width - DEVICE_WIDTH) / 2;
-        int posY = (height - DEVICE_HEIGHT) / 2;
+        int posX = width / 2 - DEVICE_WIDTH / 2;
+        int posY = height / 2 - DEVICE_HEIGHT / 2;
 
         /* Corners */
         this.drawTexturedModalRect(posX, posY, 0, 0, BORDER, BORDER); // TOP-LEFT
@@ -381,7 +398,20 @@ public class BaseDevice extends GuiScreen implements System {
                 }
 
                 /* Application Bar */
-                bar.render(this, mc, posX + 10, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
+                switch (taskbarPlacement) {
+                    case "Top":
+                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
+                        break;
+                    case "Bottom":
+                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                        break;
+                    case "Left":
+                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                        break;
+                    case "Right":
+                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                        break;
+                }
 
                 if (context != null) {
                     context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
@@ -425,8 +455,8 @@ public class BaseDevice extends GuiScreen implements System {
         this.lastMouseX = mouseX;
         this.lastMouseY = mouseY;
 
-        int posX = (width - SCREEN_WIDTH) / 2;
-        int posY = (height - SCREEN_HEIGHT) / 2;
+        int posX = width / 2 - SCREEN_WIDTH / 2;
+        int posY = height / 2 - SCREEN_HEIGHT / 2;
 
         if (this.bootMode == BootMode.NOTHING) {
             if (context != null) {
@@ -440,7 +470,20 @@ public class BaseDevice extends GuiScreen implements System {
                 }
             }
 
-            this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - 226, mouseX, mouseY, mouseButton);
+            switch (taskbarPlacement) {
+                case "Top":
+                    this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - 226, mouseX, mouseY, mouseButton);
+                    break;
+                case "Bottom":
+                    this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+                    break;
+                case "Left":
+                    this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+                    break;
+                case "Right":
+                    this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+                    break;
+            }
 
             for (int i = 0; i < windows.length; i++) {
                 Window<Application> window = windows[i];
@@ -545,8 +588,8 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         if (this.bootMode == BootMode.NOTHING) {
-            int posX = (width - SCREEN_WIDTH) / 2;
-            int posY = (height - SCREEN_HEIGHT) / 2;
+            int posX = width / 2 - SCREEN_WIDTH / 2;
+            int posY = height / 2 - SCREEN_HEIGHT / 2;
 
             if (context != null) {
                 int dropdownX = context.xPosition;
@@ -599,10 +642,8 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     @ParametersAreNonnullByDefault
     public void drawHoveringText(List<String> textLines, int x, int y) {
-        int guiLeft = (this.width - DEVICE_WIDTH) / 2;
-        int guiTop = (this.height - DEVICE_HEIGHT) / 2;
-        //x = Mouse.getEventX() * width / mc.displayWidth;
-        //y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+        int guiLeft = width / 2 - DEVICE_WIDTH / 2;
+        int guiTop = height / 2 - DEVICE_HEIGHT / 2;
         drawHoveringText(textLines, x - guiLeft, y - guiTop, mc.fontRenderer);
     }
 
