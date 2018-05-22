@@ -13,7 +13,7 @@ import java.awt.*;
 public class LayoutStartMenu extends Layout {
 
     public LayoutStartMenu() {
-        super(0, 18, 80, 120);
+        super(0, 18, 93, 120);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class LayoutStartMenu extends Layout {
 //            Gui.drawRect(x, y, x + width, y + 100, color.brighter().brighter().getRGB());
         });
 
-        Button btnPowerOff = new Button(5, 5, "Shutdown", Icons.POWER_OFF);
+        Button btnPowerOff = new Button(5, 5, 82, 20, "Shutdown", Icons.POWER_OFF);
         btnPowerOff.setToolTip("Power Off", "This will turn off the computer");
         btnPowerOff.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
@@ -34,7 +34,7 @@ public class LayoutStartMenu extends Layout {
         });
         this.addComponent(btnPowerOff);
 
-        Button btnStore = new Button(5, 27, 69, 20, "App Market", Icons.SHOPPING_CART);
+        Button btnStore = new Button(5, 27, 82, 20, "App Market", Icons.SHOPPING_CART);
         btnStore.setToolTip("App Market", "Allows you to install apps");
         btnStore.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
@@ -43,7 +43,7 @@ public class LayoutStartMenu extends Layout {
         });
         this.addComponent(btnStore);
 
-        Button btnSettings = new Button(5, 49, 69, 20, "Settings", Icons.HAMMER);
+        Button btnSettings = new Button(5, 49, 82, 20, "Settings", Icons.HAMMER);
         btnSettings.setToolTip("Settings", "Allows you to change things on the computer");
         btnSettings.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
@@ -52,7 +52,7 @@ public class LayoutStartMenu extends Layout {
         });
         this.addComponent(btnSettings);
 
-        Button btnFileBrowser = new Button(5, 71, 69, 20, "File Browser", Icons.FOLDER);
+        Button btnFileBrowser = new Button(5, 71, 82, 20, "File Browser", Icons.FOLDER);
         btnFileBrowser.setToolTip("File Browser", "Allows you to browse your files");
         btnFileBrowser.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
