@@ -105,7 +105,7 @@ public class Text extends Component {
         if(this.wordListener != null && lines.size() > 0)
         {
             int lineIndex = (mouseY - (yPosition + padding)) / 10;
-            if(lineIndex < lines.size())
+            if(lineIndex >= 0 && lineIndex < lines.size())
             {
                 int cursorX = mouseX - (xPosition + padding);
                 String line = lines.get(lineIndex);

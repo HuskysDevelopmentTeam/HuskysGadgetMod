@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.api.app.component;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.StringUtils;
@@ -72,8 +73,13 @@ public class LinkedLabel extends Component {
                     int textColor = !LinkedLabel.this.enabled ? textColorDisabled : (LinkedLabel.this.hovered ? textColorHovered : textColorNormal);
                     BaseDevice.fontRenderer.drawString(text, 0, 0, textColor, shadow);
                 }
-
-                this.hovered = GuiHelper.isMouseWithin(mouseX, mouseY, x, y, (int) -(mc.fontRenderer.getStringWidth(text) * scale) / (int) (2 * scale), (int) scale) && windowActive;
+                int offset = 0;
+                if(this.alignment == ALIGN_CENTER) {
+                	offset = (int) ((mc.fontRenderer.getStringWidth(this.text)/2)*this.scale);
+                } else if(this.alignment == ALIGN_RIGHT) {
+                	offset = (int) (mc.fontRenderer.getStringWidth(this.text)*this.scale);
+                }
+                this.hovered = GuiHelper.isMouseWithin(mouseX, mouseY, x - offset, y, (int) (mc.fontRenderer.getStringWidth(this.text) * this.scale), ((int) scale)*8) && windowActive;
                 int i = this.getHoverState(this.hovered);
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -155,7 +161,7 @@ public class LinkedLabel extends Component {
     {
         if(!this.visible || !this.enabled)
             return;
-
+        
         if(this.hovered)
         {
             if(clickListener != null)

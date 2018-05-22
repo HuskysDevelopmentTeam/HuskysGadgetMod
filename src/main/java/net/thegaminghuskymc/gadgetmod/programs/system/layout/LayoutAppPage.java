@@ -233,8 +233,21 @@ public class LayoutAppPage extends Layout {
                             openWebLink(info.getSupport().getYoutube());
                         }
                     });
+<<<<<<< HEAD
+                    this.addComponent(btnDonate);
+                }*/
+
+                LinkedLabel paypal = new LinkedLabel("Patreon", 200, 22, info.getSupport().getPatreon());
+                paypal.setClickListener((mouseX, mouseY, mouseButton) -> {
+                    if(mouseButton == 0) {
+                        openWebLink(info.getSupport().getPatreon());
+                    }
+                });
+                this.addComponent(paypal);
+=======
                     this.addComponent(btnYoutube);
                 }
+>>>>>>> b902950f5619223be9315831a63072595b09e322
 
             }
 
