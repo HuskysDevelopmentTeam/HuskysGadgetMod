@@ -1,12 +1,6 @@
 package mastef_chief.gitwebbuilder;
 
-import com.mrcrayfish.device.api.ApplicationManager;
-import com.mrcrayfish.device.api.task.TaskManager;
-import mastef_chief.gitwebbuilder.app.GWBApp;
-import mastef_chief.gitwebbuilder.app.tasks.TaskNotificationCopiedCode;
-import mastef_chief.gitwebbuilder.app.tasks.TaskNotificationCopiedLink;
 import mastef_chief.gitwebbuilder.proxy.CommonProxy;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,9 +23,7 @@ public class Main {
 
     @Mod.EventHandler
     public void Init(FMLInitializationEvent event){
-        TaskManager.registerTask(TaskNotificationCopiedCode.class);
-        TaskManager.registerTask(TaskNotificationCopiedLink.class);
-        ApplicationManager.registerApplication(new ResourceLocation(Reference.MOD_ID, "gitwebbuilder_app"), GWBApp.class);
+
     }
 
     @Mod.EventHandler

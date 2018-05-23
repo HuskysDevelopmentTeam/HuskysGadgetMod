@@ -29,6 +29,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
@@ -36,7 +37,9 @@ import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutBios;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktop;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopCraftOS;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopNeonOS;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopPixelOS;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
@@ -67,7 +70,9 @@ public class BaseDevice extends GuiScreen implements System {
     public static final int DEVICE_HEIGHT = 246;
     public static final List<ResourceLocation> WALLPAPERS = new ArrayList<>();
     public static final List<ResourceLocation> THEMES = new ArrayList<>();
-    public static final ResourceLocation BOOT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/boot.png");
+    public static final ResourceLocation BOOT_NEON_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/neon/neon_boot.png");
+    public static final ResourceLocation BOOT_PIXEL_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/pixel/pixel_boot.png");
+    public static final ResourceLocation BOOT_CRAFT_TEXTURES = new ResourceLocation(Reference.MOD_ID, "textures/gui/craft/craft_boot.png");
     private static final ResourceLocation LAPTOP_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/laptop.png");
     private static final List<Application> APPLICATIONS = new ArrayList<>();
     public static int BORDER = 10;
@@ -117,8 +122,8 @@ public class BaseDevice extends GuiScreen implements System {
     private int blinkTimer = 0;
     private int lastCode = Keyboard.KEY_DOWN;
     private int konamiProgress = 0;
-    private LayoutDesktop desktop;
-    private String wallpaperOrColor, taskbarPlacement;
+    private Layout desktop, OSSelect;
+    private String wallpaperOrColor, taskbarPlacement, os;
 
     public int posX, posY;
 
@@ -143,10 +148,23 @@ public class BaseDevice extends GuiScreen implements System {
         if (currentTheme < 0 || currentTheme >= THEMES.size()) {
             currentTheme = 0;
         }
+        os = Settings.fromTag(systemData.getCompoundTag("os")).getOS();
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
         java.lang.System.out.println(te.getClass().getName());
-        this.desktop = new LayoutDesktop();
+        switch (os) {
+            case "NeonOS":
+                this.desktop = new LayoutDesktopNeonOS();
+                break;
+            case "CraftOS":
+                this.desktop = new LayoutDesktopCraftOS();
+                break;
+            case "PixelOS":
+                this.desktop = new LayoutDesktopPixelOS();
+                break;
+            case "None":
+                break;
+        }
 
         if (systemData.hasKey("bootmode")) {
             this.bootMode = BootMode.getBootMode(systemData.getInteger("bootmode"));
@@ -255,6 +273,7 @@ public class BaseDevice extends GuiScreen implements System {
         systemData.setInteger("CurrentTheme", currentTheme);
         systemData.setString("wallpaperOrColor", wallpaperOrColor);
         systemData.setString("taskbarPlacement", taskbarPlacement);
+        systemData.setString("os", os);
         systemData.setTag("Settings", settings.toTag());
 
         NBTTagList tagListApps = new NBTTagList();
@@ -297,6 +316,7 @@ public class BaseDevice extends GuiScreen implements System {
                 }
             }
         }
+
     }
 
     public TaskBar getTaskBar() {
@@ -330,12 +350,41 @@ public class BaseDevice extends GuiScreen implements System {
         RenderUtil.drawRectWithTexture(posX + BORDER, posY + DEVICE_HEIGHT - BORDER, 10, 11, SCREEN_WIDTH, BORDER, 1, BORDER); // BOTTOM
         RenderUtil.drawRectWithTexture(posX, posY + BORDER, 0, 11, BORDER, SCREEN_HEIGHT, BORDER, 1); // LEFT
 
+        if(os.equals("None")) {
+            int cX = posX + DEVICE_WIDTH / 2;
+            int cY = posY + DEVICE_HEIGHT / 2;
+            OSSelect = new Layout();
+            OSSelect.setBackground((gui, mc, x, y, width, height, mouseX1, mouseY1, windowActive) -> {
+                RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
+            });
+            Label labelTitle = new Label("Choose What OS You Want To Have", posX + 10, posY + 40);
+            labelTitle.setScale(2);
+            OSSelect.addComponent(labelTitle);
+            OSSelect.init();
+            OSSelect.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
+        }
+
         /* Center */
-        RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
+        if(!os.equals("None")) {
+            RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
+        }
 
         if (this.bootMode == BootMode.BOOTING) {
             Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0xFF000000);
-            this.mc.getTextureManager().bindTexture(BOOT_TEXTURES);
+            switch (os) {
+                case "NeonOS":
+                    this.mc.getTextureManager().bindTexture(BOOT_NEON_TEXTURES);
+                    break;
+                case "CraftOS":
+                    this.mc.getTextureManager().bindTexture(BOOT_CRAFT_TEXTURES);
+                    break;
+                case "PixelOS":
+                    this.mc.getTextureManager().bindTexture(BOOT_PIXEL_TEXTURES);
+                    break;
+                case "None":
+                    this.mc.getTextureManager().bindTexture(new ResourceLocation("textures/blocks/dirt.png"));
+                    break;
+            }
             float f = 1.0f;
             if (this.bootTimer > BOOT_ON_TIME - 20) {
                 f = ((float) (BOOT_ON_TIME - this.bootTimer)) / 20.0f;
@@ -345,103 +394,107 @@ public class BaseDevice extends GuiScreen implements System {
             int cX = posX + DEVICE_WIDTH / 2;
             int cY = posY + DEVICE_HEIGHT / 2;
 
-            /* Husky and NeonOs logos */
-            this.drawTexturedModalRect(cX - 35, cY - 80, 0, 0, 70, 90);
-            if ((this.blinkTimer % 10) > 5) {
-                this.drawTexturedModalRect(cX + 1, cY - 48, 70, 15, 24, 22);
+            if(!os.equals("None")) {
+                /* Husky and NeonOs logos */
+                this.drawTexturedModalRect(cX - 35, cY - 80, 0, 0, 70, 90);
+                if ((this.blinkTimer % 10) > 5) {
+                    this.drawTexturedModalRect(cX + 1, cY - 48, 70, 15, 24, 22);
+                }
+                this.drawTexturedModalRect(cX - 64, cY + 15, 2, 94, 128, 30);
+
+                /* Legal information stuff */
+                this.drawTexturedModalRect(posX + BORDER + 2, posY + DEVICE_HEIGHT - BORDER - 10, 1, 152, 150, 8);
+                this.drawTexturedModalRect(posX + DEVICE_WIDTH - BORDER - 41, posY + DEVICE_HEIGHT - BORDER - 10, 1, 162, 39, 7);
+
+                /* Loading bar */
+                GL11.glEnable(GL11.GL_SCISSOR_TEST);
+                ScaledResolution sr = new ScaledResolution(this.mc);
+                int scale = sr.getScaleFactor();
+                GL11.glScissor((cX - 70) * scale, (height - (cY + 74)) * scale, 140 * scale, 13 * scale);
+                if (this.bootTimer <= BOOT_ON_TIME - 20) {
+                    int xAdd = (BOOT_ON_TIME - (this.bootTimer + 20)) * 4;
+                    this.drawTexturedModalRect(cX - 87 + xAdd % 184, cY + 61, 78, 1, 17, 13);
+                }
+                //this.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
+                GL11.glDisable(GL11.GL_SCISSOR_TEST);
+
+                /* Loading bar outline */
+                this.drawTexturedModalRect(cX - 70, cY + 60, 70, 0, 3, 15);
+                this.drawTexturedModalRect(cX + 67, cY + 60, 74, 0, 3, 15);
+                int color = 0xFF000000 + (value << 16) + (value << 8) + value;
+                Gui.drawRect(cX - 67, cY + 60, cX + 67, cY + 61, color);
+                Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
             }
-            this.drawTexturedModalRect(cX - 64, cY + 15, 2, 94, 128, 30);
-
-            /* Legal information stuff */
-            this.drawTexturedModalRect(posX + BORDER + 2, posY + DEVICE_HEIGHT - BORDER - 10, 1, 152, 150, 8);
-            this.drawTexturedModalRect(posX + DEVICE_WIDTH - BORDER - 41, posY + DEVICE_HEIGHT - BORDER - 10, 1, 162, 39, 7);
-
-            /* Loading bar */
-            GL11.glEnable(GL11.GL_SCISSOR_TEST);
-            ScaledResolution sr = new ScaledResolution(this.mc);
-            int scale = sr.getScaleFactor();
-            GL11.glScissor((cX - 70) * scale, (height - (cY + 74)) * scale, 140 * scale, 13 * scale);
-            if (this.bootTimer <= BOOT_ON_TIME - 20) {
-                int xAdd = (BOOT_ON_TIME - (this.bootTimer + 20)) * 4;
-                this.drawTexturedModalRect(cX - 87 + xAdd % 184, cY + 61, 78, 1, 17, 13);
-            }
-            //this.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
-            GL11.glDisable(GL11.GL_SCISSOR_TEST);
-
-            /* Loading bar outline */
-            this.drawTexturedModalRect(cX - 70, cY + 60, 70, 0, 3, 15);
-            this.drawTexturedModalRect(cX + 67, cY + 60, 74, 0, 3, 15);
-            int color = 0xFF000000 + (value << 16) + (value << 8) + value;
-            Gui.drawRect(cX - 67, cY + 60, cX + 67, cY + 61, color);
-            Gui.drawRect(cX - 67, cY + 74, cX + 67, cY + 75, color);
         } else if (this.bootMode != null) {
-            /* Wallpaper */
-            this.desktop.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
+            if(!os.equals("None")) {
+                /* Wallpaper */
+                this.desktop.render(this, this.mc, posX + BORDER, posY + BORDER, mouseX, mouseY, true, partialTicks);
 
-            if (this.bootMode == BootMode.NOTHING) {
-                boolean insideContext = false;
-                if(context != null)
-                {
-                    insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
-                }
-
-                Image.CACHE.forEach((s, cachedImage) -> cachedImage.delete());
-
-                /* Window */
-                for(int i = windows.length - 1; i >= 0; i--)
-                {
-                    Window window = windows[i];
-                    if(window != null)
+                if (this.bootMode == BootMode.NOTHING) {
+                    boolean insideContext = false;
+                    if(context != null)
                     {
-                        window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
+                        insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
                     }
-                }
 
-                /* Application Bar */
-                switch (taskbarPlacement) {
-                    case "Top":
-                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
-                        break;
-                    case "Bottom":
-                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
-                        break;
-                    case "Left":
-                        bar.renderOnSide(this, mc, posX + 28, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
-                        break;
-                    case "Right":
-                        bar.renderOnSide(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
-                        break;
-                }
+                    Image.CACHE.forEach((s, cachedImage) -> cachedImage.delete());
 
-                if (context != null) {
-                    context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
-                }
+                    /* Window */
+                    for(int i = windows.length - 1; i >= 0; i--)
+                    {
+                        Window window = windows[i];
+                        if(window != null)
+                        {
+                            window.render(this, mc, posX + BORDER, posY + BORDER, mouseX, mouseY, i == 0 && !insideContext, partialTicks);
+                        }
+                    }
 
-                super.drawScreen(mouseX, mouseY, partialTicks);
-            } else {
-                Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0x7F000000);
-                GlStateManager.pushMatrix();
-                String s;
-                if (this.konamiProgress == -1) {
-                    s = "Shutting up, up, down, down, left, right, left, right, B, A...";
-                } else if (this.konamiProgress == 0) {
-                    s = "Shutting " + codeToName.get(this.lastCode) + "...";
+                    /* Application Bar */
+                    switch (taskbarPlacement) {
+                        case "Top":
+                            bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 236, mouseX, mouseY, partialTicks);
+                            break;
+                        case "Bottom":
+                            bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                            break;
+                        case "Left":
+                            bar.renderOnSide(this, mc, posX + 28, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                            break;
+                        case "Right":
+                            bar.renderOnSide(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                            break;
+                    }
+
+                    if (context != null) {
+                        context.render(this, mc, context.xPosition, context.yPosition, mouseX, mouseY, true, partialTicks);
+                    }
+
+                    super.drawScreen(mouseX, mouseY, partialTicks);
                 } else {
-                    s = "Shutting ";
-                    for (int i = 0; i < this.konamiProgress - 1; i++) {
-                        s = s + codeToName.get(konamiCodes[i]) + ", ";
+                    Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0x7F000000);
+                    GlStateManager.pushMatrix();
+                    String s;
+                    if (this.konamiProgress == -1) {
+                        s = "Shutting up, up, down, down, left, right, left, right, B, A...";
+                    } else if (this.konamiProgress == 0) {
+                        s = "Shutting " + codeToName.get(this.lastCode) + "...";
+                    } else {
+                        s = "Shutting ";
+                        for (int i = 0; i < this.konamiProgress - 1; i++) {
+                            s = s + codeToName.get(konamiCodes[i]) + ", ";
+                        }
+                        s = s + codeToName.get(konamiCodes[this.konamiProgress - 1]) + "...";
                     }
-                    s = s + codeToName.get(konamiCodes[this.konamiProgress - 1]) + "...";
+                    int w = this.mc.fontRenderer.getStringWidth(s);
+                    float scale = 3;
+                    while (scale > 1 && w * scale > DEVICE_WIDTH) {
+                        scale = scale - 0.5f;
+                    }
+                    GlStateManager.scale(scale, scale, 1);
+                    GlStateManager.translate((posX + (DEVICE_WIDTH - w * scale) / 2) / scale, (posY + (DEVICE_HEIGHT - 8 * scale) / 2) / scale, 0);
+                    this.mc.fontRenderer.drawString(TextFormatting.ITALIC + s, 0, 0, 0xFFFFFFFF, true);
+                    GlStateManager.popMatrix();
                 }
-                int w = this.mc.fontRenderer.getStringWidth(s);
-                float scale = 3;
-                while (scale > 1 && w * scale > DEVICE_WIDTH) {
-                    scale = scale - 0.5f;
-                }
-                GlStateManager.scale(scale, scale, 1);
-                GlStateManager.translate((posX + (DEVICE_WIDTH - w * scale) / 2) / scale, (posY + (DEVICE_HEIGHT - 8 * scale) / 2) / scale, 0);
-                this.mc.fontRenderer.drawString(TextFormatting.ITALIC + s, 0, 0, 0xFFFFFFFF, true);
-                GlStateManager.popMatrix();
             }
         }
         

@@ -3,19 +3,21 @@ package net.thegaminghuskymc.gadgetmod.programs.system.task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 
 import java.util.UUID;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "bank_pay")
 public class TaskPay extends Task {
     private String uuid;
     private int amount;
 
-    public TaskPay() {
-        super("bank_pay");
-    }
+    public TaskPay() {}
 
     public TaskPay(String uuid, int amount) {
         this();

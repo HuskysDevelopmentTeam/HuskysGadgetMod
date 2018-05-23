@@ -5,16 +5,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "ping")
 public class TaskPing extends Task {
     private BlockPos sourceDevicePos;
     private int strength;
 
-    private TaskPing() {
-        super("ping");
-    }
+    public TaskPing() {}
 
     public TaskPing(BlockPos sourceDevicePos) {
         this();

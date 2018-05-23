@@ -4,6 +4,7 @@ import com.mrcrayfish.device.api.app.Application;
 import com.mrcrayfish.device.api.app.Dialog;
 import com.mrcrayfish.device.api.app.Icons;
 import com.mrcrayfish.device.api.app.ScrollableLayout;
+import com.mrcrayfish.device.api.app.annotation.DeviceApplication;
 import com.mrcrayfish.device.api.app.component.Button;
 import com.mrcrayfish.device.api.app.component.*;
 import com.mrcrayfish.device.api.app.component.Label;
@@ -17,6 +18,7 @@ import com.mrcrayfish.device.core.Laptop;
 import com.mrcrayfish.device.core.io.FileSystem;
 import com.mrcrayfish.device.programs.gitweb.component.GitWebFrame;
 import com.mrcrayfish.device.programs.system.layout.StandardLayout;
+import mastef_chief.gitwebbuilder.Reference;
 import mastef_chief.gitwebbuilder.app.components.MenuButton;
 import mastef_chief.gitwebbuilder.app.components.ModuleCreatorDialog;
 import mastef_chief.gitwebbuilder.app.components.PasteBinCompleteDialog;
@@ -45,6 +47,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.function.Predicate;
 
+@DeviceApplication(modId = Reference.MOD_ID, appId = "gitwebbuilder_app")
 public class GWBApp extends Application {
 
     //Todo module dialog, scrollable layout for design view, custom layouts which take in module instance, which type of module

@@ -13,12 +13,15 @@ public class LayoutOSSelect extends Layout {
     @Override
     public void init() {
         Button btnSelectNeonOS = new Button(30, 40, "NeonOS");
+        btnSelectNeonOS.setClickListener((mouseX, mouseY, mouseButton) -> BaseDevice.getSystem().getSettings().setOS("NeonOS"));
         this.addComponent(btnSelectNeonOS);
 
         Button btnSelectCraftOS = new Button(60, 40, "CraftOS");
+        btnSelectCraftOS.setClickListener((mouseX, mouseY, mouseButton) -> BaseDevice.getSystem().getSettings().setOS("CraftOS"));
         this.addComponent(btnSelectCraftOS);
 
         Button btnSelectPixelOS = new Button(90, 40, "PixelOS");
+        btnSelectPixelOS.setClickListener((mouseX, mouseY, mouseButton) -> BaseDevice.getSystem().getSettings().setOS("PixelOS"));
         this.addComponent(btnSelectPixelOS);
     }
 

@@ -4,17 +4,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "bank_deposit")
 public class TaskDeposit extends Task {
     private int amount;
 
-    private TaskDeposit() {
-        super("bank_deposit");
-    }
+    private TaskDeposit() {}
 
     public TaskDeposit(int amount) {
         this();

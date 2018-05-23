@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
@@ -14,14 +15,15 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
 
 import java.util.UUID;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "print")
 public class TaskPrint extends Task {
     private BlockPos devicePos;
     private UUID printerId;
     private IPrint print;
 
-    private TaskPrint() {
-        super("print");
-    }
+    public TaskPrint() {}
 
     public TaskPrint(BlockPos devicePos, NetworkDevice printer, IPrint print) {
         this();

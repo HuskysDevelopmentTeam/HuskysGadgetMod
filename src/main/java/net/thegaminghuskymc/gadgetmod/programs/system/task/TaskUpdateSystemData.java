@@ -5,16 +5,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "update_system_data")
 public class TaskUpdateSystemData extends Task {
     private BlockPos pos;
     private NBTTagCompound data;
 
-    public TaskUpdateSystemData() {
-        super("update_system_data");
-    }
+    public TaskUpdateSystemData() {}
 
     public TaskUpdateSystemData(BlockPos pos, NBTTagCompound data) {
         this();

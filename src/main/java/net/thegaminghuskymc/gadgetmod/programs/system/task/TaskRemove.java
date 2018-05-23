@@ -3,16 +3,18 @@ package net.thegaminghuskymc.gadgetmod.programs.system.task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "bank_remove")
 public class TaskRemove extends Task {
     private int amount;
 
-    public TaskRemove() {
-        super("bank_remove");
-    }
+    public TaskRemove() {}
 
     public TaskRemove(int amount) {
         this();

@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
@@ -14,6 +15,9 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 import java.util.Map;
 import java.util.UUID;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "get_file_system")
 public class TaskSetupFileBrowser extends Task {
     private BlockPos pos;
     private boolean includeMain;
@@ -21,9 +25,7 @@ public class TaskSetupFileBrowser extends Task {
     private AbstractDrive mainDrive;
     private Map<UUID, AbstractDrive> availableDrives;
 
-    private TaskSetupFileBrowser() {
-        super("get_file_system");
-    }
+    public TaskSetupFileBrowser() {}
 
     public TaskSetupFileBrowser(BlockPos pos, boolean includeMain) {
         this();

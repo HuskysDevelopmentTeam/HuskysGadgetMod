@@ -9,9 +9,7 @@ public class Settings {
 
     private ColourScheme colourScheme = new ColourScheme();
 
-    private String hasWallpaperOrColor;
-
-    private String taskbarPlacement;
+    private String hasWallpaperOrColor, taskbarPlacement, OS;
 
     public static boolean isShowAllApps() {
         return Settings.showAllApps;
@@ -37,6 +35,14 @@ public class Settings {
         this.taskbarPlacement = taskbarPlacement;
     }
 
+    public String getOS() {
+        return OS;
+    }
+
+    public void setOS(String OS) {
+        this.OS = OS;
+    }
+
     public static Settings fromTag(NBTTagCompound tag) {
         showAllApps = tag.getBoolean("showAllApps");
 
@@ -44,6 +50,7 @@ public class Settings {
         settings.colourScheme = ColourScheme.fromTag(tag.getCompoundTag("colourScheme"));
         settings.hasWallpaperOrColor = "Wallpaper";
         settings.taskbarPlacement = "Bottom";
+        settings.OS = "PixelOS";
         return settings;
     }
 
@@ -57,6 +64,7 @@ public class Settings {
         tag.setTag("colourScheme", colourScheme.toTag());
         tag.setString("wallpaperOrColor", hasWallpaperOrColor);
         tag.setString("taskbarPlacement", taskbarPlacement);
+        tag.setString("os", OS);
         return tag;
     }
 }

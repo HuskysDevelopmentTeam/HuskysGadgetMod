@@ -34,8 +34,7 @@ public class MessageResponse implements IMessage, IMessageHandler<MessageRespons
         this.id = buf.readInt();
         boolean successful = buf.readBoolean();
         this.request = TaskManager.getTaskAndRemove(this.id);
-        if (successful) this.request.setSuccessful();
-        String name = ByteBufUtils.readUTF8String(buf);
+        if(successful) this.request.setSuccessful();
         this.nbt = ByteBufUtils.readTag(buf);
     }
 
@@ -43,7 +42,6 @@ public class MessageResponse implements IMessage, IMessageHandler<MessageRespons
     public void toBytes(ByteBuf buf) {
         buf.writeInt(this.id);
         buf.writeBoolean(this.request.isSucessful());
-        ByteBufUtils.writeUTF8String(buf, this.request.getName());
         NBTTagCompound nbt = new NBTTagCompound();
         this.request.prepareResponse(nbt);
         ByteBufUtils.writeTag(buf, nbt);

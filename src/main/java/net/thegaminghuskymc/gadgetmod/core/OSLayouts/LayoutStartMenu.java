@@ -2,7 +2,7 @@ package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
@@ -38,27 +38,33 @@ public class LayoutStartMenu extends Layout {
         Button btnStore = new Button(5, 27, 82, 20, "App Market", Icons.SHOPPING_CART);
         btnStore.setToolTip("App Market", "Allows you to install apps");
         btnStore.setClickListener((mouseX, mouseY, mouseButton) -> {
-            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
-            laptop.openApplication(ApplicationManager.getApplication((Reference.MOD_ID + ":app_store")));
-            laptop.closeContext();
+            AppInfo info = ApplicationManager.getApplication("hgm:app_store");
+            if(info != null)
+            {
+                BaseDevice.getSystem().openApplication(info);
+            }
         });
         this.addComponent(btnStore);
 
         Button btnSettings = new Button(5, 49, 82, 20, "Settings", Icons.HAMMER);
         btnSettings.setToolTip("Settings", "Allows you to change things on the computer");
         btnSettings.setClickListener((mouseX, mouseY, mouseButton) -> {
-            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
-            laptop.openApplication(ApplicationManager.getApplication((Reference.MOD_ID + ":settings")));
-            laptop.closeContext();
+            AppInfo info = ApplicationManager.getApplication("hgm:settings");
+            if(info != null)
+            {
+                BaseDevice.getSystem().openApplication(info);
+            }
         });
         this.addComponent(btnSettings);
 
         Button btnFileBrowser = new Button(5, 71, 82, 20, "File Browser", Icons.FOLDER);
         btnFileBrowser.setToolTip("File Browser", "Allows you to browse your files");
         btnFileBrowser.setClickListener((mouseX, mouseY, mouseButton) -> {
-            BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
-            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".file_browser").getInfo());
-            laptop.closeContext();
+            AppInfo info = ApplicationManager.getApplication("hgm:file_browser");
+            if(info != null)
+            {
+                BaseDevice.getSystem().openApplication(info);
+            }
         });
         this.addComponent(btnFileBrowser);
     }

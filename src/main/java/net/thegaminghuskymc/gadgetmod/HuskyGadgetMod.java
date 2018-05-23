@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
 import net.thegaminghuskymc.gadgetmod.gui.GuiHandler;
 import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
@@ -55,6 +56,7 @@ public class HuskyGadgetMod {
         GadgetItems.register();
         GadgetCrafting.register();
         ApplicationManager.init(event.getAsmData());
+        TaskManager.init(event.getAsmData());
     }
 
     @EventHandler

@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
@@ -13,15 +14,16 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 
 import java.util.Collection;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "get_network_devices")
 public class TaskGetDevices extends Task {
     private BlockPos devicePos;
     private Class<? extends TileEntityNetworkDevice> targetDeviceClass;
 
     private Collection<NetworkDevice> foundDevices;
 
-    private TaskGetDevices() {
-        super("get_network_devices");
-    }
+    public TaskGetDevices() {}
 
     public TaskGetDevices(BlockPos devicePos) {
         this();

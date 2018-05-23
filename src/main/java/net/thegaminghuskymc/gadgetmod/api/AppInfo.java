@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.api;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -248,7 +249,7 @@ public class AppInfo
                 if (json.getAsJsonObject().has(AUTHOR))
                     info.author = convertToLocal(json.getAsJsonObject().get(AUTHOR).getAsString());
                 else if (json.getAsJsonObject().has(AUTHORS) && json.getAsJsonObject().get(AUTHORS).isJsonArray()) {
-                    info.authors = context.deserialize(json.getAsJsonObject().get(AUTHORS), new com.google.common.reflect.TypeToken<String[]>() {
+                    info.authors = context.deserialize(json.getAsJsonObject().get(AUTHORS), new TypeToken<String[]>() {
                     }.getType());
                 }
                 if (json.getAsJsonObject().has(CONTRIBUTORS) && json.getAsJsonObject().get(CONTRIBUTORS).isJsonArray()) {
@@ -258,7 +259,7 @@ public class AppInfo
                 info.version = json.getAsJsonObject().get(VERSION).getAsString();
 
                 if (json.getAsJsonObject().has(SCREENS) && json.getAsJsonObject().get(SCREENS).isJsonArray()) {
-                    info.screenshots = context.deserialize(json.getAsJsonObject().get(SCREENS), new com.google.common.reflect.TypeToken<String[]>() {
+                    info.screenshots = context.deserialize(json.getAsJsonObject().get(SCREENS), new TypeToken<String[]>() {
                     }.getType());
                 }
 
@@ -297,13 +298,13 @@ public class AppInfo
         }
 
         private String[] deserializeArray(JsonElement json, String name, JsonDeserializationContext context) {
-            return context.deserialize(json.getAsJsonObject().get(name), new com.google.common.reflect.TypeToken<String[]>() {
+            return context.deserialize(json.getAsJsonObject().get(name), new TypeToken<String[]>() {
             }.getType());
         }
 
         private String convertToLocal(String s) {
             Matcher m = LANG.matcher(s);
-            while (m.find()) {
+            while(m.find()) {
                 String found = m.group();
                 s = s.replace(found, I18n.format("app." + info.getFormattedId() + "." + found.substring(2, found.length() - 1)));
             }

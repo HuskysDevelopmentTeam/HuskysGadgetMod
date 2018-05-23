@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
@@ -14,15 +15,16 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
 import java.util.UUID;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "get_folder_structure")
 public class TaskGetStructure extends Task {
     private String uuid;
     private BlockPos pos;
 
     private ServerFolder folder;
 
-    private TaskGetStructure() {
-        super("get_folder_structure");
-    }
+    private TaskGetStructure() {}
 
     public TaskGetStructure(Drive drive, BlockPos pos) {
         this();

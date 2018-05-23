@@ -2,18 +2,19 @@ package mastef_chief.gitwebbuilder.app.tasks;
 
 import com.mrcrayfish.device.api.app.Icons;
 import com.mrcrayfish.device.api.app.Notification;
+import com.mrcrayfish.device.api.app.annotation.DeviceTask;
 import com.mrcrayfish.device.api.task.Task;
+import mastef_chief.gitwebbuilder.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
+@DeviceTask(modId = Reference.MOD_ID, taskId = "notification_copiedlink")
 public class TaskNotificationCopiedLink extends Task {
 
-    public TaskNotificationCopiedLink() {
-        super("notification_copiedlink");
-    }
+    public TaskNotificationCopiedLink() {}
 
     /**
      * Called before the request is sent off to the server.

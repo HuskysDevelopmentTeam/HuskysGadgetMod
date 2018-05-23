@@ -17,23 +17,22 @@ import net.minecraft.world.World;
  * <p>Please check out the example applications to get a better understanding
  * how this could be useful to your application.</p>
  */
-public abstract class Task {
+public abstract class Task
+{
     private String name;
     private Callback<NBTTagCompound> callback = null;
     private boolean success = false;
-
-    public Task(String name) {
-        this.name = name;
-    }
 
     /**
      * Sets the callback for task. Used for processing responses,
      * such as updating UI with new data.
      *
      * @param callback the callback instance for response processing
+     *
      * @return this Task instance
      */
-    public final Task setCallback(Callback<NBTTagCompound> callback) {
+    public final Task setCallback(Callback<NBTTagCompound> callback)
+    {
         this.callback = callback;
         return this;
     }
@@ -43,8 +42,10 @@ public abstract class Task {
      *
      * @param nbt the response data
      */
-    public final void callback(NBTTagCompound nbt) {
-        if (callback != null) {
+    public final void callback(NBTTagCompound nbt)
+    {
+        if(callback != null)
+        {
             callback.execute(nbt, success);
         }
     }
@@ -54,7 +55,8 @@ public abstract class Task {
      * if your Task produced the correct results, preferably in
      * {@link #processRequest(NBTTagCompound, World, EntityPlayer)}
      */
-    public final void setSuccessful() {
+    public final void setSuccessful()
+    {
         this.success = true;
     }
 
@@ -63,7 +65,8 @@ public abstract class Task {
      *
      * @return if this task was successful
      */
-    public final boolean isSucessful() {
+    public final boolean isSucessful()
+    {
         return this.success;
     }
 
@@ -71,17 +74,9 @@ public abstract class Task {
      * Sets the task as complete and resets success to false.
      * This is used for the core.
      */
-    public final void complete() {
+    public final void complete()
+    {
         this.success = false;
-    }
-
-    /**
-     * Gets the name of the Task
-     *
-     * @return the Task name
-     */
-    public final String getName() {
-        return this.name;
     }
 
     /**

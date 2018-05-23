@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
@@ -18,6 +19,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "get_files")
 public class TaskGetFiles extends Task {
     private String uuid;
     private String path;
@@ -25,9 +29,7 @@ public class TaskGetFiles extends Task {
 
     private List<ServerFile> files;
 
-    private TaskGetFiles() {
-        super("get_files");
-    }
+    private TaskGetFiles() {}
 
     public TaskGetFiles(Folder folder, BlockPos pos) {
         this();

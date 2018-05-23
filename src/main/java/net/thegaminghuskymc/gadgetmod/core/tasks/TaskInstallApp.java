@@ -9,22 +9,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
+
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 /**
  * Author: MrCrayfish
  */
+@DeviceTask(modId = MOD_ID, taskId = "install_app")
 public class TaskInstallApp extends Task
 {
     private String appId;
     private BlockPos laptopPos;
     private boolean install;
 
-    private TaskInstallApp()
-    {
-        super("install_app");
-    }
+    private TaskInstallApp() {}
 
     public TaskInstallApp(AppInfo info, BlockPos laptopPos, boolean install)
     {

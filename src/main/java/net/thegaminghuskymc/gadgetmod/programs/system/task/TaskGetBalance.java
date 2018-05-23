@@ -3,16 +3,18 @@ package net.thegaminghuskymc.gadgetmod.programs.system.task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "bank_get_balance")
 public class TaskGetBalance extends Task {
     private int balance;
 
-    public TaskGetBalance() {
-        super("bank_get_balance");
-    }
+    public TaskGetBalance() {}
 
     @Override
     public void prepareRequest(NBTTagCompound nbt) {

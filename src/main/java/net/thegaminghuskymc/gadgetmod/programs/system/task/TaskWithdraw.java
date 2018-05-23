@@ -6,16 +6,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.utils.BankUtil;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceTask(modId = MOD_ID, taskId = "bank_withdraw")
 public class TaskWithdraw extends Task {
     private int amount;
 
-    private TaskWithdraw() {
-        super("bank_withdraw");
-    }
+    private TaskWithdraw() {}
 
     public TaskWithdraw(int amount) {
         this();
