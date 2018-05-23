@@ -13,17 +13,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.theme.Theme;
 import net.thegaminghuskymc.gadgetmod.block.BlockPrinter;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
-import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetThemes;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
@@ -46,7 +45,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void init(FMLInitializationEvent event) {
-        GadgetApps.init();
+//        GadgetApps.init();
     }
 
     @SubscribeEvent
@@ -58,11 +57,11 @@ public class CommonProxy {
     }
 
     @Nullable
-    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+    public Application registerApplication(ResourceLocation identifier, Class<Application> clazz) {
         if (allowedApps == null) {
             allowedApps = new ArrayList<>();
         }
-        allowedApps.add(new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz)));
+        allowedApps.add(new AppInfo(identifier, clazz, SystemApplication.class.isAssignableFrom(clazz)));
         return null;
     }
 

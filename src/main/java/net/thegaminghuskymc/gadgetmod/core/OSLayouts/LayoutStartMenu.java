@@ -3,6 +3,7 @@ package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
@@ -38,7 +39,7 @@ public class LayoutStartMenu extends Layout {
         btnStore.setToolTip("App Market", "Allows you to install apps");
         btnStore.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
-            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".app_store").getInfo());
+            laptop.openApplication(ApplicationManager.getApplication((Reference.MOD_ID + ":app_store")));
             laptop.closeContext();
         });
         this.addComponent(btnStore);
@@ -47,7 +48,7 @@ public class LayoutStartMenu extends Layout {
         btnSettings.setToolTip("Settings", "Allows you to change things on the computer");
         btnSettings.setClickListener((mouseX, mouseY, mouseButton) -> {
             BaseDevice laptop = (BaseDevice) Minecraft.getMinecraft().currentScreen;
-            laptop.openApplication(laptop.getApplication(Reference.MOD_ID + ".settings").getInfo());
+            laptop.openApplication(ApplicationManager.getApplication((Reference.MOD_ID + ":settings")));
             laptop.closeContext();
         });
         this.addComponent(btnSettings);

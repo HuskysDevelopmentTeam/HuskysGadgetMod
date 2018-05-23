@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -46,6 +47,9 @@ import java.net.URLConnection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import static mastef_chief.gitwebbuilder.hgm.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "gitwebbuilder_app")
 public class GWBApp extends Application {
 
     //Todo module dialog, scrollable layout for design view, custom layouts which take in module instance, which type of module

@@ -1,28 +1,30 @@
-package net.thegaminghuskymc.gadgetmod.object;
+package net.thegaminghuskymc.gadgetmod.api;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.proxy.ClientProxy;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AppInfo {
+public class AppInfo 
+{
+	public static final Comparator<AppInfo> SORT_NAME = Comparator.comparing(AppInfo::getName);
 
-    public static final Comparator<AppInfo> SORT_NAME = Comparator.comparing(AppInfo::getName);
-
-    private transient final ResourceLocation APP_ID;
-    private transient int iconU = 0;
-    private transient int iconV = 0;
-    private transient boolean systemApp;
+	private transient final ResourceLocation APP_ID;
+	private transient final Class<Application> APP_CLASS;
+	private transient final boolean SYSTEM_APP;
+	private transient int iconU = 0;
+	private transient int iconV = 0;
 
     private String name;
     private String author;
@@ -35,31 +37,32 @@ public class AppInfo {
     private String[] screenshots;
     private Support support;
 
-    public AppInfo(ResourceLocation identifier, boolean isSystemApp)
-    {
-        this.APP_ID = identifier;
-        this.systemApp = isSystemApp;
-    }
+	public AppInfo(ResourceLocation appIdentifier, Class<Application> appClass, boolean isSystemApp)
+	{
+		this.APP_ID = appIdentifier;
+		this.APP_CLASS = appClass;
+		this.SYSTEM_APP = isSystemApp;
+	}
 
-    /**
-     * Gets the id of the application
-     *
-     * @return the app resource location
-     */
-    public ResourceLocation getId()
-    {
-        return APP_ID;
-    }
+	/**
+	 * Gets the id of the application
+	 *
+	 * @return the app resource location
+	 */
+	public ResourceLocation getId()
+	{
+		return APP_ID;
+	}
 
-    /**
-     * Gets the formatted version of the application's id
-     *
-     * @return a formatted id
-     */
-    public String getFormattedId()
-    {
-        return APP_ID.getResourceDomain() + "." + APP_ID.getResourcePath();
-    }
+	/**
+	 * Gets the formatted version of the application's id
+	 *
+	 * @return a formatted id
+	 */
+	public String getFormattedId()
+	{
+		return APP_ID.getResourceDomain() + "." + APP_ID.getResourcePath();
+	}
 
     /**
      * Gets the name of the application
@@ -123,76 +126,102 @@ public class AppInfo {
         return support;
     }
 
-    public boolean isSystemApp()
-    {
-        return systemApp;
-    }
+	public boolean isSystemApp()
+	{
+		return SYSTEM_APP;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof AppInfo)) return false;
-        AppInfo info = (AppInfo) obj;
-        return this == info || getFormattedId().equals(info.getFormattedId());
-    }
+	public Class<Application> getAppClass()
+	{
+		return APP_CLASS;
+	}
 
-    public void reload() {
-        resetInfo();
-        InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + APP_ID.getResourceDomain() + "/apps/" + APP_ID.getResourcePath() + ".json");
+	public Application createInstance()
+	{
+		try
+		{
+			Application application = APP_CLASS.newInstance();
+			Field field = Application.class.getDeclaredField("info");
+			field.setAccessible(true);
+			field.set(application, this);
+			return application;
+		}
+		catch(InstantiationException | IllegalAccessException | NoSuchFieldException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-        if(stream == null)
-            throw new RuntimeException("Missing app info json for '" + APP_ID + "'");
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null) return false;
+		if(!(obj instanceof AppInfo)) return false;
+		AppInfo info = (AppInfo) obj;
+		return this == info || getFormattedId().equals(info.getFormattedId());
+	}
 
-        Reader reader = new InputStreamReader(stream);
-        JsonParser parser = new JsonParser();
-        JsonElement obj = parser.parse(reader);
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(AppInfo.class, new AppInfo.Deserializer(this));
-        Gson gson = builder.create();
-        gson.fromJson(obj, AppInfo.class);
-    }
+	public void reload()
+	{
+		resetInfo();
+		InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + APP_ID.getResourceDomain() + "/apps/" + APP_ID.getResourcePath() + ".json");
 
-    private void resetInfo() {
+		if(stream == null)
+			throw new RuntimeException("Missing app info json for '" + APP_ID + "'");
+
+		Reader reader = new InputStreamReader(stream);
+		JsonParser parser = new JsonParser();
+		JsonElement obj = parser.parse(reader);
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(AppInfo.class, new AppInfo.Deserializer(this));
+		Gson gson = builder.create();
+		gson.fromJson(obj, AppInfo.class);
+	}
+
+	private void resetInfo()
+	{
         name = null;
         author = null;
         description = null;
-        contributors = null;
         version = null;
         icon = null;
         banner = null;
         screenshots = null;
         support = null;
-    }
+	}
 
-    public static class Support {
-        private String paypal;
-        private String patreon;
-        private String twitter;
-        private String youtube;
+	public static class Support
+	{
+		private String paypal;
+		private String patreon;
+		private String twitter;
+		private String youtube;
 
-        public String getPaypal()
-        {
-            return paypal;
-        }
+		public String getPaypal()
+		{
+			return paypal;
+		}
 
-        public String getPatreon()
-        {
-            return patreon;
-        }
+		public String getPatreon()
+		{
+			return patreon;
+		}
 
-        public String getTwitter()
-        {
-            return twitter;
-        }
+		public String getTwitter()
+		{
+			return twitter;
+		}
 
-        public String getYoutube()
-        {
-            return youtube;
-        }
-    }
+		public String getYoutube()
+		{
+			return youtube;
+		}
 
-    public static class Deserializer implements JsonDeserializer<AppInfo> {
+	}
 
+	public static class Deserializer implements JsonDeserializer<AppInfo>
+	{
         private static final Pattern LANG = Pattern.compile("\\$\\{[a-z]+}");
 
         private static final String NAME = "app_name";
@@ -219,7 +248,7 @@ public class AppInfo {
                 if (json.getAsJsonObject().has(AUTHOR))
                     info.author = convertToLocal(json.getAsJsonObject().get(AUTHOR).getAsString());
                 else if (json.getAsJsonObject().has(AUTHORS) && json.getAsJsonObject().get(AUTHORS).isJsonArray()) {
-                    info.authors = context.deserialize(json.getAsJsonObject().get(AUTHORS), new TypeToken<String[]>() {
+                    info.authors = context.deserialize(json.getAsJsonObject().get(AUTHORS), new com.google.common.reflect.TypeToken<String[]>() {
                     }.getType());
                 }
                 if (json.getAsJsonObject().has(CONTRIBUTORS) && json.getAsJsonObject().get(CONTRIBUTORS).isJsonArray()) {
@@ -229,7 +258,7 @@ public class AppInfo {
                 info.version = json.getAsJsonObject().get(VERSION).getAsString();
 
                 if (json.getAsJsonObject().has(SCREENS) && json.getAsJsonObject().get(SCREENS).isJsonArray()) {
-                    info.screenshots = context.deserialize(json.getAsJsonObject().get(SCREENS), new TypeToken<String[]>() {
+                    info.screenshots = context.deserialize(json.getAsJsonObject().get(SCREENS), new com.google.common.reflect.TypeToken<String[]>() {
                     }.getType());
                 }
 
@@ -268,7 +297,7 @@ public class AppInfo {
         }
 
         private String[] deserializeArray(JsonElement json, String name, JsonDeserializationContext context) {
-            return context.deserialize(json.getAsJsonObject().get(name), new TypeToken<String[]>() {
+            return context.deserialize(json.getAsJsonObject().get(name), new com.google.common.reflect.TypeToken<String[]>() {
             }.getType());
         }
 
@@ -280,5 +309,5 @@ public class AppInfo {
             }
             return s;
         }
-    }
+	}
 }

@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
@@ -32,7 +33,6 @@ import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
@@ -41,13 +41,16 @@ import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
 import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
 import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -88,8 +91,8 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
         BaseDevice.addTheme(new ResourceLocation(MOD_ID, "themes/test_theme.json"));
 
-        /*File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), MOD_ID, "wallpapers").toFile();
-        File[] files = folder.listFiles((dir, name) -> name.matches("laptop_wallpaper_.*.png"));
+        File folder = Paths.get(new ResourceLocation(MOD_ID, "laptop/wallpapers").toString()).toFile();
+        File[] files = folder.listFiles((dir, name) -> name.matches("wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
 
@@ -101,7 +104,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                 }
                 BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
             }
-        }*/
+        }
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
         IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? Objects.requireNonNull(stack.getTagCompound()).getInteger("color" + tintIndex) : 0xFFFFFF;
@@ -279,7 +282,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
     @Nullable
     @Override
-    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz) {
+    public Application registerApplication(ResourceLocation identifier, Class<Application> clazz) {
         if ("minecraft".equals(identifier.getResourceDomain())) {
             throw new IllegalArgumentException("Invalid identifier domain");
         }
@@ -331,8 +334,8 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         return false;
     }
 
-    private AppInfo generateAppInfo(ResourceLocation identifier, Class<? extends Application> clazz) {
-        AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
+    private AppInfo generateAppInfo(ResourceLocation identifier, Class<Application> clazz) {
+        AppInfo info = new AppInfo(identifier, clazz, SystemApplication.class.isAssignableFrom(clazz));
         info.reload();
         return info;
     }

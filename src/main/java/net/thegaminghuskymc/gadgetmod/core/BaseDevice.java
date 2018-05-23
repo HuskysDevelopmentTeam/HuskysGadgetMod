@@ -23,6 +23,7 @@ import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
@@ -40,7 +41,6 @@ import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageUnlockAdvancement;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
@@ -406,10 +406,10 @@ public class BaseDevice extends GuiScreen implements System {
                         bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
                         break;
                     case "Left":
-                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                        bar.renderOnSide(this, mc, posX + 28, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
                         break;
                     case "Right":
-                        bar.render(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
+                        bar.renderOnSide(this, mc, posX + BORDER, posY + DEVICE_HEIGHT - 28, mouseX, mouseY, partialTicks);
                         break;
                 }
 
@@ -478,7 +478,7 @@ public class BaseDevice extends GuiScreen implements System {
                     this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
                     break;
                 case "Left":
-                    this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
+                    this.bar.handleClick(this, posX - TaskBar.BAR_HEIGHT, posY + SCREEN_HEIGHT, mouseX, mouseY, mouseButton);
                     break;
                 case "Right":
                     this.bar.handleClick(this, posX, posY + SCREEN_HEIGHT - TaskBar.BAR_HEIGHT, mouseX, mouseY, mouseButton);
@@ -672,16 +672,19 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public void openApplication(AppInfo info, NBTTagCompound intentTag)
     {
-        Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
-        optional.ifPresent(application -> openApplication(application, intentTag));
+        Application application = getOrCreateApplication(info);
+        if(application != null)
+        {
+            openApplication(application, intentTag);
+        }
     }
 
     private void openApplication(Application app, NBTTagCompound intent)
     {
-        if(!isApplicationInstalled(app.getInfo()))
+        if(!ApplicationManager.isApplicationWhitelisted(app.getInfo()))
             return;
 
-        if(isValidApplication(app.getInfo()))
+        if(!isApplicationInstalled(app.getInfo()))
             return;
 
         if(sendApplicationToFront(app.getInfo()))
@@ -713,32 +716,60 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public boolean openApplication(AppInfo info, File file)
     {
-        if(!isApplicationInstalled(info))
-            return false;
-
-        if(isValidApplication(info))
-            return false;
-
-        Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
-        if(optional.isPresent())
+        Application application = getOrCreateApplication(info);
+        if(application != null)
         {
-            Application application = optional.get();
-            boolean alreadyRunning = isApplicationRunning(info);
-            openApplication(application, null);
-            if(isApplicationRunning(info))
-            {
-                if(!application.handleFile(file))
-                {
-                    if(!alreadyRunning)
-                    {
-                        closeApplication(application);
-                    }
-                    return false;
-                }
-                return true;
-            }
+            return openApplication(application, file);
         }
         return false;
+    }
+
+    private boolean openApplication(Application app, File file)
+    {
+        if(!ApplicationManager.isApplicationWhitelisted(app.getInfo()))
+            return false;
+
+        if(!isApplicationInstalled(app.getInfo()))
+            return false;
+
+        boolean alreadyRunning = isApplicationRunning(app.getInfo());
+        openApplication(app, (NBTTagCompound) null);
+        if(isApplicationRunning(app.getInfo()))
+        {
+            if(!app.handleFile(file))
+            {
+                if(!alreadyRunning)
+                {
+                    closeApplication(app);
+                }
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Nullable
+    public Application getOrCreateApplication(AppInfo info)
+    {
+        Application application = getRunningApplication(info);
+        return application != null ? application : info.createInstance();
+    }
+
+    private Application getRunningApplication(AppInfo info)
+    {
+        for(Window window : windows)
+        {
+            if(window != null && window.content instanceof Application)
+            {
+                Application application = (Application) window.content;
+                if(application.getInfo() == info)
+                {
+                    return application;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

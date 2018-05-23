@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.CheckBox;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -17,6 +18,9 @@ import net.thegaminghuskymc.gadgetmod.object.tiles.Tile;
 
 import javax.annotation.Nullable;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "boat_racer")
 public class ApplicationBoatRacers extends Application {
 
     private static final ResourceLocation PIXEL_MAIL_BACKGROUND = new ResourceLocation("cdm", "textures/gui/pixel_mail_background.png");
@@ -31,8 +35,7 @@ public class ApplicationBoatRacers extends Application {
 	private CheckBox checkBoxBackground;
 	private CheckBox checkBoxPlayer;
 
-	public ApplicationBoatRacers() 
-	{
+	public ApplicationBoatRacers() {
 		this.setDefaultWidth(320);
 		this.setDefaultHeight(160);
 	}

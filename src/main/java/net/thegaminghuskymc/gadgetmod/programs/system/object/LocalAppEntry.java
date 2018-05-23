@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.programs.system.object;
 
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
+
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 
 /**
  * Author: MrCrayfish

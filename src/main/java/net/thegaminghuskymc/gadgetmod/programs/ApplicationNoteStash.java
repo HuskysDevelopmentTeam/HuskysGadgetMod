@@ -5,6 +5,7 @@ import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
@@ -13,7 +14,11 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "note_stash")
 public class ApplicationNoteStash extends Application {
+
     private static final Predicate<File> PREDICATE_FILE_NOTE = file -> !file.isFolder()
             && file.getData().hasKey("title", Constants.NBT.TAG_STRING)
             && file.getData().hasKey("content", Constants.NBT.TAG_STRING);

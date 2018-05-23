@@ -5,6 +5,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ComboBox;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.*;
@@ -12,6 +13,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 
 import javax.annotation.Nullable;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "icons")
 public class ApplicationIcons extends Application {
     private int offset;
 

@@ -9,10 +9,12 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -20,7 +22,6 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.utils.OnlineRequest;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
-import net.thegaminghuskymc.gadgetmod.object.AppInfo;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.AppGrid;
 import net.thegaminghuskymc.gadgetmod.programs.system.layout.LayoutAppPage;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
+@DeviceApplication(modId = MOD_ID, appId = "app_store")
 public class ApplicationAppStore extends SystemApplication {
 
     public static final String CERTIFIED_APPS_URL = "https://raw.githubusercontent.com/sindrefag/GadgetMod-CertifiedApps/master";

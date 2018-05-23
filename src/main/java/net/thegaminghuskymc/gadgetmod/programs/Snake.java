@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 
 import javax.annotation.Nullable;
@@ -12,6 +13,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "snake")
 public class Snake extends Application {
 
     private Random rnd;
