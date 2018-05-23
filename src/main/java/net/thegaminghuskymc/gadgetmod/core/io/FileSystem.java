@@ -10,8 +10,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
@@ -74,11 +74,10 @@ public class FileSystem {
     }
 
     public static void getApplicationFolder(Application app, Callback<Folder> callback) {
-        if (HuskyGadgetMod.proxy.hasAllowedApplications()) {
-            if (!HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo())) {
-                callback.execute(null, false);
-                return;
-            }
+        if(!ApplicationManager.isApplicationWhitelisted(app.getInfo()))
+        {
+            callback.execute(null, false);
+            return;
         }
         if (BaseDevice.getMainDrive() == null) {
             Task task = new TaskGetMainDrive(BaseDevice.getPos());

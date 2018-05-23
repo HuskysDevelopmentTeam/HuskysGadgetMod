@@ -8,7 +8,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
@@ -68,7 +68,7 @@ public class TaskBarDesktop extends GuiScreen {
 
     private void setupApplications(List<Application> applications) {
         final Predicate<Application> VALID_APPS = (Application app) ->
-                app instanceof SystemApplication || !HuskyGadgetMod.proxy.hasAllowedApplications() || HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo());
+                app instanceof SystemApplication || ApplicationManager.getAvailableApplications().contains(app.getInfo());
         this.applications = applications.stream().filter(VALID_APPS).collect(Collectors.toList());
     }
 

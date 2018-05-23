@@ -90,6 +90,25 @@ public class ApplicationSettings extends SystemApplication {
             mc.fontRenderer.drawString("Wallpaper", x + wallpaperX + 3, y + wallpaperY + 3, BaseDevice.getSystem().getSettings().getColourScheme().getTextColour(), true);
         });
 
+        Layout themes = new Menu("Themes");
+        themes.addComponent(btnPrevious);
+        themes.setBackground((gui, mc, x, y, width, height, mouseX, mouseY, windowActive) -> {
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
+            int wallpaperX = 7;
+            int wallpaperY = 28;
+            Gui.drawRect(x + wallpaperX - 1, y + wallpaperY - 1, x + wallpaperX - 1 + 162, y + wallpaperY - 1 + 90, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().brighter().getRGB());
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
+            List<ResourceLocation> wallpapers = BaseDevice.getThemes();
+            Color bgColor = new Color(BaseDevice.getSystem().getSettings().getColourScheme().getBackgroundColour()).brighter().brighter();
+            float[] hsb = Color.RGBtoHSB(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), null);
+            bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
+            GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 0.3F);
+            mc.getTextureManager().bindTexture(wallpapers.get(BaseDevice.getCurrentTheme()));
+            GlStateManager.color(1.0F, 1.0F, 1.0F);
+            RenderUtil.drawRectWithFullTexture(x + wallpaperX, y + wallpaperY, 0, 0, 160, 88);
+            mc.fontRenderer.drawString("Theme", x + wallpaperX + 3, y + wallpaperY + 3, BaseDevice.getSystem().getSettings().getColourScheme().getTextColour(), true);
+        });
+
         layoutInformation = new Menu("Information");
         layoutInformation.addComponent(btnPrevious);
 
@@ -377,9 +396,6 @@ public class ApplicationSettings extends SystemApplication {
 
         Label labelCredits = new Label("Credits", 80, 10);
         menuCredits.addComponent(labelCredits);
-
-        Layout themes = new Menu("Themes");
-        themes.addComponent(btnPrevious);
 
         Button btnThemes = new Button(5, 88, "Themes", Icons.PICTURE);
         btnThemes.setClickListener((mouseX, mouseY, mouseButton) -> {

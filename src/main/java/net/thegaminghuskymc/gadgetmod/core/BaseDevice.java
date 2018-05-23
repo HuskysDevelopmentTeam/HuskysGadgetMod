@@ -20,7 +20,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
-import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
@@ -984,18 +983,9 @@ public class BaseDevice extends GuiScreen implements System {
         return info.isSystemApp() || installedApps.contains(info);
     }
 
-    private boolean isValidApplication(AppInfo info)
-    {
-        if(HuskyGadgetMod.proxy.hasAllowedApplications())
-        {
-            return !HuskyGadgetMod.proxy.getAllowedApplications().contains(info);
-        }
-        return false;
-    }
-
     public void installApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(isValidApplication(info))
+        if(!ApplicationManager.isApplicationWhitelisted(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, true);
@@ -1016,7 +1006,7 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void removeApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(isValidApplication(info))
+        if(!ApplicationManager.isApplicationWhitelisted(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, false);

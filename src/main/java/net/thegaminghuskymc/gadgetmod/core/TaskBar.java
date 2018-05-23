@@ -6,8 +6,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
-import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
@@ -70,15 +70,11 @@ public class TaskBar extends GuiScreen {
             {
                 return true;
             }
-            if(HuskyGadgetMod.proxy.hasAllowedApplications())
+            else if(Settings.isShowAllApps())
             {
-                if(HuskyGadgetMod.proxy.getAllowedApplications().contains(app.getInfo()))
-                {
-                    return Settings.isShowAllApps();
-                }
-                return false;
+                return true;
             }
-            return true;
+            return ApplicationManager.isApplicationWhitelisted(app.getInfo());
         };
     }
 

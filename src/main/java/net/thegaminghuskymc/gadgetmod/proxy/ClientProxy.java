@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.item.ItemBlock;
@@ -23,9 +24,9 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.thegaminghuskymc.gadgetmod.DeviceConfig;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
@@ -33,14 +34,11 @@ import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
-import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
-import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
 import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
-import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -48,8 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +62,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         GadgetConfig.clientPreInit();
+        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
     }
 
     @Override
@@ -173,34 +170,42 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         generateBannerAtlas();
     }
 
-    private void generateIconAtlas() {
+    private void generateIconAtlas()
+    {
         final int ICON_SIZE = 14;
         int index = 0;
 
         BufferedImage atlas = new BufferedImage(ICON_SIZE * 16, ICON_SIZE * 16, BufferedImage.TYPE_INT_ARGB);
         Graphics g = atlas.createGraphics();
 
-        try {
-            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + MOD_ID + "/textures/app/icon/missing.png"));
+        try
+        {
+            BufferedImage icon = TextureUtil.readBufferedImage(ClientProxy.class.getResourceAsStream("/assets/" + Reference.MOD_ID + "/textures/app/icon/missing.png"));
             g.drawImage(icon, 0, 0, ICON_SIZE, ICON_SIZE, null);
-        } catch (IOException e) {
+        }
+        catch(IOException e)
+        {
             e.printStackTrace();
         }
 
         index++;
 
-        for (AppInfo info : ApplicationManager.getAllApplications()) {
-            if (info.getIcon() == null)
+        for(AppInfo info : ApplicationManager.getAllApplications())
+        {
+            if(info.getIcon() == null)
                 continue;
 
             ResourceLocation identifier = info.getId();
             ResourceLocation iconResource = new ResourceLocation(info.getIcon());
             String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
-            try {
+            try
+            {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
-                if (input != null) {
+                if(input != null)
+                {
                     BufferedImage icon = TextureUtil.readBufferedImage(input);
-                    if (icon.getWidth() != ICON_SIZE || icon.getHeight() != ICON_SIZE) {
+                    if(icon.getWidth() != ICON_SIZE || icon.getHeight() != ICON_SIZE)
+                    {
                         HuskyGadgetMod.getLogger().error("Incorrect icon size for " + identifier.toString() + " (Must be 14 by 14 pixels)");
                         continue;
                     }
@@ -209,10 +214,14 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
                     g.drawImage(icon, iconU, iconV, ICON_SIZE, ICON_SIZE, null);
                     updateIcon(info, iconU, iconV);
                     index++;
-                } else {
-                    HuskyGadgetMod.getLogger().error("Icon for application '" + identifier.toString() + "' could not be found at '" + path + "'");
                 }
-            } catch (Exception e) {
+                else
+                {
+                    HuskyGadgetMod.getLogger().error("Icon for application '" + identifier.toString() +  "' could not be found at '" + path + "'");
+                }
+            }
+            catch(Exception e)
+            {
                 HuskyGadgetMod.getLogger().error("Unable to load icon for " + identifier.toString());
             }
         }
@@ -270,98 +279,70 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         Minecraft.getMinecraft().getTextureManager().loadTexture(BaseDevice.BANNER_TEXTURES, new DynamicTexture(atlas));
     }
 
-    private void updateIcon(AppInfo info, int iconU, int iconV) {
-        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconU, "iconU");
-        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconV, "iconV");
-    }
-
     private void updateBanner(AppInfo info, int bannerU, int bannerV) {
         ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerU, "bannerU");
         ReflectionHelper.setPrivateValue(AppInfo.class, info, bannerV, "bannerV");
     }
 
-    @Nullable
-    @Override
-    public Application registerApplication(ResourceLocation identifier, Class<Application> clazz) {
-        if ("minecraft".equals(identifier.getResourceDomain())) {
-            throw new IllegalArgumentException("Invalid identifier domain");
-        }
-
-        try {
-            Application application = clazz.newInstance();
-            java.util.List<Application> APPS = ReflectionHelper.getPrivateValue(BaseDevice.class, null, "APPLICATIONS");
-            APPS.add(application);
-
-            Field field = Application.class.getDeclaredField("info");
-            field.setAccessible(true);
-
-            Field modifiers = Field.class.getDeclaredField("modifiers");
-            modifiers.setAccessible(true);
-            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-            field.set(application, generateAppInfo(identifier, clazz));
-
-            return application;
-        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    private void updateIcon(AppInfo info, int iconU, int iconV)
+    {
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconU, "iconU");
+        ReflectionHelper.setPrivateValue(AppInfo.class, info, iconV, "iconV");
     }
 
     @Override
-    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint) {
-        try {
+    public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
+    {
+        try
+        {
             Constructor<? extends IPrint> constructor = classPrint.getConstructor();
             IPrint print = constructor.newInstance();
             Class<? extends IPrint.Renderer> classRenderer = print.getRenderer();
-            try {
+            try
+            {
                 IPrint.Renderer renderer = classRenderer.newInstance();
                 Map<String, IPrint.Renderer> idToRenderer = ReflectionHelper.getPrivateValue(PrintingManager.class, null, "registeredRenders");
-                if (idToRenderer == null) {
+                if(idToRenderer == null)
+                {
                     idToRenderer = new HashMap<>();
                     ReflectionHelper.setPrivateValue(PrintingManager.class, null, idToRenderer, "registeredRenders");
                 }
                 idToRenderer.put(identifier.toString(), renderer);
-            } catch (InstantiationException e) {
+            }
+            catch(InstantiationException e)
+            {
                 HuskyGadgetMod.getLogger().error("The print renderer '" + classRenderer.getName() + "' is missing an empty constructor and could not be registered!");
                 return false;
             }
             return true;
-        } catch (Exception e) {
+        }
+        catch(Exception e)
+        {
             HuskyGadgetMod.getLogger().error("The print '" + classPrint.getName() + "' is missing an empty constructor and could not be registered!");
         }
         return false;
     }
 
-    private AppInfo generateAppInfo(ResourceLocation identifier, Class<Application> clazz) {
-        AppInfo info = new AppInfo(identifier, clazz, SystemApplication.class.isAssignableFrom(clazz));
-        info.reload();
-        return info;
-    }
-
-    private ThemeInfo generateThemeInfo(ResourceLocation identifier) {
-        ThemeInfo info = new ThemeInfo(identifier);
-        info.reload();
-        return info;
-    }
-
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-        if (ApplicationManager.getAllApplications().size() > 0) {
+    public void onResourceManagerReload(IResourceManager resourceManager)
+    {
+        if(ApplicationManager.getAllApplications().size() > 0)
+        {
             ApplicationManager.getAllApplications().forEach(AppInfo::reload);
             generateIconAtlas();
         }
     }
 
     @SubscribeEvent
-    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-        allowedApps = null;
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
+    {
+        ReflectionHelper.setPrivateValue(ApplicationManager.class, null, null, "whitelistedApps");
         DeviceConfig.restore();
     }
 
     @Override
-    public void showNotification(NBTTagCompound tag) {
+    public void showNotification(NBTTagCompound tag)
+    {
         ClientNotification notification = ClientNotification.loadFromTag(tag);
         notification.push();
     }
