@@ -17,7 +17,7 @@ import static net.thegaminghuskymc.gadgetmod.core.BaseDevice.*;
 public class LayoutDesktopCraftOS extends Layout {
 
     public LayoutDesktopCraftOS() {
-        super(0, 10, 908, 472);
+        super(0, 10, BaseDevice.SCREEN_WIDTH, BaseDevice.SCREEN_HEIGHT);
     }
 
     @Override
@@ -28,7 +28,6 @@ public class LayoutDesktopCraftOS extends Layout {
         bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
 
         if(BaseDevice.getSystem().getSettings().hasWallpaperOrColor().equals("Wallpaper")) {
-
             GlStateManager.popMatrix();
             GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 0.3F);
             mc.getTextureManager().bindTexture(BaseDevice.WALLPAPERS.get(BaseDevice.currentWallpaper));
@@ -38,6 +37,7 @@ public class LayoutDesktopCraftOS extends Layout {
             GlStateManager.enableBlend();
             mc.getTextureManager().bindTexture(BOOT_CRAFT_TEXTURES);
             this.drawTexturedModalRect(x + 170, y + 100, 2, 94, 128, 30);
+
             GlStateManager.pushMatrix();
             Minecraft.getMinecraft().fontRenderer.drawString(TextFormatting.GOLD + String.format("CraftOS v%s", Reference.CRAFT_VERSION), x + 370, y + 210, 0xFFFFFF, true);
         } else {

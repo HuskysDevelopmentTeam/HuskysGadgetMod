@@ -55,7 +55,7 @@ import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
     @Override

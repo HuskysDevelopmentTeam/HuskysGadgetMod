@@ -35,6 +35,9 @@ public final class ApplicationManager
 					{
 						AppInfo info = new AppInfo(identifier, clazz, SystemApplication.class.isAssignableFrom(clazz));
 						APP_INFO_MAP.put(identifier, info);
+						if(info.isSystemApp()) {
+							whitelistedApps.add(info);
+						}
 					}
 					else
 					{

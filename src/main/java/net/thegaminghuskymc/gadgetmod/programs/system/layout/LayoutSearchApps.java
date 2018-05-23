@@ -45,7 +45,7 @@ public class LayoutSearchApps extends StandardLayout {
 
         ItemList<AppInfo> itemListResults = new ItemList<>(5, 48, ApplicationAppStore.LAYOUT_WIDTH - 10, 5, true);
         itemListResults.setItems(ApplicationManager.getAllApplications());
-//        itemListResults.sortBy(AppInfo.SORT_NAME);
+        itemListResults.sortBy(AppInfo.SORT_NAME);
         itemListResults.setListItemRenderer(new ListItemRenderer<AppInfo>(18)
         {
             @Override

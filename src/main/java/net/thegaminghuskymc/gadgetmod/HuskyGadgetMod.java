@@ -23,8 +23,6 @@ import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS, acceptedMinecraftVersions = Reference.WORKING_MC_VERSION/*, dependencies = Reference.DEPENDENCE*/)
 public class HuskyGadgetMod {
 
@@ -32,7 +30,6 @@ public class HuskyGadgetMod {
     public static HuskyGadgetMod instance;
     public static boolean hasAllApps = false, isInsider = false, isDeveloper = false, isAdmin = false, isServerAdmin = false, isArtist = true, likesSocialMedias = true;
     public static final RemoteClassLoader remoteClassLoader = new RemoteClassLoader(HuskyGadgetMod.class.getClassLoader());
-    public static File modDataDir;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;

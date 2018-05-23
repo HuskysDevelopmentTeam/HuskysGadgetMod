@@ -50,7 +50,7 @@ public class Settings {
         settings.colourScheme = ColourScheme.fromTag(tag.getCompoundTag("colourScheme"));
         settings.hasWallpaperOrColor = "Wallpaper";
         settings.taskbarPlacement = "Bottom";
-        settings.OS = "PixelOS";
+        settings.OS = "CraftOS";
         return settings;
     }
 

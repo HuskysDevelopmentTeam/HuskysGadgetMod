@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class CommonProxy {
 
     List<AppInfo> allowedApps;
@@ -50,6 +52,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void postInit(FMLPostInitializationEvent event) {
+
     }
 
     public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
