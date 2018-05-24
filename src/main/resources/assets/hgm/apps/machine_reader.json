@@ -1,0 +1,14 @@
+{
+  "app_name": "Machine Reader",
+  "app_creator": "TheGamingHuskyMC",
+  "app_contributors": ["SomeOtherGuy", "Winner", "Loser"],
+  "app_description": "${desc}",
+  "app_version": "1.0",
+  "app_icon": "hgm:textures/app/icon/machine_reader.png",
+  "app_banner": "hgm:textures/app/banner/banner_machine_reader.png",
+  "app_screenshots": [
+    "https://i.imgur.com/7CzbiA7.png",
+    "https://i.imgur.com/4AiXzf8.jpg",
+    "https://i.imgur.com/C7k2UDw.jpg"
+  ]
+}

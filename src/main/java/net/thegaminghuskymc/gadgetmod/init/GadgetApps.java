@@ -10,7 +10,7 @@ public class GadgetApps {
 //        ApplicationManagerOld.registerApplication(new ResourceLocation(Reference.MOD_ID, "pixel_mail"), ApplicationEmail.class);
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "app_store"), ApplicationAppStore.class);
 //        ApplicationManagerOld.registerApplication(new ResourceLocation(Reference.MOD_ID, "package_manager"), ApplicationPackageManager.class);
-        ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "snake"), Snake.class);
+        ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "snake"), ApplicationSnake.class);
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "gitweb"), ApplicationGitWeb.class);
 
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "boat_racer"), ApplicationBoatRacers.class);

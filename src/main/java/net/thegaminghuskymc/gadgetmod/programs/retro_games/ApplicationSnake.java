@@ -1,4 +1,4 @@
-package net.thegaminghuskymc.gadgetmod.programs;
+package net.thegaminghuskymc.gadgetmod.programs.retro_games;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -16,7 +16,7 @@ import java.util.Random;
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 @DeviceApplication(modId = MOD_ID, appId = "snake")
-public class Snake extends Application {
+public class ApplicationSnake extends Application {
 
     private Random rnd;
     private int size = 8;

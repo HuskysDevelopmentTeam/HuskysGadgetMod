@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -31,7 +30,6 @@ import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
-import net.thegaminghuskymc.gadgetmod.gui.GadgetConfig;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
@@ -52,19 +50,16 @@ import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetBlocks.*;
 import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 
-@Mod.EventBusSubscriber(modid = MOD_ID)
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
-        GadgetConfig.clientPreInit();
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        super.init(event);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPaper.class, new PaperRenderer());
@@ -74,7 +69,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
         BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/wallpapers/default.png"));
         for(int i = 1; i > 17; i++) {
-            BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, String.format("laptop/wallpapers/wallpaper_%d.png", i)));
+            BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, String.format("textures/gui/wallpapers/wallpaper_%d.png", i)));
         }
 
 //        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
