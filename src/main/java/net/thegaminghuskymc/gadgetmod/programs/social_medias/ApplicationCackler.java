@@ -4,6 +4,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.OtherEmojis;
@@ -13,6 +14,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.layout.HomePageLayout;
 import javax.annotation.Nullable;
 import java.awt.*;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "cackler")
 public class ApplicationCackler extends Application {
 
     public ApplicationCackler() {

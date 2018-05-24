@@ -4,6 +4,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Spinner;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextField;
@@ -16,10 +17,13 @@ import net.thegaminghuskymc.gadgetmod.programs.system.layout.StandardLayout;
 import javax.annotation.Nullable;
 import java.awt.*;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
 /**
  * The Device Mod implementations of an internet browser. Originally created by MinecraftDoodler.
  * Licensed under GPL 3.0
  */
+@DeviceApplication(modId = MOD_ID, appId = "gitweb")
 public class ApplicationGitWeb extends Application
 {
     private Layout layoutBrowser;

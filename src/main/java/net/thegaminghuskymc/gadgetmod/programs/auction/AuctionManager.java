@@ -15,7 +15,7 @@ public class AuctionManager {
     private List<AuctionItem> items;
 
     private AuctionManager() {
-        items = new ArrayList<AuctionItem>();
+        items = new ArrayList<>();
     }
 
     public void addItem(AuctionItem item) {
@@ -63,7 +63,7 @@ public class AuctionManager {
 
     public void writeToNBT(NBTTagCompound tag) {
         NBTTagList tagList = new NBTTagList();
-        items.stream().filter(i -> i.isValid()).forEach(i -> {
+        items.stream().filter(AuctionItem::isValid).forEach(i -> {
             NBTTagCompound itemTag = new NBTTagCompound();
             i.writeToNBT(itemTag);
             tagList.appendTag(itemTag);

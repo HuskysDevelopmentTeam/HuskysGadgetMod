@@ -436,7 +436,20 @@ public class BaseDevice extends GuiScreen implements System {
                         insideContext = GuiHelper.isMouseInside(mouseX, mouseY, context.xPosition, context.yPosition, context.xPosition + context.width, context.yPosition + context.height);
                     }
 
-                    Image.CACHE.forEach((s, cachedImage) -> cachedImage.delete());
+                    Image.CACHE.entrySet().removeIf(entry ->
+                    {
+                        Image.CachedImage cachedImage = entry.getValue();
+                        if(cachedImage.isDynamic() && cachedImage.isPendingDeletion())
+                        {
+                            int texture = cachedImage.getTextureId();
+                            if(texture != -1)
+                            {
+                                GL11.glDeleteTextures(texture);
+                            }
+                            return true;
+                        }
+                        return false;
+                    });
 
                     /* Window */
                     for(int i = windows.length - 1; i >= 0; i--)
@@ -699,22 +712,6 @@ public class BaseDevice extends GuiScreen implements System {
         drawHoveringText(textLines, x - guiLeft, y - guiTop, mc.fontRenderer);
     }
 
-    public boolean sendApplicationToFront(AppInfo info)
-    {
-        for(int i = 0; i < windows.length; i++)
-        {
-            Window window = windows[i];
-            if(window != null && window.content instanceof Application && ((Application) window.content).getInfo() == info)
-            {
-                windows[i] = null;
-                updateWindowStack();
-                windows[0] = window;
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void openApplication(AppInfo info)
     {
@@ -827,18 +824,21 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public void closeApplication(AppInfo info)
     {
-        Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
-        optional.ifPresent(this::closeApplication);
+        Application application = getRunningApplication(info);
+        if(application != null)
+        {
+            closeApplication(application);
+        }
     }
 
     private void closeApplication(Application app)
     {
         for(int i = 0; i < windows.length; i++)
         {
-            Window<Application> window = windows[i];
-            if(window != null)
+            Window window = windows[i];
+            if(window != null && window.content instanceof Application)
             {
-                if(window.content.getInfo().equals(app.getInfo()))
+                if(((Application) window.content).getInfo().equals(app.getInfo()))
                 {
                     if(app.isDirty())
                     {
@@ -860,6 +860,22 @@ public class BaseDevice extends GuiScreen implements System {
                 }
             }
         }
+    }
+
+    private boolean sendApplicationToFront(AppInfo info)
+    {
+        for(int i = 0; i < windows.length; i++)
+        {
+            Window window = windows[i];
+            if(window != null && window.content instanceof Application && ((Application) window.content).getInfo() == info)
+            {
+                windows[i] = null;
+                updateWindowStack();
+                windows[0] = window;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addWindow(Window<Application> window) {
@@ -912,22 +928,25 @@ public class BaseDevice extends GuiScreen implements System {
         return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX, posY + window.offsetY, posX + window.offsetX + window.width, posY + window.offsetY + window.height);
     }
 
-    boolean isApplicationRunning(AppInfo info) {
-        for (Window window : windows) {
-            if (window != null && ((Application) window.content).getInfo().getFormattedId().equals(info.getFormattedId())) {
+    public boolean isApplicationRunning(AppInfo info)
+    {
+        for(Window window : windows)
+        {
+            if(window != null && ((Application) window.content).getInfo() == info)
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public void nextWallpaper() {
+    public static void nextWallpaper() {
         if (currentWallpaper + 1 < WALLPAPERS.size()) {
             currentWallpaper++;
         }
     }
 
-    public void prevWallpaper() {
+    public static void prevWallpaper() {
         if (currentWallpaper - 1 >= 0) {
             currentWallpaper--;
         }
@@ -961,21 +980,15 @@ public class BaseDevice extends GuiScreen implements System {
         return ImmutableList.copyOf(THEMES);
     }
 
-    @Nullable
-    public Application getApplication(String appId)
-    {
-        return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
+    @Override
+    public Collection<ThemeInfo> getInstalledThemes() {
+        return null;
     }
 
     @Override
     public List<AppInfo> getInstalledApplications()
     {
         return ImmutableList.copyOf(installedApps);
-    }
-
-    @Override
-    public Collection<ThemeInfo> getInstalledThemes() {
-        return null;
     }
 
     public boolean isApplicationInstalled(AppInfo info)
@@ -1034,19 +1047,22 @@ public class BaseDevice extends GuiScreen implements System {
     }
 
     @Override
-    public void openContext(Layout layout, int x, int y) {
+    public void openContext(Layout layout, int x, int y)
+    {
         layout.updateComponents(x, y);
         context = layout;
         layout.init();
     }
 
     @Override
-    public boolean hasContext() {
+    public boolean hasContext()
+    {
         return context != null;
     }
 
     @Override
-    public void closeContext() {
+    public void closeContext()
+    {
         context = null;
         dragging = false;
     }

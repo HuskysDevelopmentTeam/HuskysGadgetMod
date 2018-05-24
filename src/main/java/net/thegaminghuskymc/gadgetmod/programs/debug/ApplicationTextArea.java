@@ -4,6 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.ButtonToggle;
 import net.thegaminghuskymc.gadgetmod.api.app.component.TextArea;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
@@ -13,6 +14,9 @@ import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 
 import javax.annotation.Nullable;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "text_area")
 public class ApplicationTextArea extends Application {
     public static final IHighlight JAVA_HIGHLIGHT = text ->
     {

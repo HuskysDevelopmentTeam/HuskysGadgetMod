@@ -11,6 +11,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -31,6 +32,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "pixel_bay")
 public class ApplicationPixelBay extends Application {
 
     private static final ResourceLocation MINEBAY_ASSESTS = new ResourceLocation(Reference.MOD_ID, "textures/gui/pixel_bay.png");

@@ -279,21 +279,25 @@ public class FileBrowser extends Component {
                         BaseDevice laptop = systemApp.getLaptop();
                         if(laptop != null)
                         {
-                            //TODO change to check if application is installed
-                            Application targetApp = laptop.getApplication(file.getOpeningApp());
-                            if(targetApp != null)
+                            AppInfo info = ApplicationManager.getApplication(file.getOpeningApp());
+                            if(!laptop.getInstalledApplications().contains(info))
                             {
-                                laptop.openApplication(targetApp.getInfo());
-                                if(!targetApp.handleFile(file))
-                                {
-                                    laptop.closeApplication(targetApp.getInfo());
-                                    laptop.openApplication(systemApp.getInfo());
-                                    createErrorDialog(targetApp.getInfo().getName() + " was unable to open the file.");
-                                }
+                                createErrorDialog("This file could not be open because the application '" + TextFormatting.YELLOW + info.getName() + TextFormatting.RESET + "' is not installed.");
                             }
                             else
                             {
-                                createErrorDialog("The application designed for this file does not exist or is not installed.");
+                                Application targetApp = laptop.getOrCreateApplication(info);
+                                if(targetApp != null)
+                                {
+                                    if(!laptop.openApplication(targetApp.getInfo(), file))
+                                    {
+                                        createErrorDialog(targetApp.getInfo().getName() + " was unable to open the file.");
+                                    }
+                                }
+                                else
+                                {
+                                    createErrorDialog("The application designed for this file does not exist.");
+                                }
                             }
                         }
                     }

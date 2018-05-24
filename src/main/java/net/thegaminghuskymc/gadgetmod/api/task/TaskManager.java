@@ -20,7 +20,7 @@ public final class TaskManager
 
     private final HashBiMap<String, Class<? extends Task>> registeredTasks = HashBiMap.create();
     private final Map<String, Task> instances = new HashMap<>();
-    private final Map<Integer, Task> pendingTasks = new HashMap<Integer, Task>();
+    private final Map<Integer, Task> pendingTasks = new HashMap<>();
     private int currentId = 0;
 
     private TaskManager() {}

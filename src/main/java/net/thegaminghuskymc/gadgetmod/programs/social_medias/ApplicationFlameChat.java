@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
@@ -12,6 +13,9 @@ import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import javax.annotation.Nullable;
 import java.awt.*;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "flame_chat")
 public class ApplicationFlameChat extends Application {
 
     int activeTab = 0;

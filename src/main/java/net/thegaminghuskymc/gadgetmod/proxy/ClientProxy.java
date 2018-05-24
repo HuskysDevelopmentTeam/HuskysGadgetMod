@@ -39,14 +39,11 @@ import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
 import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
 import net.thegaminghuskymc.huskylib2.items.ItemColored;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -76,6 +73,9 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficeChair.class, new OfficeChairRenderer());
 
         BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/wallpapers/default.png"));
+        for(int i = 1; i > 17; i++) {
+            BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, String.format("laptop/wallpapers/wallpaper_%d.png", i)));
+        }
 
 //        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_1.png"));
 //        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_2.png"));
@@ -86,22 +86,26 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 //        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_7.png"));
 //        BaseDevice.addWallpaper(new ResourceLocation(MOD_ID, "textures/gui/laptop_wallpaper_8.png"));
 
-        BaseDevice.addTheme(new ResourceLocation(MOD_ID, "themes/test_theme.json"));
+        /*BaseDevice.addTheme(new ResourceLocation(MOD_ID, "themes/test_theme.json"));
 
-        File folder = Paths.get(new ResourceLocation(MOD_ID, "laptop/wallpapers").toString()).toFile();
+        File folder = Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(), Reference.MOD_ID, "wallpapers").toFile();
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
         File[] files = folder.listFiles((dir, name) -> name.matches("wallpaper_.*.png"));
         if (files != null) {
             for (File f : files) {
 
                 BufferedImage img = null;
                 try {
+                    if (!f.exists()) f.createNewFile();
                     img = ImageIO.read(f);
-                } catch (IOException ignored) {
-
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(Objects.requireNonNull(img))));
+                BaseDevice.addWallpaper(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("wallpapers", new DynamicTexture(img)));
             }
-        }
+        }*/
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
         IItemColor easterEgg = (stack, tintIndex) -> tintIndex < 2 && stack.hasTagCompound() ? Objects.requireNonNull(stack.getTagCompound()).getInteger("color" + tintIndex) : 0xFFFFFF;

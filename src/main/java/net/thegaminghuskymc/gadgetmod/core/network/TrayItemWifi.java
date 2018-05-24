@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrayItemWifi extends TrayItem {
+
     public static TrayItem trayItem;
     private int pingTimer;
 

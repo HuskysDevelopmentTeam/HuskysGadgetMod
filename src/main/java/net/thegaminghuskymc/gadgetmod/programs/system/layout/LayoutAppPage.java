@@ -8,14 +8,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.ScrollableLayout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
-import net.thegaminghuskymc.gadgetmod.programs.gitweb.component.GitWebFrame;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.AppEntry;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.LocalAppEntry;
@@ -103,9 +101,9 @@ public class LayoutAppPage extends Layout {
         labelVersion = new Label(version, 38, 50);
         this.addComponent(labelVersion);
 
-        String description = GitWebFrame.parseFormatting(entry.getDescription());
+        /*String description = GitWebFrame.parseFormatting(entry.getDescription());
         ScrollableLayout descriptionLayout = ScrollableLayout.create(130, 67, 115, 78, description);
-        this.addComponent(descriptionLayout);
+        this.addComponent(descriptionLayout);*/
 
         SlideShow slideShow = new SlideShow(5, 67, 120, 78);
         if(entry instanceof LocalAppEntry)

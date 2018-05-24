@@ -11,42 +11,48 @@ import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 
 public class MessageRequest implements IMessage, IMessageHandler<MessageRequest, IMessage> {
     private int id;
-    private Task request;
+    private Task task;
     private NBTTagCompound nbt;
 
-    public MessageRequest() {
+    public MessageRequest()
+    {
     }
 
-    public MessageRequest(int id, Task request) {
+    public MessageRequest(int id, Task task)
+    {
         this.id = id;
-        this.request = request;
+        this.task = task;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
     @Override
-    public IMessage onMessage(MessageRequest message, MessageContext ctx) {
-        message.request.processRequest(message.nbt, ctx.getServerHandler().player.world, ctx.getServerHandler().player);
-        return new MessageResponse(message.id, message.request);
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(this.id);
+        ByteBufUtils.writeUTF8String(buf, TaskManager.getTaskName(task));
+        NBTTagCompound nbt = new NBTTagCompound();
+        this.task.prepareRequest(nbt);
+        ByteBufUtils.writeTag(buf, nbt);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf) {
+    public void fromBytes(ByteBuf buf)
+    {
         this.id = buf.readInt();
         String name = ByteBufUtils.readUTF8String(buf);
-        this.request = TaskManager.getTask(name);
+        this.task = TaskManager.getTask(name);
         this.nbt = ByteBufUtils.readTag(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeInt(this.id);
-        ByteBufUtils.writeUTF8String(buf, TaskManager.getTaskName(this.request));
-        NBTTagCompound nbt = new NBTTagCompound();
-        this.request.prepareRequest(nbt);
-        ByteBufUtils.writeTag(buf, nbt);
+    public IMessage onMessage(MessageRequest message, MessageContext ctx)
+    {
+        message.task.processRequest(message.nbt, ctx.getServerHandler().player.world, ctx.getServerHandler().player);
+        return new MessageResponse(message.id, message.task);
     }
 
 }

@@ -12,6 +12,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Component;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.*;
@@ -35,8 +36,10 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 import static net.thegaminghuskymc.gadgetmod.api.app.Component.ALIGN_CENTER;
 
+@DeviceApplication(modId = MOD_ID, appId = "pixel_mail")
 public class ApplicationEmail extends Application {
 
     private static final ResourceLocation PIXEL_MAIL_ICONS = new ResourceLocation(Reference.MOD_ID, "textures/gui/pixel_mail.png");

@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
@@ -28,10 +28,13 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Objects;
 
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
+@DeviceApplication(modId = MOD_ID, appId = "bank")
 public class ApplicationBank extends SystemApplication {
 
     private static final ItemStack EMERALD = new ItemStack(Items.EMERALD);
-    private static final ResourceLocation BANK_ASSETS = new ResourceLocation(Reference.MOD_ID, "textures/gui/bank.png");
+    private static final ResourceLocation BANK_ASSETS = new ResourceLocation(MOD_ID, "textures/gui/bank.png");
     private static final ResourceLocation villagerTextures = new ResourceLocation("textures/entity/villager/villager.png");
     private static final ModelVillager villagerModel = new ModelVillager(0.0F);
 
