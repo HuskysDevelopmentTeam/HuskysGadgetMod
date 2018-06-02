@@ -11,10 +11,10 @@
       "screen": { "model": "hgm:laptop_screen" }
     },
     "facing": {
-      "north": { "y": 0   },
-      "east":  { "y": 90  },
-      "south": { "y": 180 },
-      "west":  { "y": 270 }
+      "north": { "y": 180   },
+      "east":  { "y": 270  },
+      "south": { "y": 360 },
+      "west":  { "y": 450 }
     },
     "inventory": [
       {}

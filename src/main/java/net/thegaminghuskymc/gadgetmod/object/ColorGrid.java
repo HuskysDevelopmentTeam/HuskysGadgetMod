@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.object;
 
-import com.mrcrayfish.device.api.app.Component;
-import com.mrcrayfish.device.api.app.component.Slider;
-import com.mrcrayfish.device.core.Laptop;
-import com.mrcrayfish.device.util.GuiHelper;
 import net.minecraft.client.Minecraft;
+import net.thegaminghuskymc.gadgetmod.api.app.Component;
+import net.thegaminghuskymc.gadgetmod.api.app.component.Slider;
+import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 
 import java.awt.*;
 
@@ -33,7 +33,7 @@ public class ColorGrid extends Component
 	}
 
 	@Override
-	public void render(Laptop laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks) 
+	public void render(BaseDevice laptop, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean windowActive, float partialTicks)
 	{
 		int endX = xPosition + width + 2;
 		int endY = yPosition + (colors.length / 5) * 10 + 2;

@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -53,12 +54,14 @@ import static net.thegaminghuskymc.gadgetmod.init.GadgetItems.flash_drives;
 public class ClientProxy extends CommonProxy implements IResourceManagerReloadListener {
 
     @Override
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
     }
 
     @Override
+    @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaptop.class, new LaptopRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrinter.class, new PrinterRenderer());
@@ -163,6 +166,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
     }
 
     @Override
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
         generateIconAtlas();

@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -32,17 +33,17 @@ public class CommonProxy {
 
     private List<ThemeInfo> allowedThemes;
 
-    @SubscribeEvent
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    @SubscribeEvent
+    @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
 
     }
 
-    @SubscribeEvent
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
     }
