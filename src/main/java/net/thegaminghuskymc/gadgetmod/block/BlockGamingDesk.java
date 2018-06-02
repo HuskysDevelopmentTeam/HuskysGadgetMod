@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityGamingDesk;
-import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
+import net.hdt.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;

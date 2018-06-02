@@ -5,7 +5,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
-import net.thegaminghuskymc.huskylib2.blocks.tile.TileMod;
+import net.hdt.huskylib2.blocks.tile.TileMod;
 
 import java.util.List;
 

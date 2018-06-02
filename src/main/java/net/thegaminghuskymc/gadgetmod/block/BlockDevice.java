@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
 import net.thegaminghuskymc.gadgetmod.util.IColored;
-import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
+import net.hdt.huskylib2.blocks.BlockFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;

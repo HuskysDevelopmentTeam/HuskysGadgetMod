@@ -30,7 +30,7 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServer;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServerRack;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
-import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
+import net.hdt.huskylib2.blocks.BlockFacing;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;

@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
-import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
+import net.hdt.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;

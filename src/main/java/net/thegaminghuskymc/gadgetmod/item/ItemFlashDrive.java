@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
-import net.thegaminghuskymc.huskylib2.items.ItemColored;
+import net.hdt.huskylib2.items.ItemColored;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 

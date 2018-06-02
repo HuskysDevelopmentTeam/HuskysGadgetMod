@@ -3,7 +3,7 @@ package net.thegaminghuskymc.gadgetmod.item;
 import net.minecraft.item.Item;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.huskylib2.items.ItemMod;
+import net.hdt.huskylib2.items.ItemMod;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 

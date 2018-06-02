@@ -20,7 +20,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.huskylib2.blocks.BlockMod;
+import net.hdt.huskylib2.blocks.BlockMod;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.blocks.BlockColoredFacing;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +15,6 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBenchmarkStation;
-import net.thegaminghuskymc.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 

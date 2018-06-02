@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
+import net.hdt.huskylib2.blocks.BlockFacing;
 
 import java.util.Random;
 

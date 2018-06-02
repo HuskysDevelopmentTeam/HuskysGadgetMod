@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
-import net.thegaminghuskymc.huskylib2.blocks.BlockMod;
+import net.hdt.huskylib2.blocks.BlockMod;
 
 public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
 

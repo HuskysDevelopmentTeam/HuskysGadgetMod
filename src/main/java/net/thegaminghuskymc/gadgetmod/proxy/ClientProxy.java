@@ -35,8 +35,8 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-import net.thegaminghuskymc.huskylib2.blocks.BlockColored;
-import net.thegaminghuskymc.huskylib2.items.ItemColored;
+import net.hdt.huskylib2.blocks.BlockColored;
+import net.hdt.huskylib2.items.ItemColored;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

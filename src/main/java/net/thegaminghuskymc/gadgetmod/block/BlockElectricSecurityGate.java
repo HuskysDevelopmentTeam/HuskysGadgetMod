@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.DamageSourceFence;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
-import net.thegaminghuskymc.huskylib2.blocks.BlockFacing;
+import net.hdt.huskylib2.blocks.BlockFacing;
 
 import java.util.Random;
 

@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
+import net.hdt.huskylib2.blocks.tile.TileMod;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
-import net.thegaminghuskymc.huskylib2.blocks.tile.TileMod;
 
 public abstract class TileEntitySync extends TileMod {
 
