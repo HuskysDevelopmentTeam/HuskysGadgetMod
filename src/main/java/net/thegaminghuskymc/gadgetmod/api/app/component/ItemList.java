@@ -15,7 +15,6 @@ import net.thegaminghuskymc.gadgetmod.util.GuiHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -422,7 +421,7 @@ public class ItemList<E> extends Component implements Iterable<E> {
      */
     public void sort() {
         if (sorter != null) {
-            Collections.sort(items, sorter);
+            items.sort(sorter);
         }
     }
 

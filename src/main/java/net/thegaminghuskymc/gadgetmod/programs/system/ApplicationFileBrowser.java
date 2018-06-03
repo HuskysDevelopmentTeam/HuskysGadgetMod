@@ -1,16 +1,11 @@
 package net.thegaminghuskymc.gadgetmod.programs.system;
 
-
 import net.minecraft.nbt.NBTTagCompound;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 
 import javax.annotation.Nullable;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceApplication(modId = MOD_ID, appId = "file_browser")
 public class ApplicationFileBrowser extends SystemApplication {
 
     public ApplicationFileBrowser() {

@@ -28,6 +28,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
 import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;

@@ -11,6 +11,7 @@ import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import org.lwjgl.opengl.GL11;
 

@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
 import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
@@ -12,9 +11,6 @@ import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
 import java.util.List;
 import java.util.UUID;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "minebay_get_auctions")
 public class TaskGetAuctions extends Task {
     private UUID seller;
 

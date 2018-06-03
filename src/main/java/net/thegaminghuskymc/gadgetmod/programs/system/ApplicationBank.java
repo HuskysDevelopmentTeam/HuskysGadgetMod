@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceApplication;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
@@ -30,7 +29,6 @@ import java.util.Objects;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
-@DeviceApplication(modId = MOD_ID, appId = "bank")
 public class ApplicationBank extends SystemApplication {
 
     private static final ItemStack EMERALD = new ItemStack(Items.EMERALD);

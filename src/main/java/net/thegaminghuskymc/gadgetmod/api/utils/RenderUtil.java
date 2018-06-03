@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 
 import javax.annotation.Nullable;
 

@@ -23,7 +23,7 @@ import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 @DeviceApplication(modId = MOD_ID, appId = "boat_racer")
 public class ApplicationBoatRacers extends Application {
 
-    private static final ResourceLocation PIXEL_MAIL_BACKGROUND = new ResourceLocation("cdm", "textures/gui/pixel_mail_background.png");
+    private static final ResourceLocation PIXEL_MAIL_BACKGROUND = new ResourceLocation("hgm", "textures/gui/pixel_mail_background.png");
 
 	private Layout layoutLevelEditor, layoutMain;
 	private Game game;

@@ -35,6 +35,7 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import java.awt.*;
