@@ -62,7 +62,7 @@ public class BlockServer extends BlockDevice {
 
             if (playerIn.isSneaking()) {
                 if (!worldIn.isRemote) {
-                    server.poweredUnpowered();
+                    server.powerUnpower();
                 }
             }
         }

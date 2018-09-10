@@ -2,10 +2,15 @@ package net.thegaminghuskymc.gadgetmod.core.operation_systems;
 
 import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.core.TaskBar;
-import net.thegaminghuskymc.gadgetmod.core.Laptop;
 import net.thegaminghuskymc.gadgetmod.core.operation_systems.core_os.OSInfo;
 
 public class PixelOS implements OperatingSystem {
+
+    private TaskBar taskBar;
+
+    public PixelOS(TaskBar taskBar) {
+        this.taskBar = taskBar;
+    }
 
     @Override
     public String name() {
@@ -19,8 +24,7 @@ public class PixelOS implements OperatingSystem {
 
     @Override
     public TaskBar taskBar() {
-        Laptop laptop = new Laptop();
-        return laptop.getTaskBar();
+        return taskBar;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class TileEntityLaptop extends TileEntityBaseDevice {
     private int prevRotation;
 
     public TileEntityLaptop() {
-        super("Laptop");
+        super("Laptop", true);
     }
 
     @Override

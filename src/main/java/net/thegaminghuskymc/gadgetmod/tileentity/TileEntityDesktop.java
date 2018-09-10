@@ -14,7 +14,7 @@ public class TileEntityDesktop extends TileEntityBaseDevice {
     private boolean psuInstalled = false, psuPowered = false, monitorConnected = false;
 
     public TileEntityDesktop() {
-        super("Desktop");
+        super("Desktop", true);
     }
 
     @Override

@@ -10,7 +10,7 @@ public class TileEntityPlaystation4Pro extends TileEntityBaseDevice {
     private boolean isPowered = false, powerConnected = false, wifiConnected = false;
 
     public TileEntityPlaystation4Pro() {
-        super("Playstation 4 Pro");
+        super("Playstation 4 Pro", false);
     }
 
     public void nextRotation() {

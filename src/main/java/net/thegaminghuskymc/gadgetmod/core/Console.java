@@ -6,7 +6,7 @@ import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 public class Console extends BaseDevice {
 
     public Console() {
-        super(new TileEntityBaseDevice("Console"), 3, new NeonOSConsole());
+        super(new TileEntityBaseDevice("Console", false), 3, new NeonOSConsole());
     }
 
 }

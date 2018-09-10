@@ -148,13 +148,7 @@ public class BaseDevice extends GuiScreen implements System {
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
         java.lang.System.out.println(te.getClass().getName());
-        if(bootMode == BootMode.NOTHING) {
-            this.desktop = new LayoutDesktopOS(OS);
-        }
-        if(bootMode == BootMode.BIOS) {
-            this.desktop = new LayoutBios();
-        }
-
+        this.desktop = new LayoutDesktopOS();
         if (systemData.hasKey("bootMode")) {
             this.bootMode = BootMode.getBootMode(systemData.getInteger("bootMode"));
         }

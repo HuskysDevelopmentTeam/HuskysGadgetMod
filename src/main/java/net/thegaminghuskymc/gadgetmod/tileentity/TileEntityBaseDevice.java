@@ -27,7 +27,7 @@ public class TileEntityBaseDevice extends TileEntityNetworkDevice.Colored {
     @SideOnly(Side.CLIENT)
     private EnumDyeColor externalDriveColor;
 
-    public TileEntityBaseDevice(String deviceName) {
+    public TileEntityBaseDevice(String deviceName, boolean isLaptop) {
         this.deviceName = deviceName;
     }
 

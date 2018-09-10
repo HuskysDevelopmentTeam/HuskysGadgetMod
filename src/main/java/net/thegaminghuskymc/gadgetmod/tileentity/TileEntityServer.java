@@ -2,19 +2,20 @@ package net.thegaminghuskymc.gadgetmod.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityServer extends TileEntityDevice {
+public class TileEntityServer extends TileEntityBaseDevice {
 
     @SideOnly(Side.CLIENT)
     public float rotation;
-    private String name = "Server";
     private boolean
             inServerRack = false,
-            powered = false,
             connected = false;
+
+    public TileEntityServer() {
+        super("Server", false);
+    }
 
     @Override
     public void update() {
@@ -36,12 +37,6 @@ public class TileEntityServer extends TileEntityDevice {
         if (compound.hasKey("inServerRack")) {
             this.inServerRack = compound.getBoolean("inServerRack");
         }
-        if (compound.hasKey("powered")) {
-            this.powered = compound.getBoolean("powered");
-        }
-        if (compound.hasKey("device_name", Constants.NBT.TAG_STRING)) {
-            this.name = compound.getString("device_name");
-        }
         return compound;
     }
 
@@ -50,8 +45,6 @@ public class TileEntityServer extends TileEntityDevice {
         super.readFromNBT(compound);
         compound.setBoolean("connected", connected);
         compound.setBoolean("inServerRack", inServerRack);
-        compound.setBoolean("powered", powered);
-        compound.setString("device_name", name);
     }
 
     @Override
@@ -59,8 +52,6 @@ public class TileEntityServer extends TileEntityDevice {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setBoolean("connected", connected);
         tag.setBoolean("inServerRack", inServerRack);
-        tag.setBoolean("powered", powered);
-        tag.setString("device_name", name);
         return tag;
     }
 
@@ -79,16 +70,6 @@ public class TileEntityServer extends TileEntityDevice {
         return inServerRack;
     }
 
-    public void poweredUnpowered() {
-        powered = !powered;
-        pipeline.setBoolean("powered", powered);
-        sync();
-    }
-
-    public boolean isPowered() {
-        return powered;
-    }
-
     public void connectedNotConnected() {
         connected = !connected;
         pipeline.setBoolean("connected", connected);
@@ -97,11 +78,6 @@ public class TileEntityServer extends TileEntityDevice {
 
     public boolean isConnected() {
         return connected;
-    }
-
-    @Override
-    public String getDeviceName() {
-        return name;
     }
 
 }

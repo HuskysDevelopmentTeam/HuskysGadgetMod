@@ -3,8 +3,6 @@ package net.thegaminghuskymc.gadgetmod.core.OSLayouts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.text.TextFormatting;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
@@ -22,6 +20,10 @@ public class LayoutDesktopOS extends Layout {
     public LayoutDesktopOS(OperatingSystem OS) {
         super(0, 10, BaseDevice.SCREEN_WIDTH, BaseDevice.SCREEN_HEIGHT);
         this.OS = OS;
+    }
+
+    public LayoutDesktopOS() {
+        super(0, 10, BaseDevice.SCREEN_WIDTH, BaseDevice.SCREEN_HEIGHT);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class LayoutDesktopOS extends Layout {
             this.drawTexturedModalRect(x + 170, y + 100, 2, 94, 128, 30);
 
             GlStateManager.pushMatrix();
-            Minecraft.getMinecraft().fontRenderer.drawString(TextFormatting.GOLD + String.format("%s v%s", OS.name(), OS.version()), x + 370, y + 210, 0xFFFFFF, true);
+//            Minecraft.getMinecraft().fontRenderer.drawString(TextFormatting.GOLD + String.format("%s v%s", OS.name(), OS.version()), x + 370, y + 210, 0xFFFFFF, true);
         } else {
             Gui.drawRect(x, y, x + SCREEN_WIDTH, y + SCREEN_HEIGHT, new Color(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 1.0F).getRGB());
         }
