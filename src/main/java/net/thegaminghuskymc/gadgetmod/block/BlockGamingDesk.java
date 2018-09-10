@@ -23,7 +23,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityGamingDesk;
-import net.hdt.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -34,7 +33,7 @@ public class BlockGamingDesk extends BlockColoredFacing {
     protected static final AxisAlignedBB BED_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D);
 
     public BlockGamingDesk(EnumDyeColor color) {
-        super(Reference.MOD_ID, "gaming_desk", color);
+        super("gaming_desk", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
         this.setDefaultState(this.blockState.getBaseState().withProperty(PART, EnumPartType.SIDE_1));
     }
@@ -127,8 +126,8 @@ public class BlockGamingDesk extends BlockColoredFacing {
 
         for (int l = 0; l <= 1; ++l)
         {
-            int i1 = i - enumfacing.getFrontOffsetX() * l - 1;
-            int j1 = k - enumfacing.getFrontOffsetZ() * l - 1;
+            int i1 = i - enumfacing.getXOffset() * l - 1;
+            int j1 = k - enumfacing.getZOffset() * l - 1;
             int k1 = i1 + 2;
             int l1 = j1 + 2;
 
@@ -180,7 +179,7 @@ public class BlockGamingDesk extends BlockColoredFacing {
      * transparency (glass, reeds), TRANSLUCENT for fully blended transparency (stained glass)
      */
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }
@@ -247,7 +246,7 @@ public class BlockGamingDesk extends BlockColoredFacing {
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
+        EnumFacing enumfacing = EnumFacing.byHorizontalIndex(meta);
         return (meta & 8) > 0 ? this.getDefaultState().withProperty(PART, EnumPartType.SIDE_1).withProperty(FACING, enumfacing) : this.getDefaultState().withProperty(PART, EnumPartType.SIDE_1).withProperty(FACING, enumfacing);
     }
 

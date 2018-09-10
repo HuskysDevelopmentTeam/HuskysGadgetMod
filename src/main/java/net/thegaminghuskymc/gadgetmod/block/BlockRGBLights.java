@@ -22,7 +22,7 @@ public class BlockRGBLights extends BlockHorizontal implements ITileEntityProvid
     public BlockRGBLights() {
         super(Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("rgb_lights");
+        this.setTranslationKey("rgb_lights");
         this.setRegistryName(Reference.MOD_ID, "rgb_lights");
     }
 
@@ -45,7 +45,7 @@ public class BlockRGBLights extends BlockHorizontal implements ITileEntityProvid
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

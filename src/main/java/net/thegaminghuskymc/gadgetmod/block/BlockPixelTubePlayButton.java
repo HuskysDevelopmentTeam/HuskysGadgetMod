@@ -22,7 +22,7 @@ public class BlockPixelTubePlayButton extends BlockHorizontal/* implements ITile
     public BlockPixelTubePlayButton() {
         super(Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("pixel_tube_play_button");
+        this.setTranslationKey("pixel_tube_play_button");
         this.setRegistryName(Reference.MOD_ID, "pixel_tube_play_button");
     }
 
@@ -97,7 +97,7 @@ public class BlockPixelTubePlayButton extends BlockHorizontal/* implements ITile
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

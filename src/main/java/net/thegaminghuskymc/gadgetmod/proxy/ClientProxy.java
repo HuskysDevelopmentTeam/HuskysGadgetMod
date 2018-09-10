@@ -29,14 +29,14 @@ import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
+import net.thegaminghuskymc.gadgetmod.block.BlockColored;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import net.thegaminghuskymc.gadgetmod.core.client.ClientNotification;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
+import net.thegaminghuskymc.gadgetmod.item.ItemColored;
 import net.thegaminghuskymc.gadgetmod.tileentity.*;
 import net.thegaminghuskymc.gadgetmod.tileentity.render.*;
-import net.hdt.huskylib2.blocks.BlockColored;
-import net.hdt.huskylib2.items.ItemColored;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -200,7 +200,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
             ResourceLocation identifier = info.getId();
             ResourceLocation iconResource = new ResourceLocation(info.getIcon());
-            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
+            String path = "/assets/" + iconResource.getNamespace() + "/" + iconResource.getPath();
             try
             {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
@@ -256,7 +256,7 @@ public class ClientProxy extends CommonProxy implements IResourceManagerReloadLi
 
             ResourceLocation identifier = info.getId();
             ResourceLocation iconResource = new ResourceLocation(info.getBanner());
-            String path = "/assets/" + iconResource.getResourceDomain() + "/" + iconResource.getResourcePath();
+            String path = "/assets/" + iconResource.getNamespace() + "/" + iconResource.getPath();
             try {
                 InputStream input = ClientProxy.class.getResourceAsStream(path);
                 if (input != null) {

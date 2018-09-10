@@ -22,7 +22,7 @@ public class BlockSoundwoofers extends BlockHorizontal implements ITileEntityPro
     public BlockSoundwoofers() {
         super(Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
-        this.setUnlocalizedName("soundwoofers");
+        this.setTranslationKey("soundwoofers");
         this.setRegistryName(Reference.MOD_ID, "soundwoofers");
     }
 
@@ -45,7 +45,7 @@ public class BlockSoundwoofers extends BlockHorizontal implements ITileEntityPro
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

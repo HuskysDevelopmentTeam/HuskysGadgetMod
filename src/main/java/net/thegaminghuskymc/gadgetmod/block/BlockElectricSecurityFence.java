@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockMod;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -20,11 +21,10 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.hdt.huskylib2.blocks.BlockMod;
 
 import java.util.List;
 
-public class BlockElectricSecurityFence extends BlockMod {
+public class BlockElectricSecurityFence extends BlockMod implements IHGMBlock {
 
     public static final PropertyBool NORTH = PropertyBool.create("north");
     public static final PropertyBool EAST = PropertyBool.create("east");
@@ -42,7 +42,7 @@ public class BlockElectricSecurityFence extends BlockMod {
     public DamageSource electricFence = new DamageSourceFence("electricFence");
 
     public BlockElectricSecurityFence() {
-        super(Material.IRON, Reference.MOD_ID, "electric_fence");
+        super("electric_fence", Material.IRON);
         this.setHardness(1.0F);
         this.setSoundType(SoundType.ANVIL);
         this.setLightLevel(0.2F);
@@ -134,7 +134,7 @@ public class BlockElectricSecurityFence extends BlockMod {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity)
     {
         if (!(entity instanceof EntityItem) && !entity.getName().equals("unknown"))
         {

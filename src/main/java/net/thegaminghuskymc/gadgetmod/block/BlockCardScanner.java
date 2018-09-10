@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -8,15 +9,13 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
 import java.util.Random;
 
-public class BlockCardScanner extends BlockFacing {
+public class BlockCardScanner extends BlockFacing implements IHGMBlock {
 
     public BlockCardScanner() {
-        super(Material.ANVIL, Reference.MOD_ID, "card_scanner");
+        super("card_scanner", Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
     }
 

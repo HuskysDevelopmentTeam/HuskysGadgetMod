@@ -34,7 +34,7 @@ import java.util.Objects;
 public class ItemEthernetCable extends Item {
 
     public ItemEthernetCable() {
-        this.setUnlocalizedName("ethernet_cable");
+        this.setTranslationKey("ethernet_cable");
         this.setRegistryName("ethernet_cable");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

@@ -22,7 +22,7 @@ public class BlockMiniatureFigures extends BlockHorizontal/* implements ITileEnt
     public BlockMiniatureFigures() {
         super(Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("miniature_figure");
+        this.setTranslationKey("miniature_figure");
         this.setRegistryName(Reference.MOD_ID, "miniature_figure");
     }
 
@@ -98,7 +98,7 @@ public class BlockMiniatureFigures extends BlockHorizontal/* implements ITileEnt
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

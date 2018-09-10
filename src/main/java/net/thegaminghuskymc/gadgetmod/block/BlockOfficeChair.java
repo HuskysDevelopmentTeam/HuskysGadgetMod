@@ -18,7 +18,6 @@ import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityOfficeChair;
 import net.thegaminghuskymc.gadgetmod.util.SeatUtil;
-import net.hdt.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +26,7 @@ public class BlockOfficeChair extends BlockColoredFacing {
     public static final PropertyEnum<Type> TYPE = PropertyEnum.create("type", Type.class);
 
     public BlockOfficeChair(EnumDyeColor color) {
-        super(Reference.MOD_ID, "office_chair", color);
+        super("office_chair", color);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
         this.setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
     }
@@ -83,7 +82,7 @@ public class BlockOfficeChair extends BlockColoredFacing {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

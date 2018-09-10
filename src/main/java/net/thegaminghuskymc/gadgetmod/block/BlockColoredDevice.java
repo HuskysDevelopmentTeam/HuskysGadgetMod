@@ -16,10 +16,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
-import net.hdt.huskylib2.blocks.BlockColoredFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -27,7 +25,7 @@ import java.util.Random;
 public class BlockColoredDevice extends BlockColoredFacing {
 
     public BlockColoredDevice(String name, EnumDyeColor color) {
-        super(Reference.MOD_ID, name, color);
+        super(name, color);
     }
 
     @Override

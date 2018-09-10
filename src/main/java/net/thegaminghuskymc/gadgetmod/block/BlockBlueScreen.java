@@ -22,7 +22,7 @@ public class BlockBlueScreen extends BlockHorizontal /*implements ITileEntityPro
     public BlockBlueScreen() {
         super(Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
-        this.setUnlocalizedName("blue_screen");
+        this.setTranslationKey("blue_screen");
         this.setRegistryName(Reference.MOD_ID, "blue_screen");
     }
 
@@ -54,7 +54,7 @@ public class BlockBlueScreen extends BlockHorizontal /*implements ITileEntityPro
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

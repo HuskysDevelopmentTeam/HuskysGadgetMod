@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -26,11 +27,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.thegaminghuskymc.gadgetmod.DamageSourceFence;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
 import java.util.Random;
 
-public class BlockElectricSecurityGate extends BlockFacing {
+public class BlockElectricSecurityGate extends BlockFacing implements IHGMBlock {
 
     public static final PropertyBool OPEN = PropertyBool.create("open");
     public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -44,7 +44,7 @@ public class BlockElectricSecurityGate extends BlockFacing {
     private DamageSource electricFence = new DamageSourceFence("laserGate");
 
     public BlockElectricSecurityGate() {
-        super(Material.IRON, Reference.MOD_ID, "laser_gate");
+        super("laser_gate", Material.IRON);
         this.setHardness(1.0F);
         this.setLightLevel(0.2F);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, false).withProperty(POWERED, false).withProperty(HALF, EnumDoorHalf.LOWER));
@@ -93,7 +93,7 @@ public class BlockElectricSecurityGate extends BlockFacing {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity)
     {
         if (!(entity instanceof EntityItem) && !entity.getName().equals("unknown"))
         {
@@ -184,12 +184,12 @@ public class BlockElectricSecurityGate extends BlockFacing {
 
     private int getCloseSound()
     {
-        return this.blockMaterial == Material.IRON ? 1011 : 1012;
+        return this.material == Material.IRON ? 1011 : 1012;
     }
 
     private int getOpenSound()
     {
-        return this.blockMaterial == Material.IRON ? 1005 : 1006;
+        return this.material == Material.IRON ? 1005 : 1006;
     }
 
     /**
@@ -197,7 +197,7 @@ public class BlockElectricSecurityGate extends BlockFacing {
      */
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (this.blockMaterial == Material.IRON)
+        if (this.material == Material.IRON)
         {
             return false;
         }
@@ -389,7 +389,7 @@ public class BlockElectricSecurityGate extends BlockFacing {
      * transparency (glass, reeds), TRANSLUCENT for fully blended transparency (stained glass)
      */
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }
@@ -445,7 +445,7 @@ public class BlockElectricSecurityGate extends BlockFacing {
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, EnumDoorHalf.UPPER).withProperty(POWERED, (meta & 2) > 0) : this.getDefaultState().withProperty(HALF, EnumDoorHalf.LOWER).withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(OPEN, (meta & 4) > 0);
+        return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, EnumDoorHalf.UPPER).withProperty(POWERED, (meta & 2) > 0) : this.getDefaultState().withProperty(HALF, EnumDoorHalf.LOWER).withProperty(FACING, EnumFacing.byHorizontalIndex(meta & 3).rotateYCCW()).withProperty(OPEN, (meta & 4) > 0);
     }
 
     /**

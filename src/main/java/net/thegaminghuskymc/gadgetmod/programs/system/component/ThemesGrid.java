@@ -141,7 +141,7 @@ public class ThemesGrid extends Component
         {
             RemoteThemeEntry remoteEntry = (RemoteThemeEntry) entry;
             ResourceLocation resource = new ResourceLocation(remoteEntry.getId());
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
+            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getNamespace() + "/" + resource.getPath() + "/icon.png");
             layout.addComponent(image);
         }
 

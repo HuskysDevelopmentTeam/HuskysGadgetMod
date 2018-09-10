@@ -7,7 +7,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 public class ItemCD extends Item {
 
     public ItemCD() {
-        this.setUnlocalizedName("cd");
+        this.setTranslationKey("cd");
         this.setRegistryName(Reference.MOD_ID, "cd");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
     }

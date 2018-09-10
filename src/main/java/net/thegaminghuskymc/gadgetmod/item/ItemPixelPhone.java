@@ -12,7 +12,7 @@ import net.thegaminghuskymc.gadgetmod.enums.EnumPhoneColours;
 public class ItemPixelPhone extends Item implements SubItems {
 
     public ItemPixelPhone() {
-        this.setUnlocalizedName("pixel_phone");
+        this.setTranslationKey("pixel_phone");
         this.setRegistryName(Reference.MOD_ID, "pixel_phone");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

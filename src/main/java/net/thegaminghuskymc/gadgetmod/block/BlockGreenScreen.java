@@ -1,16 +1,16 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
-public class BlockGreenScreen extends BlockFacing {
+public class BlockGreenScreen extends BlockFacing implements IHGMBlock {
 
     public BlockGreenScreen() {
-        super(Material.ANVIL, Reference.MOD_ID, "green_screen");
+        super("green_screen", Material.CARPET);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
     }
 

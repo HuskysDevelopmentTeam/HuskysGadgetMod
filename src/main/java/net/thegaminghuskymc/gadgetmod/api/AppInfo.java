@@ -62,7 +62,7 @@ public class AppInfo
 	 */
 	public String getFormattedId()
 	{
-		return APP_ID.getResourceDomain() + "." + APP_ID.getResourcePath();
+		return APP_ID.getNamespace() + "." + APP_ID.getPath();
 	}
 
     /**
@@ -166,7 +166,7 @@ public class AppInfo
 	public void reload()
 	{
 		resetInfo();
-		InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + APP_ID.getResourceDomain() + "/apps/" + APP_ID.getResourcePath() + ".json");
+		InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + APP_ID.getNamespace() + "/apps/" + APP_ID.getPath() + ".json");
 
 		if(stream == null)
 			throw new RuntimeException("Missing app info json for '" + APP_ID + "'");

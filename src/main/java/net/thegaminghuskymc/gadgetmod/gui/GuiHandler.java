@@ -27,7 +27,7 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
     	TileEntity tileEntity = player.world.getTileEntity(new BlockPos(x, y, z));     
         if(tileEntity instanceof TileEntityBaseDevice && validateTE(ID, tileEntity)) {
-        	return new BaseDevice((TileEntityBaseDevice)tileEntity, 0);
+        	return new BaseDevice((TileEntityBaseDevice)tileEntity, 0, null);
         }
         return null;
     }
@@ -35,13 +35,13 @@ public class GuiHandler implements IGuiHandler {
     private boolean validateTE(int ID, TileEntity te) {
     	if(ID == Laptop.ID) {
     		return te instanceof TileEntityLaptop;
-    	} else if(ID == Desktop.ID) {
+    	}/* else if(ID == Desktop.ID) {
     		//return te instanceof TileEntityDesktop;
     	} else if(ID == Server.ID) {
     		//return te instanceof TileEntityServer;
     	} else if(ID == Console.ID) {
     		//return te instanceof TileEntityConsole;
-    	}
+    	}*/
     	return false;
     }
     

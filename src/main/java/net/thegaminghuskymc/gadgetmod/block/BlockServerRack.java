@@ -1,10 +1,10 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -16,28 +16,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServer;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityServerRack;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.thegaminghuskymc.gadgetmod.util.TileEntityUtil;
-import net.hdt.huskylib2.blocks.BlockFacing;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class BlockServerRack extends BlockFacing {
+public class BlockServerRack extends BlockFacing implements IHGMBlock {
 
     private static final Bounds BODY_BOUNDS = new Bounds(0, 0, 0, 16, 32, 16);
     private static final AxisAlignedBB BODY_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, BODY_BOUNDS);
@@ -49,7 +42,7 @@ public class BlockServerRack extends BlockFacing {
     private static final AxisAlignedBB SELECTION_BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 2.0, 1.0);
 
     public BlockServerRack() {
-        super(Material.ANVIL, Reference.MOD_ID, "server_rack");
+        super("server_rack", Material.ANVIL);
         this.setCreativeTab(HuskyGadgetMod.deviceDecoration);
     }
 
@@ -120,7 +113,7 @@ public class BlockServerRack extends BlockFacing {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
     }
 
     @Override

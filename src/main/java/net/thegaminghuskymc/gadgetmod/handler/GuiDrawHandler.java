@@ -42,7 +42,7 @@ public class GuiDrawHandler {
     public void onDrawGui(DrawScreenEvent.Post event) {
         if (event.getGui() instanceof GuiContainerCreative) {
             GuiContainerCreative creative = (GuiContainerCreative) event.getGui();
-            if (creative.getSelectedTabIndex() == HuskyGadgetMod.deviceBlocks.getTabIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceDecoration.getTabIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceItems.getTabIndex()) {
+            if (creative.getSelectedTabIndex() == HuskyGadgetMod.deviceBlocks.getIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceDecoration.getIndex() || creative.getSelectedTabIndex() == HuskyGadgetMod.deviceItems.getIndex()) {
                 buttonWebsite.visible = true;
                 buttonTwitter.visible = true;
             } else {

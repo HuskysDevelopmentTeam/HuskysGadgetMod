@@ -67,11 +67,11 @@ public class LayoutAppPage extends Layout {
         imageBanner.setDrawFull(true);
         if(entry instanceof LocalAppEntry)
         {
-            imageBanner.setImage(new ResourceLocation(resource.getResourceDomain(), "textures/app/banner/banner_" + resource.getResourcePath() + ".png"));
+            imageBanner.setImage(new ResourceLocation(resource.getNamespace(), "textures/app/banner/banner_" + resource.getPath() + ".png"));
         }
         else if(entry instanceof RemoteAppEntry)
         {
-            imageBanner.setImage(ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/banner.png");
+            imageBanner.setImage(ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getNamespace() + "/" + resource.getPath() + "/banner.png");
         }
         this.addComponent(imageBanner);
 
@@ -83,7 +83,7 @@ public class LayoutAppPage extends Layout {
         }
         else if(entry instanceof RemoteAppEntry)
         {
-            imageIcon = new Image(5, 26, 28, 28, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
+            imageIcon = new Image(5, 26, 28, 28, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getNamespace() + "/" + resource.getPath() + "/icon.png");
         }
         this.addComponent(imageIcon);
 
@@ -125,7 +125,7 @@ public class LayoutAppPage extends Layout {
         }
         else if(entry instanceof RemoteAppEntry) {
             RemoteAppEntry remoteEntry = (RemoteAppEntry) entry;
-            String screenshotUrl = ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/screenshots/screenshot_%d.png";
+            String screenshotUrl = ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getNamespace() + "/" + resource.getPath() + "/screenshots/screenshot_%d.png";
             for(int i = 0; i < remoteEntry.app_screenshots; i++) {
                 slideShow.addImage(String.format(screenshotUrl, i));
             }

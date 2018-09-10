@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockMod;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -11,15 +12,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityEasterEgg;
-import net.hdt.huskylib2.blocks.BlockMod;
 
-public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
+public class BlockEasterEgg extends BlockMod implements ITileEntityProvider, IHGMBlock {
 
     public BlockEasterEgg() {
-        super(Material.CARPET, Reference.MOD_ID, "easter_egg");
+        super("easter_egg", Material.CARPET);
         this.setHardness(-1.0f);
     }
 
@@ -45,7 +44,7 @@ public class BlockEasterEgg extends BlockMod implements ITileEntityProvider {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 

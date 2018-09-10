@@ -1,6 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.tileentity;
 
-import net.hdt.huskylib2.blocks.tile.TileMod;
+import net.hdt.huskylib2.block.tile.TileMod;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -22,7 +22,7 @@ public abstract class TileEntitySync extends TileMod {
 
     @Override
     public final NBTTagCompound getUpdateTag() {
-        if (!pipeline.hasNoTags()) {
+        if (!pipeline.isEmpty()) {
             NBTTagCompound updateTag = super.writeToNBT(pipeline);
             pipeline = new NBTTagCompound();
             return updateTag;

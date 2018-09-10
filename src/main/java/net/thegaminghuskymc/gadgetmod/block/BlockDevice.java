@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -20,15 +21,14 @@ import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityDevice;
 import net.thegaminghuskymc.gadgetmod.util.IColored;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class BlockDevice extends BlockFacing {
+public abstract class BlockDevice extends BlockFacing implements IHGMBlock {
 
     protected BlockDevice(Material materialIn, String name) {
-        super(materialIn, Reference.MOD_ID, name);
+        super(name, materialIn);
     }
 
     @Override

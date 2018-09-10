@@ -268,16 +268,16 @@ public class ApplicationSettings extends SystemApplication {
         taskbarPlacement.setChangeListener((oldValue, newValue) -> {
             switch (taskbarPlacement.getSelectedItem()) {
                 case "Top":
-                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Top");
+                    BaseDevice.getSystem().getSettings().setTaskBarPlacement("Top");
                     break;
                 case "Bottom":
-                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Bottom");
+                    BaseDevice.getSystem().getSettings().setTaskBarPlacement("Bottom");
                     break;
                 case "Left":
-                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Left");
+                    BaseDevice.getSystem().getSettings().setTaskBarPlacement("Left");
                     break;
                 case "Right":
-                    BaseDevice.getSystem().getSettings().setTaskbarPlacement("Right");
+                    BaseDevice.getSystem().getSettings().setTaskBarPlacement("Right");
                     break;
             }
         });

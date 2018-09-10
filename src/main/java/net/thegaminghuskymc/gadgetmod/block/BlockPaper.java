@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,16 +15,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPaper;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
 import javax.annotation.Nullable;
 
-public class BlockPaper extends BlockFacing implements ITileEntityProvider {
+public class BlockPaper extends BlockFacing implements ITileEntityProvider, IHGMBlock {
 
     private static final Bounds SELECTION_BOUNDS = new Bounds(15 * 0.0625, 0.0, 0.0, 16 * 0.0625, 16 * 0.0625, 16 * 0.0625);
     private static final AxisAlignedBB SELECTION_BOX_NORTH = CollisionHelper.getBlockBounds(EnumFacing.NORTH, SELECTION_BOUNDS);
@@ -33,7 +32,7 @@ public class BlockPaper extends BlockFacing implements ITileEntityProvider {
     private static final AxisAlignedBB[] SELECTION_BOUNDING_BOX = {SELECTION_BOX_SOUTH, SELECTION_BOX_WEST, SELECTION_BOX_NORTH, SELECTION_BOX_EAST};
 
     public BlockPaper() {
-        super(Material.CLOTH, Reference.MOD_ID, "paper");
+        super("paper", Material.CLOTH);
     }
 
     @Override

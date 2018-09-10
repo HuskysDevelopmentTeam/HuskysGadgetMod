@@ -1,6 +1,7 @@
 package net.thegaminghuskymc.gadgetmod.core;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 public class Settings {
@@ -9,7 +10,17 @@ public class Settings {
 
     private ColourScheme colourScheme = new ColourScheme();
 
-    private String hasWallpaperOrColor, taskbarPlacement, OS;
+    private String hasWallpaperOrColor, taskBarPlacement;
+
+    private OperatingSystem OS;
+
+    public void setOS(OperatingSystem OS) {
+        this.OS = OS;
+    }
+
+    public OperatingSystem getOS() {
+        return OS;
+    }
 
     public static boolean isShowAllApps() {
         return Settings.showAllApps;
@@ -27,20 +38,12 @@ public class Settings {
         this.hasWallpaperOrColor = hasWallpaperOrColor;
     }
 
-    public String getTaskbarPlacement() {
-        return taskbarPlacement;
+    public String getTaskBarPlacement() {
+        return taskBarPlacement;
     }
 
-    public void setTaskbarPlacement(String taskbarPlacement) {
-        this.taskbarPlacement = taskbarPlacement;
-    }
-
-    public String getOS() {
-        return OS;
-    }
-
-    public void setOS(String OS) {
-        this.OS = OS;
+    public void setTaskBarPlacement(String taskBarPlacement) {
+        this.taskBarPlacement = taskBarPlacement;
     }
 
     public static Settings fromTag(NBTTagCompound tag) {
@@ -49,8 +52,7 @@ public class Settings {
         Settings settings = new Settings();
         settings.colourScheme = ColourScheme.fromTag(tag.getCompoundTag("colourScheme"));
         settings.hasWallpaperOrColor = "Wallpaper";
-        settings.taskbarPlacement = "Bottom";
-        settings.OS = "CraftOS";
+        settings.taskBarPlacement = "Bottom";
         return settings;
     }
 
@@ -63,8 +65,7 @@ public class Settings {
         tag.setBoolean("showAllApps", showAllApps);
         tag.setTag("colourScheme", colourScheme.toTag());
         tag.setString("wallpaperOrColor", hasWallpaperOrColor);
-        tag.setString("taskbarPlacement", taskbarPlacement);
-        tag.setString("os", OS);
+        tag.setString("taskBarPlacement", taskBarPlacement);
         return tag;
     }
 }

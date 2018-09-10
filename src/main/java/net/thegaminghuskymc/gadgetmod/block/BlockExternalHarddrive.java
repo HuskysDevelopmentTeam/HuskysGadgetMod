@@ -94,7 +94,7 @@ public class BlockExternalHarddrive extends BlockColoredDevice {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(VERTICAL, meta - 4 >= 0);
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta)).withProperty(VERTICAL, meta - 4 >= 0);
     }
 
     @Override

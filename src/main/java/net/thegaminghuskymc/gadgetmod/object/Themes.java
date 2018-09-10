@@ -42,7 +42,7 @@ public class Themes {
      * @return a formatted id
      */
     public String getFormattedId() {
-        return THEME_ID.getResourceDomain() + "." + THEME_ID.getResourcePath();
+        return THEME_ID.getNamespace() + "." + THEME_ID.getPath();
     }
 
     public String getThemeCreator() {
@@ -91,7 +91,7 @@ public class Themes {
 
     public void reload() {
         resetInfo();
-        InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + THEME_ID.getResourceDomain() + "/themes/" + THEME_ID.getResourcePath() + ".json");
+        InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + THEME_ID.getNamespace() + "/themes/" + THEME_ID.getPath() + ".json");
 
         if (stream == null)
             throw new RuntimeException("Missing theme json for '" + THEME_ID + "'");

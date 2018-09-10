@@ -31,14 +31,12 @@ import net.thegaminghuskymc.gadgetmod.api.app.component.Image;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
+import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutBios;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopCraftOS;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopNeonOS;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopPixelOS;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.*;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
@@ -96,7 +94,6 @@ public class BaseDevice extends GuiScreen implements System {
     private static System system;
     private static BlockPos pos;
     private static Drive mainDrive;
-    private static BaseDevice instance;
 
     // Populate the list above
     static {
@@ -128,13 +125,13 @@ public class BaseDevice extends GuiScreen implements System {
 
     List<AppInfo> installedApps = new ArrayList<>();
 
-    public BaseDevice(TileEntityBaseDevice te, int id) {
+    public BaseDevice(TileEntityBaseDevice te, int id, OperatingSystem OS) {
         ID = id;
         this.appData = te.getApplicationData();
         this.systemData = te.getSystemData();
         this.windows = new Window[5];
         this.settings = Settings.fromTag(systemData.getCompoundTag("Settings"));
-        this.bar = new TaskBar(this);
+        this.bar = OS.taskBar();
         wallpaperOrColor = Settings.fromTag(systemData.getCompoundTag("wallpaperOrColor")).hasWallpaperOrColor();
         if(wallpaperOrColor.equals("Wallpaper")) {
             currentWallpaper = systemData.getInteger("CurrentWallpaper");
@@ -142,35 +139,28 @@ public class BaseDevice extends GuiScreen implements System {
                 currentWallpaper = 0;
             }
         }
-        taskbarPlacement = Settings.fromTag(systemData.getCompoundTag("taskbarPlacement")).getTaskbarPlacement();
+        taskbarPlacement = Settings.fromTag(systemData.getCompoundTag("taskBarPlacement")).getTaskBarPlacement();
         currentTheme = systemData.getInteger("CurrentTheme");
         if (currentTheme < 0 || currentTheme >= THEMES.size()) {
             currentTheme = 0;
         }
-        os = Settings.fromTag(systemData.getCompoundTag("os")).getOS();
+        os = OS.name();
         BaseDevice.system = this;
         BaseDevice.pos = te.getPos();
         java.lang.System.out.println(te.getClass().getName());
-        switch (os) {
-            case "NeonOS":
-                this.desktop = new LayoutDesktopNeonOS();
-                break;
-            case "CraftOS":
-                this.desktop = new LayoutDesktopCraftOS();
-                break;
-            case "PixelOS":
-                this.desktop = new LayoutDesktopPixelOS();
-                break;
-            case "None":
-                break;
+        if(bootMode == BootMode.NOTHING) {
+            this.desktop = new LayoutDesktopOS(OS);
+        }
+        if(bootMode == BootMode.BIOS) {
+            this.desktop = new LayoutBios();
         }
 
-        if (systemData.hasKey("bootmode")) {
-            this.bootMode = BootMode.getBootMode(systemData.getInteger("bootmode"));
+        if (systemData.hasKey("bootMode")) {
+            this.bootMode = BootMode.getBootMode(systemData.getInteger("bootMode"));
         }
 
-        if (systemData.hasKey("boottimer")) {
-            this.bootTimer = systemData.getInteger("boottimer");
+        if (systemData.hasKey("bootTimer")) {
+            this.bootTimer = systemData.getInteger("bootTimer");
         }
 
         if (this.bootMode == null) {
@@ -209,10 +199,6 @@ public class BaseDevice extends GuiScreen implements System {
         if (BaseDevice.mainDrive == null) {
             BaseDevice.mainDrive = mainDrive;
         }
-    }
-
-    public static BaseDevice getInstance() {
-        return instance;
     }
 
     @Override
@@ -272,7 +258,7 @@ public class BaseDevice extends GuiScreen implements System {
         systemData.setInteger("CurrentTheme", currentTheme);
         systemData.setString("wallpaperOrColor", wallpaperOrColor);
         systemData.setString("taskbarPlacement", taskbarPlacement);
-        systemData.setString("os", os);
+        systemData.setString("OS", os);
         systemData.setTag("Settings", settings.toTag());
 
         NBTTagList tagListApps = new NBTTagList();
@@ -350,8 +336,6 @@ public class BaseDevice extends GuiScreen implements System {
         RenderUtil.drawRectWithTexture(posX, posY + BORDER, 0, 11, BORDER, SCREEN_HEIGHT, BORDER, 1); // LEFT
 
         if(os.equals("None")) {
-            int cX = posX + DEVICE_WIDTH / 2;
-            int cY = posY + DEVICE_HEIGHT / 2;
             OSSelect = new Layout();
             OSSelect.setBackground((gui, mc, x, y, width, height, mouseX1, mouseY1, windowActive) -> {
                 RenderUtil.drawRectWithTexture(posX + BORDER, posY + BORDER, 10, 10, SCREEN_WIDTH, SCREEN_HEIGHT, 1, 1);
@@ -485,26 +469,26 @@ public class BaseDevice extends GuiScreen implements System {
                 } else {
                     Gui.drawRect(posX + BORDER, posY + BORDER, posX + DEVICE_WIDTH - BORDER, posY + DEVICE_HEIGHT - BORDER, 0x7F000000);
                     GlStateManager.pushMatrix();
-                    String s;
+                    StringBuilder s;
                     if (this.konamiProgress == -1) {
-                        s = "Shutting up, up, down, down, left, right, left, right, B, A...";
+                        s = new StringBuilder("Shutting up, up, down, down, left, right, left, right, B, A...");
                     } else if (this.konamiProgress == 0) {
-                        s = "Shutting " + codeToName.get(this.lastCode) + "...";
+                        s = new StringBuilder("Shutting " + codeToName.get(this.lastCode) + "...");
                     } else {
-                        s = "Shutting ";
+                        s = new StringBuilder("Shutting ");
                         for (int i = 0; i < this.konamiProgress - 1; i++) {
-                            s = s + codeToName.get(konamiCodes[i]) + ", ";
+                            s.append(codeToName.get(konamiCodes[i])).append(", ");
                         }
-                        s = s + codeToName.get(konamiCodes[this.konamiProgress - 1]) + "...";
+                        s.append(codeToName.get(konamiCodes[this.konamiProgress - 1])).append("...");
                     }
-                    int w = this.mc.fontRenderer.getStringWidth(s);
+                    int w = this.mc.fontRenderer.getStringWidth(s.toString());
                     float scale = 3;
                     while (scale > 1 && w * scale > DEVICE_WIDTH) {
                         scale = scale - 0.5f;
                     }
                     GlStateManager.scale(scale, scale, 1);
                     GlStateManager.translate((posX + (DEVICE_WIDTH - w * scale) / 2) / scale, (posY + (DEVICE_HEIGHT - 8 * scale) / 2) / scale, 0);
-                    this.mc.fontRenderer.drawString(TextFormatting.ITALIC + s, 0, 0, 0xFFFFFFFF, true);
+                    this.mc.fontRenderer.drawString(TextFormatting.ITALIC + s.toString(), 0, 0, 0xFFFFFFFF, true);
                     GlStateManager.popMatrix();
                 }
             }

@@ -67,7 +67,7 @@ public class RecipeMotherboard extends net.minecraftforge.registries.IForgeRegis
             NBTTagCompound originalTag = motherboard.getTagCompound();
             if (originalTag != null && originalTag.hasKey("components", Constants.NBT.TAG_COMPOUND)) {
                 NBTTagCompound tag = originalTag.getCompoundTag("components");
-                if (tag.hasKey(component.getUnlocalizedName().substring(5), Constants.NBT.TAG_BYTE)) {
+                if (tag.hasKey(component.getTranslationKey().substring(5), Constants.NBT.TAG_BYTE)) {
                     return null;
                 }
             }
@@ -84,7 +84,7 @@ public class RecipeMotherboard extends net.minecraftforge.registries.IForgeRegis
                 }
 
                 NBTTagCompound components = itemTag.getCompoundTag("components");
-                components.setByte(component.getUnlocalizedName().substring(5), (byte) 0);
+                components.setByte(component.getTranslationKey().substring(5), (byte) 0);
                 return result;
             }
         }

@@ -27,7 +27,7 @@ import java.util.List;
 public class ItemHDMICable extends Item {
 
     public ItemHDMICable() {
-        this.setUnlocalizedName("hdmi_cable");
+        this.setTranslationKey("hdmi_cable");
         this.setRegistryName(Reference.MOD_ID, "hdmi_cable");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

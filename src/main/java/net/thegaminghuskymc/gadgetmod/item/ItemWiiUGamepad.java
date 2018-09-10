@@ -9,7 +9,7 @@ public class ItemWiiUGamepad extends Item implements SubItems {
 
     public ItemWiiUGamepad() {
         this.setRegistryName("wiiu_gamepad");
-        this.setUnlocalizedName("wiiu_gamepad");
+        this.setTranslationKey("wiiu_gamepad");
         this.setMaxStackSize(1);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);

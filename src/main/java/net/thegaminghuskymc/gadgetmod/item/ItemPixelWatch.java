@@ -12,7 +12,7 @@ import net.thegaminghuskymc.gadgetmod.enums.EnumPhoneColours;
 public class ItemPixelWatch extends Item implements SubItems {
 
     public ItemPixelWatch() {
-        this.setUnlocalizedName("pixel_watch");
+        this.setTranslationKey("pixel_watch");
         this.setRegistryName(Reference.MOD_ID, "pixel_watch");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

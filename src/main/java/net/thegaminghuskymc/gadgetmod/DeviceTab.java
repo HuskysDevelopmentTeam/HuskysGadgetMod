@@ -21,7 +21,7 @@ public class DeviceTab extends CreativeTabs {
     }
 
     @Override
-    public ItemStack getIconItemStack() {
+    public ItemStack getIcon() {
         if (this.displayRandom) {
             if (Minecraft.getSystemTime() % 120 == 0) {
                 this.updateDisplayStack();
@@ -31,7 +31,12 @@ public class DeviceTab extends CreativeTabs {
     }
 
     @Override
-    public String getTranslatedTabLabel() {
+    public ItemStack createIcon() {
+        return this.getIcon();
+    }
+
+    @Override
+    public String getTranslationKey() {
         return hoveringButton ? title : getTabLabel();
     }
 
@@ -55,11 +60,6 @@ public class DeviceTab extends CreativeTabs {
             }
             this.tempDisplayStack = this.icon;
         }
-    }
-
-    @Override
-    public ItemStack getTabIconItem() {
-        return this.getIconItemStack();
     }
 
 }

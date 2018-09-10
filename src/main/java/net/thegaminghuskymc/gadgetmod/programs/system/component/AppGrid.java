@@ -156,7 +156,7 @@ public class AppGrid extends Component
         {
             RemoteAppEntry remoteAppEntry = (RemoteAppEntry) entry;
             ResourceLocation resource = new ResourceLocation(remoteAppEntry.getId());
-            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getResourceDomain() + "/" + resource.getResourcePath() + "/icon.png");
+            Image image = new Image(iconOffset, padding, 14 * 3, 14 * 3, ApplicationAppStore.CERTIFIED_APPS_URL + "/assets/" + resource.getNamespace() + "/" + resource.getPath() + "/icon.png");
             layout.addComponent(image);
         }
 

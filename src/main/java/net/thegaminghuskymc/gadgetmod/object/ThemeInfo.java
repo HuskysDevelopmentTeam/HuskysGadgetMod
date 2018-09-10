@@ -53,7 +53,7 @@ public class ThemeInfo {
      */
     public String getFormattedId()
     {
-        return themeID.getResourceDomain() + "." + themeID.getResourcePath();
+        return themeID.getNamespace() + "." + themeID.getPath();
     }
 
     /**
@@ -112,7 +112,7 @@ public class ThemeInfo {
 
     public void reload() {
         resetInfo();
-        InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + themeID.getResourceDomain() + "/themes/" + themeID.getResourcePath() + ".json");
+        InputStream stream = ClientProxy.class.getResourceAsStream("/assets/" + themeID.getNamespace() + "/themes/" + themeID.getPath() + ".json");
 
         if(stream == null)
             throw new RuntimeException("Missing theme info json for '" + themeID + "'");

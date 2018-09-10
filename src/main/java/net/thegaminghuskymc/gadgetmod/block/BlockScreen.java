@@ -131,7 +131,7 @@ public class BlockScreen extends BlockDevice {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(TYPE, Type.LONELY);
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta)).withProperty(TYPE, Type.LONELY);
     }
 
     @Override

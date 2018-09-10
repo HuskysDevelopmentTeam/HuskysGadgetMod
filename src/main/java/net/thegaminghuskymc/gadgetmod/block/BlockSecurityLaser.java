@@ -1,5 +1,6 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
+import net.hdt.huskylib2.block.BlockFacing;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -18,11 +19,10 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.GadgetSounds;
 import net.thegaminghuskymc.gadgetmod.object.Bounds;
 import net.thegaminghuskymc.gadgetmod.util.CollisionHelper;
-import net.hdt.huskylib2.blocks.BlockFacing;
 
 import java.util.List;
 
-public class BlockSecurityLaser extends BlockFacing implements ITickable {
+public class BlockSecurityLaser extends BlockFacing implements ITickable, IHGMBlock {
 
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.4375, 0.0, 0.4375, 0.5625, 1.0, 0.5625);
 
@@ -31,7 +31,7 @@ public class BlockSecurityLaser extends BlockFacing implements ITickable {
     public DamageSource electricFence = new DamageSourceFence("laser");
 
     public BlockSecurityLaser() {
-        super(Material.IRON, Reference.MOD_ID, "laser");
+        super("laser", Material.IRON);
         this.setHardness(1.0F);
         this.setLightLevel(0.2F);
     }
@@ -71,7 +71,7 @@ public class BlockSecurityLaser extends BlockFacing implements ITickable {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity)
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity)
     {
         if (!(entity instanceof EntityItem) && !entity.getName().equals("unknown"))
         {

@@ -13,7 +13,7 @@ public class ItemEasterEgg extends ItemFood {
     public ItemEasterEgg() {
         super(4, 0.3F, false);
         this.setRegistryName(Reference.MOD_ID, "easter_egg_item");
-        this.setUnlocalizedName("easter_egg");
+        this.setTranslationKey("easter_egg");
     }
 
     @Override

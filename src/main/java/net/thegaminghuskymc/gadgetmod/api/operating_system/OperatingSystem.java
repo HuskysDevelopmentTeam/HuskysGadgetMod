@@ -4,10 +4,14 @@ import net.thegaminghuskymc.gadgetmod.core.TaskBar;
 
 public interface OperatingSystem {
 
-    String getOSName();
+    String name();
 
-    String getOSVersion();
+    String version();
 
-    TaskBar getTaskBar();
+    TaskBar taskBar();
+
+    int ram();
+
+    int storage();
 
 }

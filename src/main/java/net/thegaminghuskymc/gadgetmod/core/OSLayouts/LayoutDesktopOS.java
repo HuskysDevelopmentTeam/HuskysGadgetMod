@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
+import net.thegaminghuskymc.gadgetmod.api.operating_system.OperatingSystem;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
 import org.lwjgl.opengl.GL11;
@@ -14,10 +15,13 @@ import java.awt.*;
 
 import static net.thegaminghuskymc.gadgetmod.core.BaseDevice.*;
 
-public class LayoutDesktopNeonOS extends Layout {
+public class LayoutDesktopOS extends Layout {
 
-    public LayoutDesktopNeonOS() {
-        super(0, 10, 908, 472);
+    private OperatingSystem OS;
+
+    public LayoutDesktopOS(OperatingSystem OS) {
+        super(0, 10, BaseDevice.SCREEN_WIDTH, BaseDevice.SCREEN_HEIGHT);
+        this.OS = OS;
     }
 
     @Override
@@ -28,7 +32,6 @@ public class LayoutDesktopNeonOS extends Layout {
         bgColor = new Color(Color.HSBtoRGB(hsb[0], hsb[1], 1.0F));
 
         if(BaseDevice.getSystem().getSettings().hasWallpaperOrColor().equals("Wallpaper")) {
-
             GlStateManager.popMatrix();
             GL11.glColor4f(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 0.3F);
             mc.getTextureManager().bindTexture(BaseDevice.WALLPAPERS.get(BaseDevice.currentWallpaper));
@@ -36,10 +39,11 @@ public class LayoutDesktopNeonOS extends Layout {
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 0.7f);
             GlStateManager.enableBlend();
-            mc.getTextureManager().bindTexture(BOOT_NEON_TEXTURES);
+            mc.getTextureManager().bindTexture(BOOT_CRAFT_TEXTURES);
             this.drawTexturedModalRect(x + 170, y + 100, 2, 94, 128, 30);
+
             GlStateManager.pushMatrix();
-            Minecraft.getMinecraft().fontRenderer.drawString(TextFormatting.GOLD + String.format("NeonOS v%s", Reference.NEON_VERSION), x + 370, y + 210, 0xFFFFFF, true);
+            Minecraft.getMinecraft().fontRenderer.drawString(TextFormatting.GOLD + String.format("%s v%s", OS.name(), OS.version()), x + 370, y + 210, 0xFFFFFF, true);
         } else {
             Gui.drawRect(x, y, x + SCREEN_WIDTH, y + SCREEN_HEIGHT, new Color(bgColor.getRed() / 255F, bgColor.getGreen() / 255F, bgColor.getBlue() / 255F, 1.0F).getRGB());
         }

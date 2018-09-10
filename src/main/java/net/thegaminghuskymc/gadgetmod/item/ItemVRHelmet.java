@@ -10,7 +10,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 public class ItemVRHelmet extends Item {
 
     public ItemVRHelmet() {
-        this.setUnlocalizedName("vr_helmet");
+        this.setTranslationKey("vr_helmet");
         this.setRegistryName(Reference.MOD_ID, "vr_helmet");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

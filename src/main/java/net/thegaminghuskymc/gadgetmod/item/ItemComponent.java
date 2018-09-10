@@ -1,13 +1,12 @@
 package net.thegaminghuskymc.gadgetmod.item;
 
+import net.hdt.huskylib2.item.ItemMod;
 import net.minecraft.item.Item;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.Reference;
-import net.hdt.huskylib2.items.ItemMod;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
-public class ItemComponent extends ItemMod {
+public class ItemComponent extends ItemMod implements IHGMItem {
 
     public ItemComponent(String componentName) {
         super(componentName, MOD_ID);

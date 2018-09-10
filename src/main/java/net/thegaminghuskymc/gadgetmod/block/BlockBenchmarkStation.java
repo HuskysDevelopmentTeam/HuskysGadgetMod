@@ -1,6 +1,5 @@
 package net.thegaminghuskymc.gadgetmod.block;
 
-import net.hdt.huskylib2.blocks.BlockColoredFacing;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +20,7 @@ import javax.annotation.Nullable;
 public class BlockBenchmarkStation extends BlockColoredFacing {
 
     public BlockBenchmarkStation(EnumDyeColor color) {
-        super(Reference.MOD_ID, "benchmark_station", color);
+        super("benchmark_station", color);
         this.setCreativeTab(HuskyGadgetMod.deviceBlocks);
     }
 

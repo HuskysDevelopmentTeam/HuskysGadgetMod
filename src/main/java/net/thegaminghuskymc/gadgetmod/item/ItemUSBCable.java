@@ -19,7 +19,7 @@ import java.util.List;
 public class ItemUSBCable extends Item {
 
     public ItemUSBCable() {
-        this.setUnlocalizedName("usb_cable");
+        this.setTranslationKey("usb_cable");
         this.setRegistryName(Reference.MOD_ID, "usb_cable");
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         this.setMaxStackSize(1);

@@ -6,14 +6,13 @@ import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.init.RegistrationHandler;
-import net.hdt.huskylib2.items.ItemColored;
 
 import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 public class ItemFlashDrive extends ItemColored implements SubItems {
 
     public ItemFlashDrive(EnumDyeColor color) {
-        super("flash_drive", MOD_ID, color);
+        super("flash_drive", color);
         this.setCreativeTab(HuskyGadgetMod.deviceItems);
         RegistrationHandler.Models.registerRender(this);
     }
