@@ -33,7 +33,7 @@ public class MessageRequest implements IMessage, IMessageHandler<MessageRequest,
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(this.id);
-        ByteBufUtils.writeUTF8String(buf, TaskManager.getTaskName(task));
+        ByteBufUtils.writeUTF8String(buf, this.task.getName());
         NBTTagCompound nbt = new NBTTagCompound();
         this.task.prepareRequest(nbt);
         ByteBufUtils.writeTag(buf, nbt);

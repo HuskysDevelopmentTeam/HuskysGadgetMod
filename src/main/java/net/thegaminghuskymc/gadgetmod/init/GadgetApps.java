@@ -1,9 +1,27 @@
 package net.thegaminghuskymc.gadgetmod.init;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
+import net.thegaminghuskymc.gadgetmod.api.ApplicationManagerOld;
+import net.thegaminghuskymc.gadgetmod.programs.*;
+import net.thegaminghuskymc.gadgetmod.programs.auction.ApplicationPixelBay;
+import net.thegaminghuskymc.gadgetmod.programs.debug.ApplicationTextArea;
+import net.thegaminghuskymc.gadgetmod.programs.gitweb.ApplicationGitWeb;
+import net.thegaminghuskymc.gadgetmod.programs.retro_games.ApplicationSnake;
+import net.thegaminghuskymc.gadgetmod.programs.social_medias.*;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationBank;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationFileBrowser;
+import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationSettings;
+import net.thegaminghuskymc.gadgetmod.programs.system.admin.ApplicationServerAdmin;
+
+import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
+
 public class GadgetApps {
 
     public static void init() {
-        /*ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "settings"), ApplicationSettings.class);
+        ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "settings"), ApplicationSettings.class);
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "bank"), ApplicationBank.class);
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "file_browser"), ApplicationFileBrowser.class);
         ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "note_stash"), ApplicationNoteStash.class);
@@ -40,7 +58,7 @@ public class GadgetApps {
             ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "cackler"), ApplicationCackler.class);
             ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "pixel_tube"), ApplicationPixelTube.class);
             ApplicationManagerOld.registerApplication(new ResourceLocation(MOD_ID, "pixel_browser"), ApplicationPixelBrowser.class);
-        }*/
+        }
 
     }
 

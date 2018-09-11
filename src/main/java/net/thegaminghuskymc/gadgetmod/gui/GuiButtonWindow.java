@@ -5,9 +5,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 
-public class GuiButtonFullscreen extends GuiButton {
+public class GuiButtonWindow extends GuiButton {
 
-    public GuiButtonFullscreen(int buttonId, int x, int y) {
+    public GuiButtonWindow(int buttonId, int x, int y) {
         super(buttonId, x, y, 11, 11, "");
     }
 
@@ -23,11 +23,7 @@ public class GuiButtonFullscreen extends GuiButton {
             GlStateManager.blendFunc(770, 771);
 
             int state = this.getHoverState(this.hovered);
-            if (state != getHoverState(true)) {
-                this.drawTexturedModalRect(this.x, this.y, state * this.width + 57, 0, this.width, this.height);
-            } else if (state != getHoverState(false)) {
-                this.drawTexturedModalRect(this.x, this.y, state * this.width + 57, 0, this.width, this.height);
-            }
+            this.drawTexturedModalRect(this.x, this.y, state * this.width + 26, (2 - this.id) * this.height, this.width, this.height);
         }
     }
 }

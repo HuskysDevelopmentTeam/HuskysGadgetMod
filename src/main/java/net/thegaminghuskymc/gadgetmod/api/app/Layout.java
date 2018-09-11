@@ -358,7 +358,7 @@ public class Layout extends Component
 
     public void setInitialized()
     {
-        this.initialized = initialized;
+        this.initialized = true;
     }
 
     /**

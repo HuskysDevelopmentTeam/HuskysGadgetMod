@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 
 import javax.annotation.Nullable;
 
@@ -120,6 +119,17 @@ public abstract class Wrappable
     public abstract void handleMouseScroll(int mouseX, int mouseY, boolean direction);
 
     /**
+     * Called when the window attempts to be resized.
+     *
+     * @param width
+     *            The new width for the window
+     * @param height
+     *            The new height for the window
+     * @return Whether or not the window could be resized
+     */
+    public abstract boolean resize(int width, int height);
+
+    /**
      * Gets the text in the title bar.
      *
      * @return The display name
@@ -136,7 +146,7 @@ public abstract class Wrappable
     /**
      * Gets the width of the content (application/dialog) including the border.
      *
-     * @return the height
+     * @return the width
      */
     public abstract int getWidth();
 
@@ -147,6 +157,19 @@ public abstract class Wrappable
      * @return the height
      */
     public abstract int getHeight();
+
+    /**
+     * Gets the whether or not the content (application/dialog) should have the borders and title.
+     *
+     * @return if the content should render borders and title
+     */
+    public abstract boolean isDecorated();
+    /**
+     * Gets the whether or not the content (application/dialog) can be resized.
+     *
+     * @return if the content can be resized
+     */
+    public abstract boolean isResizable();
 
     /**
      * Marks the content's layout for updating
@@ -178,7 +201,20 @@ public abstract class Wrappable
     /**
      * Called when this content is closed
      */
-    public void onClose() {}
+    public void onClose()
+    {
+    }
+    /**
+     * Called when the content is resized.
+     *
+     * @param width
+     *            The new width of the window
+     * @param height
+     *            The new height of the window
+     */
+    public void onResize(int width, int height)
+    {
+    }
 
     /**
      * Sets the Window instance. Used by the core.

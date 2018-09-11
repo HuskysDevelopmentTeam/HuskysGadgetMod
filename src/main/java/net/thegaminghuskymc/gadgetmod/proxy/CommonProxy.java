@@ -15,14 +15,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
+import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.print.IPrint;
 import net.thegaminghuskymc.gadgetmod.api.theme.Theme;
+import net.thegaminghuskymc.gadgetmod.init.GadgetApps;
 import net.thegaminghuskymc.gadgetmod.init.GadgetBlocks;
+import net.thegaminghuskymc.gadgetmod.init.GadgetTasks;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncApplications;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageSyncConfig;
 import net.thegaminghuskymc.gadgetmod.object.ThemeInfo;
+import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ import java.util.List;
 public class CommonProxy {
 
     private List<ThemeInfo> allowedThemes;
+    List<AppInfo> allowedApps;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -40,7 +46,8 @@ public class CommonProxy {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+        GadgetApps.init();
+        GadgetTasks.register();
     }
 
     @Mod.EventHandler
@@ -48,9 +55,41 @@ public class CommonProxy {
 
     }
 
+    @Nullable
+    public Application registerApplication(ResourceLocation identifier, Class<? extends Application> clazz)
+    {
+        if(allowedApps == null)
+        {
+            allowedApps = new ArrayList<>();
+        }
+        if(SystemApplication.class.isAssignableFrom(clazz))
+        {
+            allowedApps.add(new AppInfo(identifier, true));
+        }
+        else
+        {
+            allowedApps.add(new AppInfo(identifier, false));
+        }
+        return null;
+    }
+
     public boolean registerPrint(ResourceLocation identifier, Class<? extends IPrint> classPrint)
     {
         return true;
+    }
+
+    public boolean hasAllowedApplications()
+    {
+        return allowedApps != null;
+    }
+
+    public List<AppInfo> getAllowedApplications()
+    {
+        if(allowedApps == null)
+        {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(allowedApps);
     }
 
     @SubscribeEvent

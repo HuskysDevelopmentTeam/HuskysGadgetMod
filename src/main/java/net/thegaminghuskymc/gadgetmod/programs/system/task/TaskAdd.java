@@ -10,7 +10,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 public class TaskAdd extends Task {
     private int amount;
 
-    public TaskAdd() {}
+    public TaskAdd() {
+        super("bank_add");
+    }
 
     public TaskAdd(int amount) {
         this();

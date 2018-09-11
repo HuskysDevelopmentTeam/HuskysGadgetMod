@@ -79,6 +79,8 @@ public class ApplicationIcons extends Application {
 
         this.updateIcons();
         this.setCurrentLayout(layoutMain);
+
+        this.setResizable(true);
     }
 
     private void updateIcons() {

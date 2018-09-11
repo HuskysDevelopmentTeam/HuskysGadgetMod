@@ -33,7 +33,7 @@ public final class ApplicationManager
 
 					if(!APP_INFO_MAP.containsKey(identifier))
 					{
-						AppInfo info = new AppInfo(identifier, clazz, SystemApplication.class.isAssignableFrom(clazz));
+						AppInfo info = new AppInfo(identifier, SystemApplication.class.isAssignableFrom(clazz));
 						APP_INFO_MAP.put(identifier, info);
 					}
 					else

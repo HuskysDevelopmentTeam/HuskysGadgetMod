@@ -13,7 +13,9 @@ public class TaskPay extends Task {
     private String uuid;
     private int amount;
 
-    public TaskPay() {}
+    public TaskPay() {
+        super("bank_pay");
+    }
 
     public TaskPay(String uuid, int amount) {
         this();

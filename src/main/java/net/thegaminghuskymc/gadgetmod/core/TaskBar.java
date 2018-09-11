@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Layout;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
 import net.thegaminghuskymc.gadgetmod.api.app.component.Label;
@@ -23,18 +21,16 @@ import net.thegaminghuskymc.gadgetmod.core.trayItems.TrayItemSound;
 import net.thegaminghuskymc.gadgetmod.object.AnalogClock;
 import net.thegaminghuskymc.gadgetmod.object.TrayItem;
 import net.thegaminghuskymc.gadgetmod.programs.system.ApplicationAppStore;
-import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class TaskBar extends GuiScreen {
 
-    static final int BAR_HEIGHT = 18;
+    public static final int BAR_HEIGHT = 18;
     private static final ResourceLocation APP_BAR_GUI = new ResourceLocation("cdm:textures/gui/application_bar.png");
     private static final int APPS_DISPLAYED = 11;
     private Button btnLeft;
@@ -61,21 +57,6 @@ public class TaskBar extends GuiScreen {
 
     public void init() {
         trayItems.forEach(TrayItem::init);
-    }
-
-    private void setupApplications(List<Application> applications) {
-        final Predicate<Application> VALID_APPS = app ->
-        {
-            if(app instanceof SystemApplication)
-            {
-                return true;
-            }
-            else if(Settings.isShowAllApps())
-            {
-                return true;
-            }
-            return ApplicationManager.isApplicationWhitelisted(app.getInfo());
-        };
     }
 
     public void init(int posX, int posY) {
@@ -131,11 +112,11 @@ public class TaskBar extends GuiScreen {
             }
         });
 
-        trayItems.forEach(TrayItem::init);
+//        trayItems.forEach(TrayItem::init);
     }
 
     public void onTick() {
-        trayItems.forEach(TrayItem::tick);
+//        trayItems.forEach(TrayItem::tick);
     }
 
     public void render(BaseDevice gui, Minecraft mc, int x, int y, int mouseX, int mouseY, float partialTicks) {
@@ -191,7 +172,7 @@ public class TaskBar extends GuiScreen {
 
         /* Settings App */
         int startX = x + 397;
-        for(int i = 0; i < trayItems.size(); i++)
+        /*for(int i = 0; i < trayItems.size(); i++)
         {
             int posX = startX - (trayItems.size() - 1 - i) * 14;
             if(isMouseInside(mouseX, mouseY, posX, y + 2, posX + 13, y + 15))
@@ -199,7 +180,7 @@ public class TaskBar extends GuiScreen {
                 Gui.drawRect(posX, y + 2, posX + 14, y + 16, new Color(1.0F, 1.0F, 1.0F, 0.1F).getRGB());
             }
             trayItems.get(i).getIcon().draw(mc, posX + 2, y + 4);
-        }
+        }*/
 
         mc.getTextureManager().bindTexture(APP_BAR_GUI);
 

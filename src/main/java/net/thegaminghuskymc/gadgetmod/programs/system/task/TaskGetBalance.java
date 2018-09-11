@@ -10,7 +10,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 public class TaskGetBalance extends Task {
     private int balance;
 
-    public TaskGetBalance() {}
+    public TaskGetBalance() {
+        super("bank_get_balance");
+    }
 
     @Override
     public void prepareRequest(NBTTagCompound nbt) {

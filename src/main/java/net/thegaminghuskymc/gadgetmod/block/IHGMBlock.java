@@ -9,7 +9,7 @@ public interface IHGMBlock extends IModBlock {
 
     @Override
     default String getModNamespace() {
-        return Reference.MOD_ID;
+        return Reference.MOD_ID + ":";
     }
 
     @Override

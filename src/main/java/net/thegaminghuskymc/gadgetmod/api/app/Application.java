@@ -4,14 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import net.thegaminghuskymc.gadgetmod.core.TaskBar;
 import net.thegaminghuskymc.gadgetmod.core.Window;
 import net.thegaminghuskymc.gadgetmod.core.Wrappable;
 import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
-import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.util.GLHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -26,11 +27,18 @@ public abstract class Application extends Wrappable {
     private BlockPos laptopPositon;
 
     private int width, height;
+    private boolean resizable = false;
+    private boolean decorated = true;
 
-    private final Layout defaultLayout = new Layout();
+    private int minimumWidth = 21;
+    private int minimumHeight = 1;
+    private int maximumWidth = BaseDevice.SCREEN_WIDTH;
+    private int maximumHeight = BaseDevice.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT;
+
+    protected Layout defaultLayout = new Layout();
     private Layout currentLayout;
 
-    /** If set to true, will update NBT data for Theme */
+    /** If set to true, will update NBT data for Application */
     private boolean needsDataUpdate = false;
 
     /** If set to true, will update layout */
@@ -75,6 +83,16 @@ public abstract class Application extends Wrappable {
         this.currentLayout.handleLoad();
     }
 
+    @Override
+    public boolean resize(int width, int height)
+    {
+        if (!resizable)
+            return false;
+        this.width = MathHelper.clamp(width, 21, 362);
+        this.height = MathHelper.clamp(height, 1, 164);
+        return true;
+    }
+
     /**
      * Gets the current layout being displayed
      *
@@ -104,6 +122,21 @@ public abstract class Application extends Wrappable {
      */
     @Override
     public abstract void init(@Nullable NBTTagCompound intent);
+
+    /**
+     * Called when the content is resized.
+     *
+     * @param width
+     *            The new width of the window
+     * @param height
+     *            The new height of the window
+     */
+    @Override
+    public void onResize(int width, int height)
+    {
+        defaultLayout.width = width;
+        defaultLayout.height = height;
+    }
 
     @Override
     public void onTick()
@@ -342,6 +375,28 @@ public abstract class Application extends Wrappable {
     }
 
     /**
+     * Gets the whether or not the content (application/dialog) should have the borders and title.
+     *
+     * @return if the content should render borders and title
+     */
+    @Override
+    public boolean isDecorated()
+    {
+        return decorated;
+    }
+
+    /**
+     * Gets the whether or not the content (application/dialog) can be resized.
+     *
+     * @return if the content can be resized
+     */
+    @Override
+    public boolean isResizable()
+    {
+        return resizable;
+    }
+
+    /**
      * Gets the width of this application including the border.
      *
      * @return the height
@@ -364,25 +419,23 @@ public abstract class Application extends Wrappable {
     }
 
     /**
-     * Gets the text in the title bar of the application. You can change the
-     * text by setting a custom title for your layout. See
-     * {@link Layout#setTitle}.
+     * Gets the text in the title bar of the application. You can change the text by setting a custom title for your layout. See {@link Layout#setTitle}.
      *
      * @return The display name
      */
     @Override
     public String getWindowTitle()
     {
-        if(currentLayout.hasTitle())
+        if (currentLayout.hasTitle())
         {
             return currentLayout.getTitle();
         }
         return info.getName();
     }
 
-    protected String getApplicationFolderPath()
+    public String getApplicationFolderPath()
     {
-        return FileSystem.DIR_APPLICATION_DATA + "/" + info.getName().toLowerCase();
+        return FileSystem.DIR_APPLICATION_DATA + "/" + info.getFormattedId();
     }
 
     /**
@@ -418,6 +471,33 @@ public abstract class Application extends Wrappable {
     public boolean handleFile(File file)
     {
         return false;
+    }
+
+    public void setDecorated(boolean decorated)
+    {
+        this.decorated = decorated;
+    }
+
+    public void setResizable(boolean resizable)
+    {
+        this.resizable = resizable;
+    }
+
+    public void setMinimumSize(int minimumWidth, int minimumHeight)
+    {
+        this.minimumWidth = MathHelper.clamp(minimumWidth, 21, 362);
+        this.minimumHeight = MathHelper.clamp(minimumHeight, 1, 164);
+    }
+
+    public void setMaximumSize(int maximumWidth, int maximumHeight)
+    {
+        if (maximumWidth < this.minimumWidth)
+            maximumWidth = this.minimumWidth + 21;
+        if (maximumHeight < this.minimumHeight)
+            maximumHeight = this.minimumHeight + 1;
+
+        this.maximumWidth = MathHelper.clamp(maximumWidth, 21, 362);
+        this.maximumHeight = MathHelper.clamp(maximumHeight, 1, 164);
     }
 
     /**

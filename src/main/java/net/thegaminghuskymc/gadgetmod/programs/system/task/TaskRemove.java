@@ -10,7 +10,9 @@ import net.thegaminghuskymc.gadgetmod.programs.system.object.Account;
 public class TaskRemove extends Task {
     private int amount;
 
-    public TaskRemove() {}
+    public TaskRemove() {
+        super("remove");
+    }
 
     public TaskRemove(int amount) {
         this();

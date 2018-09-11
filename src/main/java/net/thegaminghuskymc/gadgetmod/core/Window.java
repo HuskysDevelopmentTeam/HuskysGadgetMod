@@ -10,9 +10,7 @@ import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.app.Application;
 import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.gui.GuiButtonClose;
-import net.thegaminghuskymc.gadgetmod.gui.GuiButtonFullscreen;
-import net.thegaminghuskymc.gadgetmod.gui.GuiButtonMinimise;
+import net.thegaminghuskymc.gadgetmod.gui.GuiButtonWindow;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 
 import javax.annotation.Nullable;
@@ -23,14 +21,18 @@ public class Window<T extends Wrappable> {
     public static final ResourceLocation WINDOW_GUI = new ResourceLocation(Reference.MOD_ID, "textures/gui/application.png");
 
     public static ColourScheme colourScheme = new ColourScheme();
+    public static final int Color_WINDOW_DARK = new Color(0F, 0F, 0F, 0.25F).getRGB();
 
-    T content;
-    int width, height;
-    int offsetX, offsetY;
+    protected T content;
+    private int width, height;
+    private int offsetX, offsetY;
+    private int smallOffsetX, smallOffsetY;
+    private int smallWidth, smallHeight;
+    private boolean maximized;
     private BaseDevice laptop;
     private Window dialogWindow = null;
     private Window parent = null;
-    private GuiButton btnClose, btnMinimize, btnFullscreen;
+    protected GuiButton btnMaximize, btnClose, btnMinimize, btnFullscreen;
 
     public Window(T wrappable, BaseDevice laptop) {
         this.content = wrappable;
@@ -40,22 +42,23 @@ public class Window<T extends Wrappable> {
 
     void setWidth(int width) {
         this.width = width;
-        if (this.width > BaseDevice.SCREEN_WIDTH) {
-            this.width = BaseDevice.SCREEN_WIDTH;
+        if (this.width > BaseDevice.SCREEN_WIDTH - offsetX) {
+            this.width = BaseDevice.SCREEN_WIDTH - offsetX;
         }
     }
 
     void setHeight(int height) {
         this.height = height + 18;
-        if (this.height > 178) {
-            this.height = 178;
+        if (this.height > 178 - offsetY) {
+            this.height = 178 - offsetY;
         }
     }
 
     public void init(int x, int y, @Nullable NBTTagCompound intent) {
-        btnClose = new GuiButtonClose(0, x + offsetX + width - 12, y + offsetY + 3);
-        btnMinimize = new GuiButtonMinimise(1, x + offsetX + width - 12, y + offsetY + 3);
-        btnFullscreen = new GuiButtonFullscreen(2, x + offsetX + width - 12, y + offsetY + 3);
+        btnClose = new GuiButtonWindow(0, x + offsetX + width - 12, y + offsetY + 3);
+        btnMinimize = new GuiButtonWindow(1, x + offsetX + width - 12, y + offsetY + 3);
+        btnFullscreen = new GuiButtonWindow(2, x + offsetX + width - 12, y + offsetY + 3);
+        btnMaximize = new GuiButtonWindow(1, x + offsetX + width - 12 * 2 + 1, y + offsetY + 1);
         content.init(intent);
     }
 
@@ -64,6 +67,10 @@ public class Window<T extends Wrappable> {
             dialogWindow.onTick();
         }
         content.onTick();
+
+        btnMaximize.enabled = content.isResizable();
+        btnMaximize.visible = content.isDecorated();
+        btnClose.visible = content.isDecorated();
     }
 
     public void render(BaseDevice gui, Minecraft mc, int x, int y, int mouseX, int mouseY, boolean active, float partialTicks) {
@@ -76,20 +83,33 @@ public class Window<T extends Wrappable> {
             content.clearPendingLayout();
         }
 
-        GlStateManager.enableBlend();
+        int width = this.getWidth();
+        int height = this.getHeight();
+        int offsetX = this.getOffsetX();
+        int offsetY = this.getOffsetY();
 
-        /* Theme Top Bar */
-        Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 18, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
+        if(content.isDecorated()) {
+            GlStateManager.enableBlend();
 
-        /* Center */
-        Gui.drawRect(x + offsetX, y + offsetY + 18, x + offsetX + width, y + offsetY + height + 5, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
+            /* Theme Top Bar */
+            Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + 18, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).brighter().getRGB());
 
-        RenderUtil.drawApplicationIcon(content.getAppInfo(), x + offsetX + 2, y + offsetY + 2);
-        mc.fontRenderer.drawString(content.getWindowTitle(), x + offsetX + 19, y + offsetY + 5, Color.WHITE.getRGB(), true);
+            /* Center */
+            Gui.drawRect(x + offsetX, y + offsetY + 18, x + offsetX + width, y + offsetY + height + 5, new Color(BaseDevice.getSystem().getSettings().getColourScheme().getSecondApplicationBarColour()).darker().getRGB());
+
+            RenderUtil.drawApplicationIcon(content.getAppInfo(), x + offsetX + 2, y + offsetY + 2);
+            String windowTitle = content.getWindowTitle();
+            if (mc.fontRenderer.getStringWidth(windowTitle) > width - 2 - 13 - 3) // window width, border, close button, padding, padding
+            {
+                windowTitle = mc.fontRenderer.trimStringToWidth(windowTitle, width - 2 - 13 - 3);
+            }
+            mc.fontRenderer.drawString(windowTitle, x + offsetX + 3, y + offsetY + 3, Color.WHITE.getRGB(), true);
+        }
 
         btnClose.drawButton(mc, mouseX, mouseY, partialTicks);
         btnMinimize.drawButton(mc, mouseX, mouseY, partialTicks);
         btnFullscreen.drawButton(mc, mouseX, mouseY, partialTicks);
+        btnMaximize.drawButton(mc, mouseX, mouseY, partialTicks);
 
         GlStateManager.disableBlend();
 
@@ -98,6 +118,13 @@ public class Window<T extends Wrappable> {
 
         if (dialogWindow != null) {
             Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, new Color(1.0f, 1.0f, 1.0f, 0.0f).getAlpha());
+            if (content.isDecorated())
+            {
+                Gui.drawRect(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height, Color_WINDOW_DARK);
+            } else
+            {
+                Gui.drawRect(x + offsetX + 1, y + offsetY + 13, x + offsetX + width - 1, y + offsetY + height - 1, Color_WINDOW_DARK);
+            }
             dialogWindow.render(gui, mc, x, y, mouseX, mouseY, active, partialTicks);
         }
     }
@@ -118,43 +145,124 @@ public class Window<T extends Wrappable> {
         content.handleKeyReleased(character, code);
     }
 
-    public void handleWindowMove(int screenStartX, int screenStartY, int mouseDX, int mouseDY) {
-        int newX = offsetX + mouseDX;
-        int newY = offsetY + mouseDY;
+    public void handleWindowMove(int mouseDX, int mouseDY) {
+        setPosition(offsetX + mouseDX, offsetY + mouseDY);
+    }
 
-        if (newX >= 0 && newX <= BaseDevice.SCREEN_WIDTH - width) {
-            this.offsetX = newX;
-        } else if (newX < 0) {
+    public boolean resize(int width, int height)
+    {
+        boolean result = content.resize(width, height);
+        content.onResize(content.getWidth(), content.getHeight());
+        setWidth(content.getWidth());
+        setHeight(content.getHeight());
+        updateComponents((laptop.width - BaseDevice.SCREEN_WIDTH) / 2, (laptop.height - BaseDevice.SCREEN_HEIGHT) / 2);
+        return result;
+    }
+
+    public void setPosition(int x, int y) {
+        int screenStartX = (laptop.width - BaseDevice.SCREEN_WIDTH) / 2;
+        int screenStartY = (laptop.height - BaseDevice.SCREEN_HEIGHT) / 2;
+        if (x >= 0 && x <= BaseDevice.SCREEN_WIDTH - width)
+        {
+            this.offsetX = x;
+        } else if (x < 0)
+        {
             this.offsetX = 0;
-        } else {
+        } else
+        {
             this.offsetX = BaseDevice.SCREEN_WIDTH - width;
         }
 
-        if (newY >= TaskBar.BAR_HEIGHT && newY <= BaseDevice.SCREEN_HEIGHT - height) {
-            this.offsetY = newY;
-        } else if (newY < TaskBar.BAR_HEIGHT) {
-            this.offsetY = TaskBar.BAR_HEIGHT;
-        } else {
-            this.offsetY = BaseDevice.SCREEN_HEIGHT - height;
+        if (y >= 0 && y <= BaseDevice.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height)
+        {
+            this.offsetY = y;
+        } else if (y < 0)
+        {
+            this.offsetY = 0;
+        } else
+        {
+            this.offsetY = BaseDevice.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT - height;
         }
-
         updateComponents(screenStartX, screenStartY);
     }
 
-    public void handleMouseClick(BaseDevice gui, int mouseX, int mouseY, int mouseButton) {
-        if (btnClose.isMouseOver()) {
-            if (content instanceof Application) {
+    public void setMaximized(boolean maximized) {
+        int posX = (laptop.width - BaseDevice.SCREEN_WIDTH) / 2;
+        int posY = (laptop.height - BaseDevice.SCREEN_HEIGHT) / 2;
+
+        if (!this.maximized)
+        {
+            smallOffsetX = offsetX;
+            smallOffsetY = offsetY;
+            smallWidth = width;
+            smallHeight = height;
+            offsetX = 0;
+            offsetY = 0;
+            width = BaseDevice.SCREEN_WIDTH;
+            height = BaseDevice.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT;
+        } else
+        {
+            width = smallWidth - 2;
+            height = smallHeight - 14;
+            offsetX = smallOffsetX;
+            offsetY = smallOffsetY;
+        }
+        this.maximized = maximized;
+
+        this.resize(width, height);
+        this.updateComponents(posX, posY);
+    }
+
+    void handleMouseClick(BaseDevice gui, int x, int y, int mouseX, int mouseY, int mouseButton)
+    {
+        int posX = (gui.width - BaseDevice.SCREEN_WIDTH) / 2;
+        int posY = (gui.height - BaseDevice.SCREEN_HEIGHT) / 2;
+
+        if (btnMaximize.isMouseOver())
+        {
+            if (content.isResizable())
+            {
+                if (!maximized)
+                {
+                    smallOffsetX = offsetX;
+                    smallOffsetY = offsetY;
+                    smallWidth = width;
+                    smallHeight = height;
+                    offsetX = 0;
+                    offsetY = 0;
+                    width = BaseDevice.SCREEN_WIDTH;
+                    height = BaseDevice.SCREEN_HEIGHT - TaskBar.BAR_HEIGHT;
+                } else
+                {
+                    width = smallWidth - 2;
+                    height = smallHeight - 14;
+                    offsetX = smallOffsetX;
+                    offsetY = smallOffsetY;
+                }
+                maximized = !maximized;
+
+                this.resize(width, height);
+                this.updateComponents(posX, posY);
+            }
+        }
+
+        if (btnClose.isMouseOver())
+        {
+            if (content instanceof Application)
+            {
                 gui.closeApplication(((Application) content).getInfo());
                 return;
             }
 
-            if (parent != null) {
+            if (parent != null)
+            {
                 parent.closeDialog();
             }
         }
 
-        if (dialogWindow != null) {
-            dialogWindow.handleMouseClick(gui, mouseX, mouseY, mouseButton);
+        if (dialogWindow != null)
+        {
+            dialogWindow.handleMouseClick(gui, x, y, mouseX, mouseY, mouseButton);
             return;
         }
 
@@ -190,12 +298,21 @@ public class Window<T extends Wrappable> {
     }
 
     private void updateComponents(int x, int y) {
+
+        int width = this.getWidth();
+        int height = this.getHeight();
+        int offsetX = this.getOffsetX();
+        int offsetY = this.getOffsetY();
+
         content.updateComponents(x + offsetX + 1, y + offsetY + 18);
         btnClose.x = x + offsetX + width - 12;
         btnClose.y = y + offsetY + 3;
 
         btnFullscreen.x = x + offsetX + width - 24;
         btnFullscreen.y = y + offsetY + 3;
+
+        btnMaximize.x = x + offsetX + width - 12 * 2 + 1;
+        btnMaximize.y = y + offsetY + 1;
 
         btnMinimize.x = x + offsetX + width - 35;
         btnMinimize.y = y + offsetY + 3;
@@ -242,6 +359,23 @@ public class Window<T extends Wrappable> {
 
     public T getContent() {
         return content;
+    }
+
+    public int getWidth()
+    {
+        return this.width;
+    }
+    public int getHeight()
+    {
+        return this.height;
+    }
+    public int getOffsetX()
+    {
+        return this.offsetX;
+    }
+    public int getOffsetY()
+    {
+        return this.offsetY;
     }
 
 }

@@ -12,9 +12,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.thegaminghuskymc.gadgetmod.api.ApplicationManager;
-import net.thegaminghuskymc.gadgetmod.api.print.PrintingManager;
-import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.entity.EntitySeat;
 import net.thegaminghuskymc.gadgetmod.event.BankEvents;
 import net.thegaminghuskymc.gadgetmod.event.EmailEvents;
@@ -23,7 +20,6 @@ import net.thegaminghuskymc.gadgetmod.init.GadgetCrafting;
 import net.thegaminghuskymc.gadgetmod.init.GadgetItems;
 import net.thegaminghuskymc.gadgetmod.init.GadgetTileEntities;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
-import net.thegaminghuskymc.gadgetmod.programs.ApplicationPixelShop;
 import net.thegaminghuskymc.gadgetmod.proxy.CommonProxy;
 import org.apache.logging.log4j.Logger;
 
@@ -59,9 +55,6 @@ public class HuskyGadgetMod {
 
         DeviceConfig.load(event.getSuggestedConfigurationFile());
         MinecraftForge.EVENT_BUS.register(new DeviceConfig());
-
-        ApplicationManager.init(event.getAsmData());
-        TaskManager.init(event.getAsmData());
     }
 
     @EventHandler
@@ -78,19 +71,12 @@ public class HuskyGadgetMod {
         MinecraftForge.EVENT_BUS.register(new EmailEvents());
         MinecraftForge.EVENT_BUS.register(new BankEvents());
 
-        registerApplications();
-
         proxy.init(event);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-    }
-
-    private void registerApplications()
-    {
-        PrintingManager.registerPrint(new ResourceLocation(Reference.MOD_ID, "picture"), ApplicationPixelShop.PicturePrint.class);
     }
 
 }

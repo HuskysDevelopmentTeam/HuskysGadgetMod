@@ -25,7 +25,6 @@ import net.thegaminghuskymc.gadgetmod.api.io.File;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
-import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 import net.thegaminghuskymc.gadgetmod.programs.email.task.*;
 

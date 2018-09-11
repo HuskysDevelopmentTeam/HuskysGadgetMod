@@ -4,14 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.programs.auction.AuctionManager;
 import net.thegaminghuskymc.gadgetmod.programs.auction.object.AuctionItem;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "minebay_add_auction")
 public class TaskAddAuction extends Task {
     private int slot;
     private int amount;
@@ -20,7 +16,9 @@ public class TaskAddAuction extends Task {
 
     private AuctionItem item;
 
-    public TaskAddAuction() {}
+    public TaskAddAuction() {
+        super("minebay_add_auction");
+    }
 
     public TaskAddAuction(int slot, int amount, int price, int duration) {
         this();

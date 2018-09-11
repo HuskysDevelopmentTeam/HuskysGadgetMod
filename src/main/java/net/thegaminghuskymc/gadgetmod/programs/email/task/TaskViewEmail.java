@@ -3,20 +3,18 @@ package net.thegaminghuskymc.gadgetmod.programs.email.task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
 import java.util.List;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "view_email")
 public class TaskViewEmail extends Task {
     private int index;
 
-    public TaskViewEmail() {}
+    public TaskViewEmail() {
+        super("view_email");
+    }
 
     public TaskViewEmail(int index) {
         this();

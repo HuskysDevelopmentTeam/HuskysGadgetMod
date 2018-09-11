@@ -15,7 +15,9 @@ public class TaskUpdateApplicationData extends Task {
     private String appId;
     private NBTTagCompound data;
 
-    public TaskUpdateApplicationData() {}
+    public TaskUpdateApplicationData() {
+        super("update_application_data");
+    }
 
     public TaskUpdateApplicationData(int x, int y, int z, @Nonnull String appId, @Nonnull NBTTagCompound data) {
         this();

@@ -14,7 +14,9 @@ import java.util.UUID;
 public class TaskGetAuctions extends Task {
     private UUID seller;
 
-    public TaskGetAuctions() {}
+    public TaskGetAuctions() {
+        super("minebay_get_auctions");
+    }
 
     public TaskGetAuctions(UUID seller) {
         this();

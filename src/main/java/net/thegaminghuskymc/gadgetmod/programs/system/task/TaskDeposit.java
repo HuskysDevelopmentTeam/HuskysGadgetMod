@@ -12,7 +12,9 @@ import net.thegaminghuskymc.gadgetmod.util.InventoryUtil;
 public class TaskDeposit extends Task {
     private int amount;
 
-    private TaskDeposit() {}
+    private TaskDeposit() {
+        super("deposit");
+    }
 
     public TaskDeposit(int amount) {
         this();

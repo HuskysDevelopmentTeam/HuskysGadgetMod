@@ -5,7 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
@@ -13,9 +12,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.action.FileAction;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityLaptop;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "send_action")
 public class TaskSendAction extends Task {
     private String uuid;
     private FileAction action;
@@ -23,7 +19,9 @@ public class TaskSendAction extends Task {
 
     private FileSystem.Response response;
 
-    private TaskSendAction() {}
+    private TaskSendAction() {
+        super("send_action");
+    }
 
     public TaskSendAction(Drive drive, FileAction action) {
         this();

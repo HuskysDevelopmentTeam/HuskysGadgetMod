@@ -6,7 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.io.Drive;
 import net.thegaminghuskymc.gadgetmod.api.io.Folder;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
@@ -15,15 +14,14 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.drive.AbstractDrive;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityBaseDevice;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "get_main_drive")
 public class TaskGetMainDrive extends Task {
     private BlockPos pos;
 
     private AbstractDrive mainDrive;
 
-    private TaskGetMainDrive() {}
+    private TaskGetMainDrive() {
+        super("get_main_drive");
+    }
 
     public TaskGetMainDrive(BlockPos pos) {
         this();

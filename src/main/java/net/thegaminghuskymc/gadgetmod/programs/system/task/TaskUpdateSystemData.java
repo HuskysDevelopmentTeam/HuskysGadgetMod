@@ -12,7 +12,9 @@ public class TaskUpdateSystemData extends Task {
     private BlockPos pos;
     private NBTTagCompound data;
 
-    public TaskUpdateSystemData() {}
+    public TaskUpdateSystemData() {
+        super("update_system_data");
+    }
 
     public TaskUpdateSystemData(BlockPos pos, NBTTagCompound data) {
         this();

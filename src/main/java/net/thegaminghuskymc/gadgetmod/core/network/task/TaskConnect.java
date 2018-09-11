@@ -5,20 +5,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.core.network.Router;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityNetworkDevice;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityRouter;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "connect")
 public class TaskConnect extends Task {
     private BlockPos devicePos;
     private BlockPos routerPos;
 
-    public TaskConnect() {}
+    public TaskConnect() {
+        super("connect");
+    }
 
     public TaskConnect(BlockPos devicePos, BlockPos routerPos) {
         this();

@@ -20,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
+import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
 import net.thegaminghuskymc.gadgetmod.Keybinds;
 import net.thegaminghuskymc.gadgetmod.Reference;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
@@ -36,7 +37,8 @@ import net.thegaminghuskymc.gadgetmod.api.task.Callback;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.OSLayouts.*;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutBios;
+import net.thegaminghuskymc.gadgetmod.core.OSLayouts.LayoutDesktopOS;
 import net.thegaminghuskymc.gadgetmod.core.client.LaptopFontRenderer;
 import net.thegaminghuskymc.gadgetmod.core.tasks.TaskInstallApp;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
@@ -537,7 +539,7 @@ public class BaseDevice extends GuiScreen implements System {
                         updateWindowStack();
                         windows[0] = window;
 
-                        windows[0].handleMouseClick(this, mouseX, mouseY, mouseButton);
+                        windows[0].handleMouseClick(this, posX, posY, mouseX, mouseY, mouseButton);
 
                         if (isMouseWithinWindowBar(mouseX, mouseY, dialogWindow)) {
                             this.dragging = true;
@@ -649,9 +651,9 @@ public class BaseDevice extends GuiScreen implements System {
                 if (dragging) {
                     if (isMouseOnScreen(mouseX, mouseY)) {
                         if (dialogWindow == null) {
-                            window.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
+                            window.handleWindowMove(-(lastMouseX - mouseX), -(lastMouseY - mouseY));
                         } else {
-                            dialogWindow.handleWindowMove(posX, posY, -(lastMouseX - mouseX), -(lastMouseY - mouseY));
+                            dialogWindow.handleWindowMove(-(lastMouseX - mouseX), -(lastMouseY - mouseY));
                         }
                     } else {
                         dragging = false;
@@ -699,42 +701,40 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public void openApplication(AppInfo info, NBTTagCompound intentTag)
     {
-        Application application = getOrCreateApplication(info);
-        if(application != null)
-        {
-            openApplication(application, intentTag);
-        }
+        Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
+        optional.ifPresent(application -> openApplication(application, intentTag));
     }
 
     private void openApplication(Application app, NBTTagCompound intent)
     {
-        if(!ApplicationManager.isApplicationWhitelisted(app.getInfo()))
+        if (!isApplicationInstalled(app.getInfo()))
             return;
 
-        if(!isApplicationInstalled(app.getInfo()))
+        if (!isValidApplication(app.getInfo()))
             return;
 
-        if(sendApplicationToFront(app.getInfo()))
+        if (sendApplicationToFront(app.getInfo()))
             return;
 
         Window<Application> window = new Window<>(app, this);
         window.init((width - SCREEN_WIDTH) / 2, (height - SCREEN_HEIGHT) / 2, intent);
 
-        if(appData.hasKey(app.getInfo().getFormattedId()))
+        if (appData.hasKey(app.getInfo().getFormattedId()))
         {
             app.load(appData.getCompoundTag(app.getInfo().getFormattedId()));
         }
 
-        if(app instanceof SystemApplication)
+        if (app instanceof SystemApplication)
         {
             ((SystemApplication) app).setLaptop(this);
         }
 
-        if(app.getCurrentLayout() == null)
+        if (app.getCurrentLayout() == null)
         {
             app.restoreDefaultLayout();
         }
 
+        window.setPosition((SCREEN_WIDTH - app.getWidth()) / 2, (SCREEN_HEIGHT - app.getHeight()) / 2 - TaskBar.BAR_HEIGHT);
         addWindow(window);
 
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
@@ -743,44 +743,32 @@ public class BaseDevice extends GuiScreen implements System {
     @Override
     public boolean openApplication(AppInfo info, File file)
     {
-        Application application = getOrCreateApplication(info);
-        if(application != null)
-        {
-            return openApplication(application, file);
-        }
-        return false;
-    }
-
-    private boolean openApplication(Application app, File file)
-    {
-        if(!ApplicationManager.isApplicationWhitelisted(app.getInfo()))
+        if (!isApplicationInstalled(info))
             return false;
 
-        if(!isApplicationInstalled(app.getInfo()))
+        if (!isValidApplication(info))
             return false;
 
-        boolean alreadyRunning = isApplicationRunning(app.getInfo());
-        openApplication(app, (NBTTagCompound) null);
-        if(isApplicationRunning(app.getInfo()))
+        Optional<Application> optional = APPLICATIONS.stream().filter(app -> app.getInfo() == info).findFirst();
+        if (optional.isPresent())
         {
-            if(!app.handleFile(file))
+            Application application = optional.get();
+            boolean alreadyRunning = isApplicationRunning(info);
+            openApplication(application, null);
+            if (isApplicationRunning(info))
             {
-                if(!alreadyRunning)
+                if (!application.handleFile(file))
                 {
-                    closeApplication(app);
+                    if (!alreadyRunning)
+                    {
+                        closeApplication(application);
+                    }
+                    return false;
                 }
-                return false;
+                return true;
             }
-            return true;
         }
         return false;
-    }
-
-    @Nullable
-    public Application getOrCreateApplication(AppInfo info)
-    {
-        Application application = getRunningApplication(info);
-        return application != null ? application : info.createInstance();
     }
 
     private Application getRunningApplication(AppInfo info)
@@ -840,7 +828,7 @@ public class BaseDevice extends GuiScreen implements System {
         }
     }
 
-    private boolean sendApplicationToFront(AppInfo info)
+    public boolean sendApplicationToFront(AppInfo info)
     {
         for(int i = 0; i < windows.length; i++)
         {
@@ -896,14 +884,14 @@ public class BaseDevice extends GuiScreen implements System {
         if (window == null) return false;
         int posX = (width - SCREEN_WIDTH) / 2;
         int posY = (height - SCREEN_HEIGHT) / 2;
-        return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX + 1, posY + window.offsetY + 1, posX + window.offsetX + window.width - 13, posY + window.offsetY + 11);
+        return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.getOffsetX() + 1, posY + window.getOffsetY() + 1, posX + window.getOffsetX() + window.getWidth() - 13, posY + window.getOffsetY() + 11);
     }
 
     private boolean isMouseWithinWindow(int mouseX, int mouseY, Window window) {
         if (window == null) return false;
         int posX = (width - SCREEN_WIDTH) / 2;
         int posY = (height - SCREEN_HEIGHT) / 2;
-        return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.offsetX, posY + window.offsetY, posX + window.offsetX + window.width, posY + window.offsetY + window.height);
+        return GuiHelper.isMouseInside(mouseX, mouseY, posX + window.getOffsetX(), posY + window.getOffsetY(), posX + window.getOffsetX() + window.getWidth(), posY + window.getOffsetY() + window.getHeight());
     }
 
     public boolean isApplicationRunning(AppInfo info)
@@ -958,6 +946,12 @@ public class BaseDevice extends GuiScreen implements System {
         return ImmutableList.copyOf(THEMES);
     }
 
+    @Nullable
+    public Application getApplication(String appId)
+    {
+        return APPLICATIONS.stream().filter(app -> app.getInfo().getFormattedId().equals(appId)).findFirst().orElse(null);
+    }
+
     @Override
     public Collection<ThemeInfo> getInstalledThemes() {
         return null;
@@ -974,20 +968,29 @@ public class BaseDevice extends GuiScreen implements System {
         return info.isSystemApp() || installedApps.contains(info);
     }
 
+    private boolean isValidApplication(AppInfo info)
+    {
+        if (HuskyGadgetMod.proxy.hasAllowedApplications())
+        {
+            return HuskyGadgetMod.proxy.getAllowedApplications().contains(info);
+        }
+        return true;
+    }
+
     public void installApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(!ApplicationManager.isApplicationWhitelisted(info))
+        if (!isValidApplication(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, true);
         task.setCallback((tagCompound, success) ->
         {
-            if(success)
+            if (success)
             {
                 installedApps.add(info);
                 installedApps.sort(AppInfo.SORT_NAME);
             }
-            if(callback != null)
+            if (callback != null)
             {
                 callback.execute(null, success);
             }
@@ -997,17 +1000,17 @@ public class BaseDevice extends GuiScreen implements System {
 
     public void removeApplication(AppInfo info, @Nullable Callback<Object> callback)
     {
-        if(!ApplicationManager.isApplicationWhitelisted(info))
+        if (!isValidApplication(info))
             return;
 
         Task task = new TaskInstallApp(info, pos, false);
         task.setCallback((tagCompound, success) ->
         {
-            if(success)
+            if (success)
             {
                 installedApps.remove(info);
             }
-            if(callback != null)
+            if (callback != null)
             {
                 callback.execute(null, success);
             }

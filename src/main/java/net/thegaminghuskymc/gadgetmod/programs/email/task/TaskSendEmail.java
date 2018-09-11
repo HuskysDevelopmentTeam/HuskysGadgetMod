@@ -3,20 +3,18 @@ package net.thegaminghuskymc.gadgetmod.programs.email.task;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 import net.thegaminghuskymc.gadgetmod.programs.email.EmailManager;
 import net.thegaminghuskymc.gadgetmod.programs.email.object.Email;
 
-import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "send_email")
 public class TaskSendEmail extends Task {
 
     private Email email;
     private String to;
 
-    public TaskSendEmail() {}
+    public TaskSendEmail() {
+        super("send_email");
+    }
 
     public TaskSendEmail(Email email, String to) {
         this();

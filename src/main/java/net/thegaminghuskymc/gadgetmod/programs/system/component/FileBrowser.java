@@ -35,7 +35,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetFiles;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskGetStructure;
 import net.thegaminghuskymc.gadgetmod.core.io.task.TaskSetupFileBrowser;
-import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.SystemApplication;
 
 import java.awt.*;
@@ -249,23 +248,23 @@ public class FileBrowser extends Component {
         fileList.sortBy(File.SORT_BY_NAME);
         fileList.setItemClickListener((file, index, mouseButton) ->
         {
-            if(mouseButton == 0)
+            if (mouseButton == 0)
             {
                 btnRename.setEnabled(true);
                 btnDelete.setEnabled(true);
-                if(mode == Mode.FULL)
+                if (mode == Mode.FULL)
                 {
                     btnCopy.setEnabled(true);
                     btnCut.setEnabled(true);
                 }
-                if(System.currentTimeMillis() - this.lastClick <= 200)
+                if (System.currentTimeMillis() - this.lastClick <= 200)
                 {
-                    if(file.isFolder())
+                    if (file.isFolder())
                     {
                         fileList.setSelectedIndex(-1);
                         openFolder((Folder) file, true, (folder, success) ->
                         {
-                            if(mode == Mode.FULL)
+                            if (mode == Mode.FULL)
                             {
                                 btnRename.setEnabled(false);
                                 btnCopy.setEnabled(false);
@@ -273,42 +272,36 @@ public class FileBrowser extends Component {
                                 btnDelete.setEnabled(false);
                             }
                         });
-                    }
-                    else if(mode == Mode.FULL && wrappable instanceof SystemApplication)
+                    } else if (mode == Mode.FULL && wrappable instanceof SystemApplication)
                     {
                         SystemApplication systemApp = (SystemApplication) wrappable;
                         BaseDevice laptop = systemApp.getLaptop();
-                        if(laptop != null)
+                        if (laptop != null)
                         {
-                            AppInfo info = ApplicationManager.getApplication(file.getOpeningApp());
-                            if(!laptop.getInstalledApplications().contains(info))
+                            // TODO change to check if application is installed
+                            Application targetApp = laptop.getApplication(file.getOpeningApp());
+                            if (targetApp != null)
                             {
-                                createErrorDialog("This file could not be open because the application '" + TextFormatting.YELLOW + info.getName() + TextFormatting.RESET + "' is not installed.");
-                            }
-                            else
+                                if (!laptop.isApplicationInstalled(targetApp.getInfo()))
+                                {
+                                    createErrorDialog("This file could not be open because the application '" + TextFormatting.YELLOW + targetApp.getInfo().getName() + TextFormatting.RESET + "' is not installed.");
+                                } else if (!laptop.openApplication(targetApp.getInfo(), file))
+                                {
+                                    laptop.sendApplicationToFront(systemApp.getInfo());
+                                    createErrorDialog(targetApp.getInfo().getName() + " was unable to open the file.");
+                                }
+                            } else
                             {
-                                Application targetApp = laptop.getOrCreateApplication(info);
-                                if(targetApp != null)
-                                {
-                                    if(!laptop.openApplication(targetApp.getInfo(), file))
-                                    {
-                                        createErrorDialog(targetApp.getInfo().getName() + " was unable to open the file.");
-                                    }
-                                }
-                                else
-                                {
-                                    createErrorDialog("The application designed for this file does not exist.");
-                                }
+                                createErrorDialog("The application designed for this file does not exist.");
                             }
                         }
                     }
-                }
-                else
+                } else
                 {
                     this.lastClick = System.currentTimeMillis();
                 }
             }
-            if(itemClickListener != null)
+            if (itemClickListener != null)
             {
                 itemClickListener.onClick(file, index, mouseButton);
             }

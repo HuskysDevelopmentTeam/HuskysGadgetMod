@@ -13,6 +13,7 @@ import static net.thegaminghuskymc.gadgetmod.Reference.MOD_ID;
 
 @DeviceApplication(modId = MOD_ID, appId = "test")
 public class ApplicationTest extends Application {
+
     @Override
     public void init(@Nullable NBTTagCompound intent) {
         Button confirmation = new Button(5, 5, Icons.CHECK);
@@ -66,6 +67,8 @@ public class ApplicationTest extends Application {
             }
         });
         super.addComponent(saveFile);
+
+        this.setResizable(true);
     }
 
     @Override

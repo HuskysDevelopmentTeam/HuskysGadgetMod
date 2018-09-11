@@ -1,112 +1,71 @@
 package net.thegaminghuskymc.gadgetmod.api.task;
 
-import com.google.common.collect.HashBiMap;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.thegaminghuskymc.gadgetmod.HuskyGadgetMod;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.network.PacketHandler;
 import net.thegaminghuskymc.gadgetmod.network.task.MessageRequest;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public final class TaskManager
 {
-    private static TaskManager instance = null;
+	private static TaskManager instance = null;
 
-    private final HashBiMap<String, Class<? extends Task>> registeredTasks = HashBiMap.create();
-    private final Map<String, Task> instances = new HashMap<>();
-    private final Map<Integer, Task> pendingTasks = new HashMap<>();
-    private int currentId = 0;
+	private Map<String, Task> registeredRequests = new HashMap<String, Task>();
+	private Map<Integer, Task> requests = new HashMap<Integer, Task>();
+	private int currentId = 0;
 
-    private TaskManager() {}
+	private TaskManager() {}
 
-    private static TaskManager get()
-    {
-        if(instance == null)
-        {
-            instance = new TaskManager();
-        }
-        return instance;
-    }
+	private static TaskManager get()
+	{
+		if(instance == null)
+		{
+			instance = new TaskManager();
+		}
+		return instance;
+	}
+	
+	public static void registerTask(Class<? extends Task> clazz)
+	{
+		try 
+		{
+			Constructor<? extends Task> constructor = clazz.getDeclaredConstructor();
+			constructor.setAccessible(true);
+			Task task = constructor.newInstance();
+			HuskyGadgetMod.getLogger().info("Registering task '" + task.getName() + "'");
+			get().registeredRequests.put(task.getName(), task);
+		} 
+		catch (InstantiationException e) 
+		{	
+			System.err.println("- Missing constructor '" + clazz.getSimpleName() + "()'");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 
-    public static void init(ASMDataTable table)
-    {
-        Set<ASMDataTable.ASMData> tasks = table.getAll(DeviceTask.class.getCanonicalName());
-        tasks.forEach(asmData ->
-        {
-            try
-            {
-                Class clazz = Class.forName(asmData.getClassName());
-                if(Task.class.isAssignableFrom(clazz))
-                {
-                    Constructor<?> constructor = getEmptyConstructor(clazz);
-                    if(constructor == null)
-                    {
-                        throw new RuntimeException("The task " + clazz.getCanonicalName() + " is missing the constructor " + clazz.getSimpleName() + "()");
-                    }
-                    constructor.setAccessible(true);
+	public static void sendTask(Task task)
+	{
+		TaskManager manager = get();
+		if(!manager.registeredRequests.containsKey(task.getName())) {
+			throw new RuntimeException("Unregistered Task: " + task.getClass().getName() + ". Use TaskManager#requestRequest to register your task.");
+		}
+		
+		int requestId = manager.currentId++;
+		manager.requests.put(requestId, task);
+		PacketHandler.INSTANCE.sendToServer(new MessageRequest(requestId, task));
+	}
+	
+	public static Task getTask(String name)
+	{
+		return get().registeredRequests.get(name);
+	}
 
-                    DeviceTask deviceApp = (DeviceTask) clazz.getDeclaredAnnotation(DeviceTask.class);
-                    Task task = (Task) constructor.newInstance();
-                    ResourceLocation resource = new ResourceLocation(deviceApp.modId(), deviceApp.taskId());
-                    get().registeredTasks.put(resource.toString(), clazz);
-                    get().instances.put(resource.toString(), task);
-
-                    HuskyGadgetMod.getLogger().info("Successfully registered task " + deviceApp.modId() + ":" + deviceApp.taskId());
-                }
-                else
-                {
-                    throw new ClassCastException("The class " + clazz.getCanonicalName() + " is annotated with DeviceApplication but does not extend Application!");
-                }
-            }
-            catch(ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e)
-            {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private static Constructor getEmptyConstructor(Class clazz)
-    {
-        for (Constructor<?> constructor : clazz.getDeclaredConstructors())
-        {
-            if (constructor.getParameterCount() == 0)
-            {
-                return constructor;
-            }
-        }
-        return null;
-    }
-
-    public static void sendTask(Task task)
-    {
-        TaskManager manager = get();
-        if(!manager.registeredTasks.values().contains(task.getClass())) {
-            throw new RuntimeException("Unregistered task '" + task.getClass().getName() + "'");
-        }
-
-        int requestId = manager.currentId++;
-        manager.pendingTasks.put(requestId, task);
-        PacketHandler.INSTANCE.sendToServer(new MessageRequest(requestId, task));
-    }
-
-    public static Task getTask(String name)
-    {
-        return get().instances.get(name);
-    }
-
-    public static Task getTaskAndRemove(int id)
-    {
-        return get().pendingTasks.remove(id);
-    }
-
-    public static String getTaskName(Task task)
-    {
-        return get().registeredTasks.inverse().get(task.getClass());
-    }
+	public static Task getTaskAndRemove(int id)
+	{
+		return get().requests.remove(id);
+	}
 }

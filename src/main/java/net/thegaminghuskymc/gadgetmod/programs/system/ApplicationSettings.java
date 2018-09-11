@@ -18,6 +18,7 @@ import net.thegaminghuskymc.gadgetmod.api.app.renderer.ListItemRenderer;
 import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
 import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
 import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import net.thegaminghuskymc.gadgetmod.core.Device;
 import net.thegaminghuskymc.gadgetmod.core.network.TrayItemWifi;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskConnect;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColorThemes;
@@ -188,16 +189,16 @@ public class ApplicationSettings extends SystemApplication {
         });
         layoutMain.addComponent(buttonWiFi);
 
-        ItemList<BlockPos> itemListRouters = new ItemList<>(5, 25, 90, 4);
+        ItemList<Device> itemListRouters = new ItemList<>(5, 25, 90, 4);
         itemListRouters.setItems(TrayItemWifi.getRouters());
-        itemListRouters.setListItemRenderer(new ListItemRenderer<BlockPos>(16) {
+        itemListRouters.setListItemRenderer(new ListItemRenderer<Device>(16) {
             @Override
-            public void render(BlockPos blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
+            public void render(Device blockPos, Gui gui, Minecraft mc, int x, int y, int width, int height, boolean selected) {
                 Gui.drawRect(x, y, x + width, y + height, selected ? Color.DARK_GRAY.getRGB() : Color.GRAY.getRGB());
                 gui.drawString(mc.fontRenderer, "Router", x + 16, y + 4, Color.WHITE.getRGB());
 
                 BlockPos laptopPos = BaseDevice.getPos();
-                double distance = Math.sqrt(blockPos.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+                double distance = Math.sqrt(blockPos.getPos().distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
                 if (distance > 20) {
                     Icons.WIFI_LOW.draw(mc, x + 3, y + 3);
                 } else if (distance > 10) {
@@ -209,8 +210,8 @@ public class ApplicationSettings extends SystemApplication {
         });
         itemListRouters.sortBy((o1, o2) -> {
             BlockPos laptopPos = BaseDevice.getPos();
-            double distance1 = Math.sqrt(o1.distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
-            double distance2 = Math.sqrt(o2.distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+            double distance1 = Math.sqrt(o1.getPos().distanceSqToCenter(Objects.requireNonNull(laptopPos).getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
+            double distance2 = Math.sqrt(o2.getPos().distanceSqToCenter(laptopPos.getX() + 0.5, laptopPos.getY() + 0.5, laptopPos.getZ() + 0.5));
             return Double.compare(distance1, distance2);
         });
         layoutWifi.addComponent(itemListRouters);
@@ -220,11 +221,11 @@ public class ApplicationSettings extends SystemApplication {
         {
             if (mouseButton == 0) {
                 if (itemListRouters.getSelectedItem() != null) {
-                    TaskConnect connect = new TaskConnect(BaseDevice.getPos(), itemListRouters.getSelectedItem());
+                    TaskConnect connect = new TaskConnect(BaseDevice.getPos(), itemListRouters.getSelectedItem().getPos());
                     connect.setCallback((tagCompound, success) ->
                     {
                         if (success) {
-                            TrayItemWifi.trayItem.setIcon(Icons.WIFI_HIGH);
+//                            setIcon(Icons.WIFI_HIGH);
                             BaseDevice.getSystem().closeContext();
                         }
                     });

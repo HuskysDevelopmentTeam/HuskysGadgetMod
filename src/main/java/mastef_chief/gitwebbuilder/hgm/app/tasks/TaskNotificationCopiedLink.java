@@ -6,16 +6,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.thegaminghuskymc.gadgetmod.api.app.Notification;
-import net.thegaminghuskymc.gadgetmod.api.app.annontation.DeviceTask;
 import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
 import net.thegaminghuskymc.gadgetmod.api.task.Task;
 
-import static mastef_chief.gitwebbuilder.hgm.Reference.MOD_ID;
-
-@DeviceTask(modId = MOD_ID, taskId = "notification_copiedlink")
 public class TaskNotificationCopiedLink extends Task {
 
-    public TaskNotificationCopiedLink() {}
+    public TaskNotificationCopiedLink() {
+        super("notification_copied_link");
+    }
 
     /**
      * Called before the request is sent off to the server.

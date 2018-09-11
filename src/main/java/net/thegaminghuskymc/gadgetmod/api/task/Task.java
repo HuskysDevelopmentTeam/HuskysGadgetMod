@@ -23,6 +23,11 @@ public abstract class Task
     private Callback<NBTTagCompound> callback = null;
     private boolean success = false;
 
+    public Task(String name)
+    {
+        this.name = name;
+    }
+
     /**
      * Sets the callback for task. Used for processing responses,
      * such as updating UI with new data.
@@ -80,6 +85,16 @@ public abstract class Task
     }
 
     /**
+     * Gets the name of the Task
+     *
+     * @return the Task name
+     */
+    public final String getName()
+    {
+        return this.name;
+    }
+
+    /**
      * Called before the request is sent off to the server.
      * You should store the data you want to sendTask into the NBT Tag
      *
@@ -112,4 +127,5 @@ public abstract class Task
      * @param nbt The NBT Tag received from the server
      */
     public abstract void processResponse(NBTTagCompound nbt);
+
 }

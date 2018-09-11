@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.thegaminghuskymc.gadgetmod.api.AppInfo;
@@ -28,7 +29,6 @@ import net.thegaminghuskymc.gadgetmod.core.io.FileSystem;
 import net.thegaminghuskymc.gadgetmod.core.network.NetworkDevice;
 import net.thegaminghuskymc.gadgetmod.core.network.task.TaskGetDevices;
 import net.thegaminghuskymc.gadgetmod.core.print.task.TaskPrint;
-import net.thegaminghuskymc.gadgetmod.api.AppInfo;
 import net.thegaminghuskymc.gadgetmod.programs.system.component.FileBrowser;
 import net.thegaminghuskymc.gadgetmod.programs.system.object.ColourScheme;
 import net.thegaminghuskymc.gadgetmod.tileentity.TileEntityPrinter;
@@ -45,6 +45,9 @@ public abstract class Dialog extends Wrappable
     private String title = "Message";
     private int width;
     private int height;
+    private boolean resizable;
+    private boolean decorated;
+    private boolean maximized;
 
     protected final Layout defaultLayout;
     private Layout customLayout;
@@ -150,10 +153,32 @@ public abstract class Dialog extends Wrappable
         this.title = title;
     }
 
+    public void setDecorated(boolean decorated)
+    {
+        this.decorated = decorated;
+    }
+
+    public void setResizable(boolean resizable)
+    {
+        this.resizable = resizable;
+    }
+
     @Override
     public String getWindowTitle()
     {
         return title;
+    }
+
+    @Override
+    public boolean isResizable()
+    {
+        return resizable;
+    }
+
+    @Override
+    public boolean isDecorated()
+    {
+        return decorated;
     }
 
     @Override
@@ -166,6 +191,17 @@ public abstract class Dialog extends Wrappable
     public int getHeight()
     {
         return height;
+    }
+
+    @Override
+    public boolean resize(int width, int height)
+    {
+        if (!resizable)
+            return false;
+        this.width = MathHelper.clamp(width, 21, 362);
+        this.height = MathHelper.clamp(height, 1, 164);
+        this.pendingLayoutUpdate = true;
+        return true;
     }
 
     @Override
