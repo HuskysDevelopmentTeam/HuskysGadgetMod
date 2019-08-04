@@ -1,7 +1,16 @@
 {
-  "theme_name": "Test Theme",
-  "theme_creator": "TheGamingHuskyMC",
-  "theme_description": "${desc}",
-  "theme_version": "1.0",
-  "theme_preview": "hgm:textures/theme/preview/test_preview.png"
+  "information": {
+    "name": "Testing",
+    "creators": [
+      "OliviaTheVampire"
+    ],
+    "description": "This is a test theme",
+    "version": "0.1.0",
+    "preview_imagge": "hgm:textures/theme/preview/test_preview.png"
+  },
+  "taskbar": {
+    "color": "0xFFFFFF",
+    "transparent": false
+  },
+  "color-mode": "dark"
 }

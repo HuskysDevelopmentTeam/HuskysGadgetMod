@@ -5,9 +5,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.thegaminghuskymc.gadgetmod.api.app.Notification;
-import net.thegaminghuskymc.gadgetmod.api.app.emojie_packs.Icons;
-import net.thegaminghuskymc.gadgetmod.api.task.Task;
+import io.github.vampirestudios.gadget.api.app.Notification;
+import io.github.vampirestudios.gadget.api.app.emojie_packs.Icons;
+import io.github.vampirestudios.gadget.api.task.Task;
 
 public class TaskNotificationCopiedLink extends Task {
 

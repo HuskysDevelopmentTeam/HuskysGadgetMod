@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.thegaminghuskymc.gadgetmod.api.app.Component;
-import net.thegaminghuskymc.gadgetmod.api.app.IIcon;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
-import net.thegaminghuskymc.gadgetmod.api.utils.RenderUtil;
-import net.thegaminghuskymc.gadgetmod.core.BaseDevice;
+import io.github.vampirestudios.gadget.api.app.Component;
+import io.github.vampirestudios.gadget.api.app.IIcon;
+import io.github.vampirestudios.gadget.api.app.listener.ClickListener;
+import io.github.vampirestudios.gadget.api.utils.RenderUtil;
+import io.github.vampirestudios.gadget.core.BaseDevice;
 
 import java.util.Arrays;
 

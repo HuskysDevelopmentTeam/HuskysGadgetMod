@@ -4,11 +4,11 @@ import mastef_chief.gitwebbuilder.hgm.app.tasks.TaskNotificationCopiedLink;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.nbt.NBTTagCompound;
-import net.thegaminghuskymc.gadgetmod.api.app.Dialog;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Button;
-import net.thegaminghuskymc.gadgetmod.api.app.component.Text;
-import net.thegaminghuskymc.gadgetmod.api.app.listener.ClickListener;
-import net.thegaminghuskymc.gadgetmod.api.task.TaskManager;
+import io.github.vampirestudios.gadget.api.app.Dialog;
+import io.github.vampirestudios.gadget.api.app.component.Button;
+import io.github.vampirestudios.gadget.api.app.component.Text;
+import io.github.vampirestudios.gadget.api.app.listener.ClickListener;
+import io.github.vampirestudios.gadget.api.task.TaskManager;
 
 import javax.annotation.Nullable;
 import java.awt.*;
